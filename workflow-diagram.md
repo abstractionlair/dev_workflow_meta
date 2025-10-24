@@ -483,25 +483,20 @@ flowchart TB
 ```mermaid
 flowchart LR
     subgraph Continuous["Ongoing Roles"]
-        PL[Platform Lead<br/>maintains living docs]
+        PL[Platform Lead<br/>reviews living docs changes<br/>makes changes at human request]
     end
     
     FEATURES[Features merge] --> PL
     PL --> SM[SYSTEM_MAP.md]
     PL --> PAT[GUIDELINES.md]
-    PL --> RU[GUIDELINES.md]
-    PL --> BL[bug reports in bugs/fixed/]
        
     style PL fill:#e0e0e0,stroke:#616161,stroke-width:2px
 ```
 
 **Platform Lead:**
 - Triggered after feature merge
-- Updates SYSTEM_MAP (architecture changes)
-- Updates GUIDELINES.md (new patterns emerge)
-- Updates GUIDELINES.md (new constraints)
-- Updates GUIDELINES.md (patterns discovered)
-- Updates bug documentation (bugs/fixed/)
+- Reviews SYSTEM_MAP changes (architecture changes)
+- Reviews GUIDELINES.md changes (new patterns emerge, new constraints, patterns discovered)
 
 ## Living Documentation Flow
 
