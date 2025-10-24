@@ -51,16 +51,16 @@ This is typically an **autonomous role** - the agent reviews independently and p
 Check if all essential sections exist with adequate detail. Reference **VISION-ontology.md** for complete requirements.
 
 **Required sections:**
-- âœ… Vision statement (1-2 sentences)
-- âœ… Problem statement (current state + desired future state)
-- âœ… Target users (with specific personas)
-- âœ… Value proposition and differentiation
-- âœ… Product scope (in/future/never)
-- âœ… Success criteria (metrics + timeline)
-- âœ… Technical approach (stack + principles)
-- âœ… Assumptions and constraints
-- âœ… Open questions
-- âœ… Changelog
+- ✓ Vision statement (1-2 sentences)
+- ✓ Problem statement (current state + desired future state)
+- ✓ Target users (with specific personas)
+- ✓ Value proposition and differentiation
+- ✓ Product scope (in/future/never)
+- ✓ Success criteria (metrics + timeline)
+- ✓ Technical approach (stack + principles)
+- ✓ Assumptions and constraints
+- ✓ Open questions
+- ✓ Changelog
 
 **For each section, check:**
 - Does it exist?
@@ -80,18 +80,18 @@ Evaluate each section against specific quality criteria.
 #### Vision Statement Quality
 
 **Pass criteria:**
-- âœ… One sentence (maybe two if complex)
-- âœ… Mentions target user, not just product
-- âœ… Describes outcome/benefit, not features
-- âœ… Emotionally resonant and memorable
-- âœ… Solution-agnostic (allows strategic pivots)
+- ✓ One sentence (maybe two if complex)
+- ✓ Mentions target user, not just product
+- ✓ Describes outcome/benefit, not features
+- ✓ Emotionally resonant and memorable
+- ✓ Solution-agnostic (allows strategic pivots)
 
 **Fail patterns:**
-- âŒ Multiple paragraphs or vague aspirations
-- âŒ Feature list: "Build a platform with X, Y, Z"
-- âŒ Mission confusion: Too broad and timeless
-- âŒ Solution lock-in: "The best mobile app for..."
-- âŒ Could apply to any competitor
+- ❌ Multiple paragraphs or vague aspirations
+- ❌ Feature list: "Build a platform with X, Y, Z"
+- ❌ Mission confusion: Too broad and timeless
+- ❌ Solution lock-in: "The best mobile app for..."
+- ❌ Could apply to any competitor
 
 **Test questions:**
 - Can someone recall this after hearing it once?
@@ -102,17 +102,17 @@ Evaluate each section against specific quality criteria.
 #### Problem Statement Quality
 
 **Pass criteria:**
-- âœ… Specific current state with concrete pain points
-- âœ… Root causes, not just symptoms
-- âœ… Clear desired future state (measurable improvement)
-- âœ… Explains why this problem persists today
-- âœ… Evidence or validation that problem exists
+- ✓ Specific current state with concrete pain points
+- ✓ Root causes, not just symptoms
+- ✓ Clear desired future state (measurable improvement)
+- ✓ Explains why this problem persists today
+- ✓ Evidence or validation that problem exists
 
 **Fail patterns:**
-- âŒ Vague complaints: "Users are frustrated"
-- âŒ Solution in disguise: "Users need mobile app"
-- âŒ No evidence problem is real or important
-- âŒ Focus on symptoms rather than root causes
+- ❌ Vague complaints: "Users are frustrated"
+- ❌ Solution in disguise: "Users need mobile app"
+- ❌ No evidence problem is real or important
+- ❌ Focus on symptoms rather than root causes
 
 **Test questions:**
 - Would target users recognize this problem description?
@@ -123,17 +123,17 @@ Evaluate each section against specific quality criteria.
 #### Target Users Quality
 
 **Pass criteria:**
-- âœ… Specific personas with names/roles
-- âœ… Demographics AND behavioral attributes
-- âœ… Current behavior and alternatives described
-- âœ… Jobs-to-be-done articulated
-- âœ… Specific enough to determine who's excluded
+- ✓ Specific personas with names/roles
+- ✓ Demographics AND behavioral attributes
+- ✓ Current behavior and alternatives described
+- ✓ Jobs-to-be-done articulated
+- ✓ Specific enough to determine who's excluded
 
 **Fail patterns:**
-- âŒ Too broad: "Everyone" or "all developers"
-- âŒ Only demographics: "25-40 year olds"
-- âŒ No behavioral description
-- âŒ Can't tell who's NOT a target user
+- ❌ Too broad: "Everyone" or "all developers"
+- ❌ Only demographics: "25-40 year olds"
+- ❌ No behavioral description
+- ❌ Can't tell who's NOT a target user
 
 **Test questions:**
 - Could you recognize a target user in real life?
@@ -144,18 +144,18 @@ Evaluate each section against specific quality criteria.
 #### Value Proposition & Differentiation Quality
 
 **Pass criteria:**
-- âœ… Primary benefit focused on outcomes
-- âœ… Emotional + practical dimensions
-- âœ… Clear statement of what's unique
-- âœ… Explains why users will choose this
-- âœ… Addresses real competitive alternatives
+- ✓ Primary benefit focused on outcomes
+- ✓ Emotional + practical dimensions
+- ✓ Clear statement of what's unique
+- ✓ Explains why users will choose this
+- ✓ Addresses real competitive alternatives
 
 **Fail patterns:**
-- âŒ Just lists features without benefits
-- âŒ "Better/faster/cheaper" without specifics
-- âŒ Ignores actual alternatives (including "do nothing")
-- âŒ Differentiation is easily copied
-- âŒ No counter-positioning (what you deliberately don't do)
+- ❌ Just lists features without benefits
+- ❌ "Better/faster/cheaper" without specifics
+- ❌ Ignores actual alternatives (including "do nothing")
+- ❌ Differentiation is easily copied
+- ❌ No counter-positioning (what you deliberately don't do)
 
 **Test questions:**
 - Why would users choose this over alternatives?
@@ -166,18 +166,18 @@ Evaluate each section against specific quality criteria.
 #### Scope Quality
 
 **Pass criteria:**
-- âœ… MVP scope is achievable in stated timeline
-- âœ… Clear boundaries (in/future/never)
-- âœ… "Never in scope" prevents scope creep
-- âœ… Features at right level (capabilities not buttons)
-- âœ… Aligned with stated success criteria
+- ✓ MVP scope is achievable in stated timeline
+- ✓ Clear boundaries (in/future/never)
+- ✓ "Never in scope" prevents scope creep
+- ✓ Features at right level (capabilities not buttons)
+- ✓ Aligned with stated success criteria
 
 **Fail patterns:**
-- âŒ MVP too ambitious for resources
-- âŒ Everything marked "in scope" with no deferrals
-- âŒ No "never in scope" section
-- âŒ Feature list without priorities
-- âŒ Scope conflicts with success timeline
+- ❌ MVP too ambitious for resources
+- ❌ Everything marked "in scope" with no deferrals
+- ❌ No "never in scope" section
+- ❌ Feature list without priorities
+- ❌ Scope conflicts with success timeline
 
 **Test questions:**
 - Can stated team build MVP in stated time?
@@ -188,18 +188,18 @@ Evaluate each section against specific quality criteria.
 #### Success Criteria Quality
 
 **Pass criteria:**
-- âœ… 3-5 specific, measurable metrics
-- âœ… Metrics measure value delivered, not vanity
-- âœ… Counter-metrics as guardrails included
-- âœ… Timeline milestones (6mo/1yr/3yr)
-- âœ… Metrics aligned with problem statement
+- ✓ 3-5 specific, measurable metrics
+- ✓ Metrics measure value delivered, not vanity
+- ✓ Counter-metrics as guardrails included
+- ✓ Timeline milestones (6mo/1yr/3yr)
+- ✓ Metrics aligned with problem statement
 
 **Fail patterns:**
-- âŒ Vanity metrics: "1M users" without retention
-- âŒ Unmeasurable: "Make users happy"
-- âŒ No counter-metrics (optimization without guardrails)
-- âŒ Unrealistic timelines
-- âŒ Metrics don't measure problem solved
+- ❌ Vanity metrics: "1M users" without retention
+- ❌ Unmeasurable: "Make users happy"
+- ❌ No counter-metrics (optimization without guardrails)
+- ❌ Unrealistic timelines
+- ❌ Metrics don't measure problem solved
 
 **Test questions:**
 - Do metrics measure actual value delivered?
@@ -211,17 +211,17 @@ Evaluate each section against specific quality criteria.
 #### Assumptions & Constraints Quality
 
 **Pass criteria:**
-- âœ… Market assumptions explicitly stated
-- âœ… Technical feasibility assumptions noted
-- âœ… Resource constraints documented
-- âœ… Riskiest assumptions identified
-- âœ… Validation plan for key assumptions
+- ✓ Market assumptions explicitly stated
+- ✓ Technical feasibility assumptions noted
+- ✓ Resource constraints documented
+- ✓ Riskiest assumptions identified
+- ✓ Validation plan for key assumptions
 
 **Fail patterns:**
-- âŒ No assumptions listed (everything treated as fact)
-- âŒ Assumptions without validation plans
-- âŒ Resource constraints ignored or optimistic
-- âŒ Technical feasibility assumed without verification
+- ❌ No assumptions listed (everything treated as fact)
+- ❌ Assumptions without validation plans
+- ❌ Resource constraints ignored or optimistic
+- ❌ Technical feasibility assumed without verification
 
 **Test questions:**
 - What could invalidate this vision?
@@ -285,25 +285,25 @@ Scan for common vision failures that undermine effectiveness.
 Determine if vision is ready for next steps.
 
 **Ready for scope writing when:**
-- âœ… Problem and value are crystal clear
-- âœ… Product scope section has clear in/out/never boundaries
-- âœ… Success criteria include measurable metrics
-- âœ… Constraints are documented and realistic
-- âœ… No P0 issues blocking planning
+- ✓ Problem and value are crystal clear
+- ✓ Product scope section has clear in/out/never boundaries
+- ✓ Success criteria include measurable metrics
+- ✓ Constraints are documented and realistic
+- ✓ No P0 issues blocking planning
 
 **Ready for roadmap planning when:**
-- âœ… Scope boundaries enable feature prioritization
-- âœ… Timeline milestones defined (6mo/1yr/3yr)
-- âœ… Success metrics guide what to build first
-- âœ… Technical approach is feasible
-- âœ… Resource constraints are realistic
+- ✓ Scope boundaries enable feature prioritization
+- ✓ Timeline milestones defined (6mo/1yr/3yr)
+- ✓ Success metrics guide what to build first
+- ✓ Technical approach is feasible
+- ✓ Resource constraints are realistic
 
 **Needs revision when:**
-- âŒ Missing critical sections
-- âŒ Major anti-patterns detected
-- âŒ Unrealistic scope/timeline
-- âŒ Vague or unmeasurable success criteria
-- âŒ Would mislead planning process
+- ❌ Missing critical sections
+- ❌ Major anti-patterns detected
+- ❌ Unrealistic scope/timeline
+- ❌ Vague or unmeasurable success criteria
+- ❌ Would mislead planning process
 
 ## Review Process
 
@@ -369,15 +369,15 @@ Provide overall assessment with concrete next steps.
 - [Specific strength 2]
 
 **Critical Issues (P0 - blocks planning):**
-- [Issue 1]: [Why critical] â†’ [Suggested fix]
-- [Issue 2]: [Why critical] â†’ [Suggested fix]
+- [Issue 1]: [Why critical] → [Suggested fix]
+- [Issue 2]: [Why critical] → [Suggested fix]
 
 **Improvement Opportunities (P1 - reduces effectiveness):**
 - [Opportunity 1]: [Suggested enhancement]
 - [Opportunity 2]: [Suggested enhancement]
 
 **Anti-Patterns Detected:**
-- [Pattern name]: [Where it appears] â†’ [How to fix]
+- [Pattern name]: [Where it appears] → [How to fix]
 
 **Readiness Assessment:**
 - Ready for scope writing: [Yes/No]

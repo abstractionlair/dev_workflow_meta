@@ -147,9 +147,9 @@ Added empty string check as first validation step before any format checks.
 **Sentinel test:** `tests/regression/test_validation_empty_email.py`
 
 **Verification:**
-- Sentinel test fails on old code âœ“
-- Sentinel test passes on fixed code âœ“
-- All other tests still pass âœ“
+- Sentinel test fails on old code ✓
+- Sentinel test passes on fixed code ✓
+- All other tests still pass ✓
 ```
 
 ## File Metadata
@@ -184,20 +184,20 @@ Bug reports move through three states:
 
 ```
 bugs/to_fix/     [Implementer starts]
-    â†“
+    ↓
 bugs/fixing/     [Implementation Reviewer approves]
-    â†“
+    ↓
 bugs/fixed/
 ```
 
 ### State Transitions
 
-**to_fix â†’ fixing:**
+**to_fix → fixing:**
 - Implementer moves file when starting work
 - Creates bugfix branch
 - Begins investigation
 
-**fixing â†’ fixed:**
+**fixing → fixed:**
 - Implementation Reviewer moves file after approval
 - Updates status to "fixed"
 - Adds fixed date to frontmatter
@@ -206,18 +206,18 @@ bugs/fixed/
 ## Validation Rules
 
 ### Required for to_fix state:
-- âœ“ Title following `[Component] Description` pattern
-- âœ“ Observed Behavior (what's wrong)
-- âœ“ Expected Behavior (what should happen)
-- âœ“ Steps to Reproduce (how to trigger)
-- âœ“ Impact with severity
+- ✓ Title following `[Component] Description` pattern
+- ✓ Observed Behavior (what's wrong)
+- ✓ Expected Behavior (what should happen)
+- ✓ Steps to Reproduce (how to trigger)
+- ✓ Impact with severity
 
 ### Required before moving to fixed:
-- âœ“ Root Cause section (added by Implementer)
-- âœ“ Fix section (added by Implementer)
-- âœ“ Sentinel test created in tests/regression/
-- âœ“ Status updated to "fixed"
-- âœ“ Fixed date in frontmatter
+- ✓ Root Cause section (added by Implementer)
+- ✓ Fix section (added by Implementer)
+- ✓ Sentinel test created in tests/regression/
+- ✓ Status updated to "fixed"
+- ✓ Fixed date in frontmatter
 
 ## Complete Examples
 
@@ -339,15 +339,15 @@ Added explicit empty/null check as the first validation step, before any format 
 **Sentinel test location:** `tests/regression/test_validation_empty_email.py`
 
 **Verification:**
-- Ran sentinel test against old code: FAILED âœ“
-- Ran sentinel test against new code: PASSED âœ“
-- Ran full test suite: All tests pass âœ“
-- Manual verification: `validate_email("")` now returns `(False, "Email cannot be empty")` âœ“
+- Ran sentinel test against old code: FAILED ✓
+- Ran sentinel test against new code: PASSED ✓
+- Ran full test suite: All tests pass ✓
+- Manual verification: `validate_email("")` now returns `(False, "Email cannot be empty")` ✓
 ```
 
 ## Anti-Patterns
 
-### âŒ Vague Description
+### ❌ Vague Description
 ```markdown
 # Email Validation Bug
 Email validation is broken
@@ -360,7 +360,7 @@ Email validation is broken
 Empty strings incorrectly pass validation, causing database errors
 ```
 
-### âŒ Missing Reproduction Steps
+### ❌ Missing Reproduction Steps
 ```markdown
 ## Steps to Reproduce
 Sometimes the validation crashes when checking emails
@@ -375,7 +375,7 @@ Sometimes the validation crashes when checking emails
 3. System allows empty email to reach database
 ```
 
-### âŒ No Impact Assessment
+### ❌ No Impact Assessment
 ```markdown
 ## Impact
 This is bad and should be fixed
@@ -391,7 +391,7 @@ This is bad and should be fixed
 - Security concern: allows invalid data in database
 ```
 
-### âŒ Premature Solutions
+### ❌ Premature Solutions
 ```markdown
 ## Problem
 Email validation broken
@@ -403,7 +403,7 @@ We need to rewrite the entire validation module using a library
 
 **Better:** Describe observed vs expected behavior, let Implementer determine solution
 
-### âŒ Multiple Bugs in One Report
+### ❌ Multiple Bugs in One Report
 ```markdown
 # Various Validation Issues
 1. Empty emails pass

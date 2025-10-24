@@ -90,17 +90,17 @@ This is typically a **collaborative role** - a conversation between human and ag
 Read VISION.md and extract scope-relevant elements:
 
 **From vision's "Product Scope" section:**
-- In scope (MVP) â†’ Forms basis of SCOPE.md "In Scope - MVP"
-- Future scope â†’ Forms basis of "In Scope - Future Phases"
-- Never in scope â†’ Forms basis of "Explicitly Out of Scope"
+- In scope (MVP) → Forms basis of SCOPE.md "In Scope - MVP"
+- Future scope → Forms basis of "In Scope - Future Phases"
+- Never in scope → Forms basis of "Explicitly Out of Scope"
 
 **From vision's "Success Criteria":**
-- Metrics and milestones â†’ Inform "Success Criteria" section
-- Counter-metrics â†’ Inform "Quality Standards"
+- Metrics and milestones → Inform "Success Criteria" section
+- Counter-metrics → Inform "Quality Standards"
 
 **From vision's "Assumptions and Constraints":**
-- Resource constraints â†’ Direct copy to "Resource Constraints"
-- Technical assumptions â†’ Inform "Technical Constraints"
+- Resource constraints → Direct copy to "Resource Constraints"
+- Technical assumptions → Inform "Technical Constraints"
 
 **Key principle:** Scope document makes vision concrete without contradicting it.
 
@@ -170,15 +170,15 @@ Specify how to know when scope is complete.
 - Necessary (must have to be complete)
 
 **Example criteria:**
-- âœ… "Users can create, edit, and delete specs via CLI commands"
-- âœ… "Spec templates include all sections from GUIDELINES.md"
-- âœ… "Running `ctx spec check` identifies missing required sections"
-- âœ… "Documentation includes getting-started guide under 10 minutes"
+- ✓ "Users can create, edit, and delete specs via CLI commands"
+- ✓ "Spec templates include all sections from GUIDELINES.md"
+- ✓ "Running `ctx spec check` identifies missing required sections"
+- ✓ "Documentation includes getting-started guide under 10 minutes"
 
 **Avoid vague criteria:**
-- âŒ "System works well"
-- âŒ "Users are happy"
-- âŒ "Most features complete"
+- ❌ "System works well"
+- ❌ "Users are happy"
+- ❌ "Most features complete"
 
 ### Step 6: Document Constraints
 
@@ -331,9 +331,9 @@ Scope should be concrete enough to estimate:
 ### Balance Ambition with Resources
 
 Scope must fit constraints:
-- Solo developer â‰  multi-platform enterprise app
-- Part-time (10-20 hrs/week) â‰  full-time team velocity
-- 3-month timeline â‰  year-long scope
+- Solo developer ≠ multi-platform enterprise app
+- Part-time (10-20 hrs/week) ≠ full-time team velocity
+- 3-month timeline ≠ year-long scope
 
 ## Common Pitfalls
 

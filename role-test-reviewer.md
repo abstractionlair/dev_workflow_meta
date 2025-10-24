@@ -72,9 +72,9 @@ def test_withdraw_with_sufficient_funds_decreases_balance():
 
 **Issues:**
 ```python
-âŒ test_withdraw: Vague name
-âŒ Variable 'a': Unclear
-âŒ No comments: Hard to follow
+❌ test_withdraw: Vague name
+❌ Variable 'a': Unclear
+❌ No comments: Hard to follow
 ```
 
 ### Step 3: Check Completeness
@@ -89,16 +89,16 @@ def test_withdraw_with_sufficient_funds_decreases_balance():
 **Completeness checklist:**
 ```
 For withdraw(amount) method:
-âœ… Happy path: sufficient funds
-âŒ Missing: insufficient funds error
-âŒ Missing: exact balance withdrawal (boundary)
-âŒ Missing: negative amount (invalid input)
-âŒ Missing: zero amount (edge case)
+✓ Happy path: sufficient funds
+❌ Missing: insufficient funds error
+❌ Missing: exact balance withdrawal (boundary)
+❌ Missing: negative amount (invalid input)
+❌ Missing: zero amount (edge case)
 ```
 
 **Feedback pattern:**
 ```
-âš ï¸  Test coverage incomplete for withdraw()
+⚠  Test coverage incomplete for withdraw()
    Missing critical cases:
    1. test_withdraw_with_insufficient_funds_raises_error
    2. test_withdraw_negative_amount_raises_error
@@ -138,7 +138,7 @@ def test_withdraw():
 
 **Feedback:**
 ```
-âŒ Tests share mutable state (module-level 'account')
+❌ Tests share mutable state (module-level 'account')
    Problem: Tests fail in isolation or different order
    Fix: Create separate instances or use fixtures
 ```
@@ -168,7 +168,7 @@ def test_user_login_calls_hash_function():
 
 **Feedback:**
 ```
-âŒ test_login_calls_hash_function tests implementation detail
+❌ test_login_calls_hash_function tests implementation detail
    Problem: Breaks if switching from bcrypt to argon2
    Solution: Test behavior (authentication succeeds/fails)
 ```
@@ -199,14 +199,14 @@ def test_order_total():
 
 **Feedback:**
 ```
-âš ï¸  Over-mocking in test_calculate_order_total
+⚠  Over-mocking in test_calculate_order_total
    Problem: Mocking OrderItem couples to implementation
    Solution: Use real OrderItem objects
 ```
 
 **Smell - too many mocks:**
 ```
-âŒ test_process_order has 6+ mocks
+❌ test_process_order has 6+ mocks
    Suggests: Class doing too much (SRP violation) OR
             Should be integration test instead
 ```
@@ -231,7 +231,7 @@ def test_divide_by_zero_raises_error():
 ```python
 def test_user_creation():
     user = create_user("alice")
-    assert user  # âŒ Too vague
+    assert user  # ❌ Too vague
     
     # Better:
     assert isinstance(user, User)
@@ -254,7 +254,7 @@ def test_user_creation():
 ```
 Spec says: "Raises ValidationError if email invalid"
 
-âŒ No test found for invalid email validation
+❌ No test found for invalid email validation
    Add: test_register_invalid_email_raises_validation_error
 ```
 
@@ -295,10 +295,10 @@ pytest tests/test_feature.py -v
 
 **Red flags:**
 ```
-âŒ Tests passing: Implementation exists OR test wrong
-âŒ Import errors: Skeleton broken
-âŒ Signature errors: Skeleton/spec mismatch
-âœ… NotImplementedError: Correct RED phase
+❌ Tests passing: Implementation exists OR test wrong
+❌ Import errors: Skeleton broken
+❌ Signature errors: Skeleton/spec mismatch
+✓ NotImplementedError: Correct RED phase
 ```
 
 ### Step 11: Write Review
@@ -309,7 +309,7 @@ Use structured format (see Outputs section).
 
 **Review document:** `reviews/tests/YYYY-MM-DDTHH-MM-SS-<feature>-<STATUS>.md`
 
-Where STATUS âˆˆ {APPROVED, NEEDS-CHANGES}
+Where STATUS ∈ {APPROVED, NEEDS-CHANGES}
 
 **Review template:**
 ```markdown
@@ -325,33 +325,33 @@ Where STATUS âˆˆ {APPROVED, NEEDS-CHANGES}
 [2-3 sentence overall assessment]
 
 ## Clarity & Readability
-- âœ…/âŒ Test names descriptive
-- âœ…/âŒ AAA structure clear
-- âœ…/âŒ Variables meaningful
-- âœ…/âŒ Self-contained tests
+- ✓/❌ Test names descriptive
+- ✓/❌ AAA structure clear
+- ✓/❌ Variables meaningful
+- ✓/❌ Self-contained tests
 
-## Completeness âš ï¸ Critical
-- âœ…/âŒ Happy path covered
-- âœ…/âŒ Edge cases covered
-- âœ…/âŒ Error cases covered
-- âœ…/âŒ All spec exceptions tested
-- âœ…/âŒ Sentinel tests present
+## Completeness ⚠ Critical
+- ✓/❌ Happy path covered
+- ✓/❌ Edge cases covered
+- ✓/❌ Error cases covered
+- ✓/❌ All spec exceptions tested
+- ✓/❌ Sentinel tests present
 
 ## Independence
-- âœ…/âŒ No shared state
-- âœ…/âŒ Tests run in any order
-- âœ…/âŒ Each test has own fixtures
+- ✓/❌ No shared state
+- ✓/❌ Tests run in any order
+- ✓/❌ Each test has own fixtures
 
 ## Quality
-- âœ…/âŒ Tests behavior not implementation
-- âœ…/âŒ Minimal mocking
-- âœ…/âŒ Specific assertions
-- âœ…/âŒ Spec alignment verified
+- ✓/❌ Tests behavior not implementation
+- ✓/❌ Minimal mocking
+- ✓/❌ Specific assertions
+- ✓/❌ Spec alignment verified
 
 ## RED Phase Verification
-- âœ…/âŒ All tests failing
-- âœ…/âŒ Failing with NotImplementedError
-- âœ…/âŒ No import/signature errors
+- ✓/❌ All tests failing
+- ✓/❌ Failing with NotImplementedError
+- ✓/❌ No import/signature errors
 
 ## Critical Issues (if NEEDS-CHANGES)
 
@@ -454,14 +454,14 @@ Comprehensive test coverage with clear names and proper AAA structure.
 All spec requirements covered, tests failing correctly. Ready for GREEN phase.
 
 ## Completeness
-- âœ… Happy path: valid email
-- âœ… Edge cases: empty, plus-addressing
-- âœ… Error cases: missing @, non-string type
-- âœ… Sentinel: Bug #42 (empty email)
+- ✓ Happy path: valid email
+- ✓ Edge cases: empty, plus-addressing
+- ✓ Error cases: missing @, non-string type
+- ✓ Sentinel: Bug #42 (empty email)
 
 ## RED Phase
-- âœ… All tests failing with NotImplementedError
-- âœ… No import/signature errors
+- ✓ All tests failing with NotImplementedError
+- ✓ No import/signature errors
 
 ## Positive Notes
 - Excellent test naming (test_validate_email_with_empty_string_returns_false)
@@ -568,13 +568,13 @@ NEEDS-CHANGES - Address 3 critical issues and add 3 missing tests
 
 **Workflow position:**
 ```
-test-writer â†’ tests (RED)
-  â†“
-test-reviewer â†’ APPROVED â¬… YOU ARE HERE
-  â†“
-implementer â†’ make tests pass (GREEN)
-  â†“
-implementation-reviewer â†’ APPROVED
+test-writer → tests (RED)
+  ↓
+test-reviewer → APPROVED ⬅ YOU ARE HERE
+  ↓
+implementer → make tests pass (GREEN)
+  ↓
+implementation-reviewer → APPROVED
 ```
 
 Your approval gates the TDD GREEN phase. Ensure tests will drive correct implementation.

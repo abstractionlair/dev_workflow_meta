@@ -8,7 +8,7 @@ typical_scope: Project-wide architectural stewardship
 
 ## Responsibilities
 
-The Platform Lead maintains the "persistent memory" of the projectâ€”the living documents that prevent architecture amnesia and ensure consistency as the codebase grows. This role curates SYSTEM_MAP.md, GUIDELINES.md, and bug history in bugs/fixed/, keeping them accurate, useful, and up-to-date. The Platform Lead is the "head of developer experience" for the project.
+The Platform Lead maintains the "persistent memory" of the project—the living documents that prevent architecture amnesia and ensure consistency as the codebase grows. This role curates SYSTEM_MAP.md, GUIDELINES.md, and bug history in bugs/fixed/, keeping them accurate, useful, and up-to-date. The Platform Lead is the "head of developer experience" for the project.
 
 ## Collaboration Pattern
 
@@ -476,7 +476,7 @@ API controllers (`src/api/controllers/`) MUST NOT import database models (`src/d
 ### Example Violation
 ```python
 # src/api/controllers/users.py
-# âŒ WRONG - Direct model import
+# ❌ WRONG - Direct model import
 from src.database.models.user import User
 
 def get_user_endpoint(request):
@@ -487,7 +487,7 @@ def get_user_endpoint(request):
 ### Correct Approach
 ```python
 # src/api/controllers/users.py
-# âœ“ CORRECT - Use service layer
+# ✓ CORRECT - Use service layer
 from src.users.service import UserService
 
 def get_user_endpoint(request):

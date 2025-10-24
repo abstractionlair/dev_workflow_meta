@@ -7,7 +7,7 @@ This document defines the structure, semantics, and validation rules for VISION.
 ## Document Role in Workflow
 
 ```
-VISION.md (strategic) Ã¢â€ â€™ SCOPE.md (tactical) Ã¢â€ â€™ ROADMAP.md (operational) Ã¢â€ â€™ Specs Ã¢â€ â€™ Implementation
+VISION.md (strategic) → SCOPE.md (tactical) → ROADMAP.md (operational) → Specs → Implementation
 ```
 
 **VISION.md is consumed by:**
@@ -249,9 +249,9 @@ VISION.md (strategic) Ã¢â€ â€™ SCOPE.md (tactical) Ã¢â€ â€�
 - All stakeholders: Strategic alignment
 
 **Examples:**
-- Ã¢Å“â€¦ "Help solo developers maintain project context across planning and execution without documentation overhead"
-- Ã¢ÂÅ’ "Build the best project management tool with AI and collaboration" (feature list)
-- Ã¢ÂÅ’ "Revolutionize the industry" (too vague)
+- ✓ "Help solo developers maintain project context across planning and execution without documentation overhead"
+- ✗ "Build the best project management tool with AI and collaboration" (feature list)
+- ✗ "Revolutionize the industry" (too vague)
 
 ### Problem Statement
 
@@ -391,13 +391,13 @@ VISION.md (strategic) Ã¢â€ â€™ SCOPE.md (tactical) Ã¢â€ â€�
 
 **Consumed by:**
 - scope-writer: Primary input - transforms this into detailed SCOPE.md
-  - "In Scope (MVP)" Ã¢â€ â€™ SCOPE.md "In Scope - MVP" section
-  - "Future Scope" Ã¢â€ â€™ SCOPE.md "In Scope - Future Phases"
-  - "Never in Scope" Ã¢â€ â€™ SCOPE.md "Explicitly Out of Scope"
+  - "In Scope (MVP)" → SCOPE.md "In Scope - MVP" section
+  - "Future Scope" → SCOPE.md "In Scope - Future Phases"
+  - "Never in Scope" → SCOPE.md "Explicitly Out of Scope"
 - roadmap-writer: Secondary input - validates roadmap doesn't exceed scope
 
 **Transformation to SCOPE.md:**
-Vision's high-level features Ã¢â€ â€™ Scope's concrete deliverables
+Vision's high-level features → Scope's concrete deliverables
 
 **Example:**
 - **Vision**: "Lightweight specification format"
@@ -449,9 +449,9 @@ Vision's high-level features Ã¢â€ â€™ Scope's concrete deliverables
 **Consumed by:**
 - scope-writer: Ensures scope enables measuring these metrics
 - roadmap-writer: Uses timeline milestones to plan phase durations
-  - **6-month milestone** Ã¢â€ â€™ Influences MVP completion target
-  - **1-year milestone** Ã¢â€ â€™ Guides Phase 2+ planning
-  - **3-year milestone** Ã¢â€ â€™ Validates long-term strategic alignment
+  - **6-month milestone** → Influences MVP completion target
+  - **1-year milestone** → Guides Phase 2+ planning
+  - **3-year milestone** → Validates long-term strategic alignment
 
 **Anti-patterns:**
 - Vanity metrics: "1M users" without retention
@@ -538,9 +538,9 @@ Vision's high-level features Ã¢â€ â€™ Scope's concrete deliverables
 
 **Consumed by:**
 - scope-writer: Primary input - carries these over to SCOPE.md
-  - Resource constraints Ã¢â€ â€™ SCOPE.md "Resource Constraints"
-  - Technical assumptions Ã¢â€ â€™ SCOPE.md "Technical Constraints"
-  - Market assumptions Ã¢â€ â€™ SCOPE.md "Assumptions" section
+  - Resource constraints → SCOPE.md "Resource Constraints"
+  - Technical assumptions → SCOPE.md "Technical Constraints"
+  - Market assumptions → SCOPE.md "Assumptions" section
 - roadmap-writer: Validates phasing is realistic given constraints
 
 **Anti-patterns:**
@@ -787,10 +787,10 @@ Vision's high-level features Ã¢â€ â€™ Scope's concrete deliverables
 ### scope-writer consumes VISION.md
 
 **Reads:**
-- Vision statement Ã¢â€ â€™ Copies to SCOPE.md alignment section
-- Product Scope Ã¢â€ â€™ Transforms into detailed scope sections
-- Success Criteria Ã¢â€ â€™ Informs acceptance criteria
-- Assumptions/Constraints Ã¢â€ â€™ Carries over to SCOPE.md
+- Vision statement → Copies to SCOPE.md alignment section
+- Product Scope → Transforms into detailed scope sections
+- Success Criteria → Informs acceptance criteria
+- Assumptions/Constraints → Carries over to SCOPE.md
 
 **Stops if:**
 - Product Scope section missing or incomplete
@@ -800,9 +800,9 @@ Vision's high-level features Ã¢â€ â€™ Scope's concrete deliverables
 ### roadmap-writer consumes VISION.md
 
 **Reads:**
-- Vision statement Ã¢â€ â€™ Copies to ROADMAP.md alignment
-- Success Criteria Ã¢â€ â€™ Uses Timeline Milestones for phase planning
-- Target Users Ã¢â€ â€™ For feature value prioritization
+- Vision statement → Copies to ROADMAP.md alignment
+- Success Criteria → Uses Timeline Milestones for phase planning
+- Target Users → For feature value prioritization
 
 **Stops if:**
 - Timeline Milestones missing from Success Criteria

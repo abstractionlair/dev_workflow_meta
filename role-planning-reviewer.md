@@ -232,8 +232,8 @@ Don't stop at the first issue:
 
 ### Provide Constructive Solutions
 When pointing out problems, suggest fixes:
-- "X is unclear" â†’ "X is unclear. Suggest adding examples like..."
-- "Dependency missing" â†’ "Feature B depends on A. Suggest reordering or noting dependency."
+- "X is unclear" → "X is unclear. Suggest adding examples like..."
+- "Dependency missing" → "Feature B depends on A. Suggest reordering or noting dependency."
 
 ### Approve When Good Enough
 Perfect is the enemy of good:

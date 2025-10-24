@@ -77,7 +77,7 @@ Clearly define what this feature includes and excludes:
 **If you discover missing dependencies or new features needed:**
 - STOP and add them to the roadmap first
 - Don't create ad-hoc specs for unlisted features
-- Maintain the artifact-driven workflow: roadmap ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ spec ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ implementation
+- Maintain the artifact-driven workflow: roadmap → spec → implementation
 - Exception: Trivial utilities that are clearly implementation details
 
 **If spec work exposes vision gaps or misalignment:**
@@ -174,11 +174,11 @@ The spec defines observable outcomes, not internal mechanisms:
 - Helper functions and internal organization
 
 **Examples:**
-- ÃƒÂ¢Ã…â€œÃ¢â‚¬Å“ "Function `get_recent_activities(user: User, limit: int = 10) -> List[Activity]`"
-- ÃƒÂ¢Ã…â€œÃ¢â‚¬Å“ "Returns activities sorted by timestamp, newest first"
-- ÃƒÂ¢Ã…â€œÃ¢â‚¬Å“ "Raises ValueError if limit < 1 or limit > 1000"
-- ÃƒÂ¢Ã…â€œÃ¢â‚¬â€ "Uses binary search algorithm to find activities" (implementation detail)
-- ÃƒÂ¢Ã…â€œÃ¢â‚¬â€ "Stores results in Redis cache" (unless caching is part of the requirement)
+- "Function `get_recent_activities(user: User, limit: int = 10) -> List[Activity]`"
+- "Returns activities sorted by timestamp, newest first"
+- "Raises ValueError if limit < 1 or limit > 1000"
+- "Uses binary search algorithm to find activities" (implementation detail)
+- "Stores results in Redis cache" (unless caching is part of the requirement)
 
 ### Make the Implicit Explicit
 Your mental model has context that the spec reader won't have:
@@ -485,12 +485,12 @@ weather = get_weather("Portland", use_cache=False)
 - Create feature branch only when spec moves to `doing` and implementation starts
 
 **After approval**: 
-- Spec Reviewer moves `specs/proposed/<feature>.md` ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ `specs/todo/<feature>.md`
+- Spec Reviewer moves `specs/proposed/<feature>.md` → `specs/todo/<feature>.md`
 - Do NOT move specs yourself - this is the reviewer's gatekeeper responsibility
 
 **Handoffs**: 
-- Implementation starts when Implementer moves `todo ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ doing`
-- You write in `proposed/`, reviewer approves to `todo/`, implementer moves to `doing/`
+- Implementation starts when Skeleton Writer moves `todo → doing`
+- You write in `proposed/`, reviewer approves to `todo/`, Skeleton Writer moves to `doing/`
 
 **Vision collaboration**: 
 - If spec work exposes vision gaps or misalignment, collaborate with Vision Writer

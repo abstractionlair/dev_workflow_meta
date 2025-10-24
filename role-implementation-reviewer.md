@@ -57,7 +57,7 @@ pytest tests/ -v
 ```
 
 **If any tests fail:**
-âŒ REJECT immediately - implementation not complete
+❌ REJECT immediately - implementation not complete
 
 ### Step 2: Check Test Integrity
 
@@ -74,7 +74,7 @@ git diff origin/main tests/test_feature.py
 **Red flag:**
 ```diff
 - assert result.status == "success"
-+ assert result.status in ["success", "ok"]  # âŒ Weakened test
++ assert result.status in ["success", "ok"]  # ❌ Weakened test
 ```
 
 ### Step 3: Verify Spec Compliance
@@ -107,11 +107,11 @@ Register user:
 
 **Check implementation:**
 ```python
-âœ… Email validation present
-âœ… Password hashing used
-âœ… Repository save called
-âœ… Welcome email sent
-âœ… DuplicateEmailError raised
+✓ Email validation present
+✓ Password hashing used
+✓ Repository save called
+✓ Welcome email sent
+✓ DuplicateEmailError raised
 ```
 
 ### Step 4: Check Code Quality
@@ -130,12 +130,12 @@ Register user:
 
 **Example issues:**
 ```python
-# âŒ Unclear names
+# ❌ Unclear names
 def process(d):
     r = calc(d)
     return r
 
-# âœ… Clear names
+# ✓ Clear names
 def calculate_discount(price: float) -> float:
     discount_amount = price * self.discount_rate
     return discount_amount
@@ -158,10 +158,10 @@ def calculate_discount(price: float) -> float:
 
 **Red flags:**
 ```python
-# âŒ Violates GUIDELINES.md
+# ❌ Violates GUIDELINES.md
 from internal.database import PostgresConnection  # Direct DB import in service
 
-# âŒ Ignores GUIDELINES.md
+# ❌ Ignores GUIDELINES.md
 def validateEmail(email):  # Should be validate_email per conventions
 ```
 
@@ -177,17 +177,17 @@ def validateEmail(email):  # Should be validate_email per conventions
 
 **Example issues:**
 ```python
-# âŒ SQL injection
+# ❌ SQL injection
 query = f"SELECT * FROM users WHERE email = '{email}'"
 
-# âœ… Parameterized query
+# ✓ Parameterized query
 query = "SELECT * FROM users WHERE email = ?"
 db.execute(query, (email,))
 
-# âŒ Logging sensitive data
+# ❌ Logging sensitive data
 logger.info(f"User {email} logged in with password {password}")
 
-# âœ… Safe logging
+# ✓ Safe logging
 logger.info(f"User {email} logged in successfully")
 ```
 
@@ -201,13 +201,13 @@ logger.info(f"User {email} logged in successfully")
 
 **Example issues:**
 ```python
-# âŒ Swallowing exceptions
+# ❌ Swallowing exceptions
 try:
     process_payment(amount)
 except Exception:
     pass  # Silent failure
 
-# âœ… Proper handling
+# ✓ Proper handling
 try:
     process_payment(amount)
 except PaymentError as e:
@@ -225,11 +225,11 @@ except PaymentError as e:
 
 **Example issues:**
 ```python
-# âŒ N+1 query problem
+# ❌ N+1 query problem
 for user in users:
     user.orders = db.query(f"SELECT * FROM orders WHERE user_id = {user.id}")
 
-# âœ… Batch query
+# ✓ Batch query
 user_ids = [u.id for u in users]
 orders = db.query("SELECT * FROM orders WHERE user_id IN (?)", user_ids)
 ```
@@ -244,7 +244,7 @@ orders = db.query("SELECT * FROM orders WHERE user_id IN (?)", user_ids)
 
 **Example issues:**
 ```python
-# âŒ Duplicated validation
+# ❌ Duplicated validation
 def register(email, password):
     if not email or "@" not in email:
         raise ValidationError("Invalid email")
@@ -255,7 +255,7 @@ def update_email(user, new_email):
         raise ValidationError("Invalid email")
     # ...
 
-# âœ… Extracted utility
+# ✓ Extracted utility
 def validate_email(email: str) -> None:
     if not email or "@" not in email:
         raise ValidationError("Invalid email")
@@ -280,7 +280,7 @@ Use structured format (see Outputs section).
 
 **Review document:** `reviews/implementations/YYYY-MM-DDTHH-MM-SS-<feature>-<STATUS>.md`
 
-Where STATUS âˆˆ {APPROVED, NEEDS-CHANGES}
+Where STATUS ∈ {APPROVED, NEEDS-CHANGES}
 
 **Review template:**
 ```markdown
@@ -290,40 +290,40 @@ Where STATUS âˆˆ {APPROVED, NEEDS-CHANGES}
 **Date:** YYYY-MM-DD HH:MM:SS
 **Spec:** specs/doing/[feature].md
 **Implementation:** [files reviewed]
-**Tests:** [All passing âœ… / Some failing âŒ]
+**Tests:** [All passing ✓ / Some failing ❌]
 **Status:** APPROVED | NEEDS-CHANGES
 
 ## Summary
 [2-3 sentence overall assessment]
 
 ## Test Verification
-- âœ…/âŒ All tests passing
-- âœ…/âŒ Tests unmodified (no weakening)
-- âœ…/âŒ Test integrity maintained
+- ✓/❌ All tests passing
+- ✓/❌ Tests unmodified (no weakening)
+- ✓/❌ Test integrity maintained
 
 ## Spec Compliance
-- âœ…/âŒ All acceptance criteria met
-- âœ…/âŒ All edge cases handled
-- âœ…/âŒ All error conditions handled
-- âœ…/âŒ Performance requirements met
+- ✓/❌ All acceptance criteria met
+- ✓/❌ All edge cases handled
+- ✓/❌ All error conditions handled
+- ✓/❌ Performance requirements met
 
 ## Code Quality
-- âœ…/âŒ Clear and readable
-- âœ…/âŒ Well-organized
-- âœ…/âŒ Maintainable
-- âœ…/âŒ No duplication
+- ✓/❌ Clear and readable
+- ✓/❌ Well-organized
+- ✓/❌ Maintainable
+- ✓/❌ No duplication
 
 ## Architecture
-- âœ…/âŒ Follows GUIDELINES.md
-- âœ…/âŒ Respects GUIDELINES.md
-- âœ…/âŒ Uses dependency injection
-- âœ…/âŒ Layer boundaries respected
+- ✓/❌ Follows GUIDELINES.md
+- ✓/❌ Respects GUIDELINES.md
+- ✓/❌ Uses dependency injection
+- ✓/❌ Layer boundaries respected
 
 ## Security
-- âœ…/âŒ Input validation present
-- âœ…/âŒ No injection vulnerabilities
-- âœ…/âŒ Sensitive data protected
-- âœ…/âŒ No hard-coded secrets
+- ✓/❌ Input validation present
+- ✓/❌ No injection vulnerabilities
+- ✓/❌ Sensitive data protected
+- ✓/❌ No hard-coded secrets
 
 ## Critical Issues (if NEEDS-CHANGES)
 
@@ -431,20 +431,20 @@ Excellent implementation. Spec fully satisfied, clean code, proper architecture.
 All tests passing, no security issues. Ready for merge.
 
 ## Spec Compliance
-- âœ… Email validation implemented
-- âœ… Password hashing used (bcrypt)
-- âœ… DuplicateEmailError raised correctly
-- âœ… Welcome email sent
+- ✓ Email validation implemented
+- ✓ Password hashing used (bcrypt)
+- ✓ DuplicateEmailError raised correctly
+- ✓ Welcome email sent
 
 ## Code Quality
-- âœ… Clear variable names
-- âœ… Proper error handling
-- âœ… No duplication
+- ✓ Clear variable names
+- ✓ Proper error handling
+- ✓ No duplication
 
 ## Architecture
-- âœ… Dependency injection used
-- âœ… Repository pattern followed
-- âœ… Layer boundaries respected
+- ✓ Dependency injection used
+- ✓ Repository pattern followed
+- ✓ Layer boundaries respected
 
 ## Positive Notes
 - Excellent use of existing utilities
@@ -643,14 +643,14 @@ All acceptance criteria met."
 
 **Workflow position:**
 ```
-implementer â†’ implementation (GREEN) âœ“
-  â†“
-implementation-reviewer â†’ APPROVED â¬… YOU ARE HERE
-  â†“
+implementer → implementation (GREEN) ✓
+  ↓
+implementation-reviewer → APPROVED ⬅ YOU ARE HERE
+  ↓
 [move spec to done/]
-  â†“
+  ↓
 merge to main
-  â†“
+  ↓
 platform-lead updates docs
 ```
 

@@ -22,7 +22,7 @@ This is a **collaborative helper role** - work through conversation with the hum
 5. Human reviews and approves
 6. Bug Recorder creates file in `bugs/to_fix/`
 
-**Similar to:** Vision/Scope/Roadmap/Spec Writing Helpers (Socratic conversation â†’ structured artifact)
+**Similar to:** Vision/Scope/Roadmap/Spec Writing Helpers (Socratic conversation → structured artifact)
 
 ## Inputs
 
@@ -301,7 +301,7 @@ This needs immediate attention. Should I mark this as urgent priority?
 **Bug Recorder:**
 Created: `bugs/to_fix/auth-sql-injection-login.md`
 
-âš ï¸  **CRITICAL SECURITY BUG** - This should be fixed immediately. Please assign an Implementer ASAP.
+⚠  **CRITICAL SECURITY BUG** - This should be fixed immediately. Please assign an Implementer ASAP.
 
 I recommend:
 1. Fix this before anything else
@@ -358,19 +358,19 @@ I recommend:
 ## Common Patterns
 
 ### Pattern 1: Human Knows What's Wrong
-Human gives clear description â†’ Ask reproduction steps + impact â†’ Create report
+Human gives clear description → Ask reproduction steps + impact → Create report
 
 ### Pattern 2: Human Reports Symptoms
-Human describes what they see â†’ Dig into reproduction â†’ Help identify component â†’ Create report
+Human describes what they see → Dig into reproduction → Help identify component → Create report
 
 ### Pattern 3: Human Is Vague
-Human says "it's broken" â†’ Ask what they observed â†’ Ask what they expected â†’ Build understanding â†’ Create report
+Human says "it's broken" → Ask what they observed → Ask what they expected → Build understanding → Create report
 
 ### Pattern 4: Security Issue
-Human reports vulnerability â†’ Gather details carefully â†’ Assess severity (usually critical) â†’ Flag urgently â†’ Create report
+Human reports vulnerability → Gather details carefully → Assess severity (usually critical) → Flag urgently → Create report
 
 ### Pattern 5: User Report (Second-hand)
-Human says "user reported X" â†’ Ask if human reproduced it â†’ Get reproduction steps â†’ Assess if single user or widespread â†’ Create report
+Human says "user reported X" → Ask if human reproduced it → Get reproduction steps → Assess if single user or widespread → Create report
 
 ## Output
 

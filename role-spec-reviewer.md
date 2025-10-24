@@ -21,7 +21,7 @@ This is an **independent role** - the reviewer works separately from the spec wr
 - Verify alignment with Vision, Scope, Roadmap
 - Check interfaces, data contracts, behaviors are specified
 - Identify testability gaps
-- **Gatekeeper**: Move approved specs `proposed/` Ã¢â€ â€™ `todo/`
+- **Gatekeeper**: Move approved specs `proposed/` → `todo/`
 
 **Feedback flow:**
 1. Spec Writer creates draft in `specs/proposed/<feature>.md`
@@ -92,7 +92,7 @@ Create in `reviews/specs/` with format:
 YYYY-MM-DDTHH-MM-SS-<feature>-<STATUS>.md
 ```
 
-Where STATUS Ã¢Ë†Ë† {APPROVED, NEEDS-CHANGES}
+Where STATUS ∈ {APPROVED, NEEDS-CHANGES}
 
 Use seconds to avoid collisions (e.g., `2025-01-23T14-30-47-weather-cache-APPROVED.md`)
 
@@ -219,18 +219,18 @@ error handling for API failures, and integration with existing HTTP client.
 ## Detailed Feedback
 
 ### Section 2.1: Cache Storage
-- Ã¢ÂÅ’ Cache expiry not specified. How long should weather data live?
-- Ã¢ÂÅ’ What happens if cache is full?
+- ✗ Cache expiry not specified. How long should weather data live?
+- ✗ What happens if cache is full?
 
 ### Section 2.2: API Integration
-- Ã¢ÂÅ’ Which HTTP client library? Check GUIDELINES.md
-- Ã¢ÂÅ’ Timeout values not specified
-- Ã¢ÂÅ’ Retry logic for transient failures?
+- ✗ Which HTTP client library? Check GUIDELINES.md
+- ✗ Timeout values not specified
+- ✗ Retry logic for transient failures?
 
 ### Section 3: Error Cases
-- Ã¢ÂÅ’ What if weather API is down?
-- Ã¢ÂÅ’ What if API returns invalid data?
-- Ã¢ÂÅ’ What if cache read fails?
+- ✗ What if weather API is down?
+- ✗ What if API returns invalid data?
+- ✗ What if cache read fails?
 
 ## Approval Criteria
 Must specify:

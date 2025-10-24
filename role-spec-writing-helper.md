@@ -344,11 +344,11 @@ This is a **highly collaborative role** - a Socratic dialogue that makes feature
 
 **Common issues:**
 
-âŒ Vague: "System handles input appropriately"
-âœ… Specific: "Trims whitespace, converts to lowercase, rejects special chars"
+❌ Vague: "System handles input appropriately"
+✓ Specific: "Trims whitespace, converts to lowercase, rejects special chars"
 
-âŒ Coupled: "Creates user AND sends email AND logs event"
-âœ… Independent:
+❌ Coupled: "Creates user AND sends email AND logs event"
+✓ Independent:
   1. Creates user record in database
   2. Sends welcome email
   3. Logs registration event
@@ -388,7 +388,7 @@ This is a **highly collaborative role** - a Socratic dialogue that makes feature
 
 **Helper:** "And Then - what's the exact outcome?"
 
-**User:** "LinkMap contains entry: 'feature_001' â†’ {code: ['src/auth/login.py'], tests: ['tests/test_login.py']}."
+**User:** "LinkMap contains entry: 'feature_001' → {code: ['src/auth/login.py'], tests: ['tests/test_login.py']}."
 
 **Helper:** "Excellent. Let's write that as a scenario:
 
@@ -403,7 +403,7 @@ This is a **highly collaborative role** - a Socratic dialogue that makes feature
 - LinkingEngine('/project').scan() is called
 
 **Then:**
-- LinkMap contains 'feature_001' â†’ {code: ['src/auth/login.py'], tests: ['tests/test_login.py']}
+- LinkMap contains 'feature_001' → {code: ['src/auth/login.py'], tests: ['tests/test_login.py']}
 - Scan completes in <5 seconds
 - No errors or warnings
 

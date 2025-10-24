@@ -36,7 +36,7 @@ Each planning phase has Writer, Reviewer, and Helper roles, plus an ontology doc
 | **ROADMAP-ontology.md** | Defines roadmap document structure | Reference |
 | | | |
 | **role-spec-writer.md** | Transforms features into behavioral specifications | Collaborative |
-| **role-spec-reviewer.md** | Reviews specs, gates `proposed/` â†’ `todo/` | Independent (Gatekeeper) |
+| **role-spec-reviewer.md** | Reviews specs, gates `proposed/` → `todo/` | Independent (Gatekeeper) |
 | **role-spec-writing-helper.md** | Guides specification writing via conversation | Collaborative |
 | **SPEC-ontology.md** | Defines specification document structure | Reference |
 
@@ -55,7 +55,7 @@ Coding roles are workflow-focused, assuming LLMs know how to code/test.
 | **role-test-reviewer.md** | Reviews tests for completeness (TDD RED verification) | Independent |
 | | | |
 | **role-implementer.md** | Makes tests pass (TDD GREEN) | Autonomous |
-| **role-implementation-reviewer.md** | Reviews code quality, gates `doing/` â†’ `done/` | Independent (Gatekeeper) |
+| **role-implementation-reviewer.md** | Reviews code quality, gates `doing/` → `done/` | Independent (Gatekeeper) |
 
 ### Support Roles
 
@@ -97,9 +97,9 @@ Specifications move through four states:
 
 **State transitions:**
 ```
-proposed/ â†’ [Spec Reviewer APPROVES] â†’ todo/
-todo/ â†’ [Skeleton approved, branch created] â†’ doing/
-doing/ â†’ [Implementation Reviewer APPROVES] â†’ done/
+proposed/ → [Spec Reviewer APPROVES] → todo/
+todo/ → [Skeleton approved, branch created] → doing/
+doing/ → [Implementation Reviewer APPROVES] → done/
 ```
 
 ### Review Files
@@ -109,10 +109,11 @@ All reviews use timestamped filenames with status.
 | Review Type | Directory | Creator Role | Gates |
 |-------------|-----------|--------------|-------|
 | Planning reviews | `reviews/planning/` | Vision/Scope/Roadmap Reviewers | Quality check |
-| Spec reviews | `reviews/specs/` | Spec Reviewer | `proposed/` â†’ `todo/` |
+| Spec reviews | `reviews/specs/` | Spec Reviewer | `proposed/` → `todo/` |
 | Skeleton reviews | `reviews/skeletons/` | Skeleton Reviewer | Approves for test writing |
-| Test reviews | `reviews/tests/` | Test Reviewer | RED â†’ GREEN transition |
-| Implementation reviews | `reviews/implementations/` | Implementation Reviewer | `doing/` â†’ `done/` |
+| Test reviews | `reviews/tests/` | Test Reviewer | RED → GREEN transition |
+| Implementation reviews | `reviews/implementations/` | Implementation Reviewer | `doing/` → `done/` |
+| Bug fix reviews | `reviews/bug-fixes/` | Implementation Reviewer | `fixing/` → `fixed/` |
 
 **Naming pattern:** `YYYY-MM-DDTHH-MM-SS-<feature>-<STATUS>.md`
 
@@ -241,50 +242,54 @@ Complete project structure showing all artifact locations:
 
 ```
 project-root/
-â”œâ”€â”€ VISION.md                      # Foundation - why project exists
-â”œâ”€â”€ SCOPE.md                       # Planning - what's in/out
-â”œâ”€â”€ ROADMAP.md                     # Planning - feature sequence
-â”œâ”€â”€ SYSTEM_MAP.md                  # Living doc - architecture
-â”œâ”€â”€ GUIDELINES.md                       # Living doc - constraints
-â”œâ”€â”€ bug reports in bugs/fixed/                 # Living doc - bug history
-â”‚
-â”œâ”€â”€ specs/
-â”‚   â”œâ”€â”€ proposed/                  # Awaiting spec review
-â”‚   â”‚   â””â”€â”€ new-feature.md
-â”‚   â”œâ”€â”€ todo/                      # Approved, not started
-â”‚   â”‚   â””â”€â”€ next-feature.md
-â”‚   â”œâ”€â”€ doing/                     # Active development (on feature branch)
-â”‚   â”‚   â””â”€â”€ active-feature.md
-â”‚   â””â”€â”€ done/                      # Completed features
-â”‚       â””â”€â”€ finished-feature.md
-â”‚
-â”œâ”€â”€ reviews/
-â”‚   â”œâ”€â”€ planning/                  # Vision/Scope/Roadmap reviews
-â”‚   â”‚   â””â”€â”€ 2025-10-23T10-15-30-roadmap-APPROVED.md
-â”‚   â”œâ”€â”€ specs/                     # Spec reviews
-â”‚   â”‚   â”œâ”€â”€ 2025-10-23T09-00-15-user-auth-APPROVED.md
-â”‚   â”‚   â””â”€â”€ 2025-10-23T14-30-47-payment-NEEDS-CHANGES.md
-â”‚   â”œâ”€â”€ skeletons/                 # Skeleton reviews
-â”‚   â”‚   â””â”€â”€ 2025-10-23T10-45-22-user-auth-APPROVED.md
-â”‚   â”œâ”€â”€ tests/                     # Test reviews
-â”‚   â”‚   â””â”€â”€ 2025-10-23T11-20-05-user-auth-APPROVED.md
-â”‚   â””â”€â”€ implementations/           # Implementation reviews
-â”‚       â””â”€â”€ 2025-10-23T16-45-30-user-auth-APPROVED.md
-â”‚
-â”œâ”€â”€ src/                           # Production code
-â”‚   â”œâ”€â”€ services/
-â”‚   â”‚   â””â”€â”€ user_service.py
-â”‚   â”œâ”€â”€ models/
-â”‚   â”‚   â””â”€â”€ user.py
-â”‚   â””â”€â”€ utils/
-â”‚       â””â”€â”€ validation.py
-â”‚
-â””â”€â”€ tests/
-    â”œâ”€â”€ unit/                      # Unit tests
-    â”‚   â”œâ”€â”€ test_user_service.py
-    â”‚   â””â”€â”€ test_validation.py
-    â””â”€â”€ integration/               # Integration tests
-        â””â”€â”€ test_user_registration_flow.py
+├── VISION.md                      # Foundation - why project exists
+├── SCOPE.md                       # Planning - what's in/out
+├── ROADMAP.md                     # Planning - feature sequence
+├── SYSTEM_MAP.md                  # Living doc - architecture
+├── GUIDELINES.md                       # Living doc - constraints
+├── bug reports in bugs/fixed/                 # Living doc - bug history
+│
+├── specs/
+│   ├── proposed/                  # Awaiting spec review
+│   │   └── new-feature.md
+│   ├── todo/                      # Approved, not started
+│   │   └── next-feature.md
+│   ├── doing/                     # Active development (on feature branch)
+│   │   └── active-feature.md
+│   └── done/                      # Completed features
+│       └── finished-feature.md
+│
+├── reviews/
+│   ├── planning/                  # Vision/Scope/Roadmap reviews
+│   │   └── 2025-10-23T10-15-30-roadmap-APPROVED.md
+│   ├── specs/                     # Spec reviews
+│   │   ├── 2025-10-23T09-00-15-user-auth-APPROVED.md
+│   │   └── 2025-10-23T14-30-47-payment-NEEDS-CHANGES.md
+│   ├── skeletons/                 # Skeleton reviews
+│   │   └── 2025-10-23T10-45-22-user-auth-APPROVED.md
+│   ├── tests/                     # Test reviews
+│   │   └── 2025-10-23T11-20-05-user-auth-APPROVED.md
+│   └── implementations/           # Implementation reviews
+│       └── 2025-10-23T16-45-30-user-auth-APPROVED.md
+│   └── bug-fixes/                 # Bug fix reviews
+│       └── 2025-10-23T16-45-30-user-auth-invalid-chars-APPROVED.md
+│
+├── src/                           # Production code
+│   ├── services/
+│   │   └── user_service.py
+│   ├── models/
+│   │   └── user.py
+│   └── utils/
+│       └── validation.py
+│
+└── tests/
+    ├── unit/                      # Unit tests
+    │   ├── test_user_service.py
+    │   └── test_validation.py
+    └── integration/               # Integration tests
+        └── test_user_registration_flow.py
+    └── regression/               # Sentinel tests
+        └── test_user_registration_flow_with_invalid_chars.py
 ```
 
 ## Artifact Lifecycle
@@ -292,51 +297,51 @@ project-root/
 ### Foundation Phase
 
 ```
-Vision Writer + Human â†’ VISION.md
-  â†“
-Vision Reviewer â†’ APPROVED
+Vision Writer + Human → VISION.md
+  ↓
+Vision Reviewer → APPROVED
 ```
 
 ### Planning Phase
 
 ```
 VISION.md
-  â†“
-Scope Writer + Human â†’ SCOPE.md
-  â†“
-Scope Reviewer â†’ APPROVED
-  â†“
-Roadmap Writer + Human â†’ ROADMAP.md
-  â†“
-Roadmap Reviewer â†’ APPROVED
+  ↓
+Scope Writer + Human → SCOPE.md
+  ↓
+Scope Reviewer → APPROVED
+  ↓
+Roadmap Writer + Human → ROADMAP.md
+  ↓
+Roadmap Reviewer → APPROVED
 ```
 
 ### Per-Feature Development
 
 ```
 Roadmap item selected
-  â†“
-Spec Writer + Human â†’ specs/proposed/<feature>.md
-  â†“
-Spec Reviewer â†’ APPROVED â†’ moves to specs/todo/<feature>.md
-  â†“
-Skeleton Writer â†’ creates interface files
-  â†“
-Skeleton Reviewer â†’ APPROVED
-  â†“
-Skeleton Writer â†’ creates feature branch + moves spec to specs/doing/<feature>.md
-  â†“
-Test Writer â†’ writes test suite (all tests RED)
-  â†“
-Test Reviewer â†’ APPROVED (verifies RED state)
-  â†“
-Implementer â†’ writes code (makes tests GREEN)
-  â†“
-Implementation Reviewer â†’ APPROVED â†’ moves spec to specs/done/<feature>.md
-  â†“
+  ↓
+Spec Writer + Human → specs/proposed/<feature>.md
+  ↓
+Spec Reviewer → APPROVED → moves to specs/todo/<feature>.md
+  ↓
+Skeleton Writer → creates interface files
+  ↓
+Skeleton Reviewer → APPROVED
+  ↓
+Skeleton Writer → creates feature branch + moves spec to specs/doing/<feature>.md
+  ↓
+Test Writer → writes test suite (all tests RED)
+  ↓
+Test Reviewer → APPROVED (verifies RED state)
+  ↓
+Implementer → writes code (makes tests GREEN)
+  ↓
+Implementation Reviewer → APPROVED → moves spec to specs/done/<feature>.md
+  ↓
 Merge feature branch to main
-  â†“
-Platform Lead â†’ updates SYSTEM_MAP.md, GUIDELINES.md as needed
+  ↓
+Platform Lead → updates SYSTEM_MAP.md, GUIDELINES.md as needed
 ```
 
 ## Artifact Ownership Matrix
@@ -347,16 +352,16 @@ Platform Lead â†’ updates SYSTEM_MAP.md, GUIDELINES.md as needed
 | SCOPE.md | Scope Writer | Scope Reviewer | - | Main |
 | ROADMAP.md | Roadmap Writer | Roadmap Reviewer | - | Main |
 | specs/proposed/ | Spec Writer | - | - | Main |
-| specs/todo/ | - | Spec Reviewer | Spec Reviewer â˜… | Main |
+| specs/todo/ | - | Spec Reviewer | Spec Reviewer ★ | Main |
 | specs/doing/ | - | Skeleton Reviewer | Skeleton Writer | Feature branch |
-| specs/done/ | - | Implementation Reviewer | Implementation Reviewer â˜… | Main (after merge) |
+| specs/done/ | - | Implementation Reviewer | Implementation Reviewer ★ | Main (after merge) |
 | Skeleton code | Skeleton Writer | Skeleton Reviewer | - | Feature branch |
 | Tests | Test Writer | Test Reviewer | - | Feature branch |
 | Implementation | Implementer | Implementation Reviewer | - | Feature branch |
 | Living docs | Platform Lead | - | - | Main |
 | Reviews | Various Reviewers | - | - | Main |
 
-â˜… = Gatekeeper role (controls state transitions)
+★ = Gatekeeper role (controls state transitions)
 
 ## Artifact Consumers
 
@@ -411,51 +416,51 @@ Review files are timestamped records, never modified after creation:
 ## Naming Conventions Summary
 
 **Feature names:** kebab-case
-- âœ… `user-authentication`, `weather-cache`, `payment-processing`
-- âŒ `UserAuthentication`, `weather_cache`, `PaymentProcessing`
+- ✓ `user-authentication`, `weather-cache`, `payment-processing`
+- ❌ `UserAuthentication`, `weather_cache`, `PaymentProcessing`
 
 **Review timestamps:** ISO 8601 with seconds
-- âœ… `2025-10-23T14-30-47`
-- âŒ `2025-10-23T14-30`, `20251023T143047`
+- ✓ `2025-10-23T14-30-47`
+- ❌ `2025-10-23T14-30`, `20251023T143047`
 
 **Review status:** Uppercase
-- âœ… `APPROVED`, `NEEDS-CHANGES`
-- âŒ `approved`, `Needs-Changes`, `needs_changes`
+- ✓ `APPROVED`, `NEEDS-CHANGES`
+- ❌ `approved`, `Needs-Changes`, `needs_changes`
 
 **Test files:** snake_case with test_ prefix
-- âœ… `test_user_authentication.py`, `test_weather_cache.py`
-- âŒ `user_authentication_test.py`, `testWeatherCache.py`
+- ✓ `test_user_authentication.py`, `test_weather_cache.py`
+- ❌ `user_authentication_test.py`, `testWeatherCache.py`
 
 **Source files:** snake_case
-- âœ… `user_service.py`, `weather_cache.py`
-- âŒ `UserService.py`, `weatherCache.py`
+- ✓ `user_service.py`, `weather_cache.py`
+- ❌ `UserService.py`, `weatherCache.py`
 
 ## Quick Reference
 
 **"Where do I start?"**  
-â†’ Create VISION.md (foundation)
+→ Create VISION.md (foundation)
 
 **"Where do I put a new spec?"**  
-â†’ `specs/proposed/<feature>.md`
+→ `specs/proposed/<feature>.md`
 
 **"Who moves specs between states?"**  
-â†’ Spec Reviewer (proposed â†’ todo)  
-â†’ Skeleton Writer (todo â†’ doing, + creates branch)  
-â†’ Implementation Reviewer (doing â†’ done)
+→ Spec Reviewer (proposed → todo)  
+→ Skeleton Writer (todo → doing, + creates branch)  
+→ Implementation Reviewer (doing → done)
 
 **"Where do tests go?"**  
-â†’ `tests/unit/test_<feature>.py` (one file per feature preferred)
+→ `tests/unit/test_<feature>.py` (one file per feature preferred)
 
 **"Where do review files go?"**  
-â†’ `reviews/<type>/YYYY-MM-DDTHH-MM-SS-<feature>-<STATUS>.md`
+→ `reviews/<type>/YYYY-MM-DDTHH-MM-SS-<feature>-<STATUS>.md`
 
 **"What are the living docs?"**  
-â†’ SYSTEM_MAP.md, GUIDELINES.md
+→ SYSTEM_MAP.md, GUIDELINES.md
 
 **"When are living docs updated?"**  
-â†’ After feature merges (by Platform Lead)
+→ After feature merges (by Platform Lead)
 
 **"Can I modify a test to make it pass?"**  
-â†’ NO. Request test re-review instead.
+→ NO. Request test re-review instead.
 
 ---

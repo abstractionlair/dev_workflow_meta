@@ -36,9 +36,8 @@ This is an **autonomous role** - work independently from approved specs and skel
 
 **From standing docs:**
 - SYSTEM_MAP.md - Architecture for integration tests
-- GUIDELINES.md - Test organization conventions
-- GUIDELINES.md - Testing constraints
-- Past bug fixes documented in tests/regression/
+- GUIDELINES.md - Test organization conventions and constraints
+- Past bug fixes documented in tests/regression/ and bugs/fixed
 
 **From codebase:**
 - Existing test patterns (fixtures, mocks, helpers)
@@ -109,10 +108,10 @@ def test_register_user(user_repository):
 
 **Use real objects for internal collaborators:**
 ```python
-# âœ… Good: Mock external API
+# ✓ Good: Mock external API
 mock_api = Mock(spec=WeatherAPI)
 
-# âŒ Bad: Over-mocking internal objects
+# ❌ Bad: Over-mocking internal objects
 mock_item = Mock()  # Use real OrderItem instead
 ```
 
@@ -173,10 +172,10 @@ pytest tests/test_feature.py
 ```
 
 **Check failure reasons:**
-- NotImplementedError? âœ… Good
-- Missing imports? âŒ Fix skeleton
-- Wrong signature? âŒ Fix skeleton/spec
-- Tests pass? âŒ Test wrong or skeleton has implementation
+- NotImplementedError? ✓ Good
+- Missing imports? ❌ Fix skeleton
+- Wrong signature? ❌ Fix skeleton/spec
+- Tests pass? ❌ Test wrong or skeleton has implementation
 
 ### 10. Document Test Organization
 
@@ -232,11 +231,11 @@ def test_feature_edge_case(): ...
 ```python
 # Pattern: test_<method>_<scenario>_<expected>
 
-âœ… Good:
+✓ Good:
 def test_withdraw_with_sufficient_funds_decreases_balance()
 def test_withdraw_with_insufficient_funds_raises_error()
 
-âŒ Vague:
+❌ Vague:
 def test_withdraw()
 def test_error_case()
 ```
@@ -256,12 +255,12 @@ def test_deposit_increases_balance():
 
 **Test independence:**
 ```python
-# âœ… Each test creates own fixtures
+# ✓ Each test creates own fixtures
 def test_first():
     account = Account(balance=100)
     account.deposit(50)
 
-# âŒ Shared state
+# ❌ Shared state
 account = Account(balance=100)  # Module-level
 def test_deposit():
     account.deposit(50)  # Affects other tests
@@ -269,12 +268,12 @@ def test_deposit():
 
 **Test behavior, not implementation:**
 ```python
-# âœ… Good: Tests observable behavior
+# ✓ Good: Tests observable behavior
 def test_login_succeeds():
     result = user.login("alice", "password")
     assert result.is_authenticated is True
 
-# âŒ Bad: Tests implementation
+# ❌ Bad: Tests implementation
 def test_login_calls_bcrypt():
     with patch('bcrypt.hashpw'):
         # Couples to bcrypt implementation
@@ -282,11 +281,11 @@ def test_login_calls_bcrypt():
 
 ## Common Pitfalls
 
-**âŒ Missing edge cases** - Only testing happy path  
-**âŒ Shared state** - Tests affect each other  
-**âŒ Over-mocking** - Mocking internal objects  
-**âŒ Weak assertions** - `assert result` vs `assert result.value == 42`  
-**âŒ Tests passing** - No RED phase, something wrong
+**❌ Missing edge cases** - Only testing happy path  
+**❌ Shared state** - Tests affect each other  
+**❌ Over-mocking** - Mocking internal objects  
+**❌ Weak assertions** - `assert result` vs `assert result.value == 42`  
+**❌ Tests passing** - No RED phase, something wrong
 
 ## Examples
 
@@ -371,7 +370,7 @@ $ pytest tests/test_user_registration.py -v
 FAILED: test_register_valid_user_succeeds
 E   NotImplementedError: Implement UserService.register()
 
-âœ… Good - Failing for correct reason
+✓ Good - Failing for correct reason
 ```
 
 ## Critical Reminders
@@ -414,15 +413,15 @@ E   NotImplementedError: Implement UserService.register()
 
 **Workflow position:**
 ```
-skeleton-writer â†’ skeleton âœ“
-  â†“
-skeleton-reviewer â†’ APPROVED âœ“
-  â†“
-test-writer â†’ tests (RED) â¬… YOU ARE HERE
-  â†“
-test-reviewer â†’ APPROVED
-  â†“
-implementer â†’ make tests pass (GREEN)
+skeleton-writer → skeleton ✓
+  ↓
+skeleton-reviewer → APPROVED ✓
+  ↓
+test-writer → tests (RED) ⬅ YOU ARE HERE
+  ↓
+test-reviewer → APPROVED
+  ↓
+implementer → make tests pass (GREEN)
 ```
 
 You define specification-as-tests that implementer must satisfy.

@@ -86,7 +86,7 @@ Skeleton has: validate_email(email: str) -> tuple[bool, Optional[str]]
 # Spec says User has: email (str), id (Optional[int])
 # Invariant: email non-empty, id None before save
 
-âœ… Good skeleton:
+✓ Good skeleton:
 @dataclass
 class User:
     """
@@ -114,7 +114,7 @@ class User:
 ```python
 # Spec mentions: "Raises DuplicateEmailError if email exists"
 
-âœ… Good skeleton:
+✓ Good skeleton:
 class DuplicateEmailError(Exception):
     """Email already exists."""
     def __init__(self, email: str):
@@ -134,12 +134,12 @@ class DuplicateEmailError(Exception):
 
 **Red flags:**
 ```python
-âŒ Hard-coded: self.db = PostgresDB()
-âŒ Concrete: def __init__(self, repo: PostgresRepo)
-âŒ Instantiated: self.cache = RedisCache("localhost")
+❌ Hard-coded: self.db = PostgresDB()
+❌ Concrete: def __init__(self, repo: PostgresRepo)
+❌ Instantiated: self.cache = RedisCache("localhost")
 
-âœ… Injectable: def __init__(self, repo: UserRepository)
-âœ… Interface: repo: UserRepository (abstract base class)
+✓ Injectable: def __init__(self, repo: UserRepository)
+✓ Interface: repo: UserRepository (abstract base class)
 ```
 
 ### Step 6: Check Interface Abstractions
@@ -155,7 +155,7 @@ class DuplicateEmailError(Exception):
 ```python
 # Main class uses: repo.save(), repo.get_by_email()
 
-âœ… Good interface:
+✓ Good interface:
 class UserRepository(ABC):
     @abstractmethod
     def save(self, user: User) -> User: pass
@@ -206,14 +206,14 @@ def method(param: Type) -> ReturnType:
 
 **Violations:**
 ```python
-âŒ Has logic:
+❌ Has logic:
 def register(self, email: str) -> User:
-    if "@" not in email:  # âŒ Validation logic
+    if "@" not in email:  # ❌ Validation logic
         raise ValidationError("Invalid")
-    user = User(email=email)  # âŒ Implementation
+    user = User(email=email)  # ❌ Implementation
     return self.repo.save(user)
 
-âœ… Hollow:
+✓ Hollow:
 def register(self, email: str) -> User:
     """Register user. Raises: ValidationError"""
     raise NotImplementedError("Implement in TDD green")
@@ -232,11 +232,11 @@ def register(self, email: str) -> User:
 
 **Common issues:**
 ```python
-âŒ Missing: def process(data) -> ...
-âŒ Vague: def process(data: Any) -> Any
-âŒ Generic: def process(data: List) -> dict
+❌ Missing: def process(data) -> ...
+❌ Vague: def process(data: Any) -> Any
+❌ Generic: def process(data: List) -> dict
 
-âœ… Complete: def process(data: List[int]) -> Dict[str, int]
+✓ Complete: def process(data: List[int]) -> Dict[str, int]
 ```
 
 ### Step 10: Check Module Organization
@@ -287,7 +287,7 @@ Use structured format (see Outputs section).
 
 **Review document:** `reviews/skeletons/YYYY-MM-DDTHH-MM-SS-<feature>-<STATUS>.md`
 
-Where STATUS âˆˆ {APPROVED, NEEDS-CHANGES}
+Where STATUS ∈ {APPROVED, NEEDS-CHANGES}
 
 **Review template:**
 ```markdown
@@ -303,33 +303,33 @@ Where STATUS âˆˆ {APPROVED, NEEDS-CHANGES}
 [Overall assessment in 2-3 sentences]
 
 ## Contract Compliance
-- âœ…/âŒ All functions from spec present
-- âœ…/âŒ Signatures match spec exactly
-- âœ…/âŒ All data types defined
-- âœ…/âŒ All exceptions defined
+- ✓/❌ All functions from spec present
+- ✓/❌ Signatures match spec exactly
+- ✓/❌ All data types defined
+- ✓/❌ All exceptions defined
 
-## Testability Assessment âš ï¸ Critical
-- âœ…/âŒ Dependencies injectable (no hard-coding)
-- âœ…/âŒ Interfaces abstract (ABC + @abstractmethod)
-- âœ…/âŒ No concrete dependencies
-- âœ…/âŒ SOLID principles applied
+## Testability Assessment ⚠ Critical
+- ✓/❌ Dependencies injectable (no hard-coding)
+- ✓/❌ Interfaces abstract (ABC + @abstractmethod)
+- ✓/❌ No concrete dependencies
+- ✓/❌ SOLID principles applied
 
 ## Completeness
-- âœ…/âŒ All methods have docstrings
-- âœ…/âŒ All types have hints (no Any)
-- âœ…/âŒ All exceptions created
-- âœ…/âŒ Module docstrings present
+- ✓/❌ All methods have docstrings
+- ✓/❌ All types have hints (no Any)
+- ✓/❌ All exceptions created
+- ✓/❌ Module docstrings present
 
 ## Hollowness Verification
-- âœ…/âŒ No business logic
-- âœ…/âŒ All methods raise NotImplementedError
-- âœ…/âŒ No database/file/network operations
+- ✓/❌ No business logic
+- ✓/❌ All methods raise NotImplementedError
+- ✓/❌ No database/file/network operations
 
 ## Quality Checks
-- âœ…/âŒ Linter passes
-- âœ…/âŒ Type checker passes
-- âœ…/âŒ Imports valid
-- âœ…/âŒ Code follows GUIDELINES.md
+- ✓/❌ Linter passes
+- ✓/❌ Type checker passes
+- ✓/❌ Imports valid
+- ✓/❌ Code follows GUIDELINES.md
 
 ## Critical Issues (if NEEDS-CHANGES)
 
@@ -448,19 +448,19 @@ Skeleton accurately reflects spec, properly typed, fully testable.
 All quality checks pass. Ready for test writer.
 
 ## Contract Compliance
-- âœ… validate_email() present with correct signature
-- âœ… Return type tuple[bool, Optional[str]] matches spec
-- âœ… TypeError exception documented
+- ✓ validate_email() present with correct signature
+- ✓ Return type tuple[bool, Optional[str]] matches spec
+- ✓ TypeError exception documented
 
 ## Testability Assessment
-- âœ… No dependencies (pure function)
-- âœ… Type hints complete
-- âœ… Ready for unit tests
+- ✓ No dependencies (pure function)
+- ✓ Type hints complete
+- ✓ Ready for unit tests
 
 ## Quality Checks
-- âœ… mypy passes
-- âœ… ruff passes
-- âœ… Import successful
+- ✓ mypy passes
+- ✓ ruff passes
+- ✓ Import successful
 
 ## Decision
 APPROVED - Ready for test-writer.
@@ -562,19 +562,19 @@ Goal: Ensure skeleton enables TDD, not achieve perfection.
 
 **Workflow position:**
 ```
-spec-writer â†’ SPEC âœ“
-  â†“
-spec-reviewer â†’ APPROVED âœ“
-  â†“
-skeleton-writer â†’ skeleton code
-  â†“
-skeleton-reviewer â†’ APPROVED â¬… YOU ARE HERE
-  â†“
+spec-writer → SPEC ✓
+  ↓
+spec-reviewer → APPROVED ✓
+  ↓
+skeleton-writer → skeleton code
+  ↓
+skeleton-reviewer → APPROVED ⬅ YOU ARE HERE
+  ↓
 [skeleton-writer creates feature branch, moves spec to doing/]
-  â†“
-test-writer â†’ tests (TDD RED)
-  â†“
-implementer â†’ implementation (TDD GREEN)
+  ↓
+test-writer → tests (TDD RED)
+  ↓
+implementer → implementation (TDD GREEN)
 ```
 
 Your approval is the gate before active development begins.

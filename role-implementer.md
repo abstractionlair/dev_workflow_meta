@@ -146,11 +146,11 @@ def validate_email(email: str) -> tuple[bool, Optional[str]]:
 
 **Example:**
 ```python
-# âŒ Don't create your own
+# ❌ Don't create your own
 def hash_password(password: str) -> str:
     return hashlib.sha256(password.encode()).hexdigest()
 
-# âœ… Use project standard (from GUIDELINES.md)
+# ✓ Use project standard (from GUIDELINES.md)
 from src.utils.security import hash_password
 ```
 
@@ -188,14 +188,14 @@ class UserService:
 
 **Example rules:**
 ```
-âŒ Don't: Direct database imports in service layer
-âœ… Do: Use repository interfaces
+❌ Don't: Direct database imports in service layer
+✓ Do: Use repository interfaces
 
-âŒ Don't: Global state or singletons
-âœ… Do: Pass dependencies explicitly
+❌ Don't: Global state or singletons
+✓ Do: Pass dependencies explicitly
 
-âŒ Don't: Import from ../../../deep/path
-âœ… Do: Use proper package imports
+❌ Don't: Import from ../../../deep/path
+✓ Do: Use proper package imports
 ```
 
 ### 8. Test Continuously
@@ -216,8 +216,8 @@ pytest tests/ -v
 1. Read test failure message carefully
 2. Check if implementation matches test expectation
 3. Verify test is correct (review test-reviewer approval)
-4. If test is wrong â†’ flag for test re-review
-5. If implementation wrong â†’ fix it
+4. If test is wrong → flag for test re-review
+5. If implementation wrong → fix it
 
 ### 9. Handle Test Conflicts
 
@@ -291,13 +291,13 @@ git commit -m "feat: implement user registration validation
 
 **Make minimal changes to pass tests:**
 ```python
-# âœ… Good: Implements exactly what test requires
+# ✓ Good: Implements exactly what test requires
 def withdraw(self, amount: float) -> None:
     if amount > self.balance:
         raise InsufficientFundsError()
     self.balance -= amount
 
-# âŒ Over-engineered: Adds features not in tests
+# ❌ Over-engineered: Adds features not in tests
 def withdraw(self, amount: float, fee_calculator: FeeCalculator = None) -> Transaction:
     # Fee calculation not in tests
     # Transaction return not in tests
@@ -306,11 +306,11 @@ def withdraw(self, amount: float, fee_calculator: FeeCalculator = None) -> Trans
 
 **Keep implementation simple:**
 ```python
-# âœ… Good: Clear and direct
+# ✓ Good: Clear and direct
 def calculate_total(items: List[Item]) -> float:
     return sum(item.price for item in items)
 
-# âŒ Unnecessarily complex
+# ❌ Unnecessarily complex
 def calculate_total(items: List[Item]) -> float:
     total = 0.0
     for i in range(len(items)):
@@ -328,12 +328,12 @@ def calculate_total(items: List[Item]) -> float:
 
 **Use good names:**
 ```python
-# âœ… Good: Clear intent
+# ✓ Good: Clear intent
 def send_welcome_email(user: User) -> None:
     template = self.templates.get("welcome")
     self.mailer.send(user.email, template.render(user=user))
 
-# âŒ Bad: Unclear
+# ❌ Bad: Unclear
 def process(u):
     t = self.templates.get("welcome")
     self.m.send(u.e, t.render(user=u))
@@ -341,27 +341,27 @@ def process(u):
 
 ## Common Pitfalls
 
-**âŒ Modifying tests to make them pass**
+**❌ Modifying tests to make them pass**
 - Tests are the contract
 - If test seems wrong, flag for review
 - Don't change tests without approval
 
-**âŒ Over-engineering**
+**❌ Over-engineering**
 - Add only what tests require
 - YAGNI (You Aren't Gonna Need It)
 - Simple solutions first
 
-**âŒ Ignoring architectural rules**
+**❌ Ignoring architectural rules**
 - Check GUIDELINES.md before deviating
 - Follow established patterns
 - Ask before violating constraints
 
-**âŒ Not running tests frequently**
+**❌ Not running tests frequently**
 - Run after each small change
 - Catch breaks immediately
 - Faster feedback loop
 
-**âŒ Premature optimization**
+**❌ Premature optimization**
 - Make it work (GREEN)
 - Make it right (REFACTOR)
 - Make it fast (only if needed)
@@ -386,7 +386,7 @@ def calculate_discount(self, price: float, is_premium: bool) -> float:
     return 0.0
 ```
 
-**Tests pass? âœ… Done.**
+**Tests pass? ✓ Done.**
 
 ### Example 2: With Dependencies
 
@@ -448,13 +448,13 @@ def register(self, email: str, password: str) -> User:
 
 **Situation:** Test expects `ValueError` but spec says `ValidationError`.
 
-**âŒ Wrong approach:**
+**❌ Wrong approach:**
 ```python
 # Don't modify test to match your implementation!
 # Don't change ValidationError to ValueError!
 ```
 
-**âœ… Correct approach:**
+**✓ Correct approach:**
 ```markdown
 ## Test Issue: Exception Type Mismatch
 
@@ -572,9 +572,9 @@ When fixing bugs (instead of implementing features from specs), use this lighter
    **Sentinel test:** tests/regression/test_validation_empty_email.py
    
    **Verification:**
-   - Sentinel test fails on old code âœ“
-   - Sentinel test passes on new code âœ“
-   - All other tests still pass âœ“
+   - Sentinel test fails on old code ✓
+   - Sentinel test passes on new code ✓
+   - All other tests still pass ✓
    ```
 
 9. **Update GUIDELINES.md (if bug reveals pattern)**
@@ -584,19 +584,19 @@ When fixing bugs (instead of implementing features from specs), use this lighter
    ## Validation Patterns
    
    ### Validate Empty/Null First
-   âœ… Check for empty/null before format validation
-   âŒ Don't check format on potentially empty input
+   ✓ Check for empty/null before format validation
+   ❌ Don't check format on potentially empty input
    
    Example:
    \```python
-   # âœ… Good: Check empty first
+   # ✓ Good: Check empty first
    def validate_email(email: str) -> tuple[bool, Optional[str]]:
        if not email:  # Empty check first
            return (False, "Email cannot be empty")
        if "@" not in email:
            return (False, "Invalid email format")
    
-   # âŒ Bad: Format check on empty input
+   # ❌ Bad: Format check on empty input
    def validate_email(email: str) -> tuple[bool, Optional[str]]:
        if "@" not in email:  # Crashes on empty!
            return (False, "Invalid email format")
@@ -693,14 +693,14 @@ When fixing bugs (instead of implementing features from specs), use this lighter
 
 **Workflow position:**
 ```
-test-writer â†’ tests (RED) âœ“
-  â†“
-test-reviewer â†’ APPROVED âœ“
-  â†“
-implementer â†’ make tests pass (GREEN) â¬… YOU ARE HERE
-  â†“
-implementation-reviewer â†’ APPROVED
-  â†“
+test-writer → tests (RED) ✓
+  ↓
+test-reviewer → APPROVED ✓
+  ↓
+implementer → make tests pass (GREEN) ⬅ YOU ARE HERE
+  ↓
+implementation-reviewer → APPROVED
+  ↓
 merge to main
 ```
 

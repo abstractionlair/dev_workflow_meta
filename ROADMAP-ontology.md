@@ -214,10 +214,10 @@ Each feature entry follows this exact structure:
 - **Focus:** What feature IS, not why or how
 - **Length:** 1-2 sentences maximum
 - **Examples:**
-  - Ã¢Å“â€¦ "Analyzes Python code to automatically detect relationships between specs, tests, and implementation files"
-  - Ã¢Å“â€¦ "CLI command that finds all code/test files linked to a given specification"
-  - Ã¢ÂÅ’ "Static analysis" (too vague)
-  - Ã¢ÂÅ’ "Uses AST parsing to scan Python files and build dependency graph with caching..." (too detailed)
+  - ✓ "Analyzes Python code to automatically detect relationships between specs, tests, and implementation files"
+  - ✓ "CLI command that finds all code/test files linked to a given specification"
+  - ✗ "Static analysis" (too vague)
+  - ✗ "Uses AST parsing to scan Python files and build dependency graph with caching..." (too detailed)
 
 #### Why now (REQUIRED)
 - **Content:** Rationale for sequencing this feature in this phase
@@ -398,19 +398,19 @@ Each feature entry follows this exact structure:
 **Format:** Bulleted list
 **Example:**
 ```
-- Phase 1 technical approach fails Ã¢â€ â€™ Months wasted
-- Early features don't resonate Ã¢â€ â€™ Wrong problem being solved
-- Dependencies block progress Ã¢â€ â€™ Timeline extends
+- Phase 1 technical approach fails → Months wasted
+- Early features don't resonate → Wrong problem being solved
+- Dependencies block progress → Timeline extends
 ```
 
 ### 6.3 Mitigation Plans
 **Content:** How to handle if assumptions are wrong
-**Format:** Assumption Ã¢â€ â€™ Mitigation pairs
+**Format:** Assumption → Mitigation pairs
 **Example:**
 ```
-- If static analysis <85% accurate Ã¢â€ â€™ Add manual linking support
-- If users don't adopt specs Ã¢â€ â€™ Pivot to different workflow
-- If development pace <20hr/wk Ã¢â€ â€™ Reduce scope or extend timeline
+- If static analysis <85% accurate → Add manual linking support
+- If users don't adopt specs → Pivot to different workflow
+- If development pace <20hr/wk → Reduce scope or extend timeline
 ```
 
 ---
@@ -524,7 +524,7 @@ Each feature entry follows this exact structure:
 9. Flexibility and Change
 10. Document Control
 
-**Rationale:** Top-down structure (strategy Ã¢â€ â€™ tactics Ã¢â€ â€™ governance)
+**Rationale:** Top-down structure (strategy → tactics → governance)
 
 ---
 
@@ -614,12 +614,12 @@ Each feature entry follows this exact structure:
 ### spec-writer Consumption
 
 **Reads from ROADMAP.md:**
-- Feature name Ã¢â€ â€™ SPEC title
-- Feature description Ã¢â€ â€™ SPEC overview foundation
-- Why now Ã¢â€ â€™ SPEC rationale context
-- Delivers Ã¢â€ â€™ SPEC value proposition
-- Depends on Ã¢â€ â€™ SPEC dependencies section
-- Effort Ã¢â€ â€™ SPEC complexity estimate
+- Feature name → SPEC title
+- Feature description → SPEC overview foundation
+- Why now → SPEC rationale context
+- Delivers → SPEC value proposition
+- Depends on → SPEC dependencies section
+- Effort → SPEC complexity estimate
 
 **Critical:** All 6 fields must be present for spec-writer to function
 

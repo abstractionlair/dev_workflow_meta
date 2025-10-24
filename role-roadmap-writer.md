@@ -202,19 +202,19 @@ Sequence features to deliver user value as soon as possible.
 - Spec creation/editing (core workflow)
 - Basic validation (quality gate)
 - File storage (persistence)
-â†’ Users can manage specs end-to-end
+→ Users can manage specs end-to-end
 
 **Phase 2 (Enhanced MVP):**
 - Link detection (value multiplier)
 - Cross-reference navigation (usability)
 - Status reporting (visibility)
-â†’ Users get connected context benefits
+→ Users get connected context benefits
 
 **Phase 3 (Scale):**
 - Import existing docs (migration)
 - Export/sharing (collaboration)
 - Advanced validation (quality)
-â†’ Users can adopt at scale
+→ Users can adopt at scale
 
 ### Step 5: Define Phases
 
@@ -264,17 +264,17 @@ Extract timeline milestones (e.g., 6 months, 1 year, 3 years)
 
 **Map phases to milestones:**
 
-**6-month milestone â†’ Phase 1 (MVP)**
+**6-month milestone → Phase 1 (MVP)**
 - Core value delivered
 - Riskiest assumptions validated
 - User-testable product
 
-**1-year milestone â†’ Phase 2 (Enhanced MVP)**
+**1-year milestone → Phase 2 (Enhanced MVP)**
 - Production-ready
 - Top user feedback addressed
 - Market-ready if commercial
 
-**3-year milestone â†’ Phases 3+ (Growth)**
+**3-year milestone → Phases 3+ (Growth)**
 - Platform maturity
 - Ecosystem development
 - Market leadership
@@ -433,7 +433,7 @@ Create the complete ROADMAP.md file following the structure defined in **ROADMAP
 
 ## Common Roadmap Patterns
 
-### Pattern 1: Foundation â†’ MVP â†’ Enhance â†’ Scale
+### Pattern 1: Foundation → MVP → Enhance → Scale
 
 **Structure:**
 - Phase 0: Core infrastructure (10-15%)
@@ -443,7 +443,7 @@ Create the complete ROADMAP.md file following the structure defined in **ROADMAP
 
 **When to use:** Standard approach for most projects
 
-### Pattern 2: Spike â†’ Build â†’ Polish â†’ Expand
+### Pattern 2: Spike → Build → Polish → Expand
 
 **Structure:**
 - Phase 1: Technical spike on risky approach
@@ -453,7 +453,7 @@ Create the complete ROADMAP.md file following the structure defined in **ROADMAP
 
 **When to use:** High technical uncertainty
 
-### Pattern 3: Slice â†’ Expand â†’ Integrate â†’ Optimize
+### Pattern 3: Slice → Expand → Integrate → Optimize
 
 **Structure:**
 - Phase 1: Complete vertical slice for one use case
@@ -473,28 +473,28 @@ When deciding feature order, use this framework:
 For each feature, ask:
 
 1. Does it have hard dependencies?
-   YES â†’ Must sequence after dependency
-   NO â†’ Continue to #2
+   YES → Must sequence after dependency
+   NO → Continue to #2
 
 2. Does it validate a critical assumption?
-   YES â†’ HIGH PRIORITY (Phase 1)
-   NO â†’ Continue to #3
+   YES → HIGH PRIORITY (Phase 1)
+   NO → Continue to #3
 
 3. Is it part of core value proposition?
-   YES â†’ Phase 1
-   NO â†’ Continue to #4
+   YES → Phase 1
+   NO → Continue to #4
 
 4. Does it complete a user journey?
-   YES â†’ Include with journey features
-   NO â†’ Continue to #5
+   YES → Include with journey features
+   NO → Continue to #5
 
 5. Is it polish or optimization?
-   YES â†’ Phase 3+
-   NO â†’ Phase 2
+   YES → Phase 3+
+   NO → Phase 2
 
 6. Is it explicitly future scope?
-   YES â†’ Phase 3+
-   NO â†’ Determine based on value/risk
+   YES → Phase 3+
+   NO → Determine based on value/risk
 ```
 
 ### Tie-Breaker Criteria

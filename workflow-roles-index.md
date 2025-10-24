@@ -86,59 +86,59 @@ Coding roles are workflow-focused, assuming LLMs know how to code/test/review.
 **Reviewers** - Validate quality and completeness  
 **Helpers** - Guide through Socratic conversation  
 **Gatekeepers** - Control artifact state transitions:
-- Spec Reviewer: `proposed/` â†’ `todo/`
-- Skeleton Writer: `todo/` â†’ `doing/` (+ creates feature branch)
-- Implementation Reviewer: `doing/` â†’ `done/`
+- Spec Reviewer: `proposed/` → `todo/`
+- Skeleton Writer: `todo/` → `doing/` (+ creates feature branch)
+- Implementation Reviewer: `doing/` → `done/`
 
 ## Complete Workflow Sequence
 
 ### Phase 1: Foundation (Pre-Workflow)
 ```
-Vision Writer + Human â†’ VISION.md
-  â†“
-Vision Reviewer â†’ APPROVED
+Vision Writer + Human → VISION.md
+  ↓
+Vision Reviewer → APPROVED
 ```
 
 ### Phase 2: Planning
 ```
-Scope Writer + Human â†’ SCOPE.md
-  â†“
-Scope Reviewer â†’ APPROVED
-  â†“
-Roadmap Writer + Human â†’ ROADMAP.md
-  â†“
-Roadmap Reviewer â†’ APPROVED
+Scope Writer + Human → SCOPE.md
+  ↓
+Scope Reviewer → APPROVED
+  ↓
+Roadmap Writer + Human → ROADMAP.md
+  ↓
+Roadmap Reviewer → APPROVED
 ```
 
 ### Phase 3: Specification (Per Feature)
 ```
-Spec Writer + Human â†’ specs/proposed/<feature>.md
-  â†“
-Spec Reviewer â†’ APPROVED â†’ moves to specs/todo/
+Spec Writer + Human → specs/proposed/<feature>.md
+  ↓
+Spec Reviewer → APPROVED → moves to specs/todo/
 ```
 
 ### Phase 4: Interface Definition
 ```
-Skeleton Writer â†’ creates code interfaces
-  â†“
-Skeleton Reviewer â†’ APPROVED
-  â†“
-Skeleton Writer â†’ creates feature branch + moves spec to specs/doing/
+Skeleton Writer → creates code interfaces
+  ↓
+Skeleton Reviewer → APPROVED
+  ↓
+Skeleton Writer → creates feature branch + moves spec to specs/doing/
 ```
 
 ### Phase 5: Test-Driven Development (TDD)
 ```
-Test Writer â†’ writes failing tests (RED)
-  â†“
-Test Reviewer â†’ APPROVED
-  â†“
-Implementer â†’ makes tests pass (GREEN)
-  â†“
-Implementation Reviewer â†’ APPROVED â†’ moves spec to specs/done/
-  â†“
-Merge to main â†’ Feature complete!
-  â†“
-Platform Lead â†’ updates living docs
+Test Writer → writes failing tests (RED)
+  ↓
+Test Reviewer → APPROVED
+  ↓
+Implementer → makes tests pass (GREEN)
+  ↓
+Implementation Reviewer → APPROVED → moves spec to specs/done/
+  ↓
+Merge to main → Feature complete!
+  ↓
+Platform Lead → updates living docs
 ```
 
 ## Spec State Transitions
@@ -147,11 +147,11 @@ Specifications move through four states as work progresses:
 
 ```
 specs/proposed/    [Spec Reviewer approves]
-  â†“
+  ↓
 specs/todo/       [Skeleton approved, branch created]
-  â†“
+  ↓
 specs/doing/      [Implementation complete, tests pass]
-  â†“
+  ↓
 specs/done/       [Merged to main]
 ```
 
@@ -261,11 +261,11 @@ Use seconds precision to avoid collisions.
 ### Directory Structure
 ```
 reviews/
-â”œâ”€â”€ planning/           # Vision, Scope, Roadmap reviews
-â”œâ”€â”€ specs/             # Spec Reviewer outputs
-â”œâ”€â”€ skeletons/         # Skeleton Reviewer outputs
-â”œâ”€â”€ tests/             # Test Reviewer outputs
-â””â”€â”€ implementations/   # Implementation Reviewer outputs
+├── planning/           # Vision, Scope, Roadmap reviews
+├── specs/             # Spec Reviewer outputs
+├── skeletons/         # Skeleton Reviewer outputs
+├── tests/             # Test Reviewer outputs
+└── implementations/   # Implementation Reviewer outputs
 ```
 
 ### Status Meanings
@@ -381,7 +381,7 @@ bugs:
 
 Helper roles facilitate planning phases through Socratic conversation:
 
-**Pattern:** Ask questions â†’ Explore thinking â†’ Guide decisions â†’ Call writer role
+**Pattern:** Ask questions → Explore thinking → Guide decisions → Call writer role
 
 **Vision Writing Helper:**
 - Helps articulate why project exists
@@ -416,39 +416,39 @@ Helpers are optional but useful for:
 ## Quick Reference
 
 **"Where do I start?"**  
-â†’ Create VISION.md using Vision Writer (or Vision Writing Helper)
+→ Create VISION.md using Vision Writer (or Vision Writing Helper)
 
 **"How do I define what's in scope?"**  
-â†’ Use Scope Writer (or Scope Writing Helper) after vision complete
+→ Use Scope Writer (or Scope Writing Helper) after vision complete
 
 **"How do I plan feature order?"**  
-â†’ Use Roadmap Writer (or Roadmap Writing Helper) after scope complete
+→ Use Roadmap Writer (or Roadmap Writing Helper) after scope complete
 
 **"Where do I create a new spec?"**  
-â†’ `specs/proposed/<feature>.md` using Spec Writer
+→ `specs/proposed/<feature>.md` using Spec Writer
 
 **"Who moves specs between states?"**  
-â†’ Spec Reviewer: `proposed/` â†’ `todo/`  
-â†’ Skeleton Writer: `todo/` â†’ `doing/` (+ creates branch)  
-â†’ Implementation Reviewer: `doing/` â†’ `done/`
+→ Spec Reviewer: `proposed/` → `todo/`  
+→ Skeleton Writer: `todo/` → `doing/` (+ creates branch)  
+→ Implementation Reviewer: `doing/` → `done/`
 
 **"When do I create a feature branch?"**  
-â†’ Skeleton Writer creates it after skeleton approval
+→ Skeleton Writer creates it after skeleton approval
 
 **"Can I change a test to make it pass?"**  
-â†’ **NO.** Request test re-review instead.
+→ **NO.** Request test re-review instead.
 
 **"What if multiple people write tests?"**  
-â†’ Use inline attribution comments in single file
+→ Use inline attribution comments in single file
 
 **"How do I name review files?"**  
-â†’ `YYYY-MM-DDTHH-MM-SS-<feature>-<STATUS>.md`
+→ `YYYY-MM-DDTHH-MM-SS-<feature>-<STATUS>.md`
 
 **"What are the living docs?"**  
-â†’ SYSTEM_MAP.md, GUIDELINES.md
+→ SYSTEM_MAP.md, GUIDELINES.md
 
 **"Who updates living docs?"**  
-â†’ Platform Lead (continuously)
+→ Platform Lead (continuously)
 
 ## Workflow Philosophy
 
@@ -470,19 +470,19 @@ This workflow is designed to:
 - **Living documentation** - Docs that evolve with code
 - **Architecture Decision Records** - Persistent memory of decisions
 - **Formal methods** - Contracts and specifications
-- **Separation of concerns** - Writers â‰  Reviewers
+- **Separation of concerns** - Writers ≠ Reviewers
 
 ### Workflow Adaptability
 
 The workflow is designed to be adopted incrementally:
 
 **Minimal adoption:**
-- Spec Writer â†’ Tests â†’ Implementation
+- Spec Writer → Tests → Implementation
 - Skip helpers if requirements clear
 - Minimal reviews for low-risk features
 
 **Full adoption:**
-- Complete planning phase (Vision â†’ Scope â†’ Roadmap)
+- Complete planning phase (Vision → Scope → Roadmap)
 - All review gates
 - Helper roles for complex decisions
 - Living docs maintained continuously

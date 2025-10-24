@@ -186,9 +186,9 @@ class Service:
 - Try importing the skeleton
 
 **If issues found:**
-- Fixable (naming, style) â†’ Fix
-- Spec problem (missing types) â†’ Flag for spec revision
-- Architecture issue â†’ Escalate
+- Fixable (naming, style) → Fix
+- Spec problem (missing types) → Flag for spec revision
+- Architecture issue → Escalate
 
 ### 6. Handle Spec Gaps
 
@@ -267,10 +267,10 @@ This marks transition from "approved design" to "active development."
 
 **Be specific in NotImplementedError:**
 ```python
-# âŒ Vague
+# ❌ Vague
 raise NotImplementedError()
 
-# âœ… Specific
+# ✓ Specific
 raise NotImplementedError(
     "validate_email() requires implementation. "
     "See spec: specs/doing/email-validation.md"
@@ -297,14 +297,14 @@ raise NotImplementedError(
 
 ## Common Pitfalls
 
-**âŒ Including implementation logic**
+**❌ Including implementation logic**
 ```python
 def save(self, user):
-    conn = psycopg2.connect(...)  # âŒ Implementation
-    cursor.execute("INSERT...")    # âŒ Logic
+    conn = psycopg2.connect(...)  # ❌ Implementation
+    cursor.execute("INSERT...")    # ❌ Logic
 ```
 
-**âœ… Contract only**
+**✓ Contract only**
 ```python
 @abstractmethod
 def save(self, user: User) -> User:
@@ -312,26 +312,26 @@ def save(self, user: User) -> User:
     pass
 ```
 
-**âŒ Hard-coded dependencies**
+**❌ Hard-coded dependencies**
 ```python
 def __init__(self):
-    self.db = PostgresDB()  # âŒ Can't test
+    self.db = PostgresDB()  # ❌ Can't test
 ```
 
-**âœ… Injectable dependencies**
+**✓ Injectable dependencies**
 ```python
-def __init__(self, db: Database):  # âœ“ Interface
+def __init__(self, db: Database):  # ✓ Interface
     self.db = db
 ```
 
-**âŒ Vague docstrings**
+**❌ Vague docstrings**
 ```python
 def process(data):
-    """Does the thing."""  # âŒ Unhelpful
+    """Does the thing."""  # ❌ Unhelpful
     pass
 ```
 
-**âœ… Complete documentation**
+**✓ Complete documentation**
 ```python
 def process(data: List[int]) -> Result:
     """
@@ -618,13 +618,13 @@ Goal: Make design concrete and catch issues, not create busy work.
 
 **Workflow position:**
 ```
-SPEC (approved) â†’ skeleton-writer â†’ skeleton files 
-                                   â†“
+SPEC (approved) → skeleton-writer → skeleton files 
+                                   ↓
                       feature branch created
-                                   â†“
+                                   ↓
                   spec moved to doing/
-                                   â†“
-               â†’ test-writer (RED) â†’ implementer (GREEN)
+                                   ↓
+               → test-writer (RED) → implementer (GREEN)
 ```
 
 The skeleton phase marks the transition from design to active development.

@@ -132,14 +132,14 @@ Each feature MUST have ALL 6 fields:
 **Common issues:**
 
 **Missing Description:**
-âŒ Bad:
+❌ Bad:
 ```
 1. **User Authentication**
    - **Why now:** Foundation feature
    - **Delivers:** User accounts
 ```
 
-âœ… Good:
+✓ Good:
 ```
 1. **User Authentication**
    - **Description:** Email/password login with session management
@@ -152,11 +152,11 @@ Each feature MUST have ALL 6 fields:
 
 **Description quality check:**
 
-âŒ Vague: "API work" or "Backend stuff"
-âœ… Clear: "REST API endpoints for user CRUD operations"
+❌ Vague: "API work" or "Backend stuff"
+✓ Clear: "REST API endpoints for user CRUD operations"
 
-âŒ Too detailed: "Uses Express.js with JWT middleware and PostgreSQL connection pooling..."
-âœ… Right level: "User authentication API with token-based sessions"
+❌ Too detailed: "Uses Express.js with JWT middleware and PostgreSQL connection pooling..."
+✓ Right level: "User authentication API with token-based sessions"
 
 ### Step 4: Check Phase Structure
 
@@ -171,13 +171,13 @@ For each phase:
 
 **Phase goals check:**
 
-âŒ Vague: "Build core features"
-âœ… Clear: "Validate that static analysis can reliably detect spec/test/code relationships"
+❌ Vague: "Build core features"
+✓ Clear: "Validate that static analysis can reliably detect spec/test/code relationships"
 
 **Success criteria check:**
 
-âŒ Unmeasurable: "Phase 1 complete when done"
-âœ… Measurable:
+❌ Unmeasurable: "Phase 1 complete when done"
+✓ Measurable:
 - Can detect spec references (>90% accuracy)
 - Build relationship graph for 1000-file codebase in <5 seconds
 - Links are validated correctly
@@ -191,7 +191,7 @@ For each phase:
 
 **Check dependency order:**
 
-- [ ] No circular dependencies (Aâ†’Bâ†’Câ†’A)
+- [ ] No circular dependencies (A→B→C→A)
 - [ ] Foundation features first
 - [ ] Features build on predecessors
 - [ ] Dependencies explicitly mapped
@@ -199,8 +199,8 @@ For each phase:
 **Example dependency check:**
 
 If Feature 5 depends on Feature 3:
-- âœ… Feature 3 is in earlier phase or same phase before Feature 5
-- âŒ Feature 3 is in later phase or after Feature 5
+- ✓ Feature 3 is in earlier phase or same phase before Feature 5
+- ❌ Feature 3 is in later phase or after Feature 5
 
 **Check derisking strategy:**
 
@@ -209,12 +209,12 @@ If Feature 5 depends on Feature 3:
 - [ ] Learning dependencies clear
 
 **Good derisking:**
-âœ… Phase 1: Static analysis (highest risk - validate first)
-âœ… Phase 2: Spec management (builds on proven Phase 1)
+✓ Phase 1: Static analysis (highest risk - validate first)
+✓ Phase 2: Spec management (builds on proven Phase 1)
 
 **Bad derisking:**
-âŒ Phase 1: UI polish (low risk)
-âŒ Phase 2: Core algorithm (high risk - too late!)
+❌ Phase 1: UI polish (low risk)
+❌ Phase 2: Core algorithm (high risk - too late!)
 
 ### Step 6: Verify Feature Coverage
 
@@ -244,19 +244,19 @@ From SCOPE.md "In Scope - MVP", list all features:
 
 **Technical dependency check:**
 
-âœ… Good:
+✓ Good:
 - User Dashboard requires User Authentication (must build auth first)
 - File Upload requires Storage Configuration (storage must exist)
 
-âŒ Missing:
+❌ Missing:
 [No technical dependencies listed but features clearly depend on each other]
 
 **Learning dependency check:**
 
-âœ… Good:
+✓ Good:
 - Collaborative Editing depends on validating "Users work in teams" assumption from Phase 1
 
-âŒ Missing:
+❌ Missing:
 [Phase 2 assumes Phase 1 validated approach but doesn't state this]
 
 ### Step 8: Verify Alignment
@@ -293,11 +293,11 @@ Fix: Copy exact text from VISION.md
 - [ ] For each major assumption, mitigation stated
 - [ ] Pivot strategies clear
 
-âœ… Good mitigation:
+✓ Good mitigation:
 Assumption: Static analysis achieves >85% accuracy
-Mitigation: If <85% â†’ Add manual linking support as fallback
+Mitigation: If <85% → Add manual linking support as fallback
 
-âŒ Missing mitigation:
+❌ Missing mitigation:
 Assumption: Static analysis works
 [No plan if it doesn't]
 
@@ -333,44 +333,44 @@ Create structured review document with decision.
 [Overall assessment - sequencing logic, completeness, alignment]
 
 ## Ontology Compliance
-- âœ…/âŒ All required sections present
-- âœ…/âŒ Feature entries complete (6 fields each)
-- âœ…/âŒ Phase structure correct
+- ✓/❌ All required sections present
+- ✓/❌ Feature entries complete (6 fields each)
+- ✓/❌ Phase structure correct
 
-## Feature Entry Compliance âš ï¸ CRITICAL
-- âœ…/âŒ All features have Description field
-- âœ…/âŒ All features have Why now
-- âœ…/âŒ All features have Delivers
-- âœ…/âŒ All features have Derisks
-- âœ…/âŒ All features have Depends on
-- âœ…/âŒ All features have Effort
+## Feature Entry Compliance ⚠ CRITICAL
+- ✓/❌ All features have Description field
+- ✓/❌ All features have Why now
+- ✓/❌ All features have Delivers
+- ✓/❌ All features have Derisks
+- ✓/❌ All features have Depends on
+- ✓/❌ All features have Effort
 
 **Features missing fields:** [List them]
 
 ## Sequencing Logic
-- âœ…/âŒ No circular dependencies
-- âœ…/âŒ Dependencies respected
-- âœ…/âŒ Derisking strategy clear
-- âœ…/âŒ Value delivery incremental
+- ✓/❌ No circular dependencies
+- ✓/❌ Dependencies respected
+- ✓/❌ Derisking strategy clear
+- ✓/❌ Value delivery incremental
 
 ## Feature Coverage
-- âœ…/âŒ All SCOPE MVP features included
-- âœ…/âŒ No out-of-scope features
-- âœ…/âŒ Future phases match SCOPE
+- ✓/❌ All SCOPE MVP features included
+- ✓/❌ No out-of-scope features
+- ✓/❌ Future phases match SCOPE
 
 **Missing SCOPE features:** [List them]
 **Extra features not in SCOPE:** [List them]
 
 ## Alignment Check
-- âœ…/âŒ Vision statement matches VISION.md
-- âœ…/âŒ Scope summary matches SCOPE.md
-- âœ…/âŒ Success criteria referenced
+- ✓/❌ Vision statement matches VISION.md
+- ✓/❌ Scope summary matches SCOPE.md
+- ✓/❌ Success criteria referenced
 
 ## Phase Quality
-- âœ…/âŒ Phase goals clear
-- âœ…/âŒ Phase sizes reasonable (3-7 features)
-- âœ…/âŒ Success criteria measurable
-- âœ…/âŒ Validation checkpoints defined
+- ✓/❌ Phase goals clear
+- ✓/❌ Phase sizes reasonable (3-7 features)
+- ✓/❌ Success criteria measurable
+- ✓/❌ Validation checkpoints defined
 
 ## Critical Issues (if NEEDS-CHANGES)
 1. **[Issue Title]**

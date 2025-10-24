@@ -116,7 +116,6 @@ project/
 ├── ROADMAP.md             # Feature sequence
 ├── SYSTEM_MAP.md          # Architecture reference
 ├── GUIDELINES.md          # Coding conventions
-├── RULES.md               # Architectural constraints
 ├── bugs/                  # Bug reports and status
 │   ├── to_fix/
 │   ├── fixing/

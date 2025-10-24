@@ -300,36 +300,36 @@ result = obj.method_name(arg)
 ## Acceptance Criteria
 
 ### Happy Path
-1. Ã¢Å“â€œ [Observable criterion that can be verified by test]
-2. Ã¢Å“â€œ [Another criterion for normal operation]
-3. Ã¢Å“â€œ [Performance criterion if applicable]
+1. ✓“ [Observable criterion that can be verified by test]
+2. ✓“ [Another criterion for normal operation]
+3. ✓“ [Performance criterion if applicable]
 
 ### Error Handling
-4. Ã¢Å“â€œ [Criterion for specific error case]
-5. Ã¢Å“â€œ [Criterion for validation failure]
-6. Ã¢Å“â€œ [Criterion for resource not found]
+4. ✓“ [Criterion for specific error case]
+5. ✓“ [Criterion for validation failure]
+6. ✓“ [Criterion for resource not found]
 
 ### Edge Cases
-7. Ã¢Å“â€œ [Criterion for boundary condition]
-8. Ã¢Å“â€œ [Criterion for empty/null input]
-9. Ã¢Å“â€œ [Criterion for maximum size input]
-10. Ã¢Å“â€œ [Criterion for special characters]
+7. ✓“ [Criterion for boundary condition]
+8. ✓“ [Criterion for empty/null input]
+9. ✓“ [Criterion for maximum size input]
+10. ✓“ [Criterion for special characters]
 
 ### Performance (if applicable)
-11. Ã¢Å“â€œ [Response time requirement]
-12. Ã¢Å“â€œ [Throughput requirement]
-13. Ã¢Å“â€œ [Resource usage requirement]
+11. ✓“ [Response time requirement]
+12. ✓“ [Throughput requirement]
+13. ✓“ [Resource usage requirement]
 
 ### State Management (if applicable)
-14. Ã¢Å“â€œ [Criterion for state persistence]
-15. Ã¢Å“â€œ [Criterion for idempotency]
+14. ✓“ [Criterion for state persistence]
+15. ✓“ [Criterion for idempotency]
 ```
 
 **Purpose:** Define "done" - what tests must verify
 
 **Format:**
 - Numbered list (sequential)
-- Checkboxes (`Ã¢Å“â€œ` or `- [ ]`)
+- Checkboxes (`✓“` or `- [ ]`)
 - Grouped by category
 
 **Criteria Requirements:**
@@ -379,14 +379,14 @@ result = obj.method_name(arg)
 
 **Example Criteria:**
 
-Ã¢Å“â€¦ Good (specific, testable):
+✓ Good (specific, testable):
 ```
-1. Ã¢Å“â€œ Scanning 10 specs and 20 code files completes in <5 seconds
-2. Ã¢Å“â€œ Raises InvalidPathError with message "Project path does not exist: [path]" for missing directories
-3. Ã¢Å“â€œ Returns empty LinkMap {"spec_id": {"code": [], "tests": []}} for specs with no implementing code
+1. ✓“ Scanning 10 specs and 20 code files completes in <5 seconds
+2. ✓“ Raises InvalidPathError with message "Project path does not exist: [path]" for missing directories
+3. ✓“ Returns empty LinkMap {"spec_id": {"code": [], "tests": []}} for specs with no implementing code
 ```
 
-Ã¢ÂÅ’ Bad (vague, untestable):
+✗ Bad (vague, untestable):
 ```
 1. System handles input appropriately
 2. Errors are clear
@@ -467,7 +467,7 @@ result = obj.method_name(arg)
 - LinkingEngine.scan() is called
 
 **Then:**
-- LinkMap contains entry: "feature_001" Ã¢â€ â€™ {"code": ["src/auth/login.py"], "tests": ["tests/test_login.py"]}
+- LinkMap contains entry: "feature_001" → {"code": ["src/auth/login.py"], "tests": ["tests/test_login.py"]}
 - Scan completes in <5 seconds
 - No warnings or errors logged
 ```
@@ -673,7 +673,7 @@ example_instance = {
 
 ### 10.4 Out of Scope
 **Content:** Explicitly excluded capabilities
-**Source:** From Feature Scope Ã¢â€ â€™ Excluded
+**Source:** From Feature Scope → Excluded
 **Example:**
 ```
 - Cross-repository linking (multi-repo projects)
@@ -929,11 +929,11 @@ example_instance = {
 ### skeleton-writer Consumption
 
 **Reads from SPEC:**
-- Interface Contract Ã¢â€ â€™ Method signatures and types
-- Data Structures Ã¢â€ â€™ Type definitions
-- Acceptance Criteria Ã¢â€ â€™ Preconditions/postconditions for docstrings
-- Dependencies Ã¢â€ â€™ Constructor parameters
-- Exceptions (from Interface Contract Ã¢â€ â€™ Raises) Ã¢â€ â€™ Custom exception types
+- Interface Contract → Method signatures and types
+- Data Structures → Type definitions
+- Acceptance Criteria → Preconditions/postconditions for docstrings
+- Dependencies → Constructor parameters
+- Exceptions (from Interface Contract → Raises) → Custom exception types
 
 **Creates:**
 - Interface files with abstract methods
@@ -944,10 +944,10 @@ example_instance = {
 ### test-writer Consumption
 
 **Reads from SPEC:**
-- Acceptance Criteria Ã¢â€ â€™ Test cases (one test per criterion)
-- Scenarios Ã¢â€ â€™ Concrete test implementations (Given-When-Then Ã¢â€ â€™ Arrange-Act-Assert)
-- Interface Contract Ã¢â€ â€™ Expected signatures to test against
-- Data Structures Ã¢â€ â€™ Test fixtures and mock data
+- Acceptance Criteria → Test cases (one test per criterion)
+- Scenarios → Concrete test implementations (Given-When-Then → Arrange-Act-Assert)
+- Interface Contract → Expected signatures to test against
+- Data Structures → Test fixtures and mock data
 
 **Creates:**
 - Test suite with tests for all acceptance criteria
@@ -958,10 +958,10 @@ example_instance = {
 ### implementer Consumption
 
 **Reads from SPEC:**
-- Interface Contract Ã¢â€ â€™ What to implement
-- Acceptance Criteria Ã¢â€ â€™ Definition of "done"
-- Constraints and Limitations Ã¢â€ â€™ Implementation boundaries
-- Implementation Notes Ã¢â€ â€™ Helpful guidance
+- Interface Contract → What to implement
+- Acceptance Criteria → Definition of "done"
+- Constraints and Limitations → Implementation boundaries
+- Implementation Notes → Helpful guidance
 
 **Uses:**
 - Tests (from test-writer) to guide TDD

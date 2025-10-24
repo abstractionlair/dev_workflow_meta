@@ -90,21 +90,21 @@ Create one sentence that passes the "elevator test" - memorable and clear.
 - "Enable [user group] to [job-to-be-done] without [current friction]"
 
 **Quality criteria:**
-âœ“ Customer-focused (mentions user, not product)
-âœ“ Outcome-oriented (describes improved state, not features)
-âœ“ Emotionally resonant (inspires, doesn't just inform)
-âœ“ Solution-agnostic (allows strategic pivots)
-âœ“ Memorable (can be recalled and repeated)
+✓ Customer-focused (mentions user, not product)
+✓ Outcome-oriented (describes improved state, not features)
+✓ Emotionally resonant (inspires, doesn't just inform)
+✓ Solution-agnostic (allows strategic pivots)
+✓ Memorable (can be recalled and repeated)
 
 **Examples of good vision statements:**
 - "Help solo developers maintain project context across planning and execution without documentation overhead"
 - "Give data teams instant visibility into pipeline health without manual log checking"
 
 **Anti-patterns to avoid:**
-âœ— Feature lists: "Build a platform with X, Y, Z"
-âœ— Too broad: "Organize all the world's information"
-âœ— Vague: "Make people happy"
-âœ— Solution lock-in: "The best mobile app for..."
+✗ Feature lists: "Build a platform with X, Y, Z"
+✗ Too broad: "Organize all the world's information"
+✗ Vague: "Make people happy"
+✗ Solution lock-in: "The best mobile app for..."
 
 ### Step 3: Define Target Users and Problem
 
@@ -223,8 +223,8 @@ Create the complete VISION.md file following the structure defined in **VISION-o
 
 ### Focus on Outcomes, Not Features
 
-âœ“ "Help teams maintain context across planning and execution"
-âœ— "Build a dashboard with real-time analytics"
+✓ "Help teams maintain context across planning and execution"
+✗ "Build a dashboard with real-time analytics"
 
 The vision describes the value delivered, not the implementation.
 
@@ -246,7 +246,7 @@ Vision should stretch without breaking:
 
 **Validation approaches:**
 - Jobs-to-be-done interviews (10-20 potential customers)
-- Prototype testing (paper mockups â†’ MVP)
+- Prototype testing (paper mockups → MVP)
 - Metric baselines (establish current state)
 
 Make riskiest assumptions explicit so they can be tested first.

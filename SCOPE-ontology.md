@@ -7,7 +7,7 @@ This document defines the structure, semantics, and validation rules for SCOPE.m
 ## Document Role in Workflow
 
 ```
-VISION.md (strategic) Ã¢â€ â€™ SCOPE.md (tactical) Ã¢â€ â€™ ROADMAP.md (operational) Ã¢â€ â€™ Specs Ã¢â€ â€™ Implementation
+VISION.md (strategic) → SCOPE.md (tactical) → ROADMAP.md (operational) → Specs → Implementation
 ```
 
 **SCOPE.md is consumed by:**
@@ -165,9 +165,9 @@ VISION.md (strategic) Ã¢â€ â€™ SCOPE.md (tactical) Ã¢â€ â€�
 - Stakeholders: Rapid comprehension
 
 **Examples:**
-- Ã¢Å“â€¦ "DevContext MVP delivers a command-line tool that helps solo developers maintain project context through Git-integrated specifications and living documentation"
-- Ã¢ÂÅ’ "A better way to manage projects" (too vague)
-- Ã¢ÂÅ’ "Complete enterprise-grade context management platform with AI, collaboration, mobile apps, and analytics" (feature list, unrealistic for MVP)
+- ✓ "DevContext MVP delivers a command-line tool that helps solo developers maintain project context through Git-integrated specifications and living documentation"
+- ✗ "A better way to manage projects" (too vague)
+- ✗ "Complete enterprise-grade context management platform with AI, collaboration, mobile apps, and analytics" (feature list, unrealistic for MVP)
 
 ### Vision Alignment
 
@@ -221,11 +221,11 @@ VISION.md (strategic) Ã¢â€ â€™ SCOPE.md (tactical) Ã¢â€ â€�
 - Implementation teams: Understanding success
 
 **Examples:**
-- Ã¢Å“â€¦ "Enable spec creation in <2 minutes via CLI"
-- Ã¢Å“â€¦ "Automatic linking between specs, tests, and implementation"
-- Ã¢Å“â€¦ "Context retrieval in <30 seconds via CLI queries"
-- Ã¢ÂÅ’ "Improve developer productivity" (too vague)
-- Ã¢ÂÅ’ "Create best-in-class experience" (not measurable)
+- ✓ "Enable spec creation in <2 minutes via CLI"
+- ✓ "Automatic linking between specs, tests, and implementation"
+- ✓ "Context retrieval in <30 seconds via CLI queries"
+- ✗ "Improve developer productivity" (too vague)
+- ✗ "Create best-in-class experience" (not measurable)
 
 ### In Scope - MVP
 
@@ -273,10 +273,10 @@ VISION.md (strategic) Ã¢â€ â€™ SCOPE.md (tactical) Ã¢â€ â€�
 
 **Consumed by:**
 - roadmap-writer: PRIMARY INPUT
-  - **Core Features** Ã¢â€ â€™ Becomes features in ROADMAP.md Phase 1
-  - **User Capabilities** Ã¢â€ â€™ Validates phases deliver complete value
-  - **Technical Requirements** Ã¢â€ â€™ Identifies technical dependencies
-  - **Acceptance Criteria** Ã¢â€ â€™ Informs phase success criteria
+  - **Core Features** → Becomes features in ROADMAP.md Phase 1
+  - **User Capabilities** → Validates phases deliver complete value
+  - **Technical Requirements** → Identifies technical dependencies
+  - **Acceptance Criteria** → Informs phase success criteria
 
 **Transformation to ROADMAP.md:**
 - Each Core Feature becomes feature in roadmap with:
@@ -359,16 +359,16 @@ VISION.md (strategic) Ã¢â€ â€™ SCOPE.md (tactical) Ã¢â€ â€�
 
 **Consumed by:**
 - roadmap-writer: PRIMARY INPUT
-  - **Phase 2** Ã¢â€ â€™ Becomes ROADMAP.md Phase 2
-  - **Phase 3+** Ã¢â€ â€™ Becomes ROADMAP.md Phase 3+
-  - **Deferred Features** Ã¢â€ â€™ Backlog for future consideration
+  - **Phase 2** → Becomes ROADMAP.md Phase 2
+  - **Phase 3+** → Becomes ROADMAP.md Phase 3+
+  - **Deferred Features** → Backlog for future consideration
 
 **Example:**
 
 ```markdown
 ### Phase 2 (Post-MVP)
 - VS Code extension for in-editor spec access
-- Inline spec navigation (click reference Ã¢â€ â€™ opens spec)
+- Inline spec navigation (click reference → opens spec)
 - Quick spec creation from editor
 
 ### Phase 3 and Beyond
@@ -488,10 +488,10 @@ VISION.md (strategic) Ã¢â€ â€™ SCOPE.md (tactical) Ã¢â€ â€�
 
 **Consumed by:**
 - roadmap-writer: PRIMARY INPUT
-  - **Resource Constraints** Ã¢â€ â€™ Determines phase durations and feature count per phase
-  - **Technical Constraints** Ã¢â€ â€™ Identifies technical dependencies and sequencing
-  - **Business Constraints** Ã¢â€ â€™ Informs timing and priorities
-  - **Assumptions** Ã¢â€ â€™ Identifies risks to validate early
+  - **Resource Constraints** → Determines phase durations and feature count per phase
+  - **Technical Constraints** → Identifies technical dependencies and sequencing
+  - **Business Constraints** → Informs timing and priorities
+  - **Assumptions** → Identifies risks to validate early
 
 **Roadmap-writer uses this to:**
 - Ensure phases fit within resource constraints
@@ -787,7 +787,7 @@ VISION.md (strategic) Ã¢â€ â€™ SCOPE.md (tactical) Ã¢â€ â€�
 
 ### Cross-Document Consistency
 
-**SCOPE.md Ã¢â€ â€ VISION.md:**
+**SCOPE.md — VISION.md:**
 - Vision statement in SCOPE.md matches VISION.md
 - SCOPE.md "In Scope - MVP" addresses VISION.md "In Scope (MVP)"
 - SCOPE.md objectives contribute to VISION.md success criteria
@@ -804,11 +804,11 @@ VISION.md (strategic) Ã¢â€ â€™ SCOPE.md (tactical) Ã¢â€ â€�
 - Scope timeline fits within vision milestones
 - No scope features conflict with vision "Never in Scope"
 
-## Information Flow: VISION.md Ã¢â€ â€™ SCOPE.md
+## Information Flow: VISION.md → SCOPE.md
 
 ### Transformation Rules
 
-**Vision "Product Scope" Ã¢â€ â€™ Scope "In Scope - MVP":**
+**Vision "Product Scope" → Scope "In Scope - MVP":**
 
 **Vision provides:** High-level capabilities  
 **Scope provides:** Concrete deliverables
@@ -822,7 +822,7 @@ VISION.md (strategic) Ã¢â€ â€™ SCOPE.md (tactical) Ã¢â€ â€�
 
 **Pattern:** Each vision capability expands into 2-5 concrete deliverables in scope.
 
-**Vision "Success Criteria" Ã¢â€ â€™ Scope "Success Criteria":**
+**Vision "Success Criteria" → Scope "Success Criteria":**
 
 **Vision provides:** Strategic metrics  
 **Scope provides:** Tactical completion criteria
@@ -832,7 +832,7 @@ VISION.md (strategic) Ã¢â€ â€™ SCOPE.md (tactical) Ã¢â€ â€�
 - **Scope MVP Complete When**: "Beta users report context retrieval reduced from 30+ min to <1 min"
 - **Scope Quality Standard**: "CLI commands respond in <1 second for typical projects"
 
-**Vision "Assumptions/Constraints" Ã¢â€ â€™ Scope "Constraints and Assumptions":**
+**Vision "Assumptions/Constraints" → Scope "Constraints and Assumptions":**
 
 **Vision provides:** High-level constraints  
 **Scope provides:** Detailed operational constraints
@@ -842,32 +842,32 @@ VISION.md (strategic) Ã¢â€ â€™ SCOPE.md (tactical) Ã¢â€ â€�
 - **Scope Resource Constraint**: "Solo developer, 15 hours/week for 3 months (180 hours total)"
 - **Scope adds**: Breakdown by phase, buffer allocation, risk mitigation
 
-## Information Flow: SCOPE.md Ã¢â€ â€™ ROADMAP.md
+## Information Flow: SCOPE.md → ROADMAP.md
 
 ### What roadmap-writer Extracts
 
 **From "In Scope - MVP":**
-- Core Features Ã¢â€ â€™ Phase 1 features in roadmap
-- Technical Requirements Ã¢â€ â€™ Technical dependencies for sequencing
-- Acceptance Criteria Ã¢â€ â€™ Phase success criteria
+- Core Features → Phase 1 features in roadmap
+- Technical Requirements → Technical dependencies for sequencing
+- Acceptance Criteria → Phase success criteria
 
 **From "In Scope - Future Phases":**
-- Phase 2 Ã¢â€ â€™ Roadmap Phase 2
-- Phase 3+ Ã¢â€ â€™ Roadmap Phase 3+
-- Deferred Features Ã¢â€ â€™ Potential Phase 4+ or backlog
+- Phase 2 → Roadmap Phase 2
+- Phase 3+ → Roadmap Phase 3+
+- Deferred Features → Potential Phase 4+ or backlog
 
 **From "Explicitly Out of Scope":**
 - Validation that roadmap doesn't include excluded items
 - Boundaries for what features can be added
 
 **From "Constraints and Assumptions":**
-- Resource Constraints Ã¢â€ â€™ Phase duration calculation
-- Technical Constraints Ã¢â€ â€™ Feature sequencing based on dependencies
-- Assumptions Ã¢â€ â€™ Risks to validate early in roadmap
+- Resource Constraints → Phase duration calculation
+- Technical Constraints → Feature sequencing based on dependencies
+- Assumptions → Risks to validate early in roadmap
 
 **From "Success Criteria":**
-- MVP Complete When Ã¢â€ â€™ Phase 1 completion criteria
-- Quality Standards Ã¢â€ â€™ Quality gates in roadmap
+- MVP Complete When → Phase 1 completion criteria
+- Quality Standards → Quality gates in roadmap
 
 ### Example Transformation
 
@@ -1024,13 +1024,13 @@ VISION.md (strategic) Ã¢â€ â€™ SCOPE.md (tactical) Ã¢â€ â€�
 ### roadmap-writer consumes SCOPE.md
 
 **Reads:**
-- Scope overview Ã¢â€ â€™ References in roadmap alignment
-- In Scope - MVP Ã¢â€ â€™ PRIMARY INPUT for Phase 1 features
-- In Scope - Future Phases Ã¢â€ â€™ PRIMARY INPUT for Phase 2+
-- Explicitly Out of Scope Ã¢â€ â€™ Validates roadmap boundaries
-- Constraints and Assumptions Ã¢â€ â€™ Informs realistic sequencing
-- Technical Requirements Ã¢â€ â€™ Identifies dependencies
-- Success Criteria Ã¢â€ â€™ Informs phase success criteria
+- Scope overview → References in roadmap alignment
+- In Scope - MVP → PRIMARY INPUT for Phase 1 features
+- In Scope - Future Phases → PRIMARY INPUT for Phase 2+
+- Explicitly Out of Scope → Validates roadmap boundaries
+- Constraints and Assumptions → Informs realistic sequencing
+- Technical Requirements → Identifies dependencies
+- Success Criteria → Informs phase success criteria
 
 **Stops if:**
 - In Scope - MVP missing or incomplete
@@ -1039,10 +1039,10 @@ VISION.md (strategic) Ã¢â€ â€™ SCOPE.md (tactical) Ã¢â€ â€�
 - Technical Requirements missing
 
 **Transforms:**
-- Each Core Feature Ã¢â€ â€™ Roadmap feature with sequencing rationale
-- Technical Requirements Ã¢â€ â€™ Dependency analysis
-- Resource Constraints Ã¢â€ â€™ Phase duration limits
-- Assumptions Ã¢â€ â€™ Risks to validate early
+- Each Core Feature → Roadmap feature with sequencing rationale
+- Technical Requirements → Dependency analysis
+- Resource Constraints → Phase duration limits
+- Assumptions → Risks to validate early
 
 ## Anti-Patterns to Avoid
 

@@ -192,7 +192,7 @@ This is a **highly collaborative role** - a Socratic dialogue that makes sequenc
 
 **User:** "Actually no, it needs to know what it's looking for in specs."
 
-**Helper:** "So: spec format â†’ linking engine â†’ CLI commands. That's your dependency chain."
+**Helper:** "So: spec format → linking engine → CLI commands. That's your dependency chain."
 
 **Looking for:**
 - Foundation features (nothing depends on them)
@@ -313,7 +313,7 @@ This is a **highly collaborative role** - a Socratic dialogue that makes sequenc
 
 **Helper:** "And CLI command last - to demonstrate the linking works?"
 
-**User:** "Exactly. Format â†’ Engine â†’ Demo."
+**User:** "Exactly. Format → Engine → Demo."
 
 **Looking for:**
 - Clear build order within phase

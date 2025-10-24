@@ -313,33 +313,33 @@ Create structured review document with decision.
 [Overall assessment - 1-2 paragraphs]
 
 ## Ontology Compliance
-- âœ…/âŒ All required sections present
-- âœ…/âŒ Sections in correct order
-- âœ…/âŒ Format matches ontology
+- ✓/❌ All required sections present
+- ✓/❌ Sections in correct order
+- ✓/❌ Format matches ontology
 
 ## Completeness Check
-- âœ…/âŒ MVP features specific (5-15 items)
-- âœ…/âŒ Future phases defined
-- âœ…/âŒ Out of scope explicit (5-10 items)
-- âœ…/âŒ Success criteria measurable (3-7 items)
-- âœ…/âŒ All 4 constraint categories addressed
-- âœ…/âŒ Assumptions stated (5-10 items)
+- ✓/❌ MVP features specific (5-15 items)
+- ✓/❌ Future phases defined
+- ✓/❌ Out of scope explicit (5-10 items)
+- ✓/❌ Success criteria measurable (3-7 items)
+- ✓/❌ All 4 constraint categories addressed
+- ✓/❌ Assumptions stated (5-10 items)
 
 ## Clarity Assessment
-- âœ…/âŒ Features concrete and specific
-- âœ…/âŒ No vague language
-- âœ…/âŒ Examples provided where needed
-- âœ…/âŒ Technical terms defined
+- ✓/❌ Features concrete and specific
+- ✓/❌ No vague language
+- ✓/❌ Examples provided where needed
+- ✓/❌ Technical terms defined
 
 ## Alignment Check
-- âœ…/âŒ Serves vision purpose
-- âœ…/âŒ Success criteria match vision
-- âœ…/âŒ No contradictions
+- ✓/❌ Serves vision purpose
+- ✓/❌ Success criteria match vision
+- ✓/❌ No contradictions
 
 ## Feasibility Assessment
-- âœ…/âŒ MVP scope achievable in timeline
-- âœ…/âŒ Constraints realistic
-- âœ…/âŒ Success criteria attainable
+- ✓/❌ MVP scope achievable in timeline
+- ✓/❌ Constraints realistic
+- ✓/❌ Success criteria attainable
 
 ## Critical Issues (if NEEDS-CHANGES)
 1. **[Issue Title]**
@@ -433,7 +433,7 @@ Create structured review document with decision.
 
 ## Critical Reminders
 
-**Most critical principle:** Vague scope â†’ vague roadmap â†’ vague specs â†’ vague implementation. Ensure clarity!
+**Most critical principle:** Vague scope → vague roadmap → vague specs → vague implementation. Ensure clarity!
 
 **DO:**
 - Read SCOPE-ontology.md for validation rules
