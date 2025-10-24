@@ -1,360 +1,511 @@
 ---
 role: Scope Writer
-trigger: At project inception, or when project boundaries need redefinition
+trigger: After VISION.md is approved, before roadmap planning begins
 typical_scope: One project (one repository)
 ---
 
 # Scope Writer
 
-## Responsibilities
+## Purpose
 
-The Scope Writer defines what the project includes and excludes, establishing clear boundaries that guide all downstream work. The scope document answers "what are we building?" and serves as the reference point for determining if proposed features belong in this project or elsewhere.
+Your job is to produce a **SCOPE.md** document that transforms strategic vision into tactical boundaries. See **SCOPE-ontology.md** for the complete document structure and all required sections.
+
+The scope document prevents scope creep, aligns stakeholders, enables realistic planning, and creates explicit boundaries that guide all downstream work. It answers "what are we building?" concretely enough to enable implementation planning.
+
+## When to Use This Role
+
+**Activate when:**
+- Have approved VISION.md and need to define project boundaries
+- User asks to create SCOPE.md document
+- Team needs clarity on what's in/out of project
+- Planning phase requires concrete deliverables definition
+- Stakeholders need shared understanding of boundaries
+
+**Do NOT use for:**
+- Feature specifications (those come after scope definition)
+- Technical implementation details (belongs in specs)
+- Vision creation (use vision-writer)
+- Roadmap sequencing (use roadmap-writer)
 
 ## Collaboration Pattern
 
 This is typically a **collaborative role** - a conversation between human and agent that produces a document.
 
 **Agent responsibilities:**
-- Extract key boundaries from vision document
-- Ask clarifying questions about edge cases (is X in scope? what about Y?)
+- Extract scope elements from VISION.md
+- Transform high-level vision into concrete deliverables
+- Ask clarifying boundary questions (is X in scope? what about Y?)
 - Identify potential scope creep risks
 - Propose clear in/out criteria
 - Challenge vague or ambiguous boundaries
+- Ensure scope aligns with resource constraints
 
 **Human responsibilities:**
-- Provide strategic context and constraints
+- Provide VISION.md as input
+- Clarify resource constraints and priorities
 - Make final decisions on boundary questions
 - Validate that scope aligns with available resources
 - Ensure scope matches vision's intent
 - Approve scope before roadmap work begins
 
-**Collaboration flow:**
-1. Agent reads vision document
-2. Agent proposes initial scope boundaries based on vision
-3. Human provides feedback and clarifications
-4. Agent asks boundary questions (specific features in/out?)
-5. Together, refine until boundaries are clear
-6. Human approves final scope document
-
 ## Inputs
 
-### From Previous Steps
-- **Vision document**: Why this project exists, what problem it solves, what value it delivers
+**From previous steps:**
+- **VISION.md** (required) - Must have:
+  - Vision statement (for alignment)
+  - Target users (to validate scope serves audience)
+  - Problem statement (to ensure scope addresses core problem)
+  - Product Scope section (initial in/future/never categories)
+  - Success criteria (to verify scope enables measurement)
+  - Assumptions and constraints (to work within boundaries)
 
-### From the Human
-- Resource constraints (time, budget, skills available)
-- Strategic priorities (what matters most?)
-- Known non-goals (what are we explicitly NOT doing?)
-- External dependencies or constraints
+**If vision is unclear on any of these, stop and clarify vision first.**
+
+**From stakeholders:**
+- Resource constraints (team size, budget, time available)
+- Technical constraints (existing systems, required integrations)
+- Business constraints (compliance, contracts, partnerships)
+- Risk tolerance (how much uncertainty acceptable)
+- Priority guidance (must-haves vs. nice-to-haves)
+
+## What Scope Documents Do
+
+**Primary purposes:**
+1. **Prevent scope creep** - Explicit boundaries show what's excluded
+2. **Enable realistic planning** - Concrete deliverables allow estimation
+3. **Align stakeholders** - Shared understanding prevents misalignment
+4. **Guide prioritization** - Clear MVP vs. future helps decisions
+5. **Manage expectations** - Explicit constraints prevent disappointment
+
+**Scope is NOT:**
+- Detailed specifications (those follow scope)
+- Technical architecture (that's in system design)
+- Project schedule (that's in roadmap/timeline)
+- Success metrics (those are in vision)
 
 ## Process
 
-### 1. Review the Vision
-Read the vision document to understand:
-- What problem are we solving?
-- For whom?
-- What value does this create?
-- What's the "big picture" success?
+### Step 1: Extract from Vision
 
-### 2. Extract Core Scope from Vision
-Identify what the vision implies about scope:
-- What capabilities must exist for the vision to be realized?
-- What's the minimum viable scope?
-- What would be nice-to-have but not essential?
+Read VISION.md and extract scope-relevant elements:
 
-### 3. Define Clear Boundaries
-Create explicit in/out criteria:
-- **In scope**: What capabilities, features, or components are included?
-- **Out of scope**: What's explicitly excluded (to prevent scope creep)?
-- **Maybe later**: What might be added in future but not now?
+**From vision's "Product Scope" section:**
+- In scope (MVP) â†’ Forms basis of SCOPE.md "In Scope - MVP"
+- Future scope â†’ Forms basis of "In Scope - Future Phases"
+- Never in scope â†’ Forms basis of "Explicitly Out of Scope"
 
-Use concrete examples to clarify boundaries:
-- "In scope: Chocolate cakes and apple pies"
-- "Out of scope: Savory foods, beverages, non-dessert items"
-- "Maybe later: Cookies, brownies (after initial launch proves concept)"
+**From vision's "Success Criteria":**
+- Metrics and milestones â†’ Inform "Success Criteria" section
+- Counter-metrics â†’ Inform "Quality Standards"
 
-### 4. Identify Key Constraints
-Document limitations that shape the scope:
-- Technical constraints (existing systems, integrations)
-- Resource constraints (solo dev, 6-month timeline)
-- Business constraints (must comply with regulation X)
-- Domain constraints (delivering to Manhattan only, not other boroughs)
+**From vision's "Assumptions and Constraints":**
+- Resource constraints â†’ Direct copy to "Resource Constraints"
+- Technical assumptions â†’ Inform "Technical Constraints"
 
-### 5. Define Success Criteria
-How will we know this project succeeded?
-- Measurable outcomes when possible
-- Qualitative goals when measures don't fit
-- Time-bound if relevant
+**Key principle:** Scope document makes vision concrete without contradicting it.
 
-### 6. Anticipate Boundary Questions
-Think about likely scope questions and pre-answer them:
-- "Does this include mobile apps or just web?"
-- "Are we supporting all payment methods or just credit cards?"
-- "Is multi-language support in scope?"
+### Step 2: Make Features Concrete
 
-## Outputs
+Transform high-level vision scope into concrete deliverables.
 
-### Primary Deliverable
-**Project scope document** (`SCOPE.md` or `docs/SCOPE.md`) containing:
-- Project summary (brief restatement of vision)
-- In scope (what we're building)
-- Out of scope (what we're not building)
-- Key constraints
-- Success criteria
-- Boundary clarifications (FAQs)
+**Vision says:** "Lightweight specification format"  
+**Scope says:**
+- Markdown-based spec templates
+- CLI command to create new specs
+- Validation to check spec completeness
+- Examples of good specs in documentation
 
-### Handoff Criteria
-The scope is ready for roadmap planning when:
-- Boundaries are clear enough that someone could propose a feature and you could definitively say "in" or "out"
-- Constraints are documented
-- Success criteria are defined
-- Another person reading this would understand what the project includes/excludes
+**Vision says:** "Context linking between specs/tests/code"  
+**Scope says:**
+- Automatic link detection via static analysis
+- Cross-reference navigation in CLI
+- Link validation in CI pipeline
+- Link visualization in status reports
 
-## Best Practices
+**Pattern:** Each vision capability becomes 2-5 concrete deliverables with clear outputs.
 
-### Be Specific, Use Examples
-Generic boundaries are useless:
-- âœ— "Build a food delivery system"
-- âœ“ "Deliver chocolate cakes and apple pies to lower Manhattan addresses"
+### Step 3: Define User Capabilities
 
-### Explicitly Name What's Out
-Unstated exclusions lead to scope creep:
-- âœ“ "Out of scope: Beverages, prepared meals, grocery items"
-- âœ“ "Out of scope: Delivery tracking/ETA predictions (v2 feature)"
+For each feature, specify what users can DO after MVP.
 
-### Distinguish "Not Now" from "Never"
-Some things are out of scope temporarily:
-- "Out of scope for v1, planned for later: Cookie delivery"
-- "Permanently out of scope: Savory food delivery (different business model)"
+**Format:**
+"Users can [action] by [method] resulting in [outcome]"
 
-### Ground in Vision
-Every scope decision should trace back to the vision:
-- Why is X in scope? "Because vision requires Y capability, which depends on X"
-- Why is Z out of scope? "Vision is about desserts; Z is savory food"
+**Examples:**
+- "Users can create new feature specs by running `ctx spec create <name>` resulting in pre-populated spec template"
+- "Users can find related code by clicking spec references resulting in editor opening relevant files"
+- "Users can validate spec completeness by running `ctx spec check` resulting in checklist of required sections"
 
-### Make Scope Queryable
-Write scope so future questions can be answered by referencing it:
-- Someone proposes feature X â†’ Can check scope doc for answer
-- If scope doc doesn't clearly answer â†’ Scope needs refinement
+**This is critical:** Features describe system; capabilities describe user value.
 
-### Right-Size the Scope
-Consider the resources available:
-- Solo dev, 3 months â†’ Limited scope
-- Team of 5, 1 year â†’ Broader scope
-- Don't let vision's ambition create unrealistic scope
+### Step 4: Establish Boundaries
+
+Make scope boundaries explicit and concrete.
+
+**"In Scope - MVP" rules:**
+- Must deliver core value proposition from vision
+- Must enable measuring primary success metric
+- Must be achievable within resource constraints
+- Must be minimal (no "nice to haves")
+
+**"Explicitly Out of Scope" rules:**
+- Adjacent problems deliberately not solving
+- Features that would dilute focus
+- User segments not targeting
+- Technical approaches ruled out
+
+**"Future Phases" rules:**
+- Logical extensions of MVP
+- Require MVP to be proven first
+- Acknowledge desired but defer
+
+### Step 5: Define Acceptance Criteria
+
+Specify how to know when scope is complete.
+
+**Criteria format:**
+- Observable (can verify objectively)
+- Testable (can create test for it)
+- Specific (no ambiguity)
+- Necessary (must have to be complete)
+
+**Example criteria:**
+- âœ… "Users can create, edit, and delete specs via CLI commands"
+- âœ… "Spec templates include all sections from GUIDELINES.md"
+- âœ… "Running `ctx spec check` identifies missing required sections"
+- âœ… "Documentation includes getting-started guide under 10 minutes"
+
+**Avoid vague criteria:**
+- âŒ "System works well"
+- âŒ "Users are happy"
+- âŒ "Most features complete"
+
+### Step 6: Document Constraints
+
+Make constraints explicit to prevent unrealistic expectations.
+
+**Resource constraints:**
+- Team size and composition (solo developer vs. team)
+- Available hours per week
+- Budget for tools/services
+- Timeline pressures
+
+**Technical constraints:**
+- Must integrate with existing systems
+- Must use approved technology stack
+- Performance requirements
+- Security/compliance requirements
+
+**Business constraints:**
+- Contractual obligations
+- Market timing requirements
+- Partnership dependencies
+- Regulatory compliance
+
+**Assumptions:**
+- What we're taking as given
+- What happens if assumptions prove wrong
+- Which assumptions are validated vs. unvalidated
+
+### Step 7: Establish Change Control
+
+Define how scope changes are handled.
+
+**Change process:**
+1. Proposed change documented with rationale
+2. Impact assessment (time, resources, risks)
+3. Stakeholder review and decision
+4. If approved, update SCOPE.md with changelog
+5. Communicate changes to team
+
+**Change categories:**
+- **Minor clarifications:** Can be made without formal review
+- **Scope additions:** Require stakeholder approval and timeline adjustment
+- **Scope reductions:** Require stakeholder approval and success criteria update
+- **Scope changes:** Require vision re-examination
+
+### Step 8: Create SCOPE.md Document
+
+Create the complete SCOPE.md file following the structure defined in **SCOPE-ontology.md**.
+
+**All mandatory sections must be included:**
+- Scope Overview
+- Vision Alignment
+- Project Objectives
+- In Scope - MVP (Core Features + User Capabilities + Technical Requirements + Acceptance Criteria)
+- In Scope - Future Phases
+- Explicitly Out of Scope
+- Constraints and Assumptions
+- Success Criteria
+- Risks and Mitigation
+- Stakeholder Agreement
+- Document Control
+
+**See SCOPE-ontology.md for:**
+- Detailed subsection requirements
+- Content guidelines for each section
+- Validation rules
+- Cross-document consistency requirements
+
+## Common Scope Patterns
+
+### Pattern 1: MVP + Phased Expansion
+
+**Structure:**
+- MVP: Core value only (3-5 features)
+- Phase 2: Expand to adjacent use cases (2-4 features)
+- Phase 3: Scale and polish (performance, UX, integrations)
+
+**When to use:** Clear core value, logical expansion path
+
+**Example:**
+- MVP: Solo developer project context tool
+- Phase 2: Small team collaboration features
+- Phase 3: IDE integrations and AI assistance
+
+### Pattern 2: Vertical Slice
+
+**Structure:**
+- MVP: Complete flow for one user type
+- Phase 2: Additional user types
+- Phase 3: Cross-user-type features
+
+**When to use:** Multiple distinct user segments
+
+**Example:**
+- MVP: Sales manager forecasting
+- Phase 2: Individual rep input features
+- Phase 3: Executive dashboard
+
+### Pattern 3: Platform + Applications
+
+**Structure:**
+- MVP: Core platform capabilities
+- Phase 2: First application using platform
+- Phase 3: Additional applications
+
+**When to use:** Building reusable foundation
+
+**Example:**
+- MVP: Context management infrastructure
+- Phase 2: Specification management app
+- Phase 3: Test management and documentation apps
+
+### Pattern 4: Feature Parity Then Differentiation
+
+**Structure:**
+- MVP: Match existing tool's core features
+- Phase 2: Key differentiating features
+- Phase 3: Novel capabilities
+
+**When to use:** Migrating users from existing tool
+
+**Example:**
+- MVP: Basic project management features
+- Phase 2: Living context that existing tools lack
+- Phase 3: AI-assisted context generation
+
+## Key Principles
+
+### Make Vision Concrete
+
+Transform aspirational language into specific deliverables:
+
+**Vision:** "Enable developers to maintain context"
+**Scope:** "Provide CLI commands to create, link, and validate spec files with automatic cross-referencing"
+
+### Prevent Scope Creep Early
+
+Explicit boundaries prevent creep:
+- "Never in Scope" section catches proposals early
+- Each feature has clear acceptance criteria
+- Future phases acknowledge wants without committing
+
+### Enable Realistic Planning
+
+Scope should be concrete enough to estimate:
+- Features are specific, not vague
+- User capabilities describe observable outcomes
+- Acceptance criteria are testable
+
+### Balance Ambition with Resources
+
+Scope must fit constraints:
+- Solo developer â‰  multi-platform enterprise app
+- Part-time (10-20 hrs/week) â‰  full-time team velocity
+- 3-month timeline â‰  year-long scope
 
 ## Common Pitfalls
 
-### Scope = Vision (Too Broad)
-**Problem**: Treating scope document as just a restatement of vision, without defining boundaries.
+### Scope Too Ambitious for Resources
 
-**Solution**: Vision is aspirational and broad. Scope is concrete and bounded. If your scope sounds like "delight customers with amazing service," it's too vague.
+**Problem:** MVP requires more time/skills/budget than available.
 
-### No Clear Out-of-Scope
-**Problem**: Only defining what's included, not what's excluded.
+**Fix:** Apply "If you could only ship ONE feature in [timeline], which delivers most value?" Then build from there.
 
-**Solution**: Explicitly list what you're NOT doing. This prevents "well, couldn't we also..." conversations later.
+### Vague Features Can't Be Estimated
 
-### Scope Creep Through Vagueness
-**Problem**: Using fuzzy language that allows expansive interpretation.
+**Problem:** "Improve user experience" or "better performance"
 
-**Solution**: Use concrete examples. "Support major payment methods" â†’ "Support credit cards (Visa, Mastercard, Amex). Out of scope: PayPal, crypto, buy-now-pay-later."
+**Fix:** Make concrete: "Reduce page load time from 3s to <1s" or "Add keyboard shortcuts for 10 most common actions"
 
-### Ignoring Constraints
-**Problem**: Defining scope without considering resources, time, or technical limitations.
+### No Clear Boundaries
 
-**Solution**: Match scope to reality. Solo dev with 3 months â‰  enterprise platform. Be honest about constraints.
+**Problem:** Everything might be in scope, nothing excluded.
 
-### Over-Engineering the Scope Doc
-**Problem**: Creating a 50-page scope document with every possible detail.
+**Fix:** Populate "Explicitly Out of Scope" with at least 3 items. Force decisions.
 
-**Solution**: Scope defines boundaries, not implementation. Keep it under 5 pages. Details belong in specs.
+### Feature List Without User Value
 
-### Scope Without Success Criteria
-**Problem**: Defining what to build but not how to know if it succeeded.
+**Problem:** Lists technical capabilities without explaining user benefit.
 
-**Solution**: Add measurable outcomes or qualitative goals. "Success = 100 successful deliveries in first month" or "Success = users report satisfaction with delivery speed."
+**Fix:** For each feature, write corresponding user capability: "Users can [do X] resulting in [outcome Y]"
 
-### Static Scope (Never Updates)
-**Problem**: Writing scope once at project start, never revisiting as understanding evolves.
+### Scope Conflicts with Vision
 
-**Solution**: Scope can evolve, but changes should be deliberate and documented. If you discover "oh, we need to handle X," update the scope document.
+**Problem:** Scope includes features not aligned with vision's value proposition.
+
+**Fix:** Every MVP feature must trace to vision's core value. If it doesn't, it's future or never.
+
+### Missing Acceptance Criteria
+
+**Problem:** No clear definition of "done"
+
+**Fix:** Add testable, observable criteria for each major deliverable. "MVP complete when users can [list of capabilities]"
 
 ## Examples
 
-### Example 1: Dessert Delivery Service (from your example)
+### Example 1: Solo Developer SaaS (Concise)
 
-```markdown
-# Project Scope: Dessert Drone Delivery
+**Scope Overview:**
+Lightweight CLI tool for solo developers to manage project context through Markdown specs, tests, and living documentation.
 
-## Vision Summary
-Delight people with 5-minute drone delivery of delicious desserts.
+**In Scope - MVP:**
+- **Core Features:**
+  - Markdown-based spec templates
+  - CLI commands (create, check, link)
+  - Git integration for versioning
+  - Basic link validation
+  
+- **User Capabilities:**
+  - Create spec files with `ctx spec create`
+  - Validate spec completeness with `ctx spec check`
+  - Find related code via automatic linking
+  
+- **Acceptance Criteria:**
+  - All CLI commands documented and working
+  - Spec templates include required sections
+  - Link validation catches broken references
+  - Getting started guide < 10 minutes
 
-## In Scope
+**Explicitly Out of Scope:**
+- Web interface (CLI only for MVP)
+- Multi-user collaboration
+- Cloud sync or sharing
+- IDE integrations
 
-### Products
-- Chocolate cakes (single-serving size)
-- Apple pies (single-serving size)
+**Constraints:**
+- Solo developer, 15 hrs/week
+- 3-month timeline
+- Must work on Mac/Linux/Windows
 
-### Delivery Area
-- Lower Manhattan (south of 14th Street)
-- Delivery to street addresses and accessible rooftops
-- 5-10 minute delivery time target
+### Example 2: Internal Tool (Minimal)
 
-### Core Capabilities
-- Online ordering system (web-based)
-- Payment processing (credit cards)
-- Drone fleet management
-- Recipe development and kitchen operations
-- Regulatory compliance (FAA, NYC health department)
+**Scope Overview:**
+Real-time dashboard showing data pipeline status with Slack alerts on failures.
 
-## Out of Scope
+**In Scope - MVP:**
+- **Core Features:**
+  - Pipeline status polling (every 5 min)
+  - Web dashboard with color-coded status
+  - Slack integration for failure alerts
+  - Dependency graph visualization
+  
+- **Acceptance Criteria:**
+  - Dashboard shows all 20 pipelines
+  - Failures trigger Slack alert < 5 min
+  - 80% of failures debuggable from dashboard
+  - Zero "did my pipeline run?" questions
 
-### Not in Initial Launch
-- Other dessert types (cookies, brownies, ice cream)
-- Savory foods
-- Beverages
-- Gift wrapping or custom messages
+**Explicitly Out of Scope:**
+- Historical trending (future)
+- Pipeline editing/control
+- Mobile app
+- Multi-team support
 
-### Not Our Geography
-- Delivery outside lower Manhattan
-- Indoor delivery (we deliver to street or roof)
+**Constraints:**
+- 1 developer, 4-week timeline
+- Must integrate with existing Airflow
+- Read-only (no write operations)
 
-### Not Our Business Model
-- Grocery delivery
-- Meal kits
-- Subscription services (individual orders only)
+## Scope Quality Checklist
 
-## Key Constraints
+### Alignment with Vision
+- [ ] Scope explicitly references vision statement
+- [ ] Scope delivers on vision's value proposition
+- [ ] Scope targets users identified in vision
+- [ ] Scope enables measuring vision's success criteria
+- [ ] No conflicts between scope and vision
 
-### Technical
-- Drone range: 2-mile radius from kitchen
-- Payload: Up to 2 lbs per delivery
-- Weather: Cannot fly in rain, snow, or high winds
+### Concreteness
+- [ ] Each feature is specific enough to estimate
+- [ ] User capabilities are observable behaviors
+- [ ] Acceptance criteria are testable
+- [ ] No vague phrases like "better," "improved," "more"
+- [ ] Examples provided for complex features
 
-### Regulatory
-- FAA Part 107 compliance required
-- NYC commercial kitchen licensing
-- Food handling certifications
+### Completeness
+- [ ] All vision "in scope" items addressed
+- [ ] MVP scope includes complete user flow
+- [ ] "Out of scope" section has at least 3 items
+- [ ] All constraints documented
+- [ ] Change control process defined
 
-### Resource
-- Solo founder, 6-month runway to MVP
-- Budget: $50k for initial setup
-- Timeline: 4 months to first test delivery
+### Realism
+- [ ] MVP achievable within stated timeline
+- [ ] Scope fits resource constraints
+- [ ] Dependencies identified and manageable
+- [ ] Risks acknowledged with mitigation
 
-## Success Criteria
+### Clarity
+- [ ] Any developer could estimate from this scope
+- [ ] Boundaries clear (easy to say yes/no to features)
+- [ ] No ambiguous language
+- [ ] Examples clarify complex features
 
-**Phase 1 (Month 4)**: First successful test delivery
-**Phase 2 (Month 6)**: 10 successful deliveries to real customers
-**Phase 3 (Month 9)**: 100 deliveries, 90%+ customer satisfaction
+## Handoff to Next Roles
 
-## Boundary Clarifications
+Scope is ready for roadmap planning when:
+- All mandatory sections complete (see SCOPE-ontology.md)
+- MVP scope is concrete and achievable
+- Boundaries are clear and explicit
+- Acceptance criteria are testable
+- Constraints are documented
+- Stakeholders have approved
 
-**Q: What about gluten-free or vegan options?**
-A: Out of scope for v1. Standard recipes only initially.
+**What comes next:**
+- **Roadmap Writer** uses this scope to sequence features into phases
+- **Spec Writers** reference scope to ensure features serve project
+- **Scope Reviewer** validates quality before roadmap work begins
 
-**Q: Do we deliver to Brooklyn?**
-A: No. Manhattan only, specifically south of 14th St.
+## Critical Reminders
 
-**Q: Can customers schedule future deliveries?**
-A: No. On-demand only. Scheduling is v2 feature.
+**DO:**
+- Start by reading VISION.md completely
+- Transform vision scope into concrete deliverables
+- Define user capabilities for each feature
+- Make boundaries explicit (what's out)
+- Establish testable acceptance criteria
+- Document all constraints realistically
+- Reference SCOPE-ontology.md for complete structure
+- Get stakeholder approval before roadmap work
 
-**Q: Will there be a mobile app?**
-A: No. Web-based ordering only for v1.
-```
-
-### Example 2: Internal Tool (Smaller Scope)
-
-```markdown
-# Project Scope: Team Calendar Sync Tool
-
-## Vision Summary
-Eliminate calendar confusion by automatically syncing team availability across tools.
-
-## In Scope
-
-### Core Sync Capability
-- Read availability from Google Calendar
-- Write availability to Slack status
-- Sync every 15 minutes
-- Handle multiple team members (5-10 people)
-
-### Configuration
-- Simple config file for team member mappings
-- Calendar selection (which calendars to monitor)
-- Status templates (meeting, focus time, available)
-
-### Deployment
-- Run as cron job on team server
-- Log sync status for debugging
-
-## Out of Scope
-
-### Integrations
-- No Outlook support (team uses Google)
-- No Microsoft Teams (team uses Slack)
-- No public calendar publishing
-
-### Features
-- No calendar event creation (read-only)
-- No meeting scheduling
-- No automatic meeting notes
-- No calendar analytics/reporting
-
-### User Interface
-- No web dashboard
-- No mobile app
-- Config via text file only
-
-## Key Constraints
-
-### Technical
-- Team already uses Google Workspace and Slack
-- Must run on existing Linux server
-- Python 3.9+ (what's on the server)
-
-### Resource
-- Solo dev, 2-week timeline
-- No budget for external services
-- Must be maintenance-free after setup
-
-## Success Criteria
-
-**Week 1**: Successfully sync one user's calendar
-**Week 2**: All team members synced, running reliably
-**Month 1**: Zero maintenance interventions needed
-
-## Boundary Clarifications
-
-**Q: Can it sync to multiple Slack workspaces?**
-A: No, single workspace only.
-
-**Q: What about syncing back from Slack to calendar?**
-A: No, one-way sync only (calendar â†’ Slack).
-
-**Q: Can it send notifications?**
-A: No, silent operation only. Check logs if issues occur.
-```
-
-## When to Deviate
-
-### Scope Less When:
-- Very small project (1-2 week effort)
-- Prototype/proof-of-concept
-- Internal tool with single user (you)
-
-For tiny projects, scope might just be: "Build X tool that does Y. Not doing Z."
-
-### Scope More When:
-- Larger project (multi-month effort)
-- Multiple stakeholders or users
-- Regulatory or compliance concerns
-- When project might grow significantly
-
-### Revisit Scope When:
-- Major new requirements discovered
-- Resource constraints change significantly
-- Strategic direction shifts
-- After MVP launch (planning v2)
-
-The goal is clarity about boundaries, not perfect prediction of the future.
+**DON'T:**
+- Create scope without approved vision
+- Include features not in vision without justification
+- Leave "out of scope" empty
+- Use vague language ("better", "improved")
+- Skip acceptance criteria
+- Ignore resource constraints
+- Let scope creep in through "while we're at it"
+- Create overly ambitious MVP for available resources

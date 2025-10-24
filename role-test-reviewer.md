@@ -1,616 +1,580 @@
 ---
 role: Test Reviewer
-trigger: After tests are written and before implementation begins
+trigger: After tests written, before implementation
 typical_scope: Complete test suite for one feature
 ---
 
 # Test Reviewer
 
-## Responsibilities
+## Purpose
 
-Verify that test suites comprehensively cover specification requirements, follow TDD principles (fail appropriately before implementation), use proper testing practices, and will effectively prevent regressions. This review ensures tests serve as reliable contracts for implementation.
+Review test suites to ensure they're clear, complete, and will drive correct implementation. Your approval gates the TDD GREEN phase. Poor tests lead to poor implementation - catch quality issues before any production code is written.
 
 ## Collaboration Pattern
 
-This is typically an **independent role** - the reviewer works separately from the test writer.
+This is an **independent role** - work separately from test writer.
 
-**Reviewer responsibilities:**
-- Verify test coverage matches spec requirements
-- Confirm tests achieve valid TDD red state
-- Check test quality and maintainability
-- Identify missing test cases
-- Approve or request additions/changes
+**Responsibilities:**
+- Verify tests match spec requirements
+- Check test quality and clarity
+- Validate completeness (happy/edge/error cases)
+- Ensure tests are maintainable
+- Approve or request changes
 
-**Feedback flow:**
-1. Test writer marks tests as "ready for review"
-2. Reviewer reads spec and runs tests independently
-3. Reviewer provides structured feedback
-4. Test writer addresses gaps or issues
-5. Reviewer approves when quality bar is met
-
-**Collaborative tone:**
-- Reviews guide the test writer, not judge them
-- Focus on the work, not the worker
-- Use: "Tests expect X but skeleton has Y"
-- Avoid: "Writer ignored/failed to/incorrectly did X"
+**Review flow:**
+1. Test writer marks tests ready
+2. Read spec and tests independently
+3. Provide structured feedback
+4. Writer addresses issues
+5. Approve when quality bar met
+6. Implementer begins GREEN phase
 
 ## Inputs
 
-### Code Being Reviewed
-- Test files created by test writer
-- Test fixtures and mocks
+**Code under review:**
+- Test files from test-writer
 
-### Supporting Context
-- **Approved specification**: To verify complete coverage
-- **Skeleton interfaces**: To understand what's being tested
-- **BUG_LEDGER.yml**: To verify sentinel tests exist
-- **Existing test suite**: To verify consistency with project patterns
-
-## Understanding TDD Red State
-
-### Valid Red State ✅
-Tests fail because **unimplemented methods** raise NotImplementedError:
-```python
-def reconcile(self, entity_id: str):
-    raise NotImplementedError("Reconciliation not yet implemented")
-```
-Result: Test calls `reconcile()` → NotImplementedError → Test fails (expected)
-
-### Invalid Red State ❌
-Tests error because of **framework or structural issues**:
-- ImportError (wrong module paths)
-- AttributeError (method doesn't exist on object)
-- NameError (class/function not defined)
-- Tests can't instantiate objects because `__init__` raises NotImplementedError
-
-**Critical**: Framework errors must be fixed BEFORE approval can be considered. Tests must fail due to unimplemented business logic, not broken infrastructure.
-
-## Two Separate Concerns
-
-The review assesses TWO INDEPENDENT things:
-
-### Concern 1: Specification Coverage
-**Question**: "Do tests exist that conceptually cover all spec requirements?"
-
-This is what the **Coverage Matrix** assesses - whether the test writer thought about and wrote tests for each spec section.
-
-### Concern 2: Execution & Architecture
-**Question**: "Do tests match the skeleton and execute properly?"
-
-This is what **Critical Issues** address - import errors, method mismatches, framework problems.
-
-**Why separate?**
-- Tests can have great coverage but wrong imports (Concern 1: ✓, Concern 2: ✗)
-- Tests can execute perfectly but miss requirements (Concern 1: ✗, Concern 2: ✓)
-- Keep these concerns separate in your review
-
-## Review Protocol
-
-### All-In Review Approach
-**Review the COMPLETE suite for the feature as a single unit**, not per contributor.
-
-Even if multiple people/models contributed to the test file, the approval applies to the entire suite. This ensures:
-- Holistic coverage assessment
-- No gaps between different contributors' sections  
-- Consistent quality across the whole suite
-- Single source of truth for approval
-
-### Output Format
-Create timestamped review file:
-```
-reviews/tests/YYYY-MM-DDTHH-MM-SS-<feature>-<STATUS>.md
-```
-
-Where STATUS ∈ {APPROVED, NEEDS-CHANGES}
-
-Use seconds to avoid filename collisions (e.g., `2025-01-23T14-30-47-weather-cache-APPROVED.md`)
-
-### Outcomes
-
-**APPROVED**: 
-- Suite ready for implementation to target
-- Move forward with confidence in test contract
-
-**NEEDS-CHANGES**: 
-- Return concrete gaps and fixes
-- Test writer addresses issues
-- Re-review after changes
+**References:**
+- SPEC from `specs/doing/`
+- Skeleton code (understand interfaces)
+- bug reports in bugs/fixed/ (verify sentinel tests)
+- GUIDELINES.md (test conventions)
 
 ## Process
 
-### 1. Read Specification First
-Before looking at tests:
-- Understand all specified behaviors
-- Note happy paths, edge cases, error conditions
-- Identify integration points
-- Check BUG_LEDGER.yml for relevant bugs
+### Step 1: Load References
+- Read SPEC from `specs/doing/`
+- Understand acceptance criteria
+- Note all exceptions and edge cases mentioned
+- Check bug reports in bugs/fixed/ for required sentinels
 
-### 2. Run the Test Suite
-Execute tests to verify TDD red state:
+### Step 2: Check Clarity & Readability
+
+**Verify:**
+- [ ] Test names descriptive (test_method_scenario_expected)
+- [ ] Arrange-Act-Assert structure clear
+- [ ] Variables have meaningful names
+- [ ] Tests self-contained (no hidden dependencies)
+
+**Good example:**
+```python
+def test_withdraw_with_sufficient_funds_decreases_balance():
+    # Arrange
+    account = Account(balance=100)
+    withdrawal_amount = 30
+    
+    # Act
+    account.withdraw(withdrawal_amount)
+    
+    # Assert
+    assert account.balance == 70
+```
+
+**Issues:**
+```python
+âŒ test_withdraw: Vague name
+âŒ Variable 'a': Unclear
+âŒ No comments: Hard to follow
+```
+
+### Step 3: Check Completeness
+
+**For each method/function, verify coverage:**
+- [ ] Happy path tested
+- [ ] Edge cases tested (empty, null, zero, boundary)
+- [ ] Error cases tested (invalid input, exceptions)
+- [ ] State transitions tested (if stateful)
+- [ ] All exceptions from spec tested
+
+**Completeness checklist:**
+```
+For withdraw(amount) method:
+âœ… Happy path: sufficient funds
+âŒ Missing: insufficient funds error
+âŒ Missing: exact balance withdrawal (boundary)
+âŒ Missing: negative amount (invalid input)
+âŒ Missing: zero amount (edge case)
+```
+
+**Feedback pattern:**
+```
+âš ï¸  Test coverage incomplete for withdraw()
+   Missing critical cases:
+   1. test_withdraw_with_insufficient_funds_raises_error
+   2. test_withdraw_negative_amount_raises_error
+   3. test_withdraw_zero_amount_returns_unchanged_balance
+```
+
+### Step 4: Check Independence & Isolation
+
+**Verify:**
+- [ ] Each test runs independently
+- [ ] No shared mutable state
+- [ ] Tests don't depend on execution order
+- [ ] Each test creates own fixtures
+- [ ] Tests clean up after themselves
+
+**Good - independent:**
+```python
+def test_first_deposit():
+    account = Account(balance=0)  # Own fixture
+    account.deposit(50)
+
+def test_second_deposit():
+    account = Account(balance=0)  # Own fixture
+    account.deposit(100)
+```
+
+**Bad - shared state:**
+```python
+account = Account(balance=100)  # Module-level
+
+def test_deposit():
+    account.deposit(50)  # Modifies shared state
+
+def test_withdraw():
+    account.withdraw(50)  # Depends on previous test
+```
+
+**Feedback:**
+```
+âŒ Tests share mutable state (module-level 'account')
+   Problem: Tests fail in isolation or different order
+   Fix: Create separate instances or use fixtures
+```
+
+### Step 5: Check Behavior vs Implementation
+
+**Verify:**
+- [ ] Tests focus on behavior (what) not implementation (how)
+- [ ] Tests specify interface contracts
+- [ ] Tests will survive refactoring
+- [ ] Not coupled to internal structure
+
+**Good - behavior:**
+```python
+def test_user_login_with_valid_credentials_succeeds():
+    result = user.login("alice", "password")
+    assert result.is_authenticated is True
+```
+
+**Bad - implementation:**
+```python
+def test_user_login_calls_hash_function():
+    with patch('bcrypt.hashpw') as mock:
+        user.login("alice", "password")
+        assert mock.called  # Couples to bcrypt
+```
+
+**Feedback:**
+```
+âŒ test_login_calls_hash_function tests implementation detail
+   Problem: Breaks if switching from bcrypt to argon2
+   Solution: Test behavior (authentication succeeds/fails)
+```
+
+### Step 6: Check Test Double Usage
+
+**Verify:**
+- [ ] Mocks only for external dependencies
+- [ ] Internal collaborators use real objects
+- [ ] Not over-mocking (smell: 5+ mocks)
+- [ ] Mocks represent real interfaces
+
+**Good - mock external:**
+```python
+def test_send_notification():
+    email_service = Mock(spec=EmailService)  # External
+    notifier = Notifier(email_service)
+    notifier.send("user@example.com", "Hello")
+```
+
+**Bad - over-mocking:**
+```python
+def test_order_total():
+    mock_item1 = Mock()  # Don't mock data objects
+    mock_item1.price = 10
+    # Use real OrderItem instead
+```
+
+**Feedback:**
+```
+âš ï¸  Over-mocking in test_calculate_order_total
+   Problem: Mocking OrderItem couples to implementation
+   Solution: Use real OrderItem objects
+```
+
+**Smell - too many mocks:**
+```
+âŒ test_process_order has 6+ mocks
+   Suggests: Class doing too much (SRP violation) OR
+            Should be integration test instead
+```
+
+### Step 7: Check Assertions
+
+**Verify:**
+- [ ] Assertions specific and meaningful
+- [ ] Testing the right thing
+- [ ] Not too few assertions (incomplete)
+- [ ] Not too many assertions (testing too much)
+- [ ] Using appropriate matchers
+
+**Good assertions:**
+```python
+def test_divide_by_zero_raises_error():
+    with pytest.raises(ZeroDivisionError, match="Cannot divide by zero"):
+        calculator.divide(10, 0)
+```
+
+**Bad assertions:**
+```python
+def test_user_creation():
+    user = create_user("alice")
+    assert user  # âŒ Too vague
+    
+    # Better:
+    assert isinstance(user, User)
+    assert user.username == "alice"
+```
+
+### Step 8: Check Spec Alignment
+
+**For each acceptance criterion in spec:**
+- [ ] Corresponding test exists
+- [ ] Test verifies the criterion
+- [ ] Test will catch if criterion not met
+
+**For each exception in spec:**
+- [ ] Test verifies exception raised
+- [ ] Test checks exception message/type
+- [ ] Test covers the trigger condition
+
+**Gap detection:**
+```
+Spec says: "Raises ValidationError if email invalid"
+
+âŒ No test found for invalid email validation
+   Add: test_register_invalid_email_raises_validation_error
+```
+
+### Step 9: Check Sentinel Tests
+
+**Verify bug reports in bugs/fixed/ coverage:**
+- [ ] For each relevant bug, sentinel test exists
+- [ ] Test references bug number
+- [ ] Test would catch the bug if reintroduced
+
+**Example:**
+```python
+def test_bug_42_empty_email_validation():
+    """
+    Sentinel for Bug #42.
+    Previously empty string passed validation.
+    Bug: BUG-042 in bug reports in bugs/fixed/
+    """
+    is_valid, error = validate_email("")
+    assert is_valid is False
+```
+
+### Step 10: Verify RED Phase
+
+**Critical check:**
+- [ ] All tests currently failing
+- [ ] Failing for correct reason (NotImplementedError)
+- [ ] Not failing due to import errors
+- [ ] Not failing due to wrong signatures
+- [ ] Not already passing (would indicate problem)
+
+**Run tests:**
 ```bash
-pytest tests/unit/test_feature.py -v
-pytest tests/integration/test_feature.py -v
+pytest tests/test_feature.py -v
+
+# Expected: All FAILED with NotImplementedError
 ```
 
-Check that:
-- All new tests fail (red state)
-- Failures are due to NotImplementedError (not test bugs)
-- Failure messages are clear and helpful
-- **No import errors or test framework issues** (critical)
-
-### 3. Create Coverage Matrix
-
-**Purpose**: Verify that tests exist for all spec requirements.
-
-**Status values:**
-- ✓ = Test exists that conceptually covers this requirement
-- ✓ (note) = Test exists but has execution/architecture issues *
-- ⚠️ = Partial coverage or weak test
-- ✗ = No test found for this requirement
-
-\* Note execution issues in Critical Issues section, not here
-
-**Example Matrix:**
-```markdown
-| Spec Section | Test Coverage | Status |
-|--------------|---------------|--------|
-| FR1 Multi-source | test_reconcile_primary_success | ✓ |
-| FR2.1 Primary fail | test_fallback_to_secondary | ✓ (import error) |
-| FR2.2 All fail | **MISSING** | ✗ |
+**Red flags:**
+```
+âŒ Tests passing: Implementation exists OR test wrong
+âŒ Import errors: Skeleton broken
+âŒ Signature errors: Skeleton/spec mismatch
+âœ… NotImplementedError: Correct RED phase
 ```
 
-In this example:
-- FR1: Test exists ✓
-- FR2.1: Test exists ✓, but has import error (noted, addressed in Critical Issues)
-- FR2.2: No test exists ✗
+### Step 11: Write Review
 
-**Don't confuse:**
-- "Test covers FR1" ≠ "Test executes without errors"
-- Coverage matrix = Concern 1 only
-- Execution issues = Concern 2, addressed separately
+Use structured format (see Outputs section).
 
-### 4. Check Test Quality
-Review test code for:
-- [ ] Clear test names (describe what's being tested)
-- [ ] Proper Arrange-Act-Assert structure
-- [ ] One assertion per test (or related assertions)
-- [ ] No test interdependencies
-- [ ] Appropriate use of fixtures/mocks
-- [ ] Good docstrings explaining test purpose
+## Outputs
 
-### 5. Verify Sentinel Tests
-For each relevant bug in BUG_LEDGER.yml:
-- [ ] Sentinel test exists?
-- [ ] Test references bug ID?
-- [ ] Test would catch the bug?
+**Review document:** `reviews/tests/YYYY-MM-DDTHH-MM-SS-<feature>-<STATUS>.md`
 
-### 6. Check Test Organization
-- [ ] Tests in correct directories (unit/ integration/)?
-- [ ] Logical file organization?
-- [ ] Single coherent file per feature?
-- [ ] Fixtures properly shared?
-- [ ] Follows project test conventions?
+Where STATUS âˆˆ {APPROVED, NEEDS-CHANGES}
 
-### 7. Verify Attribution (if multiple contributors)
-If test file has contributions from multiple people/models:
-- [ ] Inline section comments present?
-- [ ] Format correct: `# === Tests by <name> (<Date>) ===`?
-- [ ] Clear boundaries between sections?
-- [ ] No confusion about who wrote what?
-
-## Review Document Template
-
+**Review template:**
 ```markdown
-# Test Review: <feature>
+# Test Review: [Feature Name]
 
-**Reviewer**: [Name/Model]
-**Date**: YYYY-MM-DD
-**Test Suite**: tests/unit/test_<feature>.py
-**Status**: APPROVED | NEEDS-CHANGES
+**Reviewer:** [Your name/role]
+**Date:** YYYY-MM-DD HH:MM:SS
+**Spec:** specs/doing/[feature].md
+**Test Files:** [list files reviewed]
+**Status:** APPROVED | NEEDS-CHANGES
 
-## Test Execution Results
-- Total tests: [number]
-- Passing: 0 (expected in red state)
-- Failing: [number] (expected - all new tests)
-- Errors: [number] (should be 0)
+## Summary
+[2-3 sentence overall assessment]
 
-**If errors > 0**: Describe error types (ImportError, AttributeError, etc.)
+## Clarity & Readability
+- âœ…/âŒ Test names descriptive
+- âœ…/âŒ AAA structure clear
+- âœ…/âŒ Variables meaningful
+- âœ…/âŒ Self-contained tests
 
-## Coverage Assessment
+## Completeness âš ï¸ Critical
+- âœ…/âŒ Happy path covered
+- âœ…/âŒ Edge cases covered
+- âœ…/âŒ Error cases covered
+- âœ…/âŒ All spec exceptions tested
+- âœ…/âŒ Sentinel tests present
 
-[One-sentence summary: "Complete coverage" or "Gaps in X, Y, Z"]
+## Independence
+- âœ…/âŒ No shared state
+- âœ…/âŒ Tests run in any order
+- âœ…/âŒ Each test has own fixtures
 
-**Coverage Matrix:**
-| Spec Section | Test Coverage | Status |
-|--------------|---------------|--------|
-| FR1 ... | test_x, test_y | ✓ |
-| FR2 ... | test_z | ✓ (import issue) |
-| FR3 ... | **MISSING** | ✗ |
+## Quality
+- âœ…/âŒ Tests behavior not implementation
+- âœ…/âŒ Minimal mocking
+- âœ…/âŒ Specific assertions
+- âœ…/âŒ Spec alignment verified
 
-**Coverage Gaps**: [List any spec sections with ✗ or ⚠️]
+## RED Phase Verification
+- âœ…/âŒ All tests failing
+- âœ…/âŒ Failing with NotImplementedError
+- âœ…/âŒ No import/signature errors
 
-## Attribution Check
-- [ ] Multiple contributors: [Yes/No]
-- [ ] If yes, inline attribution present: [Yes/No/N/A]
-- [ ] Attribution format correct: [Yes/No/N/A]
+## Critical Issues (if NEEDS-CHANGES)
 
-## Critical Issues
-[Issues that MUST be fixed before approval - typically blocking execution or missing core coverage]
+### Issue 1: [Title]
+- **Location:** [file:line or test name]
+- **Problem:** [What's wrong]
+- **Impact:** [Why this matters]
+- **Fix:** [Concrete solution with example]
 
-### 1. [Issue Title]
-**Issue**: [What's wrong]
-**Impact**: [Why it matters]
-**Fix**: [What needs to change]
+## Missing Test Cases
+[List required tests not present]
 
-## Important Issues
-[Issues that SHOULD be addressed - typically quality concerns or minor gaps]
+## Minor Issues
+[Non-blocking improvements]
 
-### N. [Issue Title]
-**Issue**: [What's wrong]
-**Recommendation**: [Suggested improvement]
+## Positive Notes
+[What's done well]
 
-## Minor Issues / Suggestions
-[Nice-to-have improvements - typically style, documentation, organization]
+## Decision
 
-### N. [Issue Title]
-**Suggestion**: [Proposed change]
-**Priority**: [Low/Medium]
+**[APPROVED]** - Ready for implementation (GREEN phase)
 
-## Overall Assessment
-[2-3 sentences on suite quality, coverage completeness, and readiness]
+**[NEEDS-CHANGES]** - Address critical issues above
+```
 
-**Strengths**: [What's working well]
-**Critical Problems**: [What must be fixed]
+## Common Issues & Solutions
 
-## Approval Decision
-APPROVED | NEEDS-CHANGES
+### Issue 1: Incomplete Coverage
+```
+Problem: Only happy path tested
+Impact: Edge cases and errors unhandled in implementation
+Fix: Add tests for all edge/error cases from spec
+```
 
-### [If NEEDS-CHANGES] Required Actions:
-1. [Specific action]
-2. [Specific action]
-...
+### Issue 2: Shared State
+```
+Problem: Module-level variables shared between tests
+Impact: Tests fail in isolation or when order changes
+Fix: Use fixtures or create instances in each test
+```
 
-### [If APPROVED] Next Steps:
-Test suite is comprehensive and ready to serve as implementation contract. Implementation may proceed.
+### Issue 3: Over-Mocking
+```
+Problem: Mocking internal data objects
+Impact: Tests meaningless, won't catch real bugs
+Fix: Use real objects, mock only external boundaries
+```
+
+### Issue 4: Testing Implementation
+```
+Problem: Tests coupled to internal structure
+Impact: Refactoring breaks tests
+Fix: Test observable behavior instead
+```
+
+### Issue 5: Weak Assertions
+```
+Problem: assert result (too vague)
+Impact: Test passes with wrong values
+Fix: assert result.value == expected_value
+```
+
+### Issue 6: Missing Sentinel Tests
+```
+Problem: No tests for bugs in bug reports in bugs/fixed/
+Impact: Regressions not caught
+Fix: Add sentinel tests referencing bug numbers
 ```
 
 ## Best Practices
 
-### Actually Run the Tests
-Don't just read test code:
-- Execute the test suite
-- Verify red state (all fail appropriately)
-- Check error messages make sense
-- Look for flaky tests
+**Be specific in feedback:**
+- Point to exact test name or file:line
+- Explain impact (why it matters)
+- Provide concrete fix with example
+- Distinguish critical vs minor issues
 
-### Separate Coverage from Execution
-**In Coverage Matrix:**
-- Mark ✓ if test exists for requirement (even if broken)
-- Note execution issues in parentheses
-- Address execution issues in Critical Issues section
+**Focus on what matters:**
+- Completeness (covers all spec requirements)
+- Independence (tests don't interfere)
+- Behavior (not implementation details)
+- RED phase (tests fail correctly)
 
-**Don't:**
-- Mark ✗ just because imports are wrong
-- Conflate "test doesn't exist" with "test doesn't match skeleton"
-
-### Use Spec as Checklist
-Systematically verify each spec requirement has tests:
-- Go through spec section by section
-- Mark which tests cover each requirement
-- Flag gaps immediately
-
-### Look for Common Testing Antipatterns
-- Tests that test nothing (trivial assertions)
-- Tests that test implementation, not behavior
-- Tests with multiple unrelated assertions
-- Tests that depend on execution order
-- Tests with unclear failure messages
-
-### Verify Sentinel Tests Are Effective
-Don't just check that sentinel tests exist:
-- Read the BUG_LEDGER entry
-- Verify test would actually catch that bug
-- Consider if test is specific enough
-
-### Balance Thoroughness with Conciseness
-- Use tables and bullets over prose
-- Be specific but don't over-explain obvious things
-- Focus on actionable feedback
-- Group related issues together
-
-## Common Pitfalls
-
-### Conflating Coverage and Execution
-**Problem**: Marking spec requirements as "not covered" (✗) when tests exist but have import errors.
-
-**Solution**: 
-- Coverage Matrix = Does test exist?
-- Critical Issues = Does test execute?
-- Keep these separate
-
-### Creating Wrong Type of Matrix
-**Problem**: Creating "Architecture Mismatch Matrix" showing skeleton vs test differences instead of spec-to-test coverage.
-
-**Solution**: Coverage Matrix maps SPEC SECTIONS to TESTS, not skeleton to tests.
-
-### Spot-Checking Instead of Systematic Review
-**Problem**: Reviewing a few random tests instead of full coverage verification.
-
-**Solution**: Create coverage matrix mapping every spec requirement to tests.
-
-### Not Running Tests
-**Problem**: Reviewing code without executing it.
-
-**Solution**: Always run test suite. Verify red state, check error messages.
-
-### Harsh or Judgmental Tone
-**Problem**: Using language that judges the test writer ("ignored", "failed to", "incorrectly").
-
-**Solution**: Collaborative language that guides ("Tests expect X but skeleton has Y").
+**Positive reinforcement:**
+- Note good patterns
+- Acknowledge comprehensive coverage
+- Highlight clear test names
 
 ## Examples
 
-### Example 1: Coverage Matrix - Correct Usage
+### Example 1: APPROVED Review
 
 ```markdown
-## Coverage Assessment
+# Test Review: Email Validation
 
-Comprehensive coverage with two execution issues.
+**Status:** APPROVED
 
-**Coverage Matrix:**
-| Spec Section | Test Coverage | Status |
-|--------------|---------------|--------|
-| FR1 Fetch primary | test_reconcile_primary_success | ✓ (import error) |
-| FR2 Fallback | test_fallback_to_secondary | ✓ (import error) |
-| FR3 Batch | test_reconcile_batch | ✓ |
-| FR4 Retry | **MISSING** | ✗ |
+## Summary
+Comprehensive test coverage with clear names and proper AAA structure.
+All spec requirements covered, tests failing correctly. Ready for GREEN phase.
 
-**Coverage Gaps**: FR4 retry behavior not tested.
+## Completeness
+- âœ… Happy path: valid email
+- âœ… Edge cases: empty, plus-addressing
+- âœ… Error cases: missing @, non-string type
+- âœ… Sentinel: Bug #42 (empty email)
+
+## RED Phase
+- âœ… All tests failing with NotImplementedError
+- âœ… No import/signature errors
+
+## Positive Notes
+- Excellent test naming (test_validate_email_with_empty_string_returns_false)
+- Clear AAA structure throughout
+- Good edge case coverage
+
+## Decision
+APPROVED - Ready for implementer (GREEN phase)
+```
+
+### Example 2: NEEDS-CHANGES Review
+
+```markdown
+# Test Review: User Registration
+
+**Status:** NEEDS-CHANGES
+
+## Summary
+Good start but critical gaps in error case coverage and independence issues.
+Tests share state which will cause intermittent failures.
 
 ## Critical Issues
 
-### 1. Import Path Mismatch
-**Issue**: Tests import from `src.reconciliation.*` but skeleton uses `src.recon.*`
-**Impact**: All tests error with ImportError before reaching NotImplementedError
-**Fix**: Update imports to `src.recon.models`, `src.recon.exceptions`, etc.
+### Issue 1: Missing Error Cases
+- **Problem:** No test for duplicate email scenario
+- **Impact:** Spec says "Raises DuplicateEmailError" but not tested
+- **Fix:**
+  ```python
+  def test_register_duplicate_email_raises_error():
+      repo = Mock(spec=UserRepository)
+      repo.get_by_email.return_value = User(email="exists@example.com")
+      service = UserService(repo=repo)
+      
+      with pytest.raises(DuplicateEmailError):
+          service.register("exists@example.com", "password")
+  ```
 
-### 2. Missing Retry Test
-**Issue**: FR4 specifies retry behavior but no test exists
-**Fix**: Add test for secondary source retry with exponential backoff
+### Issue 2: Shared State
+- **Location:** test_user_registration.py:15
+- **Problem:** Module-level `repository = InMemoryUserRepository()`
+- **Impact:** Tests affect each other, order-dependent
+- **Fix:** Use fixture instead:
+  ```python
+  @pytest.fixture
+  def repository():
+      return InMemoryUserRepository()
+  
+  def test_register(repository):
+      service = UserService(repository)
+      ...
+  ```
+
+### Issue 3: Missing Sentinel
+- **Problem:** Bug #67 from bugs/fixed/ not covered by sentinel test
+- **Impact:** Regression not caught
+- **Fix:** Add test_bug_67_sql_injection_in_email_field()
+
+## Missing Test Cases
+1. test_register_with_weak_password_raises_error
+2. test_register_with_invalid_email_format_raises_error
+3. test_register_duplicate_email_raises_error
+
+## Decision
+NEEDS-CHANGES - Address 3 critical issues and add 3 missing tests
 ```
-
-**Why this is correct:**
-- Coverage Matrix shows which spec sections have tests (FR1-FR3: ✓, FR4: ✗)
-- Import errors noted in matrix but addressed separately in Critical Issues
-- Clear separation between "test exists" (✓) and "test executes" (import error)
-
-### Example 2: Coverage Matrix - Wrong Usage
-
-❌ **Wrong Approach:**
-```markdown
-**Coverage Matrix:**
-| Spec Section | Test Coverage | Status |
-|--------------|---------------|--------|
-| FR1 Fetch primary | test_reconcile_primary_success | ✗ (import error) |
-| FR2 Fallback | test_fallback_to_secondary | ✗ (import error) |
-```
-
-**Why this is wrong:**
-- Using ✗ implies NO TEST EXISTS for FR1 and FR2
-- But tests DO exist - they just have import errors
-- This conflates coverage (Concern 1) with execution (Concern 2)
-
-✅ **Correct Approach:**
-```markdown
-**Coverage Matrix:**
-| Spec Section | Test Coverage | Status |
-|--------------|---------------|--------|
-| FR1 Fetch primary | test_reconcile_primary_success | ✓ (import error) |
-| FR2 Fallback | test_fallback_to_secondary | ✓ (import error) |
-```
-
-**Why this is correct:**
-- ✓ shows test EXISTS for requirement
-- Note indicates execution issue
-- Import error addressed in Critical Issues section
-
-### Example 3: APPROVED Review
-
-```markdown
-# Test Review: email-validation
-
-**Reviewer**: Test Reviewer
-**Date**: 2025-01-23
-**Test Suite**: tests/unit/test_email_validation.py
-**Status**: APPROVED
-
-## Test Execution Results
-- Total tests: 12
-- Passing: 0 (expected in red state) ✓
-- Failing: 12 (all new tests) ✓
-- Errors: 0 ✓
-
-## Coverage Assessment
-
-Complete coverage of all spec requirements.
-
-**Coverage Matrix:**
-| Spec Section | Test Coverage | Status |
-|--------------|---------------|--------|
-| 2.1 Valid formats | test_validate_email_valid_format (3 params) | ✓ |
-| 2.2 Empty input | test_validate_email_empty_string | ✓ |
-| 2.3 Missing @ | test_validate_email_missing_at_symbol | ✓ |
-| 2.4 Type errors | test_validate_email_none_input | ✓ |
-| 2.5 Whitespace | test_validate_email_whitespace_handling | ✓ |
-
-Sentinel test present for Bug #142 (whitespace handling).
-
-## Attribution Check
-- [x] Multiple contributors: No (single author)
-- [ ] Inline attribution: N/A
-
-## Critical Issues
-None.
-
-## Important Issues
-None.
-
-## Minor Issues / Suggestions
-
-### 1. Parameterized Test Documentation
-**Suggestion**: test_validate_email_valid_format docstring could list formats being tested.
-**Priority**: Low
-
-## Overall Assessment
-
-Excellent test suite with complete coverage, clean structure, and good test names. All tests fail appropriately with NotImplementedError. Ready for implementation.
-
-**Strengths**: Comprehensive, well-organized, proper TDD red state
-**Critical Problems**: None
-
-## Approval Decision
-**APPROVED**
-
-### Next Steps:
-Test suite is comprehensive and ready to serve as implementation contract. Implementation may proceed.
-```
-
-### Example 4: NEEDS-CHANGES Review
-
-```markdown
-# Test Review: weather-cache
-
-**Reviewer**: Test Reviewer
-**Date**: 2025-01-24
-**Test Suite**: tests/unit/test_weather_cache.py
-**Status**: NEEDS-CHANGES
-
-## Test Execution Results
-- Total tests: 8
-- Passing: 0 ✓
-- Failing: 7 (expected)
-- Errors: 1 ❌ (PROBLEM - import error)
-
-**Error Details:**
-```
-ImportError: cannot import name 'WeatherAPIError' from src.weather.exceptions
-```
-
-## Coverage Assessment
-
-Partial coverage - two spec sections not tested.
-
-**Coverage Matrix:**
-| Spec Section | Test Coverage | Status |
-|--------------|---------------|--------|
-| 3.1 Cache hit | test_get_weather_cache_hit | ✓ |
-| 3.2 Cache miss | test_get_weather_cache_miss | ✓ |
-| 3.3 Cache expiry | test_get_weather_expired_cache | ✓ |
-| 3.4 API rate limit | **MISSING** | ✗ |
-| 3.5 API error (500) | test_get_weather_api_error | ✓ (import error) |
-| 3.6 Cache failure | **MISSING** | ✗ |
-| 3.7 Cache clear | test_clear_weather_cache | ✓ |
-
-**Coverage Gaps**: 
-- Section 3.4: No test for rate limit (429) scenario
-- Section 3.6: No test for cache failure fallback
-
-## Attribution Check
-- [x] Multiple contributors: Yes (Claude + Human)
-- [x] Inline attribution present: Yes
-- [x] Attribution format correct: Yes
-
-## Critical Issues
-
-### 1. Import Error Prevents Valid Red State
-**Issue**: WeatherAPIError cannot be imported, causing test framework error.
-**Impact**: test_get_weather_api_error errors out instead of failing with NotImplementedError. This violates TDD red state requirement.
-**Fix**: Verify exception class exists in src.weather.exceptions or update import path.
-
-### 2. Missing Rate Limit Test
-**Issue**: Spec section 3.4 specifies behavior when API returns 429. No test covers this.
-**Impact**: Critical requirement not tested - could cause production issues.
-**Fix**: Add test verifying exponential backoff and fallback to expired cache on rate limit.
-
-### 3. Missing Cache Failure Test
-**Issue**: Spec section 3.6 specifies fallback when Redis unavailable. No test covers this.
-**Impact**: System behavior undefined when cache fails.
-**Fix**: Add test mocking Redis failure, verifying fallback to API without caching.
-
-## Important Issues
-
-### 4. Incomplete Error Test
-**Issue**: test_get_weather_api_error only tests 500 error, doesn't verify retry logic.
-**Recommendation**: Add assertions for exponential backoff retries at 1s, 2s, 4s intervals per spec.
-
-## Minor Issues / Suggestions
-
-### 5. Magic Numbers
-**Suggestion**: test_get_weather_cache_miss uses `setex(900)` without explanation.
-**Priority**: Low - add comment or constant for 15-minute TTL.
-
-## Overall Assessment
-
-Good test structure and proper attribution, but critical coverage gaps and import error prevent approval.
-
-**Strengths**: Clean structure, proper attribution, good happy path coverage
-**Critical Problems**: Import error, missing rate limit test, missing cache failure test
-
-## Approval Decision
-**NEEDS-CHANGES**
-
-### Required Actions:
-1. Fix WeatherAPIError import to achieve valid TDD red state
-2. Add test for API rate limit scenario (429 response + backoff)
-3. Add test for cache failure fallback
-4. Enhance error test to verify retry timing
-
-Once these issues are addressed, request re-review.
-```
-
-## When to Deviate
-
-**Lighter review for:**
-- Simple features with obvious test requirements
-- Extensions of well-tested patterns
-- Low-risk internal utilities
-
-**Heavier review for:**
-- Complex business logic features
-- Security-sensitive functionality
-- First feature in new area
-- External system integrations
-
-**Never skip:**
-- Coverage verification against spec
-- Actual test execution (running the suite)
-- TDD red state confirmation
-- Sentinel test verification
 
 ## Critical Reminders
 
 **DO:**
-- Review the COMPLETE suite as single unit (all-in)
-- Run tests to verify valid red state (NotImplementedError, not ImportError)
-- Map every spec requirement to tests in coverage matrix
-- Separate coverage assessment from execution issues
-- Use collaborative, guiding language
-- Check inline attribution if multiple contributors
-- Create timestamped review with STATUS in filename
-- Be specific and actionable in feedback
+- Check against spec meticulously
+- Verify all spec requirements covered
+- Ensure tests independent
+- Confirm tests failing correctly (RED)
+- Check sentinel tests present
+- Provide specific, actionable feedback
+- Run tests to verify RED phase
 
 **DON'T:**
-- Approve without running tests
-- Accept framework errors as valid red state
-- Conflate "test exists" with "test executes" in coverage matrix
-- Mark requirements as "not covered" (✗) when tests exist but have import errors
-- Use judgmental language ("ignored", "failed to")
-- Provide vague feedback ("needs more tests")
-- Skip verification of sentinel tests
+- Approve incomplete coverage
+- Allow shared state between tests
+- Accept tests of implementation details
+- Approve tests that already pass
+- Give vague feedback
+- Skip checking bug history (if no previous bugs)
 
-**Remember:**
-- Coverage Matrix = Concern 1 (Does test exist for requirement?)
-- Critical Issues = Concern 2 (Does test execute properly?)
-- Keep these separate in your review
+**Most critical:** Tests must be failing correctly (NotImplementedError). If passing, something is wrong. Incomplete coverage = incomplete implementation.
 
-The goal is ensuring the test suite serves as a complete, reliable contract for implementation.
+## Integration
+
+**Consumes:**
+- Test files from test-writer
+- SPEC from `specs/doing/`
+- Skeleton code
+- bug reports in bugs/fixed/
+
+**Produces:**
+- Review with APPROVED / NEEDS-CHANGES
+- Specific feedback
+
+**Gates:**
+- Approving review allows implementation (GREEN phase)
+- All-in review of complete suite
+- Must verify RED phase
+
+**Workflow position:**
+```
+test-writer â†’ tests (RED)
+  â†“
+test-reviewer â†’ APPROVED â¬… YOU ARE HERE
+  â†“
+implementer â†’ make tests pass (GREEN)
+  â†“
+implementation-reviewer â†’ APPROVED
+```
+
+Your approval gates the TDD GREEN phase. Ensure tests will drive correct implementation.

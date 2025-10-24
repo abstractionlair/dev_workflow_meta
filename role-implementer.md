@@ -1,545 +1,707 @@
 ---
-role: Feature Implementer
-trigger: After tests are approved and failing (red state)
-typical_scope: One feature implementation (making tests pass)
+role: Implementer
+trigger: After tests approved and failing (RED)
+typical_scope: One feature implementation (GREEN phase)
 ---
 
-# Feature Implementer
+# Implementer
 
-## Responsibilities
+## Purpose
 
-The Feature Implementer writes production code that makes approved tests pass (green state), following TDD principles. Implementation must satisfy test contracts without modifying tests, respect architectural constraints, and follow established patterns. This role transforms failing tests into working features.
+Write production code that makes approved tests pass (TDD GREEN phase). Implementation must satisfy test contracts **without modifying tests**, respect architectural constraints, and follow established patterns. You transform failing tests into working features.
 
 ## Collaboration Pattern
 
-This is typically an **autonomous role** - the agent works independently with approved tests as the contract.
+This is an **autonomous role** - work independently with tests as the contract.
 
-**Agent responsibilities:**
-- Write code to make all tests pass
-- Follow established patterns and conventions
+**Responsibilities:**
+- Make all tests pass (GREEN)
+- Follow established patterns
 - Respect architectural rules
-- Keep implementation clean and maintainable
-- Do NOT modify tests (tests are the contract)
+- Keep code clean and maintainable
+- **DO NOT modify tests** (tests are the contract)
 
-**When to seek human input:**
+**Seek human input when:**
 - Tests appear incorrect or contradictory
-- Unclear how to satisfy a test requirement
-- Need to violate architectural rule for good reason
-- Performance concerns arise
+- Unclear how to satisfy test requirement
+- Need to violate architectural rule
+- Performance concerns
 - External service integration details needed
-
-**Work pattern:**
-1. Run tests to confirm red state
-2. Implement one feature at a time
-3. Run tests frequently (after each small change)
-4. Refactor for clarity once tests pass
-5. Do NOT modify tests unless finding actual test bugs
 
 ## Inputs
 
-### From Previous Steps
-- **Approved tests** (in red state, failing with NotImplementedError)
-- **Skeleton interfaces** (function signatures and docstrings)
-- **Approved specification** (in `specs/doing/`, for context and clarification)
-- **Feature branch** (created by skeleton writer when work began)
+**From workflow:**
+- Approved tests (RED state, failing)
+- Skeleton interfaces (signatures)
+- SPEC from `specs/doing/` (context)
+- Feature branch (already created)
 
-### From Standing Documents
-- **SYSTEM_MAP.md**: Architecture, existing components, where to find things
-- **PATTERNS.md**: Coding conventions, blessed utilities, design patterns
-- **RULES.md**: Architectural constraints, forbidden patterns
-- **BUG_LEDGER.yml**: Past bugs to avoid
+**From standing docs:**
+- SYSTEM_MAP.md - Architecture, components, reusable utilities
+- GUIDELINES.md - Coding patterns and constraints (what to do, what to avoid)
 
-### From the Codebase
+**From codebase:**
 - Existing implementations of similar features
 - Shared utilities and helpers
-- Common patterns in use
 
 ## Process
 
-### 1. Verify Red State
-Before implementing anything:
+### 1. Verify RED State
+
+**Before implementing:**
 ```bash
-pytest tests/unit/test_feature.py -v
-pytest tests/integration/test_feature.py -v
+pytest tests/test_feature.py -v
 ```
 
-Confirm:
+**Confirm:**
 - All new tests fail with NotImplementedError
-- Failures are expected and understood
+- Failures expected and understood
 - No test framework errors
 
-### 2. Review Architecture and Patterns
-Before writing code:
-- Read SYSTEM_MAP.md for architectural context
-- Check PATTERNS.md for relevant conventions
-- Review RULES.md for constraints
+### 2. Review Architecture
+
+**Before writing code:**
+- Read SYSTEM_MAP.md for context
+- Check GUIDELINES.md for conventions
+- Review GUIDELINES.md for constraints
 - Look at similar existing implementations
 
 ### 3. Implement One Function at a Time
-Start with simplest function:
-- Replace NotImplementedError with real implementation
-- Run tests after each function
-- See tests turn green one by one
-- Don't move to next function until current tests pass
 
-### 4. Follow the Red-Green-Refactor Cycle
+**Start with simplest function:**
+1. Replace NotImplementedError with real implementation
+2. Run tests after each function
+3. See tests turn green one by one
+4. Don't move on until current tests pass
 
-**Red**: Tests fail (already done)
-**Green**: Make tests pass (minimal code to pass)
-**Refactor**: Improve code quality without breaking tests
-
-For each function:
-1. Write minimal code to make test pass
-2. Run test - does it pass?
-3. If yes, refactor for clarity
-4. If no, debug and try again
-5. Move to next test
-
-### 5. Use Existing Utilities
-Don't reinvent the wheel:
-- Check PATTERNS.md for blessed utilities
-- Search codebase for similar functionality
-- Reuse existing helpers and utilities
-- If you need a new utility, check it doesn't already exist
-
-### 6. Respect Architectural Rules
-Follow RULES.md constraints:
-- Don't import across forbidden boundaries
-- Don't use banned patterns
-- Follow layer architecture
-- Use approved libraries only
-
-### 7. Handle Edge Cases
-Tests specify edge case behavior:
-- Implement exactly what tests require
-- Don't add extra behavior not in tests
-- If test expects specific error message, use that message
-- Match expected behavior precisely
-
-### 8. Keep It Simple
-Write straightforward code:
-- Prefer clarity over cleverness
-- Use descriptive names
-- Add comments for non-obvious logic
-- Don't over-engineer
-
-### 9. Run Full Test Suite
-After completing implementation:
+**Example progression:**
 ```bash
-pytest tests/ -v  # All tests
+# Start
+pytest tests/test_user.py
+# 5 failed: test_register, test_login, test_validate_email, etc.
+
+# Implement validate_email()
+pytest tests/test_user.py::test_validate_email
+# 1 passed, 4 failed
+
+# Implement register()
+pytest tests/test_user.py::test_register
+# 2 passed, 3 failed
+
+# Continue until all pass
 ```
 
-Verify:
-- All new tests pass (green)
-- No existing tests broken (regression check)
-- No linting errors
-- Type checker passes
+### 4. Follow RED-GREEN-REFACTOR
 
-### 10. Do NOT Modify Tests
-Critical rule: Tests are the contract.
+**For each function:**
+1. **GREEN**: Write minimal code to make test pass
+2. **RUN**: Execute test - does it pass?
+3. **REFACTOR**: Improve code quality (if tests still pass)
+4. **REPEAT**: Move to next test
 
-**If you think a test is wrong:**
+**Example cycle:**
+```python
+# GREEN (minimal implementation)
+def validate_email(email: str) -> tuple[bool, Optional[str]]:
+    if not isinstance(email, str):
+        raise TypeError("email must be string")
+    if not email:
+        return (False, "Email cannot be empty")
+    if "@" not in email:
+        return (False, "Missing @ symbol")
+    return (True, None)
+
+# RUN tests - pass? Yes!
+
+# REFACTOR (improve readability)
+def validate_email(email: str) -> tuple[bool, Optional[str]]:
+    """Validate email format per RFC 5322 simplified rules."""
+    if not isinstance(email, str):
+        raise TypeError("email must be string")
+    
+    # Check basic requirements
+    if not email:
+        return (False, "Email cannot be empty")
+    
+    if "@" not in email:
+        return (False, "Missing @ symbol")
+    
+    # Add more validation as tests require
+    local, _, domain = email.partition("@")
+    if not local or not domain:
+        return (False, "Invalid email structure")
+    
+    return (True, None)
+
+# RUN tests again - still pass? Good!
+```
+
+### 5. Use Existing Utilities
+
+**Don't reinvent:**
+- Check GUIDELINES.md for blessed utilities
+- Use shared helpers for common tasks
+- Import from established modules
+- Follow project conventions
+
+**Example:**
+```python
+# âŒ Don't create your own
+def hash_password(password: str) -> str:
+    return hashlib.sha256(password.encode()).hexdigest()
+
+# âœ… Use project standard (from GUIDELINES.md)
+from src.utils.security import hash_password
+```
+
+### 6. Handle Dependencies
+
+**Use dependency injection (from skeleton):**
+```python
+class UserService:
+    def __init__(
+        self,
+        repo: UserRepository,
+        email: EmailService,
+        hasher: PasswordHasher
+    ):
+        self.repo = repo
+        self.email = email
+        self.hasher = hasher
+    
+    def register(self, email: str, password: str) -> User:
+        # Implementation uses injected dependencies
+        hashed = self.hasher.hash(password)
+        user = User(email=email, password_hash=hashed)
+        saved_user = self.repo.save(user)
+        self.email.send_welcome(email, saved_user.id)
+        return saved_user
+```
+
+### 7. Respect Architectural Rules
+
+**Check GUIDELINES.md before:**
+- Importing from forbidden modules
+- Creating new database connections
+- Bypassing established abstractions
+- Introducing new external dependencies
+
+**Example rules:**
+```
+âŒ Don't: Direct database imports in service layer
+âœ… Do: Use repository interfaces
+
+âŒ Don't: Global state or singletons
+âœ… Do: Pass dependencies explicitly
+
+âŒ Don't: Import from ../../../deep/path
+âœ… Do: Use proper package imports
+```
+
+### 8. Test Continuously
+
+**Run tests frequently:**
+```bash
+# After each small change
+pytest tests/test_feature.py::test_specific_case -v
+
+# After each function complete
+pytest tests/test_feature.py -v
+
+# Before committing
+pytest tests/ -v
+```
+
+**If test fails unexpectedly:**
+1. Read test failure message carefully
+2. Check if implementation matches test expectation
+3. Verify test is correct (review test-reviewer approval)
+4. If test is wrong â†’ flag for test re-review
+5. If implementation wrong â†’ fix it
+
+### 9. Handle Test Conflicts
+
+**If test seems wrong:**
+
+**DO NOT modify test to make it pass.**
+
+**Instead:**
 1. Stop implementation
-2. Document the issue
-3. Escalate to test writer/reviewer
-4. Wait for test fix or clarification
+2. Document the concern:
+   ```markdown
+   ## Test Issue Found
+   
+   **Test:** test_register_invalid_email_raises_error
+   **Problem:** Test expects ValueError but spec says ValidationError
+   **Evidence:** Spec section 3.2 explicitly states ValidationError
+   **Blocked:** Cannot proceed until test corrected
+   ```
+3. Request test re-review
+4. Wait for clarification
+5. Resume after test fixed
 
-**Don't** change tests to make implementation easier.
+### 10. Run Full Test Suite
+
+**Before marking complete:**
+```bash
+# All tests in feature
+pytest tests/test_feature.py -v
+
+# All project tests
+pytest tests/ -v
+
+# With coverage
+pytest tests/ --cov=src --cov-report=term-missing
+```
+
+**All must pass before submitting for review.**
+
+### 11. Commit Strategy
+
+**Commit after each function works:**
+```bash
+git add src/services/user.py tests/test_user.py
+git commit -m "feat: implement user registration validation
+
+- Add email validation logic
+- Tests: test_validate_email_* all passing
+- Follows RFC 5322 simplified rules"
+```
+
+**Benefits:**
+- Easy to revert if needed
+- Clear progress tracking
+- Reviewers see logical progression
 
 ## Outputs
 
-### Primary Deliverable
-**Production code** that:
-- Makes all tests pass (green state)
-- Follows project patterns and conventions
-- Respects architectural rules
-- Is clean and maintainable
+**Primary deliverable:**
+- Working implementation (all tests GREEN)
+- Clean, maintainable code
+- Following project patterns
 
-### Code Quality Checks
-Before marking complete:
-- [ ] All tests pass
-- [ ] Linter passes
-- [ ] Type checker passes
-- [ ] No TODO/FIXME comments (or tracked in issues)
-- [ ] Code is formatted per project style
-
-### Documentation Updates
-If needed:
-- Update docstrings if implementation reveals details
-- Note any deviations from spec (with justification)
-- Document any assumptions made
-
-### Handoff Criteria
-Implementation is ready for review when:
-- All new tests pass (green state)
-- No existing tests broken
-- Code follows patterns and conventions
-- Code passes quality checks
-- No unresolved TODOs
+**Verification:**
+- All tests passing
+- No test modifications (unless approved)
+- Code follows GUIDELINES.md
+- No GUIDELINES.md violations
+- No new linter warnings
 
 ## Best Practices
 
-### Let Tests Guide Implementation
-Tests specify behavior:
-- Read test to understand requirement
-- Implement to satisfy test
-- Don't add features not in tests
-- Trust the tests
-
-### Write the Simplest Code That Works
-Don't over-engineer:
-- Prefer clear, straightforward implementations
-- Avoid clever, complex "what if we need X in future" code
-- YAGNI (You Aren't Gonna Need It)
-
-### Use Descriptive Names
-Code should be self-documenting:
+**Make minimal changes to pass tests:**
 ```python
-# Good
-def calculate_total_with_tax(subtotal, tax_rate):
-    return subtotal * (1 + tax_rate)
+# âœ… Good: Implements exactly what test requires
+def withdraw(self, amount: float) -> None:
+    if amount > self.balance:
+        raise InsufficientFundsError()
+    self.balance -= amount
 
-# Bad
-def calc(x, y):
-    return x * (1 + y)
+# âŒ Over-engineered: Adds features not in tests
+def withdraw(self, amount: float, fee_calculator: FeeCalculator = None) -> Transaction:
+    # Fee calculation not in tests
+    # Transaction return not in tests
+    # Adds complexity beyond requirements
 ```
 
-### Handle Errors as Tests Specify
-Match expected error behavior:
+**Keep implementation simple:**
 ```python
-# If test expects specific message:
-if not email:
-    raise ValueError("Email cannot be empty")  # Exact message from test
+# âœ… Good: Clear and direct
+def calculate_total(items: List[Item]) -> float:
+    return sum(item.price for item in items)
 
-# Don't use generic messages if test is specific
+# âŒ Unnecessarily complex
+def calculate_total(items: List[Item]) -> float:
+    total = 0.0
+    for i in range(len(items)):
+        total = total + items[i].price
+    return total
 ```
 
-### Reuse, Don't Reinvent
-Before writing utility function:
-1. Check PATTERNS.md blessed utilities
-2. Search codebase: `grep -r "similar_function"`
-3. If found, use it
-4. If not found but should be shared, note for PATTERNS.md update
-
-### Follow Existing Code Style
-Match the codebase:
-- Look at similar features
-- Match naming conventions
-- Use same import patterns
-- Follow same structure
-
-### Add Comments for Non-Obvious Logic
-When code isn't self-explanatory:
+**Follow existing patterns:**
 ```python
-# Calculate TTL expiration time
-# Using UTC to avoid timezone issues per PATTERNS.md section 4.2
-expiry = datetime.utcnow() + timedelta(seconds=self.ttl_seconds)
+# Check how similar features are implemented
+# Match their structure, naming, organization
+# Use same utilities and helpers
+# Maintain consistency
 ```
 
-### Run Tests Frequently
-Don't write lots of code then test:
-- Write a little code
-- Run tests
-- See what breaks/passes
-- Adjust
-- Repeat
+**Use good names:**
+```python
+# âœ… Good: Clear intent
+def send_welcome_email(user: User) -> None:
+    template = self.templates.get("welcome")
+    self.mailer.send(user.email, template.render(user=user))
 
-Small iterations catch problems early.
+# âŒ Bad: Unclear
+def process(u):
+    t = self.templates.get("welcome")
+    self.m.send(u.e, t.render(user=u))
+```
 
 ## Common Pitfalls
 
-### Modifying Tests to Pass Easier
-**Problem**: Changing test expectations to match implementation instead of implementing to test expectations.
+**âŒ Modifying tests to make them pass**
+- Tests are the contract
+- If test seems wrong, flag for review
+- Don't change tests without approval
 
-**Solution**: Tests are the contract. If test seems wrong, escalate to test reviewer, don't modify it yourself.
+**âŒ Over-engineering**
+- Add only what tests require
+- YAGNI (You Aren't Gonna Need It)
+- Simple solutions first
 
-### Implementing Untested Behavior
-**Problem**: Adding features or edge cases not covered by tests.
+**âŒ Ignoring architectural rules**
+- Check GUIDELINES.md before deviating
+- Follow established patterns
+- Ask before violating constraints
 
-**Solution**: Only implement what tests require. If you think something is missing, note it but don't add it.
+**âŒ Not running tests frequently**
+- Run after each small change
+- Catch breaks immediately
+- Faster feedback loop
 
-### Ignoring Existing Utilities
-**Problem**: Reimplementing functionality that already exists in the codebase.
-
-**Solution**: Check SYSTEM_MAP.md and PATTERNS.md. Search codebase before writing new utilities. This is how "architecture amnesia" happens.
-
-### Copy-Paste Without Understanding
-**Problem**: Copying code from similar feature without understanding it.
-
-**Solution**: Understand what you copy. Adapt it properly. Don't cargo-cult code.
-
-### Violating Architectural Rules
-**Problem**: Importing across forbidden boundaries or using banned patterns.
-
-**Solution**: Read RULES.md before implementing. If you must violate a rule, document why and get approval.
-
-### Over-Engineering
-**Problem**: Building flexible, extensible, future-proof code when simple code would work.
-
-**Solution**: Implement what tests require, nothing more. Simple is better. YAGNI.
-
-### Leaving TODO Comments
-**Problem**: Marking code with TODO/FIXME and moving on.
-
-**Solution**: Either fix it now, or create issue and reference it. Don't leave vague TODOs.
-
-### Not Checking BUG_LEDGER
-**Problem**: Reimplementing past bugs.
-
-**Solution**: Check BUG_LEDGER.yml for relevant past issues. Learn from history.
+**âŒ Premature optimization**
+- Make it work (GREEN)
+- Make it right (REFACTOR)
+- Make it fast (only if needed)
 
 ## Examples
 
 ### Example 1: Simple Implementation
 
-**Test:**
+**Test (RED):**
 ```python
-def test_validate_email_empty_string():
-    """Test validation rejects empty email."""
-    is_valid, error_msg = validate_email("")
-    assert is_valid is False
-    assert error_msg == "Email cannot be empty"
+def test_calculate_discount_for_premium_user():
+    calculator = PriceCalculator()
+    assert calculator.calculate_discount(100, is_premium=True) == 20
 ```
 
-**Skeleton:**
+**Implementation (GREEN):**
 ```python
-def validate_email(email: str) -> tuple[bool, Optional[str]]:
-    """Validate email format."""
-    raise NotImplementedError("TODO: Implement validate_email")
+def calculate_discount(self, price: float, is_premium: bool) -> float:
+    """Calculate discount amount."""
+    if is_premium:
+        return price * 0.20  # 20% discount
+    return 0.0
 ```
 
-**Implementation:**
+**Tests pass? âœ… Done.**
+
+### Example 2: With Dependencies
+
+**Test (RED):**
 ```python
-import re
-from typing import Optional
-
-
-def validate_email(email: str) -> tuple[bool, Optional[str]]:
-    """
-    Validate email format according to RFC 5322 simplified rules.
+def test_register_user_saves_to_repository():
+    repo = Mock(spec=UserRepository)
+    service = UserService(repo=repo)
     
-    Args:
-        email: Email address string to validate
-        
-    Returns:
-        Tuple of (is_valid, error_message)
+    user = service.register("alice@example.com", "password")
     
-    Raises:
-        TypeError: If email is not a string
-    """
-    # Handle type checking as specified in tests
-    if not isinstance(email, str):
-        raise TypeError("Email must be a string")
-    
-    # Handle empty/whitespace as specified in tests
-    if not email or email.isspace():
-        return False, "Email cannot be empty"
-    
-    # Check for @ symbol as specified in tests
-    if "@" not in email:
-        return False, "Missing @ symbol"
-    
-    # Split into local and domain parts
-    parts = email.split("@")
-    if len(parts) != 2:
-        return False, "Email must have exactly one @ symbol"
-    
-    local, domain = parts
-    
-    # Check for empty local part
-    if not local:
-        return False, "Missing local part before @"
-    
-    # Check for empty domain
-    if not domain:
-        return False, "Missing domain after @"
-    
-    # Check for spaces (not allowed per tests)
-    if " " in local or " " in domain:
-        return False, "Email cannot contain spaces"
-    
-    # Basic pattern validation
-    # Simplified RFC 5322: alphanumeric, dots, hyphens, plus signs
-    local_pattern = r'^[a-zA-Z0-9.+_-]+$'
-    domain_pattern = r'^[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
-    
-    if not re.match(local_pattern, local):
-        return False, "Invalid characters in local part"
-    
-    if not re.match(domain_pattern, domain):
-        return False, "Invalid domain format"
-    
-    # All checks passed
-    return True, None
+    repo.save.assert_called_once()
 ```
 
-**Notes:**
-- Handles each test case specifically
-- Uses exact error messages from tests
-- Doesn't over-engineer (simple regex, not full RFC 5322)
-- Matches expected behavior precisely
-
-### Example 2: Using Existing Utilities
-
-**Test:**
+**Implementation (GREEN):**
 ```python
-def test_export_user_activities():
-    """Test exporting user activities to CSV."""
-    csv = export_user_activities(user_id=123, format="csv")
-    assert "timestamp,action,resource" in csv
-```
-
-**Wrong Implementation (Reinventing):**
-```python
-def export_user_activities(user_id: int, format: str) -> str:
-    activities = get_user_activities(user_id)
+def register(self, email: str, password: str) -> User:
+    """Register new user."""
+    # Create user object
+    user = User(
+        email=email,
+        password_hash=self.hasher.hash(password)
+    )
     
-    # WRONG: Manually building CSV
-    csv = "timestamp,action,resource\n"
-    for activity in activities:
-        csv += f"{activity.timestamp},{activity.action},{activity.resource}\n"
-    return csv
-```
-
-**Correct Implementation (Using Existing):**
-```python
-from src.utils.csv_helpers import dict_to_csv  # From PATTERNS.md
-from src.services.user_service import get_user_activities
-
-
-def export_user_activities(user_id: int, format: str) -> str:
-    """
-    Export user activities to specified format.
+    # Save via repository
+    saved_user = self.repo.save(user)
     
-    Args:
-        user_id: User ID to export activities for
-        format: Export format ("csv", "json", or "xml")
-        
-    Returns:
-        Formatted export string
-    """
-    # Fetch activities via service layer (per RULES.md)
-    activities = get_user_activities(user_id)
-    
-    # Convert to dicts for export
-    activity_dicts = [
-        {
-            "timestamp": act.timestamp.isoformat(),
-            "action": act.action,
-            "resource": act.resource,
-        }
-        for act in activities
-    ]
-    
-    # Use blessed CSV utility from PATTERNS.md
-    # Handles escaping, headers, RFC 4180 compliance
-    return dict_to_csv(activity_dicts)
+    return saved_user
 ```
 
-**Why better:**
-- Reuses existing `dict_to_csv` utility (per PATTERNS.md)
-- Uses service layer (per RULES.md)
-- Handles CSV escaping correctly (avoids Bug #127)
-- Simpler and more maintainable
+### Example 3: Error Handling
 
-### Example 3: When Test Seems Wrong
-
-**Scenario:** Implementing cache, notice test contradiction.
-
-**Test 1:**
+**Test (RED):**
 ```python
-def test_cache_stores_normalized_keys():
-    cache = WeatherCache()
-    cache.set("NYC", data1)
-    result = cache.get("nyc")  # lowercase
-    assert result == data1  # Test expects case-insensitive
+def test_register_duplicate_email_raises_error():
+    repo = Mock(spec=UserRepository)
+    repo.get_by_email.return_value = User(email="exists@example.com")
+    service = UserService(repo=repo)
+    
+    with pytest.raises(DuplicateEmailError):
+        service.register("exists@example.com", "password")
 ```
 
-**Test 2:**
+**Implementation (GREEN):**
 ```python
-def test_cache_keys_are_exact_match():
-    cache = WeatherCache()
-    cache.set("NYC", data1)
-    result = cache.get("NYC")  # same case
-    assert result == data1
+def register(self, email: str, password: str) -> User:
+    """Register new user."""
+    # Check if email exists
+    existing = self.repo.get_by_email(email)
+    if existing:
+        raise DuplicateEmailError(email)
+    
+    # Create and save user
+    user = User(email=email, password_hash=self.hasher.hash(password))
+    return self.repo.save(user)
 ```
 
-**Problem:** Tests contradict each other. One requires case-insensitive, other suggests exact match.
+### Example 4: Test Conflict (DO NOT MODIFY TEST)
 
-**WRONG Action:** Pick one interpretation and modify the other test.
+**Situation:** Test expects `ValueError` but spec says `ValidationError`.
 
-**CORRECT Action:**
-1. Stop implementation
-2. Document the contradiction:
+**âŒ Wrong approach:**
+```python
+# Don't modify test to match your implementation!
+# Don't change ValidationError to ValueError!
+```
 
+**âœ… Correct approach:**
 ```markdown
-## Implementation Blocked: Test Contradiction
+## Test Issue: Exception Type Mismatch
 
-**Location:** tests/unit/test_weather_cache.py
+**Test:** test_register_invalid_email_raises_error
+**Line:** tests/test_user.py:45
+**Problem:** Test expects ValueError but spec says ValidationError
+**Evidence:** Spec section 3.2: "Raises ValidationError if email invalid"
 
-**Issue:** Tests have contradictory requirements:
-- test_cache_stores_normalized_keys (line 45) expects case-insensitive keys
-- test_cache_keys_are_exact_match (line 58) suggests exact matching
-
-**Question:** Should cache keys be case-insensitive or exact match?
-- Spec section 3.2 says "case-insensitive"
-- Test 1 aligns with spec
-- Test 2 appears to be incomplete (missing lowercase test)
-
-**Recommendation:** Test 2 should be renamed and both uppercase and lowercase 
-variants should be tested to verify case-insensitivity.
-
-**Blocked:** Cannot implement until tests are clarified.
+**Status:** Blocked - cannot implement until test corrected
+**Action Needed:** Test re-review to fix exception type
 ```
 
-3. Escalate to test reviewer
-4. Wait for clarification
-5. Resume after tests are fixed
+## Bug Fix Process (Alternative Workflow)
 
-## When to Deviate
+When fixing bugs (instead of implementing features from specs), use this lighter-weight process.
 
-### Implement Quickly When:
-- Simple feature with clear tests
-- Well-understood domain
-- Low risk
+### Triggered By: Bug report in bugs/to_fix/
 
-### Implement Carefully When:
-- Complex business logic
-- Security-sensitive
-- Financial/payment code
-- Integration with external services
-- First feature in new area
+**Bug fixes skip:** Spec phase, skeleton phase, test writer phase  
+**Bug fixes include:** Direct fix + sentinel test + lighter review
 
-### Seek Help When:
-- Tests seem contradictory
-- Unclear how to satisfy requirement
-- Need to violate architectural rule
-- Performance concerns arise
-- External service integration unclear
+### Process
 
-### Skip TDD When:
-- Quick fix to existing feature (tests already exist and pass)
-- Refactoring (tests stay same, implementation improves)
-- Exploring/prototyping (will write tests after spike)
+1. **Move bug report to bugs/fixing/**
+   ```bash
+   git mv bugs/to_fix/validation-empty-email.md bugs/fixing/
+   git commit -m "bugs: start fixing validation-empty-email"
+   ```
 
-But default to TDD. It catches problems early.
+2. **Create bugfix branch**
+   ```bash
+   git checkout -b bugfix/validation-empty-email
+   ```
+
+3. **Read bug report thoroughly**
+   - Understand observed vs expected behavior
+   - Study reproduction steps
+   - Note severity and impact
+
+4. **Investigate and add Root Cause**
+   Edit bug report in `bugs/fixing/`:
+   ```markdown
+   ## Root Cause
+   Email validation in src/utils/validation.py checked for @-symbol 
+   before checking for empty string. Empty string bypassed the check.
+   
+   Problematic code:
+   \```python
+   if "@" not in email:
+       return (False, "Invalid format")
+   # Empty string has no @ so check fails incorrectly
+   \```
+   ```
+
+5. **Fix the bug**
+   - Make minimal changes to fix the issue
+   - Follow GUIDELINES.md patterns
+   - Respect SYSTEM_MAP.md architecture
+   - Don't add features beyond fixing the bug
+
+6. **Add sentinel test**
+   Create `tests/regression/test_<component>_<description>.py`:
+   
+   ```python
+   """
+   Regression test for bug: Empty email passes validation
+   
+   Bug report: bugs/fixing/validation-empty-email.md
+   Discovered: 2025-10-23
+   
+   ISSUE:
+   Empty string passed email validation, causing database constraint
+   violation downstream.
+   
+   ROOT CAUSE:
+   Validation checked format (@-symbol) before checking for empty string.
+   
+   FIX:
+   Added empty string check as first validation step.
+   
+   This sentinel test ensures the bug cannot recur.
+   """
+   
+   def test_validation_empty_email():
+       """Empty email should be rejected with clear error."""
+       is_valid, error = validate_email("")
+       
+       assert is_valid is False
+       assert "empty" in error.lower()
+   ```
+
+7. **Verify sentinel test works**
+   ```bash
+   # Test should FAIL on old code (before fix)
+   git stash  # Temporarily remove fix
+   pytest tests/regression/test_validation_empty_email.py  # Should FAIL
+   git stash pop  # Restore fix
+   
+   # Test should PASS on new code (after fix)
+   pytest tests/regression/test_validation_empty_email.py  # Should PASS
+   ```
+
+8. **Update bug report with Fix section**
+   Edit bug report in `bugs/fixing/`:
+   ```markdown
+   ## Fix
+   Added empty string check as first validation step before format checks.
+   
+   **Changes:**
+   - src/utils/validation.py: Added empty check at function entry
+   - tests/regression/test_validation_empty_email.py: Sentinel test added
+   - GUIDELINES.md: Added "Validate empty/null inputs first" pattern
+   
+   **Commit:** (will add after commit)
+   **Sentinel test:** tests/regression/test_validation_empty_email.py
+   
+   **Verification:**
+   - Sentinel test fails on old code âœ“
+   - Sentinel test passes on new code âœ“
+   - All other tests still pass âœ“
+   ```
+
+9. **Update GUIDELINES.md (if bug reveals pattern)**
+   Only if bug represents a pattern worth documenting:
+   
+   ```markdown
+   ## Validation Patterns
+   
+   ### Validate Empty/Null First
+   âœ… Check for empty/null before format validation
+   âŒ Don't check format on potentially empty input
+   
+   Example:
+   \```python
+   # âœ… Good: Check empty first
+   def validate_email(email: str) -> tuple[bool, Optional[str]]:
+       if not email:  # Empty check first
+           return (False, "Email cannot be empty")
+       if "@" not in email:
+           return (False, "Invalid email format")
+   
+   # âŒ Bad: Format check on empty input
+   def validate_email(email: str) -> tuple[bool, Optional[str]]:
+       if "@" not in email:  # Crashes on empty!
+           return (False, "Invalid email format")
+   \```
+   
+   **Why:** Empty input checks prevent confusing errors and crashes.
+   
+   **Related bug:** bugs/fixed/validation-empty-email.md
+   ```
+
+10. **Commit with clear message**
+    ```bash
+    git add src/utils/validation.py tests/regression/ bugs/fixing/ GUIDELINES.md
+    git commit -m "fix: reject empty emails in validation
+    
+    Bug: Empty strings passed validation causing DB errors
+    Root cause: Checked format before empty
+    
+    - Added empty string check as first validation
+    - Sentinel test: tests/regression/test_validation_empty_email.py
+    - Updated GUIDELINES: validate empty/null first
+    
+    Fixes: bugs/fixing/validation-empty-email.md"
+    ```
+
+11. **Update bug report with commit hash**
+    After committing, update Fix section:
+    ```markdown
+    **Commit:** abc123def456
+    ```
+
+12. **Mark ready for review**
+    Bug fix is ready when:
+    - Bug report has Root Cause section
+    - Bug report has Fix section with commit reference
+    - Sentinel test exists and passes
+    - GUIDELINES.md updated if pattern emerged
+    - All other tests still pass
+
+### Bug Fix vs Feature Implementation
+
+**Bug fixes are simpler:**
+- No spec phase (bug report instead)
+- No skeleton phase (code structure exists)
+- No test writer (you write sentinel test)
+- No test reviewer (implementation reviewer checks sentinel)
+- Lighter weight overall
+
+**Bug fixes still require:**
+- Investigation (root cause analysis)
+- Quality fix (not just patching symptoms)
+- Sentinel test (prevent recurrence)
+- Documentation (GUIDELINES.md if pattern)
+- Review (implementation reviewer)
 
 ## Critical Reminders
 
 **DO:**
-- Make tests pass
-- Follow patterns and conventions
-- Respect architectural rules
-- Keep code simple and clear
-- Reuse existing utilities
-- Check BUG_LEDGER for past issues
+- Make all tests pass (GREEN)
+- Follow architectural patterns
+- Respect GUIDELINES.md constraints
+- Use existing utilities
+- Run tests frequently
+- Commit after each function works
+- Keep implementation simple
+- Flag test issues (don't fix them)
 
 **DON'T:**
-- Modify tests to make implementation easier
+- Modify tests to make them pass
+- Over-engineer beyond test requirements
+- Ignore architectural rules
+- Reinvent existing utilities
 - Add untested features
-- Reinvent existing functionality
-- Over-engineer solutions
-- Violate architectural rules without approval
-- Leave TODO comments without issues
+- Skip running tests
+- Premature optimization
 
-The goal is clean, working code that satisfies test contracts and follows project conventions.
+**Most critical:** Tests define the contract. If tests and spec conflict, flag for review. Never modify tests to make implementation easier.
+
+## Integration
+
+**Consumes:**
+- Approved tests (RED state)
+- Skeleton interfaces
+- SPEC from `specs/doing/`
+
+**Produces:**
+- Working implementation (all tests GREEN)
+- Ready for implementation-reviewer
+
+**Gates:**
+- All tests must pass
+- No test modifications
+- No GUIDELINES.md violations
+
+**Workflow position:**
+```
+test-writer â†’ tests (RED) âœ“
+  â†“
+test-reviewer â†’ APPROVED âœ“
+  â†“
+implementer â†’ make tests pass (GREEN) â¬… YOU ARE HERE
+  â†“
+implementation-reviewer â†’ APPROVED
+  â†“
+merge to main
+```
+
+You make tests pass. Reviewer ensures quality and correctness.

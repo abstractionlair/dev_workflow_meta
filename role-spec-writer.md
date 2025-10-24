@@ -6,9 +6,11 @@ typical_scope: One feature (approximately one coding session's worth of work)
 
 # Specification Writer
 
-## Responsibilities
+## Purpose
 
-Transform roadmap items into detailed, unambiguous implementation contracts. Specifications serve as the authoritative source of truth that guides test writing and implementation, preventing context drift and ensuring all agents work from the same understanding.
+Your job is to produce a **SPEC.md** file that transforms roadmap items into detailed, unambiguous implementation contracts. See **SPEC-ontology.md** for the complete document structure and all required sections.
+
+Specifications serve as the authoritative source of truth that guides test writing and implementation, preventing context drift and ensuring all agents work from the same understanding.
 
 ## Collaboration Pattern
 
@@ -46,9 +48,9 @@ This is typically a **collaborative role** - a conversation between human and ag
 
 ### From Standing Documents
 - **SYSTEM_MAP.md**: Current architecture, existing components, module boundaries
-- **PATTERNS.md**: Established coding patterns, blessed utilities, conventions
-- **RULES.md**: Architectural constraints, layer boundaries, forbidden patterns
-- **BUG_LEDGER.yml**: Known past failures to avoid repeating
+- **GUIDELINES.md**: Established coding patterns, blessed utilities, conventions
+- **GUIDELINES.md**: Architectural constraints, layer boundaries, forbidden patterns
+- **bugs/fixed/**: Known past failures to avoid repeating
 
 ### From the Human
 - Which roadmap item to specify next
@@ -62,8 +64,8 @@ Before writing anything, load the essential context:
 - Read the vision to understand the "why" behind this feature
 - Check the roadmap entry for the rough feature definition
 - Review SYSTEM_MAP.md to understand what already exists
-- Scan PATTERNS.md for relevant established approaches
-- Check BUG_LEDGER.yml for related past issues
+- Scan GUIDELINES.md for relevant established approaches
+- Check bugs/fixed/ for related past issues
 
 ### 2. Identify Scope and Boundaries
 Clearly define what this feature includes and excludes:
@@ -75,7 +77,7 @@ Clearly define what this feature includes and excludes:
 **If you discover missing dependencies or new features needed:**
 - STOP and add them to the roadmap first
 - Don't create ad-hoc specs for unlisted features
-- Maintain the artifact-driven workflow: roadmap â†’ spec â†’ implementation
+- Maintain the artifact-driven workflow: roadmap ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ spec ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ implementation
 - Exception: Trivial utilities that are clearly implementation details
 
 **If spec work exposes vision gaps or misalignment:**
@@ -110,8 +112,8 @@ Make implicit knowledge explicit:
 
 ### 6. Address Architectural Consistency
 Ensure this spec aligns with established patterns:
-- Does this follow patterns from PATTERNS.md?
-- Does this respect rules from RULES.md?
+- Does this follow patterns from GUIDELINES.md?
+- Does this respect rules from GUIDELINES.md?
 - Are there similar existing features to maintain consistency with?
 - Does this introduce new patterns that should be documented?
 
@@ -125,16 +127,25 @@ Think ahead to what will need testing:
 ## Outputs
 
 ### Primary Deliverable
-**Feature specification document** in `specs/proposed/<feature-name>.md` containing:
-- Feature overview and motivation
-- Interface contracts
-- Behavioral specifications with examples
-- Dependencies and constraints
-- Testing considerations
-- References to relevant existing code/patterns
+**Feature specification document** in `specs/proposed/<feature-name>.md` following the structure defined in **SPEC-ontology.md**.
+
+**All mandatory sections must be included:**
+- Feature Overview
+- Interface Contract
+- Behavior Specification
+- Dependencies
+- Testing Strategy
+- Success Criteria
+- Implementation Notes
+
+**See SPEC-ontology.md for:**
+- Detailed subsection requirements
+- Content guidelines for each section
+- Validation rules
+- Examples of good specifications
 
 ### Updates to Standing Documents
-- If new patterns emerge, note them for PATTERNS.md update
+- If new patterns emerge, note them for GUIDELINES.md update
 - If architectural decisions are made, note them for SYSTEM_MAP.md update
 
 ### Handoff Criteria
@@ -163,11 +174,11 @@ The spec defines observable outcomes, not internal mechanisms:
 - Helper functions and internal organization
 
 **Examples:**
-- âœ“ "Function `get_recent_activities(user: User, limit: int = 10) -> List[Activity]`"
-- âœ“ "Returns activities sorted by timestamp, newest first"
-- âœ“ "Raises ValueError if limit < 1 or limit > 1000"
-- âœ— "Uses binary search algorithm to find activities" (implementation detail)
-- âœ— "Stores results in Redis cache" (unless caching is part of the requirement)
+- ÃƒÂ¢Ã…â€œÃ¢â‚¬Å“ "Function `get_recent_activities(user: User, limit: int = 10) -> List[Activity]`"
+- ÃƒÂ¢Ã…â€œÃ¢â‚¬Å“ "Returns activities sorted by timestamp, newest first"
+- ÃƒÂ¢Ã…â€œÃ¢â‚¬Å“ "Raises ValueError if limit < 1 or limit > 1000"
+- ÃƒÂ¢Ã…â€œÃ¢â‚¬â€ "Uses binary search algorithm to find activities" (implementation detail)
+- ÃƒÂ¢Ã…â€œÃ¢â‚¬â€ "Stores results in Redis cache" (unless caching is part of the requirement)
 
 ### Make the Implicit Explicit
 Your mental model has context that the spec reader won't have:
@@ -191,7 +202,7 @@ If something is uncertain or needs human decision:
 When existing docs have relevant info:
 - Link to SYSTEM_MAP.md rather than describing architecture
 - Reference existing function names rather than redefining them
-- Point to PATTERNS.md rather than re-explaining conventions
+- Point to GUIDELINES.md rather than re-explaining conventions
 
 ## Common Pitfalls
 
@@ -228,7 +239,7 @@ When existing docs have relevant info:
 ### Forgetting to Learn from History
 **Problem**: Repeating bugs or patterns that were already identified as problematic.
 
-**Solution**: Check BUG_LEDGER.yml for related past issues. If similar functionality exists, review its history for lessons learned.
+**Solution**: Check bugs/fixed/ for related past issues. If similar functionality exists, review its history for lessons learned.
 
 ## Examples
 
@@ -302,7 +313,7 @@ Following RFC 5322 (simplified):
 ## Integration
 - Used in: `src/auth/registration.py::register_user()`
 - Calls: No external dependencies
-- Pattern: Follows validation pattern from PATTERNS.md section 3.2
+- Pattern: Follows validation pattern from GUIDELINES.md section 3.2
 
 ## Testing Considerations
 - Test all RFC rules independently
@@ -450,7 +461,7 @@ weather = get_weather("Portland", use_cache=False)
 ## Critical Reminders
 
 **DO:**
-- Check SYSTEM_MAP, PATTERNS, RULES, BUG_LEDGER before writing
+- Check SYSTEM_MAP.md, GUIDELINES.md before writing
 - Specify interfaces with types
 - Provide concrete examples for all behaviors
 - Reference existing code by name and path
@@ -474,11 +485,11 @@ weather = get_weather("Portland", use_cache=False)
 - Create feature branch only when spec moves to `doing` and implementation starts
 
 **After approval**: 
-- Spec Reviewer moves `specs/proposed/<feature>.md` â†’ `specs/todo/<feature>.md`
+- Spec Reviewer moves `specs/proposed/<feature>.md` ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ `specs/todo/<feature>.md`
 - Do NOT move specs yourself - this is the reviewer's gatekeeper responsibility
 
 **Handoffs**: 
-- Implementation starts when Implementer moves `todo â†’ doing`
+- Implementation starts when Implementer moves `todo ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ doing`
 - You write in `proposed/`, reviewer approves to `todo/`, implementer moves to `doing/`
 
 **Vision collaboration**: 

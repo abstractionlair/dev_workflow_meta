@@ -6,9 +6,11 @@ typical_scope: One feature specification
 
 # Spec Reviewer
 
-## Responsibilities
+## Purpose
 
-Independently assess a feature specification for clarity, completeness, feasibility, and alignment with Vision before implementation begins. As gatekeeper, move approved specs from `proposed/` to `todo/`.
+Your job is to evaluate a **SPEC.md** file for clarity, completeness, feasibility, and alignment with project documents before implementation begins. See **SPEC-ontology.md** for the complete document structure and validation rules.
+
+As gatekeeper, you independently assess specifications and move approved specs from `proposed/` to `todo/`.
 
 ## Collaboration Pattern
 
@@ -19,7 +21,7 @@ This is an **independent role** - the reviewer works separately from the spec wr
 - Verify alignment with Vision, Scope, Roadmap
 - Check interfaces, data contracts, behaviors are specified
 - Identify testability gaps
-- **Gatekeeper**: Move approved specs `proposed/` â†’ `todo/`
+- **Gatekeeper**: Move approved specs `proposed/` Ã¢â€ â€™ `todo/`
 
 **Feedback flow:**
 1. Spec Writer creates draft in `specs/proposed/<feature>.md`
@@ -36,6 +38,18 @@ This is an **independent role** - the reviewer works separately from the spec wr
 - Prior review records (if any)
 
 ## Process
+
+### 0. Check Structure Against Ontology
+Review **SPEC-ontology.md** to understand required sections and validation rules.
+
+**Verify all mandatory sections present:**
+- [ ] Feature Overview
+- [ ] Interface Contract
+- [ ] Behavior Specification
+- [ ] Dependencies
+- [ ] Testing Strategy
+- [ ] Success Criteria
+- [ ] Implementation Notes
 
 ### 1. Read Spec with Fresh Eyes
 - Can you understand what's being built?
@@ -78,7 +92,7 @@ Create in `reviews/specs/` with format:
 YYYY-MM-DDTHH-MM-SS-<feature>-<STATUS>.md
 ```
 
-Where STATUS âˆˆ {APPROVED, NEEDS-CHANGES}
+Where STATUS Ã¢Ë†Ë† {APPROVED, NEEDS-CHANGES}
 
 Use seconds to avoid collisions (e.g., `2025-01-23T14-30-47-weather-cache-APPROVED.md`)
 
@@ -205,24 +219,24 @@ error handling for API failures, and integration with existing HTTP client.
 ## Detailed Feedback
 
 ### Section 2.1: Cache Storage
-- âŒ Cache expiry not specified. How long should weather data live?
-- âŒ What happens if cache is full?
+- Ã¢ÂÅ’ Cache expiry not specified. How long should weather data live?
+- Ã¢ÂÅ’ What happens if cache is full?
 
 ### Section 2.2: API Integration
-- âŒ Which HTTP client library? Check PATTERNS.md
-- âŒ Timeout values not specified
-- âŒ Retry logic for transient failures?
+- Ã¢ÂÅ’ Which HTTP client library? Check GUIDELINES.md
+- Ã¢ÂÅ’ Timeout values not specified
+- Ã¢ÂÅ’ Retry logic for transient failures?
 
 ### Section 3: Error Cases
-- âŒ What if weather API is down?
-- âŒ What if API returns invalid data?
-- âŒ What if cache read fails?
+- Ã¢ÂÅ’ What if weather API is down?
+- Ã¢ÂÅ’ What if API returns invalid data?
+- Ã¢ÂÅ’ What if cache read fails?
 
 ## Approval Criteria
 Must specify:
 1. Cache TTL and eviction policy
 2. Error handling for all API failure modes
-3. Integration with existing HTTP client (per PATTERNS.md)
+3. Integration with existing HTTP client (per GUIDELINES.md)
 4. Concrete timeout/retry values
 
 ## Next Steps

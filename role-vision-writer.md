@@ -6,144 +6,368 @@ typical_scope: One project (the entire initiative)
 
 # Vision Writer
 
-## Responsibilities
+## Purpose
 
-The Vision Writer articulates the fundamental purpose and aspirational outcome of a project. The vision captures the "why" - what problem this solves, for whom, and what success looks like at the highest level. This serves as the north star that informs all downstream decisions in scope, roadmap, and implementation.
+Your job is to produce a **VISION.md** document that provides strategic direction for a software project. See **VISION-ontology.md** for the complete document structure and all required sections.
+
+The vision captures the "why" - what problem this solves, for whom, what success looks like, and what makes this worth building. This prevents common failures like feature-focused thinking, architecture amnesia, and premature abandonment.
+
+## When to Use This Role
+
+**Activate when:**
+- Starting a new software project
+- Project lacks clear strategic direction
+- Experiencing scope creep or misalignment
+- Need to clarify "why" before "what" or "how"
+- Solo developer planning a sustainable long-term project
+
+**Do NOT use for:**
+- Feature specifications (those come after vision)
+- Technical architecture decisions (vision is product-focused)
+- Marketing copy or sales materials
 
 ## Collaboration Pattern
 
-This is a **highly collaborative role** - an exploratory conversation between human and agent that crystallizes ideas into a clear vision statement.
+This is a **highly collaborative role** - an exploratory conversation that crystallizes ideas into a clear, strategic document.
 
 **Agent responsibilities:**
-- Ask probing questions to understand motivations
-- Help articulate the core value proposition
-- Identify who benefits and how
+- Ask probing questions about problem space, users, and value
 - Challenge vague statements with requests for concrete examples
-- Ensure vision is inspirational yet grounded
-- Capture essence in clear, memorable language
+- Identify gaps in understanding (customer needs, market context, feasibility)
+- Propose vision statement and document structure
+- Ensure vision focuses on outcomes, not features
+- Make assumptions explicit for validation
 
 **Human responsibilities:**
-- Provide the initial spark or idea
-- Explain personal/business motivations
-- Describe the problem being solved
+- Provide initial idea and problem context
+- Answer questions about motivations and constraints
+- Make decisions when tradeoffs exist
 - Validate that vision captures intent
-- Ensure vision is ambitious yet achievable
-- Make final decisions on vision framing
-
-**Collaboration flow:**
-1. Human shares initial idea or problem
-2. Agent asks clarifying questions about goals, users, value
-3. Agent proposes vision statement
-4. Human and agent iterate on framing
-5. Agent expands into vision document structure
-6. Human approves final vision
+- Ensure vision is ambitious yet feasible
+- Approve final vision document
 
 ## Inputs
 
-### From the Human
+**From the human:**
 - Initial idea or problem statement
 - Target users or beneficiaries
 - Personal/business motivations
-- Constraints or context (time, resources, capabilities)
-- Examples of similar projects or inspirations
+- Constraints (time, resources, capabilities)
 - What "success" means
 
-### No Other Inputs
+**No other inputs required:**
 Vision is the first document - no upstream artifacts to reference.
 
 ## Process
 
-### 1. Explore the Idea
-Start with open questions to understand the human's motivation:
-- What problem are you trying to solve?
-- Who has this problem?
-- Why does this matter to you?
-- What would success look like?
-- Have you seen similar solutions? What did you like/dislike?
+### Step 1: Understand the Problem Space
 
-### 2. Identify the Core Value
-Distill the idea to its essence:
-- What's the fundamental benefit being delivered?
-- What makes this valuable/exciting?
-- What would users/customers say this enables?
-- What's the "magic moment" when it works?
+Before writing, explore fundamentals through questions:
 
-**Example:**
-- Idea: "Drone delivery service for desserts"
-- Core value: "Instant gratification - craving to satisfaction in 5 minutes"
+**Customer understanding:**
+- Who specifically experiences this problem? (Beyond demographics)
+- What triggers their need? (Jobs-to-be-done)
+- What do they use today? (Current alternatives)
+- Why do current solutions fail? (Root causes, not symptoms)
+- What would "meaningfully better" look like?
 
-### 3. Define Success Outcomes
-Clarify what success looks like:
-- What does "winning" mean for this project?
-- Qualitative: How do people feel? What do they say?
-- Quantitative: What numbers matter? (users, revenue, time saved)
-- Timeframe: When should this success be evident?
+**Market context:**
+- Why now? (What changed to make this solvable or important?)
+- What alternatives exist, including "do nothing"?
+- What makes this defensible over time?
 
-### 4. Ground in Reality
-Connect aspiration to feasibility:
-- What resources are available? (time, budget, skills)
-- What constraints exist? (regulatory, technical, market)
-- What's achievable vs. what's a stretch goal?
-- What must be true for this to succeed?
+**For solo developers:**
+- Why are you the right person for this?
+- What's your realistic time commitment?
+- What constraints must the vision respect?
 
-### 5. Craft the Vision Statement
-Create a concise, memorable articulation:
-- Start with the benefit: "We will [delight/enable/transform]..."
-- State the audience: "...people/customers/users..."
-- Describe the outcome: "...with [key benefit/experience]"
-- Keep it under 3 sentences
+### Step 2: Craft the Vision Statement
 
-**Formula**: [Action verb] + [audience] + [with/through] + [value proposition]
+Create one sentence that passes the "elevator test" - memorable and clear.
 
-**Examples:**
-- "We will delight people with 5-minute drone delivery of delicious desserts."
-- "We will enable small teams to sync calendars automatically, eliminating scheduling confusion."
-- "We will help solo developers maintain architecture knowledge as projects grow."
+**Template options:**
+- "Help [target users] [achieve outcome] by [unique approach]"
+- "Enable [user group] to [job-to-be-done] without [current friction]"
 
-### 6. Expand with Context
-Add supporting detail:
-- **Problem**: What pain point does this address?
-- **Solution approach**: High-level how (not detailed implementation)
-- **Value delivered**: Why this matters
-- **Success criteria**: What outcomes indicate success
-- **Constraints**: Key limitations or boundaries
+**Quality criteria:**
+âœ“ Customer-focused (mentions user, not product)
+âœ“ Outcome-oriented (describes improved state, not features)
+âœ“ Emotionally resonant (inspires, doesn't just inform)
+âœ“ Solution-agnostic (allows strategic pivots)
+âœ“ Memorable (can be recalled and repeated)
 
-## Outputs
+**Examples of good vision statements:**
+- "Help solo developers maintain project context across planning and execution without documentation overhead"
+- "Give data teams instant visibility into pipeline health without manual log checking"
 
-### Primary Deliverable
-**VISION.md** containing:
-- Vision statement (1-3 sentences)
-- Problem description
-- Solution approach (high-level)
-- Value proposition
-- Success criteria
-- Key constraints (if relevant)
+**Anti-patterns to avoid:**
+âœ— Feature lists: "Build a platform with X, Y, Z"
+âœ— Too broad: "Organize all the world's information"
+âœ— Vague: "Make people happy"
+âœ— Solution lock-in: "The best mobile app for..."
 
-### Vision Document Format
+### Step 3: Define Target Users and Problem
 
-```markdown
-# Vision: [Project Name]
+**User definition should include:**
+- Demographics (just enough to target - age range, experience level)
+- Behavioral attributes (how they currently solve this problem)
+- Jobs-to-be-done (what they're trying to accomplish)
+- Pain points (specific, concrete frustrations)
+- Decision criteria (what makes them choose solutions)
 
-## Vision Statement
-[1-3 sentence aspirational statement]
+**Problem articulation must cover:**
+- **Current state:** What problem exists, who experiences it, quantified pain
+- **Root causes:** Why the problem persists (not just symptoms)
+- **Desired future state:** Concrete improvement, measurable difference
+- **Success indicators:** How to know when problem is solved
 
-## The Problem
-[What problem exists? Who has it? Why does it matter?]
+### Step 4: Specify Value Proposition and Differentiation
 
-## Our Solution
-[High-level approach - the "how" without implementation details]
+**Value proposition includes:**
+- Primary benefit (main outcome improvement)
+- Emotional dimension (how users will feel different)
+- Practical advantage (concrete capability improvement)
 
-## Value Delivered
-[Why this matters - benefits to users/customers/stakeholders]
+**Differentiation using Geoffrey Moore's template:**
+"Unlike [primary competitive alternative], our product [statement of primary differentiation]"
 
-## Success Looks Like
-[Qualitative and quantitative outcomes that indicate success]
+**Why sustainable:**
+What makes this defensible or hard to copy?
 
-## Key Constraints
-[Important limitations: time, budget, regulatory, technical]
-```
+### Step 5: Define Scope Boundaries
 
-### Handoff Criteria
+Explicit boundaries prevent scope creep:
+
+**In Scope (MVP):**
+- Core features delivering primary value
+- Must-have capabilities
+- Technical requirements
+
+**Future Scope:**
+- Features deferred to later versions
+- Growth considerations
+
+**Never in Scope:**
+- Explicit exclusions (things we deliberately won't do)
+- User segments we won't target
+- Problems we won't solve
+
+### Step 6: Specify Success Criteria
+
+**Key metrics (3-5 quantitative measures):**
+- Usage/adoption: MAU, DAU, retention
+- Value delivery: task completion, time saved, error reduction
+- Business impact: revenue, growth, market penetration
+
+Each metric needs:
+- Current baseline (if exists)
+- 6-month goal
+- 1-year goal
+
+**Counter-metrics as guardrails:**
+- What you won't sacrifice for growth
+- Quality thresholds to maintain
+
+**Timeline milestones:**
+- 6 months: What defines success?
+- 1 year: Aspirational goal
+- 3 years: Vision achievement markers
+
+### Step 7: Document Assumptions and Risks
+
+Make implicit assumptions explicit:
+
+**Market assumptions:**
+- User behavior predictions
+- Market size and growth expectations
+- Competitive response scenarios
+
+**Technical assumptions:**
+- Feasibility expectations
+- Available tools and platforms
+- Required skills
+
+**Resource constraints:**
+- Time commitment (hours/week for solo dev)
+- Budget or funding
+- Team size and skills
+
+**Open questions:**
+- Unresolved decisions requiring research
+- Hypotheses needing validation
+- Risks requiring mitigation plans
+
+### Step 8: Create VISION.md Document
+
+Create the complete VISION.md file following the structure defined in **VISION-ontology.md**.
+
+**All mandatory sections must be included:**
+- Vision Statement (1-2 sentences)
+- Problem Statement (Current State + Desired Future State)
+- Target Users (Primary Persona with all subsections)
+- Value Proposition (Core Benefit + Differentiation)
+- Product Scope (In Scope MVP + Future Scope + Never in Scope)
+- Success Criteria (Key Metrics + Counter-Metrics + Timeline Milestones)
+- Technical Approach (Technology Stack + Architecture Principles + Known Risks)
+- Assumptions and Constraints (Market + Technical + Resource)
+- Open Questions
+- Changelog
+
+**See VISION-ontology.md for:**
+- Detailed subsection requirements
+- Content guidelines for each section
+- Validation rules
+- Cross-document consistency requirements
+
+## Key Principles
+
+### Focus on Outcomes, Not Features
+
+âœ“ "Help teams maintain context across planning and execution"
+âœ— "Build a dashboard with real-time analytics"
+
+The vision describes the value delivered, not the implementation.
+
+### Make It Memorable
+
+If people can't remember and repeat it, it won't guide decisions.
+
+**Test:** Can someone explain this vision in one sentence after reading it once?
+
+### Balance Ambition with Feasibility
+
+Vision should stretch without breaking:
+- Challenging enough to matter
+- Feasible enough to maintain belief
+- Specific enough to guide decisions
+- Flexible enough to allow pivots
+
+### Validate Assumptions Early
+
+**Validation approaches:**
+- Jobs-to-be-done interviews (10-20 potential customers)
+- Prototype testing (paper mockups â†’ MVP)
+- Metric baselines (establish current state)
+
+Make riskiest assumptions explicit so they can be tested first.
+
+### Solo Developer Considerations
+
+**Sustainability checklist:**
+- Time commitment realistic given other obligations?
+- Scope achievable as one person?
+- Skills within capability or clear learning path?
+- Personally compelling enough to sustain years?
+
+**Ruthless prioritization:**
+- 70% solutions ship, perfect solutions stagnate
+- One Metric That Matters for current stage
+- Explicit "not doing" list
+
+## Common Pitfalls
+
+### Architecture Amnesia from Day One
+
+Write vision FIRST before any code. Even rough initial vision prevents divergent understanding.
+
+### Confusing Vision with Mission
+
+- **Mission:** "Organize the world's information" (broad, timeless)
+- **Vision:** "Help researchers find papers 10x faster" (specific, time-bound)
+
+Mission is permanent, vision is 2-5 year horizon.
+
+### Feature List Masquerading as Vision
+
+- **Bad:** "Platform with AI analytics, real-time collaboration, mobile apps"
+- **Good:** "Enable teams to make evidence-based decisions in minutes vs. weeks"
+
+Focus on the outcome, not the features delivering it.
+
+### Giving Up Too Soon
+
+Meaningful visions require 2-5 years to achieve. Expect pivots in approach, but stability in destination.
+
+### Updating Too Frequently
+
+- **Vision statement:** Rarely (once in 2-3 years)
+- **Scope boundaries:** Regularly (quarterly adjustments)
+
+Frequent vision changes signal lack of commitment or poor initial thinking.
+
+## Examples
+
+### Example 1: Solo Developer SaaS
+
+**Vision Statement:**
+"Help solo developers maintain project context across planning and execution without drowning in documentation overhead"
+
+**Problem:**
+Solo developers lose critical context when switching between planning documents and implementation. They spend 20-30% of time reconstructing "why" decisions were made.
+
+**Target Users:**
+Solo developers building 1-3 concurrent projects with 10-20 hours/week available, frustrated by context loss after breaks.
+
+**Value Proposition:**
+Unlike heavyweight project management tools requiring constant maintenance, our solution embeds context directly in code artifacts, making "why" questions answerable in <30 seconds.
+
+**MVP Scope (3 months):**
+- Lightweight specification format (Markdown)
+- Git integration for version control
+- Context linking between specs/tests/code
+- CLI interface
+- Living document maintenance
+
+**Success Metrics:**
+- Time to answer "why does this exist?" <30 seconds (currently 30-60 min)
+- 100 active users within 6 months
+- 60% retention after 3 months
+
+### Example 2: Internal Tool (Minimal)
+
+**Vision Statement:**
+"Give data team instant visibility into pipeline health without manual log checking"
+
+**Problem:**
+Data engineers spend 2-3 hours daily checking if pipelines succeeded. Pipelines fail silently until someone notices.
+
+**Target Users:**
+Data engineers running 20+ daily pipelines, losing 15+ hours/week to status checking.
+
+**Value Proposition:**
+Unlike Airflow's complex UI requiring navigation, our dashboard shows all pipeline status in one view with instant Slack alerts on failures.
+
+**MVP Scope (4 weeks):**
+- Real-time status dashboard
+- Slack alerts on failures with logs
+- Dependency graph visualization
+
+**Success Metrics:**
+- Mean time to detect failures <5 min (currently 2+ hours)
+- 80% of failures debuggable from dashboard
+- Zero Slack escalations asking "did my pipeline run?"
+
+## Maintaining Vision as Living Document
+
+**Review cadences:**
+- **Weekly quick checks (5-10 min):** Alignment verification
+- **Monthly reviews (1-2 hours):** Metrics and assumptions
+- **Quarterly reviews (half day):** Major reassessment
+- **Annual refresh (1-2 days):** Comprehensive update
+
+**Mandatory update triggers:**
+- Major market shifts (competitor launches, regulation)
+- User feedback contradicting assumptions
+- Technical feasibility discoveries requiring pivots
+- Resource changes affecting timeline
+
+**Version control:**
+- Maintain VISION.md in Git
+- Archive old versions: VISION-v1-2024.md
+- Changelog captures: what changed, why, impact
+
+## Handoff to Next Roles
+
 Vision is ready for scope writing when:
 - Core value is clear and compelling
 - Problem and solution are well-articulated
@@ -151,232 +375,26 @@ Vision is ready for scope writing when:
 - Human feels excited and aligned
 - Another person reading this would understand "why we're doing this"
 
-## Best Practices
-
-### Start Broad, Then Focus
-Begin with open exploration:
-- Let human share their excitement
-- Ask about motivations and context
-- Don't jump to details immediately
-
-Then narrow to essence:
-- What's the core benefit?
-- What's the simplest articulation?
-
-### Make It Memorable
-Vision should be quotable:
-- Short enough to remember
-- Clear enough to explain
-- Inspiring enough to motivate
-
-Test: Can you explain this vision in one sentence to a friend?
-
-### Balance Aspiration and Reality
-Vision should be:
-- **Aspirational**: Exciting, ambitious, inspiring
-- **Grounded**: Achievable given constraints
-- **Honest**: Acknowledges limitations
-
-Avoid:
-- âœ— "We will revolutionize everything for everyone"
-- âœ“ "We will delight dessert lovers in Manhattan with 5-minute drone delivery"
-
-### Connect Problem to Solution
-Make the "why" explicit:
-- What problem exists?
-- Why does current state hurt?
-- How does our solution address this?
-- What changes for users?
-
-### Define Success Concretely
-Vague: "Success means happy customers"
-Concrete: "Success = 100 deliveries in first 3 months with 90%+ satisfaction"
-
-Use measurables when possible.
-
-### Keep Implementation Out
-Vision describes "what" and "why," not "how":
-- âœ“ "5-minute drone delivery"
-- âœ— "Using DJI drones with GPS waypoint navigation"
-
-Implementation details belong in specs, not vision.
-
-## Common Pitfalls
-
-### Vague or Generic Vision
-**Problem**: Vision could apply to any project in the domain.
-
-**Example**: "We will build great software that customers love"
-
-**Solution**: Be specific. What makes *this* project unique? "We will enable solo developers to maintain architecture knowledge through AI-augmented documentation workflows."
-
-### Confusing Vision with Plan
-**Problem**: Vision document reads like a roadmap or spec.
-
-**Solution**: Vision is aspirational direction. Details belong in scope/roadmap. Keep vision high-level.
-
-### No Clear Value Proposition
-**Problem**: What's being built is clear, but not *why* it matters.
-
-**Solution**: Always articulate the benefit. Don't just say "what" - say "what this enables/prevents/improves."
-
-### Ignoring Constraints
-**Problem**: Vision is so ambitious it's clearly unachievable.
-
-**Solution**: Acknowledge reality. Solo dev with 3 months â‰  enterprise platform. Be honest about constraints.
-
-### Success Criteria Missing
-**Problem**: No way to know if project succeeded.
-
-**Solution**: Define success outcomes. What metrics, milestones, or outcomes indicate we've achieved the vision?
-
-### Too Long or Detailed
-**Problem**: Vision document is 10 pages of details.
-
-**Solution**: Keep it concise. Vision should be readable in 5 minutes. Details belong in downstream docs.
-
-## Examples
-
-### Example 1: Dessert Drone Delivery
-
-```markdown
-# Vision: Dessert Drone Delivery
-
-## Vision Statement
-We will delight people with 5-minute drone delivery of delicious desserts.
-
-## The Problem
-Late-night dessert cravings are real, but options are limited. Walking to a bakery takes 20+ minutes. Traditional delivery takes 45+ minutes. By the time the dessert arrives, the craving has passed or you've settled for something else. People want instant gratification for spontaneous treats.
-
-## Our Solution
-On-demand drone delivery of fresh desserts from our commercial kitchen to anywhere in lower Manhattan. Order via web, dessert arrives by drone in 5-10 minutes. Focus on items that travel well: chocolate cakes and apple pies initially.
-
-## Value Delivered
-- **Instant gratification**: Craving to satisfaction in minutes, not hours
-- **Quality preserved**: Fresh-baked items, not sitting in delivery bags
-- **Unique experience**: Fun, futuristic, memorable
-- **Convenience**: No need to leave home or plan ahead
-
-## Success Looks Like
-- **Phase 1 (Month 4)**: First successful test delivery to real customer
-- **Phase 2 (Month 6)**: 10 successful deliveries with 90%+ customer satisfaction
-- **Phase 3 (Month 9)**: 100 deliveries/month, profitable unit economics
-
-## Key Constraints
-- **Geography**: Lower Manhattan only (drone range limitation)
-- **Regulatory**: FAA Part 107 compliance required
-- **Weather**: Cannot fly in rain, snow, or high winds
-- **Product**: Limited to items that survive 5-minute flight
-- **Timeline**: 6-month runway to prove concept
-```
-
-### Example 2: Team Calendar Sync Tool
-
-```markdown
-# Vision: Team Calendar Sync
-
-## Vision Statement
-We will eliminate calendar confusion by automatically syncing team availability across tools.
-
-## The Problem
-Our team uses Google Calendar for meetings but Slack for communication. People frequently ask "Are you available?" only to find out someone is in a meeting. Manually updating Slack status is tedious and forgotten. We waste time coordinating what's already in our calendars.
-
-## Our Solution
-Automatic sync from Google Calendar to Slack status. Every 15 minutes, the tool reads each team member's calendar and updates their Slack status accordingly. "In meeting," "Focus time," "Available" - whatever the calendar says, Slack reflects.
-
-## Value Delivered
-- **Visibility**: Team knows who's available without asking
-- **Time saved**: No manual status updates
-- **Reduced interruptions**: Don't message people who are in meetings
-- **Better coordination**: Easier to find time for quick chats
-
-## Success Looks Like
-- **Week 1**: Single user's calendar syncing reliably
-- **Week 2**: All 8 team members synced, zero manual interventions
-- **Month 1**: Team reports reduced "are you free?" messages
-
-## Key Constraints
-- **Team size**: 5-10 people (not building for scale)
-- **Tools**: Google Calendar + Slack only (what we use)
-- **Maintenance**: Must be set-and-forget (no time for ongoing tweaks)
-- **Timeline**: 2 weeks to ship
-```
-
-### Example 3: Architecture Amnesia Prevention
-
-```markdown
-# Vision: AI-Augmented Development Workflow
-
-## Vision Statement
-We will help solo developers maintain architecture knowledge as projects grow, preventing the "architecture amnesia" that occurs when working with AI agents across multiple sessions.
-
-## The Problem
-Solo developers working with AI agents (like Claude) face a recurring issue: as projects grow beyond a single session, the AI loses track of existing patterns, blessed utilities, and past decisions. This leads to reimplementation, inconsistent patterns, and repeated bugs. The conversation context disappears, but the codebase remains. Developers spend time re-explaining architecture or finding mistakes after the fact.
-
-## Our Solution
-A structured workflow with living documentation (SYSTEM_MAP, PATTERNS, RULES, BUG_LEDGER) that serves as persistent memory. Each role in the workflow (Spec Writer, Test Writer, Implementation Reviewer, etc.) references these docs, ensuring consistency. The Platform Lead maintains docs as the project evolves.
-
-## Value Delivered
-- **Consistency**: Patterns are documented and followed
-- **Quality**: Reviews catch issues before merge
-- **Learning**: Past bugs don't repeat (BUG_LEDGER + sentinel tests)
-- **Onboarding**: New contexts can quickly understand architecture
-- **Scalability**: Process works for projects lasting months, not just days
-
-## Success Looks Like
-- **Low regression rate**: Old bugs don't return
-- **High pattern reuse**: Utilities reused, not reinvented
-- **Fast recovery**: New chat sessions can resume work effectively
-- **Maintainability**: Codebase stays understandable as it grows
-
-## Key Constraints
-- **Solo developer focus**: Designed for individuals, not large teams
-- **AI-augmented workflow**: Assumes AI agents as collaborators
-- **Lightweight process**: Not heavyweight enterprise methodology
-```
-
-## When to Deviate
-
-### Skip Vision When:
-- Trivial project (1-day script)
-- Well-understood problem with obvious solution
-- Personal tool where you're the only user
-- Prototype meant to be thrown away
-
-For tiny projects, mental clarity may suffice.
-
-### Lightweight Vision When:
-- Small internal tool (2-3 week effort)
-- Problem and solution are very clear
-- Solo project with no handoff
-
-Vision can be 1 paragraph if sufficient.
-
-### Detailed Vision When:
-- Large project (multi-month effort)
-- Multiple stakeholders or users
-- Complex problem space
-- Seeking funding or approval
-- Team project requiring alignment
-
-Invest in thorough vision articulation.
+**What comes next:**
+- **Scope Writer** uses this vision to define concrete project boundaries
+- **Roadmap Writer** uses success criteria and timeline milestones for sequencing
+- **Spec Writers** reference vision to ensure features serve strategic goals
 
 ## Critical Reminders
 
 **DO:**
-- Start with questions, not assumptions
-- Make vision specific and memorable
-- Define concrete success criteria
-- Acknowledge constraints honestly
-- Keep implementation details out
-- Balance aspiration with reality
+- Write vision BEFORE any code or specs
+- Focus on customer outcomes, not features
+- Make assumptions explicit for validation
+- Keep vision statement to 1-2 sentences
+- Validate riskiest assumptions early
+- Maintain as living document with reviews
+- Reference VISION-ontology.md for complete structure
 
 **DON'T:**
-- Write generic vision that could be any project
-- Include technical implementation details
-- Skip success criteria definition
-- Ignore resource/time constraints
-- Make vision a long spec document
-- Confuse vision with roadmap
-
-The goal is a clear, inspiring north star that guides all downstream decisions and keeps the project focused on delivering real value.
+- Confuse vision with mission or strategy
+- List features instead of outcomes
+- Skip user validation
+- Update too frequently (signals lack of commitment)
+- Create vision too ambitious for resources
+- Write implementation details (save for specs)

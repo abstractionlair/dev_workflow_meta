@@ -21,12 +21,6 @@ This is **very important**: Because of the similarities between this meta-projec
 
 ## The Content of this Project
 
-### Temporary
-
-This had formerly been managed in the Claude chat application using the Claude Projects feature.
-Currently much useful information is in [former-claude-project-instructions.md](former-claude-project-instructions.md).
-But keep in mind we are migrating away from that and it may not all be relevant.
-
 ### Multi-Model Architecture
 
 Different AI models excel at different tasks. The workflow we are developing maps roles to models based on their strengths:
@@ -52,8 +46,10 @@ Each role has a detailed definition file:
 **Strategic/Planning Layer:**
 - [role-vision-writer.md](role-vision-writer.md) - Creates foundational VISION.md
 - [role-scope-writer.md](role-scope-writer.md) - Defines project boundaries
-- [role-roadmap-planner.md](role-roadmap-planner.md) - Sequences features
-- [role-planning-reviewer.md](role-planning-reviewer.md) - Reviews scope and roadmap
+- [role-roadmap-writer.md](role-roadmap-writer.md) - Sequences features
+- [role-vision-reviewer.md](role-vision-reviewer.md) - Reviews vision
+- [role-scope-reviewer.md](role-scope-reviewer.md) - Reviews scope
+- [role-roadmap-reviewer.md](role-roadmap-reviewer.md) - Reviews roadmap
 
 **Design/Contract Layer:**
 - [role-spec-writer.md](role-spec-writer.md) - Writes feature specifications
@@ -71,7 +67,6 @@ Each role has a detailed definition file:
 
 **Support/Meta Roles:**
 - [role-platform-lead.md](role-platform-lead.md) - Maintains living documentation
-- [role-implementation-advisor.md](role-implementation-advisor.md) - Provides debugging help
 
 ## Workflow Principles
 
@@ -80,7 +75,7 @@ But they are not our exclusive concerns.
 The workflow must be good overall for software development and this implies many implicit principals and requirements.
 We are just highlighting the principles below.
 
-1. **Prevent Architecture Amnesia**: Living docs (SYSTEM_MAP, PATTERNS, RULES, BUG_LEDGER) maintain memory
+1. **Prevent Architecture Amnesia**: Living docs (SYSTEM_MAP, GUIDELINES, bugs under the `bugs` subdirectory) maintain memory
 2. **Artifact-Driven State**: Repository files are truth, not conversation history
 3. **Role-Based Specialization**: Each role has specific responsibilities
 4. **Formal Review Gates**: Creator ≠ reviewer (adversarial reviews)
@@ -91,7 +86,7 @@ We are just highlighting the principles below.
 ### Typical Feature Flow
 
 ```
-1. Scope Writer + Roadmap Planner → Planning docs
+1. Scope Writer + Roadmap Writer → Planning docs
 2. Planning Reviewer → Approves
 
 3. Spec Writer → specs/proposed/feature.md
@@ -120,9 +115,12 @@ project/
 ├── SCOPE.md               # What's in/out
 ├── ROADMAP.md             # Feature sequence
 ├── SYSTEM_MAP.md          # Architecture reference
-├── PATTERNS.md            # Coding conventions
+├── GUIDELINES.md          # Coding conventions
 ├── RULES.md               # Architectural constraints
-├── BUG_LEDGER.yml         # Bug history and prevention
+├── bugs/                  # Bug reports and status
+│   ├── to_fix/
+│   ├── fixing/
+│   ├── fixed/
 ├── specs/
 │   ├── proposed/          # Awaiting review
 │   ├── todo/              # Approved, not started
@@ -173,7 +171,7 @@ This mapping will evolve as the workflow matures.
 
 Current role definitions took inspiration from principles in Anthropic's Skills framework, adapted for multi-model workflow documentation.
 It is unclear yet if this is helpful for models other than Claude.
-For models other than Claude, you can look at them in the [.claude/skills](./claude/skille) subdirectory.
+For models other than Claude, you can look at them in the [.claude/skills](./claude/skills) subdirectory.
 
 ### Questions?
 

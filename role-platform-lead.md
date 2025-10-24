@@ -8,7 +8,7 @@ typical_scope: Project-wide architectural stewardship
 
 ## Responsibilities
 
-The Platform Lead maintains the "persistent memory" of the projectâ€”the living documents that prevent architecture amnesia and ensure consistency as the codebase grows. This role curates SYSTEM_MAP.md, PATTERNS.md, RULES.md, and BUG_LEDGER.yml, keeping them accurate, useful, and up-to-date. The Platform Lead is the "head of developer experience" for the project.
+The Platform Lead maintains the "persistent memory" of the projectâ€”the living documents that prevent architecture amnesia and ensure consistency as the codebase grows. This role curates SYSTEM_MAP.md, GUIDELINES.md, and bug history in bugs/fixed/, keeping them accurate, useful, and up-to-date. The Platform Lead is the "head of developer experience" for the project.
 
 ## Collaboration Pattern
 
@@ -53,40 +53,28 @@ This role operates **continuously and reactively** - triggered by events through
 - Architecture refactored
 - Integration points changed
 
-### 2. PATTERNS.md
-**Purpose**: Blessed utilities, coding conventions, established approaches
+### 2. GUIDELINES.md
+**Purpose**: Coding patterns and constraints - how to do things and what to avoid
 
 **Contains:**
-- Preferred patterns for common tasks
+- Preferred patterns for common tasks (✅ DO)
+- Anti-patterns and constraints (❌ DON'T)
 - Blessed utility functions (with locations)
 - Code style conventions
-- Import patterns
-- Configuration approaches
-- Testing patterns
+- Layer boundaries and import restrictions
+- Security requirements
+- Performance constraints
+- Forbidden patterns (with reasons)
 
 **Update triggers:**
 - New utility created that should be reused
 - Pattern emerges from multiple features
 - Better approach discovered
 - Anti-pattern identified
-
-### 3. RULES.md
-**Purpose**: Architectural constraints, forbidden patterns, non-negotiable boundaries
-
-**Contains:**
-- Layer boundaries and import restrictions
-- Forbidden patterns (with reasons)
-- Security requirements
-- Performance constraints
-- Compliance requirements
-
-**Update triggers:**
 - Architectural decisions that become constraints
-- Discovered anti-patterns to forbid
 - Security issues requiring rules
-- Compliance requirements added
 
-### 4. BUG_LEDGER.yml
+### 3. Bug History (bugs/fixed/)
 **Purpose**: Historical record of bugs for learning and prevention
 
 **Contains:**
@@ -114,8 +102,8 @@ git log --since="1 week ago" --name-only --pretty=format:
 
 Check for:
 - New files/modules (need SYSTEM_MAP update?)
-- New utility functions (need PATTERNS entry?)
-- Bug fixes (need BUG_LEDGER entry?)
+- New utility functions (need GUIDELINES entry?)
+- Bug fixes (tracked in bugs/ directory?)
 - Architectural changes
 
 #### 2. Update SYSTEM_MAP.md
@@ -135,49 +123,35 @@ When new components added:
 **Used by**: [What depends on it]
 ```
 
-#### 3. Update PATTERNS.md
-When patterns emerge:
+#### 3. Update GUIDELINES.md
+When patterns emerge or constraints are identified:
+
+**For patterns (DO this):**
 - Document new blessed utilities
 - Add coding conventions observed
 - Record decisions about approaches
 - Update examples as needed
 
-**Template for new pattern:**
-```markdown
-### Pattern: [Name]
-**Use case**: [When to use this]
-**Location**: `src/path/to/utility.py::function_name`
-**Example**:
-\`\`\`python
-# Example usage
-\`\`\`
-**Rationale**: [Why this is the blessed approach]
-**See also**: [Related patterns]
-```
-
-#### 4. Update RULES.md
-When constraints identified:
+**For constraints (DON'T do this):**
 - Document architectural boundaries
 - Add forbidden patterns with rationale
 - Record security/compliance requirements
 
-**Template for new rule:**
+**Template for new pattern:**
 ```markdown
-### Rule: [Brief description]
-**Category**: [Architecture/Security/Performance]
-**Constraint**: [What's forbidden/required]
-**Rationale**: [Why this rule exists]
-**Example violation**:
+### Pattern: [Name]
+✅ DO: [What to do]
+❌ DON'T: [What to avoid]
+
+**Use case**: [When to use this]
+**Example**:
 \`\`\`python
-# Don't do this
+# Good approach
 \`\`\`
-**Correct approach**:
-\`\`\`python
-# Do this instead
-\`\`\`
+**Rationale**: [Why this is the blessed approach]
 ```
 
-#### 5. Update BUG_LEDGER.yml
+#### 4. Update Bug History (bugs/fixed/)
 After any bug fix:
 - Add entry with details
 - Reference sentinel test
@@ -200,8 +174,7 @@ After any bug fix:
 #### When Architectural Decisions Made
 Document decisions in appropriate doc:
 - Major: Update SYSTEM_MAP.md
-- Pattern: Update PATTERNS.md
-- Constraint: Update RULES.md
+- Pattern or Constraint: Update GUIDELINES.md
 
 #### When Developers Ask "Where is X?"
 If answer isn't obvious from docs:
@@ -211,13 +184,13 @@ If answer isn't obvious from docs:
 
 #### When Patterns Emerge Organically
 If same approach used in 2-3 places:
-- Formalize in PATTERNS.md
+- Formalize in GUIDELINES.md
 - Consider creating blessed utility
 - Document why this approach
 
 #### When Anti-Patterns Discovered
 If bad pattern found:
-- Document in RULES.md as forbidden
+- Document in GUIDELINES.md as forbidden
 - Explain why and provide alternative
 - Consider adding linter rule if possible
 
@@ -237,9 +210,9 @@ Look for patterns across codebase:
 - What should be deprecated?
 
 #### 3. Bug Pattern Analysis
-Review BUG_LEDGER.yml:
+Review bug reports in bugs/fixed/:
 - What categories of bugs are common?
-- Should any become RULES.md entries?
+- Should any become GUIDELINES.md entries?
 - Are sentinel tests still passing?
 
 #### 4. Prune Obsolete Content
@@ -252,9 +225,8 @@ Remove outdated information:
 
 ### Living Documentation
 **SYSTEM_MAP.md** - Always current architecture reference
-**PATTERNS.md** - Always current coding conventions
-**RULES.md** - Always current constraints
-**BUG_LEDGER.yml** - Complete historical bug record
+**GUIDELINES.md** - Always current coding patterns and constraints
+**Bug History (bugs/fixed/)** - Complete historical bug record
 
 ### Update Summaries
 When major updates made:
@@ -266,14 +238,12 @@ When major updates made:
 - Updated: [Component Y - new integration]
 - Removed: [Deprecated module Z]
 
-### PATTERNS.md Changes
+### GUIDELINES.md Changes
 - Added: [New pattern for async handling]
 - Updated: [CSV utility location changed]
-
-### RULES.md Changes
 - Added: [Rule about API rate limiting]
 
-### BUG_LEDGER.yml Changes
+### Bug History Changes
 - Added: [Bug #142 - race condition in cache]
 
 ### Rationale
@@ -320,15 +290,15 @@ Code examples should:
 
 ### Link Liberally
 Connect related information:
-- PATTERNS â†’ SYSTEM_MAP (where utilities live)
-- RULES â†’ PATTERNS (alternative approaches)
-- BUG_LEDGER â†’ test files (sentinel tests)
+- GUIDELINES.md → SYSTEM_MAP.md (where utilities live)
+- GUIDELINES.md → tests/regression/ (sentinel tests)
+- SYSTEM_MAP.md → GUIDELINES.md (architectural constraints)
 
 ### Version Control Documentation Changes
 Commit doc updates with feature:
 ```bash
-git add PATTERNS.md
-git commit -m "feat: add CSV export pattern to PATTERNS.md
+git add GUIDELINES.md
+git commit -m "feat: add CSV export pattern to GUIDELINES.md
 
 Documents the blessed dict_to_csv utility and when to use it.
 Related to: #142 (user export feature)"
@@ -340,7 +310,7 @@ Use consistent terminology:
 - Use full function names
 - Include file paths
 
-Enables: `grep "CSV" PATTERNS.md` finds relevant patterns
+Enables: `grep "CSV" GUIDELINES.md` finds relevant patterns
 
 ### Prune Aggressively
 Remove outdated content immediately:
@@ -375,9 +345,9 @@ Stale docs are worse than no docs.
 ### Not Linking Documents
 **Problem**: Information siloed in separate docs without cross-references.
 
-**Solution**: Liberal use of links. PATTERNS references SYSTEM_MAP locations. RULES reference PATTERNS alternatives.
+**Solution**: Liberal use of links. GUIDELINES.md references SYSTEM_MAP.md locations. GUIDELINES.md contains constraints with examples.
 
-### Letting BUG_LEDGER Become Noise
+### Letting Bug History Become Noise
 **Problem**: Recording every tiny issue makes ledger hard to search.
 
 **Solution**: Focus on bugs with lessons: repeated mistakes, architectural issues, subtle edge cases. Skip typos and trivial fixes.
@@ -429,11 +399,11 @@ Handles all user-related operations: authentication, profile management, prefere
 
 ### Patterns
 - All database access goes through UserService (no direct model imports in business logic)
-- Password hashing uses bcrypt per PATTERNS.md section 3.1
+- Password hashing uses bcrypt per GUIDELINES.md section 3.1
 - Email validation uses `src/utils/validation.py::validate_email()`
 ```
 
-### Example 2: PATTERNS.md Entry
+### Example 2: GUIDELINES.md Entry
 
 ```markdown
 ## Pattern: CSV Export
@@ -486,7 +456,7 @@ csv_output = dict_to_csv(activities)
 - Export pattern: See `src/exports/` for export feature examples
 ```
 
-### Example 3: RULES.md Entry
+### Example 3: GUIDELINES.md Entry
 
 ```markdown
 ## Rule: No Direct Database Model Imports in Controllers
@@ -535,10 +505,10 @@ None. If you think you need an exception, discuss with Platform Lead first.
 
 ### See Also
 - SYSTEM_MAP.md: Module boundaries and integration points
-- PATTERNS.md: Service layer pattern
+- GUIDELINES.md: Service layer pattern
 ```
 
-### Example 4: BUG_LEDGER.yml Entries
+### Example 4: bug reports in bugs/fixed/ Entries
 
 ```yaml
 bugs:
@@ -549,7 +519,7 @@ bugs:
     root_cause: "Manual CSV string building instead of using proper CSV library"
     category: "data-export"
     sentinel_test: "tests/unit/test_user_export.py::test_bug_127_csv_export_escapes_quotes"
-    prevention: "Always use dict_to_csv utility from csv_helpers. Added to PATTERNS.md"
+    prevention: "Always use dict_to_csv utility from csv_helpers. Added to GUIDELINES.md"
     
   - id: 128
     description: "Race condition in cache caused data corruption under load"
@@ -573,10 +543,10 @@ bugs:
     description: "Export feature reimplemented CSV generation, repeated Bug #127"
     date: 2025-01-10
     fixed_in: "commit ghi789"
-    root_cause: "Developer didn't check PATTERNS.md for CSV utility, reinvented it incorrectly"
+    root_cause: "Developer didn't check GUIDELINES.md for CSV utility, reinvented it incorrectly"
     category: "architecture-amnesia"
     sentinel_test: "tests/unit/test_transaction_export.py::test_proper_csv_escaping"
-    prevention: "Reinforced: Always check PATTERNS.md before creating utilities. Added grep check to review checklist"
+    prevention: "Reinforced: Always check GUIDELINES.md before creating utilities. Added grep check to review checklist"
 ```
 
 ### Example 5: Documentation Update Summary
@@ -601,7 +571,7 @@ Quarterly review and updates based on features shipped in January.
 ### Removed
 - Deprecated `src/legacy/` module (deleted in commit xyz)
 
-## PATTERNS.md Changes
+## GUIDELINES.md Changes
 
 ### Added
 - **CSV Export Pattern**: Blessed utility `dict_to_csv()` (see entry above)
@@ -611,14 +581,14 @@ Quarterly review and updates based on features shipped in January.
 ### Updated
 - **Testing Pattern**: Added integration test pattern for async operations
 
-## RULES.md Changes
+## GUIDELINES.md Changes
 
 ### Added
 - **Export Security Rule**: All exports must verify user owns data being exported
 - **Rate Limiting Rule**: Export endpoints must rate-limit to 5 requests/hour
 - **Thread Safety Rule**: Shared state in web handlers must use proper locking
 
-## BUG_LEDGER.yml Changes
+## bug reports in bugs/fixed/ Changes
 
 ### Added
 - Bug #127: CSV quote escaping (led to CSV utility pattern)
@@ -646,9 +616,9 @@ threading issues in web context.
 
 ## Metrics
 - SYSTEM_MAP entries: 12 modules (was 10)
-- PATTERNS entries: 23 patterns (was 18)
-- RULES entries: 15 rules (was 12)
-- BUG_LEDGER entries: 130 total bugs (was 126)
+- GUIDELINES entries: 23 patterns (was 18)
+- GUIDELINES constraints: 15 rules (was 12)
+- Bug reports: 130 total bugs (was 126)
 ```
 
 ## When to Deviate
@@ -667,8 +637,8 @@ threading issues in web context.
 - Compliance requirements
 
 ### Documentation Priorities by Project Size:
-**Small** (< 5k lines): PATTERNS.md only (key utilities)
-**Medium** (5k-50k lines): PATTERNS + SYSTEM_MAP + BUG_LEDGER
+**Small** (< 5k lines): GUIDELINES.md only (key utilities)
+**Medium** (5k-50k lines): GUIDELINES.md + SYSTEM_MAP.md
 **Large** (> 50k lines): All four docs + periodic reviews
 
 ## Critical Reminders
