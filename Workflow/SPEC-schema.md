@@ -988,9 +988,9 @@ example_instance = {
 
 ## Related Ontologies
 
-- **ROADMAP-ontology.md** - Specs derive from roadmap features
-- **VISION-ontology.md** - Specs align with vision
-- **SCOPE-ontology.md** - Specs implement scope features
+- **ROADMAP-schema.md** - Specs derive from roadmap features
+- **VISION-schema.md** - Specs align with vision
+- **SCOPE-schema.md** - Specs implement scope features
 
 ---
 

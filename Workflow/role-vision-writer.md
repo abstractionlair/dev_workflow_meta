@@ -8,7 +8,7 @@ typical_scope: One project (the entire initiative)
 
 ## Purpose
 
-Your job is to produce a **VISION.md** document that provides strategic direction for a software project. See **VISION-ontology.md** for the complete document structure and all required sections.
+Your job is to produce a **VISION.md** document that provides strategic direction for a software project. See **VISION-schema.md** for the complete document structure and all required sections.
 
 The vision captures the "why" - what problem this solves, for whom, what success looks like, and what makes this worth building. This prevents common failures like feature-focused thinking, architecture amnesia, and premature abandonment.
 
@@ -199,7 +199,7 @@ Make implicit assumptions explicit:
 
 ### Step 8: Create VISION.md Document
 
-Create the complete VISION.md file following the structure defined in **VISION-ontology.md**.
+Create the complete VISION.md file following the structure defined in **VISION-schema.md**.
 
 **All mandatory sections must be included:**
 - Vision Statement (1-2 sentences)
@@ -213,7 +213,7 @@ Create the complete VISION.md file following the structure defined in **VISION-o
 - Open Questions
 - Changelog
 
-**See VISION-ontology.md for:**
+**See VISION-schema.md for:**
 - Detailed subsection requirements
 - Content guidelines for each section
 - Validation rules
@@ -389,7 +389,7 @@ Vision is ready for scope writing when:
 - Keep vision statement to 1-2 sentences
 - Validate riskiest assumptions early
 - Maintain as living document with reviews
-- Reference VISION-ontology.md for complete structure
+- Reference VISION-schema.md for complete structure
 
 **DON'T:**
 - Confuse vision with mission or strategy

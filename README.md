@@ -1,187 +1,39 @@
 # AI-Augmented Software Development Workflow
 
-## Managing this Project
+## Why
+
+Recent experiments of mine (circa October 2025) with Claude Code, OpenAI Codex, and other similar tools, have followed a similar pattern.
+Excellent progress and results when starting a project but gradually degrading afterwards as the project grows.
+Particular pain points included the following.
+- Models "forgeting" big things like utility methods or layers that we'd already built. This led to reimplementing functionality we already had when adding new features. In more than one case, the reimplementing even recreated the same bugs as-in the initial implementation. This would happen over days.
+- Models forgetting details. This was at smaller time scales and usually involved context filling and needing to be compacted. After the compaction a model would "remember" the general idea of what we were doing but lose details. E.g. it remembered we were writing an eval of something but forgot our conversation regarding methodology and just wrote a basic sanity check.
+- "The usual" imperfect implementations that would happen if I coded things myself didn't magically disappear.
+
+Regarding the various kinds of forgetting, I'd been hearing a lot that having agents work off of written specifications was better than driving the work through conversations. However, I really like working out details in conversations, sometimes long ones. It gives me opportunities for "oh, right, we also need ..." and "that reminds me ..." moments to draw out details. So I don't want to give that up.
+
+Regarding general quality of the code, I found that having Claude implement code and GPT-5 review code led to a great jump in quality. 
+
+Those observations inspired this project.
+
+## What/How
 
 This is a **meta-project**.
-
-The associated **concrete** software development projects will use a **multi-model** workflow system for solo developers working with AI agents, designed to prevent architecture amnesia and maintain quality through formal process gates.
-
+The associated **concrete** software development projects will use an **artifact-driven**, **multi-model** workflow system.
 This **meta-project** designs and documents the workflow itself, not actual software that will be built in the concrete projects.
-The artifacts here (role definitions, workflow diagrams, ...) mostly describe **how to run concrete development projects**.
-We may develop _some_ software here, such as evaluations of different model's abilities in different roles.
+Though we may develop _some_ software here, such as evaluations of different model's abilities in different roles.
 
-Like the associated concrete projects, this meta-project is a multi-model project.
-Each model or model-interface combination will or should have read its own, model-specific instruction file before reading this file, [README.md](README.md).
+Managing development with artifacts is meant to address the "forgetting" via specifications as described above, but also extend beyond implementation to deciding what problems to solve (vision), what to attempt to include and what to not attempt (scope), mapping milestones (roadmap), etc. The artifacts also act as the communication mechanism between models.
 
-If you are a model reading this that is participating in the project and you haven't already read an entry point file specific to you and your current interface, please report that.
+That multi-model aspect is another generalization from the observations above. First, we are broadening it from multi-model to multi-role.
+The same model with different instructions can effectively take on different roles.
+In parallel with the artifacts, we can expand the initial idea to cover vision, scope, roadmaps, etc.
 
-This is **very important**: Because of the similarities between this meta-project and the associated concrete projects, all participants must take great care in word and phrase choice to properly distinguish the levels.
+My theory is that a level of specificity and process which would be burdensome for human developers is appropriate for AI agents.
+Reasons include the fact that agents can switch roles immediately by clearing context and loading a new prompt and that processes can be automated.
 
-**For a visual overview of the workflow**, see [workflow-diagram.md](workflow-diagram.md) which contains mermaid diagrams showing feature flow, branching strategy, state machines, and role interactions.
-
-## The Content of this Project
-
-### Multi-Model Architecture
-
-Different AI models excel at different tasks. The workflow we are developing maps roles to models based on their strengths:
-
-- **Collaborative roles** (planning, specs): Models good at reasoning and dialogue
-- **Implementation roles**: Models strong at code generation
-- **Review roles**: Models excellent at finding bugs and edge cases
-- **Architecture roles**: Models with large context windows
-- ...
-
-### Core Documentation
-
-#### Workflow Overview
-
-- **[workflow-roles-index.md](workflow-roles-index.md)** - Complete role catalog, principles, and sequences
-- **[workflow-diagram.md](workflow-diagram.md)** - Visual flow diagrams and state machines
-- **[workflow-artifacts.md](workflow-artifacts.md)** - Artifact types, locations, and lifecycles
-
-#### Role Definitions
-
-Each role has a detailed definition file:
-
-**Strategic/Planning Layer:**
-- [role-vision-writer.md](role-vision-writer.md) - Creates foundational VISION.md
-- [role-vision-reviewer.md](role-vision-reviewer.md) - Reviews vision
-- [role-vision-writing-helper.md](role-vision-writing-helper.md) - Helps a human describe the vision
-- [role-scope-writer.md](role-scope-writer.md) - Defines project boundaries
-- [role-scope-reviewer.md](role-scope-reviewer.md) - Reviews scope
-- [role-scope-writing-helper.md](role-scope-writing-helper.md) - Helps a human determine scope
-- [role-roadmap-writer.md](role-roadmap-writer.md) - Sequences features
-- [role-roadmap-reviewer.md](role-roadmap-reviewer.md) - Reviews roadmap
-- [role-roadmap-writing-helper.md](role-roadmap-writing-helper.md) - Helps a human create a roadmap
-
-**Design/Contract Layer:**
-- [role-spec-writer.md](role-spec-writer.md) - Writes feature specifications
-- [role-spec-reviewer.md](role-spec-reviewer.md) - Reviews specs (gates proposed→todo)
-- [role-spec-writing-helper.md](role-spec-writing-helper.md) - Helps a human write a spec
-- [role-skeleton-writer.md](role-skeleton-writer.md) - Creates code skeletons
-- [role-skeleton-reviewer.md](role-skeleton-reviewer.md) - Reviews skeleton interfaces
-
-**Test Layer:**
-- [role-test-writer.md](role-test-writer.md) - Writes TDD test suites (red first)
-- [role-test-reviewer.md](role-test-reviewer.md) - Reviews test coverage
-
-**Implementation Layer:**
-- [role-implementer.md](role-implementer.md) - Implements features (makes tests green), fixes bugs
-- [role-implementation-reviewer.md](role-implementation-reviewer.md) - Reviews code (gates doing→done)
-
-**Bug Fixing:**
-- [role-bug-recorder.md](role-bug-recorder.md) - Unstructured conversation to structured bug report
-
-**Support/Meta Roles:**
-- [role-platform-lead.md](role-platform-lead.md) - Maintains living documentation
-
-## Workflow Principles
-
-These are based on pain points the user experienced in setups preceeding this one.
-But they are not our exclusive concerns.
-The workflow must be good overall for software development and this implies many implicit principals and requirements.
-We are just highlighting the principles below.
-
-1. **Prevent Architecture Amnesia**: Living docs (SYSTEM_MAP, GUIDELINES, bugs under the `bugs` subdirectory) maintain memory
-2. **Artifact-Driven State**: Repository files are truth, not conversation history
-3. **Role-Based Specialization**: Each role has specific responsibilities
-4. **Formal Review Gates**: Creator ≠ reviewer (adversarial reviews)
-5. **Test-Driven Development**: Specs → Tests (red) → Implementation (green)
-6. **Multi-Model Optimization**: Use best model for each role
-7. **Human-as-Manager**: Human approves gates, agents execute
-
-### Typical Feature Flow
-
-```
-1. Scope Writer + Roadmap Writer → Planning docs
-2. Planning Reviewer → Approves
-
-3. Spec Writer → specs/proposed/feature.md
-4. Spec Reviewer → Approves, moves to specs/todo/
-
-5. Skeleton Writer → Code stubs
-6. Skeleton Reviewer → Approves
-7. Skeleton Writer → Creates feature branch, moves spec to specs/doing/
-
-8. Test Writer → Comprehensive test suite (red)
-9. Test Reviewer → Approves tests
-
-10. Implementer → Makes tests pass (green)
-11. Implementation Reviewer → Approves, moves spec to specs/done/, merges
-
-12. Platform Lead → Updates living docs
-```
-
-### Artifact Structure (Concrete Projects)
-
-When using this workflow in actual projects:
-
-```
-project/
-├── VISION.md              # Why this project exists
-├── SCOPE.md               # What's in/out
-├── ROADMAP.md             # Feature sequence
-├── SYSTEM_MAP.md          # Architecture reference
-├── GUIDELINES.md          # Coding conventions
-├── bugs/                  # Bug reports and status
-│   ├── to_fix/
-│   ├── fixing/
-│   ├── fixed/
-├── specs/
-│   ├── proposed/          # Awaiting review
-│   ├── todo/              # Approved, not started
-│   ├── doing/             # In progress (on feature branch)
-│   └── done/              # Completed (merged to main)
-├── reviews/
-│   ├── planning/
-│   ├── specs/
-│   ├── skeletons/
-│   ├── tests/
-│   └── implementations/
-├── tests/
-│   ├── unit/
-│   └── integration/
-└── src/                   # Implementation code
-```
-
-### Branching Strategy
-
-- **Main branch**: Planning docs, living docs, specs in `proposed/` and `todo/` states
-- **Feature branches**: Created when spec moves to `doing/`, contains tests and implementation
-- **Merge trigger**: Implementation reviewer approves, spec moves to `done/`
-
-### Getting Started
-
-In concrete projects, models would typically do the following.
-
-1. **Choose your role**: See [workflow-roles-index.md](workflow-roles-index.md) for role descriptions
-2. **Read role definition**: Find the relevant `role-*.md` file
-3. **Follow role process**: Each role has clear inputs, process, and outputs
-4. **Use appropriate model**: Check model-to-role mapping for optimal results
-5. **Maintain artifacts**: Keep living docs updated to prevent amnesia
-
-### Model-to-Role Mapping
-
-*(To be developed based on benchmarking and experience)*
-
-Initial, tentative, hypothesis based on 2025 research:
-- **GPT-5**: Planning, scope, roadmap writing
-- **Claude Sonnet 4.5**: Code review, specs, test review, implementation review
-- **GPT-5-Codex**: Skeleton writing, implementation
-- **Gemini 2.5 Pro**: Skeleton review (architectural analysis)
-- **Grok 4**: Test review (algorithmic depth)
-
-This mapping will evolve as the workflow matures.
-
-### Design Inspiration
-
-Current role definitions took inspiration from principles in Anthropic's Skills framework, adapted for multi-model workflow documentation.
-It is unclear yet if this is helpful for models other than Claude.
-For models other than Claude, you can look at them in the [.claude/skills](./claude/skills) subdirectory.
-
-### Questions?
-
-- For workflow design principles: See [workflow-roles-index.md](workflow-roles-index.md)
-- For specific role details: See individual `role-*.md` files
-- For artifact formats: See [workflow-artifacts.md](workflow-artifacts.md)
-- For visual flow: See [workflow-diagram.md](workflow-diagram.md)
+In this meta-project we will the following major components.
+1. **[Ontology](Workflow/Ontology.md):** What kinds of documents exist; what they include; how the should be structured.
+2. **[Role Catalog](Workflow/RoleCatalog.md):** What roles existl what they do; what artifacts they depend on; what artifacts they create or edit.
+3. **[Workflow](Workflow/Workflow.md):** Who goes first; who goes next; who communicates with whom; when artifacts are created, edited, and read.
+4. **[File Layout and Project State](Workflow/LayoutAndState.md)
+4. **Evals?** How do different models and/or different prompts perform in various roles. This might go elsewhere?

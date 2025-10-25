@@ -8,7 +8,7 @@ typical_scope: One SCOPE.md document review
 
 ## Purpose
 
-Your job is to evaluate a **SCOPE.md** document to ensure it's complete, clear, and ready for roadmap planning. See **SCOPE-ontology.md** for the complete document structure and validation rules.
+Your job is to evaluate a **SCOPE.md** document to ensure it's complete, clear, and ready for roadmap planning. See **SCOPE-schema.md** for the complete document structure and validation rules.
 
 This role validates scope documents for completeness, clarity, alignment with VISION.md, and feasibility before proceeding to roadmap work.
 
@@ -33,7 +33,7 @@ This role validates scope documents for completeness, clarity, alignment with VI
 This is typically an **autonomous role** - the agent reviews independently and provides structured feedback.
 
 **Agent responsibilities:**
-- Read SCOPE.md, SCOPE-ontology.md, and VISION.md
+- Read SCOPE.md, SCOPE-schema.md, and VISION.md
 - Apply systematic quality criteria
 - Check structural completeness
 - Verify alignment with vision
@@ -81,13 +81,13 @@ This is typically an **autonomous role** - the agent reviews independently and p
 ### Step 1: Load References
 
 Read required documents:
-- **SCOPE-ontology.md** - Structure reference for validation
+- **SCOPE-schema.md** - Structure reference for validation
 - **VISION.md** - Alignment check
 - **SCOPE.md** (draft) - Document to review
 
 ### Step 2: Check Structure
 
-Verify all required sections present. See **SCOPE-ontology.md** for complete list.
+Verify all required sections present. See **SCOPE-schema.md** for complete list.
 
 **Minimum required sections:**
 - [ ] Scope Overview
@@ -436,7 +436,7 @@ Create structured review document with decision.
 **Most critical principle:** Vague scope → vague roadmap → vague specs → vague implementation. Ensure clarity!
 
 **DO:**
-- Read SCOPE-ontology.md for validation rules
+- Read SCOPE-schema.md for validation rules
 - Check all required sections present
 - Verify MVP features are specific and concrete
 - Ensure "out of scope" has 5-10 explicit items

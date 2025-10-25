@@ -23,22 +23,22 @@ Each planning phase has Writer, Reviewer, and Helper roles, plus an ontology doc
 | **role-vision-writer.md** | Creates VISION.md defining project purpose | Collaborative |
 | **role-vision-reviewer.md** | Reviews vision for clarity and feasibility | Independent |
 | **role-vision-writing-helper.md** | Guides vision creation via Socratic conversation | Collaborative |
-| **VISION-ontology.md** | Defines vision document structure | Reference |
+| **VISION-schema.md** | Defines vision document structure | Reference |
 | | | |
 | **role-scope-writer.md** | Defines project boundaries (in/out/deferred) | Collaborative |
 | **role-scope-reviewer.md** | Reviews scope for completeness and alignment | Independent |
 | **role-scope-writing-helper.md** | Guides scope definition via conversation | Collaborative |
-| **SCOPE-ontology.md** | Defines scope document structure | Reference |
+| **SCOPE-schema.md** | Defines scope document structure | Reference |
 | | | |
 | **role-roadmap-writer.md** | Sequences features into phased delivery plan | Collaborative |
 | **role-roadmap-reviewer.md** | Reviews roadmap for sequencing logic | Independent |
 | **role-roadmap-writing-helper.md** | Guides roadmap planning via conversation | Collaborative |
-| **ROADMAP-ontology.md** | Defines roadmap document structure | Reference |
+| **ROADMAP-schema.md** | Defines roadmap document structure | Reference |
 | | | |
 | **role-spec-writer.md** | Transforms features into behavioral specifications | Collaborative |
 | **role-spec-reviewer.md** | Reviews specs, gates `proposed/` → `todo/` | Independent (Gatekeeper) |
 | **role-spec-writing-helper.md** | Guides specification writing via conversation | Collaborative |
-| **SPEC-ontology.md** | Defines specification document structure | Reference |
+| **SPEC-schema.md** | Defines specification document structure | Reference |
 
 **Pattern:** Planning roles + ontologies = information equivalence with Claude skills
 

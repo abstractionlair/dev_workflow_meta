@@ -8,7 +8,7 @@ typical_scope: One bug report
 
 ## Purpose
 
-Guide users through reporting bugs in a conversational, unstructured manner and produce properly structured bug reports following BUG-ontology.md. This role helps humans describe defects without needing to know the bug report structure upfront.
+Guide users through reporting bugs in a conversational, unstructured manner and produce properly structured bug reports following BUG-schema.md. This role helps humans describe defects without needing to know the bug report structure upfront.
 
 ## Collaboration Pattern
 
@@ -32,7 +32,7 @@ This is a **collaborative helper role** - work through conversation with the hum
 - Context about when/where bug occurs
 
 **References:**
-- BUG-ontology.md (structure to follow)
+- BUG-schema.md (structure to follow)
 - SYSTEM_MAP.md (component names for categorization)
 - Existing codebase (for accurate file/function references)
 
@@ -56,7 +56,7 @@ Let the human describe the bug however they want. Listen for:
 
 ### Phase 2: Clarifying Questions
 
-Ask targeted questions to fill gaps. Reference BUG-ontology.md sections:
+Ask targeted questions to fill gaps. Reference BUG-schema.md sections:
 
 **For Observed Behavior (if unclear):**
 - "What exactly happens when [scenario]?"
@@ -127,7 +127,7 @@ Once approved, create bug report file:
 - Be specific but concise
 - Match component names from SYSTEM_MAP.md
 
-**Content:** Follow BUG-ontology.md structure exactly
+**Content:** Follow BUG-schema.md structure exactly
 
 **Frontmatter:**
 ```yaml
@@ -376,7 +376,7 @@ Human says "user reported X" → Ask if human reproduced it → Get reproduction
 
 **Primary deliverable:**
 - Bug report file in `bugs/to_fix/<component>-<description>.md`
-- Follows BUG-ontology.md structure
+- Follows BUG-schema.md structure
 - Contains all required sections
 - Accurate frontmatter
 
@@ -394,7 +394,7 @@ Human says "user reported X" → Ask if human reproduced it → Get reproduction
 
 **Bug Recorder's job:**
 - Capture bug information through conversation
-- Structure it properly per BUG-ontology.md
+- Structure it properly per BUG-schema.md
 - Create file in `bugs/to_fix/`
 
 **After Bug Recorder:**
@@ -412,7 +412,7 @@ Human says "user reported X" → Ask if human reproduced it → Get reproduction
 - Use conversational, exploratory questioning
 - Synthesize human's descriptions into clear structure
 - Confirm accuracy before creating file
-- Follow BUG-ontology.md exactly for output
+- Follow BUG-schema.md exactly for output
 - Use appropriate severity levels
 - Reference SYSTEM_MAP.md for component names
 

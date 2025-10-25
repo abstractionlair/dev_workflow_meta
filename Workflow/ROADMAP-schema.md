@@ -660,9 +660,9 @@ Each feature entry follows this exact structure:
 
 ## Related Ontologies
 
-- **VISION-ontology.md** - Roadmap aligns with vision
-- **SCOPE-ontology.md** - Roadmap sequences scope features
-- **SPEC-ontology.md** - Roadmap features become specs
+- **VISION-schema.md** - Roadmap aligns with vision
+- **SCOPE-schema.md** - Roadmap sequences scope features
+- **SPEC-schema.md** - Roadmap features become specs
 
 ---
 
