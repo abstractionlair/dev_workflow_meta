@@ -33,7 +33,7 @@ This is an **autonomous role** - work independently from approved specs.
 
 **From workflow:**
 - Approved specification in `specs/todo/<feature>.md`
-- SPEC-schema.md (specification structure reference)
+- schema-spec.md (specification structure reference)
 
 **From standing docs:**
 - SYSTEM_MAP.md - File organization, module boundaries

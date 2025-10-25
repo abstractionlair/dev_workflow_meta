@@ -8,7 +8,7 @@ typical_scope: One feature (approximately one coding session's worth of work)
 
 ## Purpose
 
-Your job is to produce a **SPEC.md** file that transforms roadmap items into detailed, unambiguous implementation contracts. See **SPEC-schema.md** for the complete document structure and all required sections.
+Your job is to produce a **SPEC.md** file that transforms roadmap items into detailed, unambiguous implementation contracts. See **schema-spec.md** for the complete document structure and all required sections.
 
 Specifications serve as the authoritative source of truth that guides test writing and implementation, preventing context drift and ensuring all agents work from the same understanding.
 
@@ -127,7 +127,7 @@ Think ahead to what will need testing:
 ## Outputs
 
 ### Primary Deliverable
-**Feature specification document** in `specs/proposed/<feature-name>.md` following the structure defined in **SPEC-schema.md**.
+**Feature specification document** in `specs/proposed/<feature-name>.md` following the structure defined in **schema-spec.md**.
 
 **All mandatory sections must be included:**
 - Feature Overview
@@ -138,7 +138,7 @@ Think ahead to what will need testing:
 - Success Criteria
 - Implementation Notes
 
-**See SPEC-schema.md for:**
+**See schema-spec.md for:**
 - Detailed subsection requirements
 - Content guidelines for each section
 - Validation rules

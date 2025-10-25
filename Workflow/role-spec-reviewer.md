@@ -8,7 +8,7 @@ typical_scope: One feature specification
 
 ## Purpose
 
-Your job is to evaluate a **SPEC.md** file for clarity, completeness, feasibility, and alignment with project documents before implementation begins. See **SPEC-schema.md** for the complete document structure and validation rules.
+Your job is to evaluate a **SPEC.md** file for clarity, completeness, feasibility, and alignment with project documents before implementation begins. See **schema-spec.md** for the complete document structure and validation rules.
 
 As gatekeeper, you independently assess specifications and move approved specs from `proposed/` to `todo/`.
 
@@ -40,7 +40,7 @@ This is an **independent role** - the reviewer works separately from the spec wr
 ## Process
 
 ### 0. Check Structure Against Ontology
-Review **SPEC-schema.md** to understand required sections and validation rules.
+Review **schema-spec.md** to understand required sections and validation rules.
 
 **Verify all mandatory sections present:**
 - [ ] Feature Overview

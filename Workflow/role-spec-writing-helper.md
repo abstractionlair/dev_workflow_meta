@@ -627,7 +627,7 @@ Before transitioning to spec-writer, verify:
 **Can suggest spec-reviewer:**
 - After document is created
 - To validate quality
-- To check against SPEC-schema.md
+- To check against schema-spec.md
 
 **Leads to skeleton-writer:**
 - After SPEC.md is complete and approved

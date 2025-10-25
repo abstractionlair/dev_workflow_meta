@@ -14,25 +14,25 @@ Each planning phase has Writer, Reviewer, and Helper roles, plus an ontology doc
 1. **[Vision Writer](role-vision-writer.md)** - Creates VISION.md defining project purpose, users, problems, and 2-5 year success criteria
 2. **[Vision Reviewer](role-vision-reviewer.md)** - Reviews vision for clarity, feasibility, and strategic soundness
 3. **[Vision Writing Helper](role-vision-writing-helper.md)** - Guides users through articulating vision via Socratic conversation
-4. **[VISION-schema.md](VISION-schema.md)** - Defines vision document structure and validation rules
+4. **[schema-vision.md](schema-vision.md)** - Defines vision document structure and validation rules
 
 #### Scope Phase
 5. **[Scope Writer](role-scope-writer.md)** - Defines project boundaries (in/out/deferred), deliverables, constraints
 6. **[Scope Reviewer](role-scope-reviewer.md)** - Reviews scope for completeness, clarity, and alignment with vision
 7. **[Scope Writing Helper](role-scope-writing-helper.md)** - Guides users through defining concrete scope via conversation
-8. **[SCOPE-schema.md](SCOPE-schema.md)** - Defines scope document structure and validation rules
+8. **[schema-scope.md](schema-scope.md)** - Defines scope document structure and validation rules
 
 #### Roadmap Phase
 9. **[Roadmap Writer](role-roadmap-writer.md)** - Sequences features into phased delivery plan with dependencies
 10. **[Roadmap Reviewer](role-roadmap-reviewer.md)** - Reviews roadmap for sequencing logic and scope alignment
 11. **[Roadmap Writing Helper](role-roadmap-writing-helper.md)** - Guides users through feature sequencing via conversation
-12. **[ROADMAP-schema.md](ROADMAP-schema.md)** - Defines roadmap document structure and validation rules
+12. **[schema-roadmap.md](schema-roadmap.md)** - Defines roadmap document structure and validation rules
 
 #### Specification Phase
 13. **[Spec Writer](role-spec-writer.md)** - Transforms roadmap features into detailed behavioral specifications
 14. **[Spec Reviewer](role-spec-reviewer.md)** - Reviews specs for completeness and testability
 15. **[Spec Writing Helper](role-spec-writing-helper.md)** - Guides users through defining specifications via conversation
-16. **[SPEC-schema.md](SPEC-schema.md)** - Defines specification document structure and validation rules
+16. **[schema-spec.md](schema-spec.md)** - Defines specification document structure and validation rules
 
 **Pattern:** Planning roles include procedural knowledge (how to write good X). Role + ontology = information equivalence with Claude skills.
 
@@ -500,10 +500,10 @@ Start with the roles that match your current need. Add more as the project grows
 All role definitions and ontologies are ready to export:
 
 **Planning Roles:**
-- Vision: role-vision-{writer,reviewer,writing-helper}.md + VISION-schema.md
-- Scope: role-scope-{writer,reviewer,writing-helper}.md + SCOPE-schema.md
-- Roadmap: role-roadmap-{writer,reviewer,writing-helper}.md + ROADMAP-schema.md
-- Spec: role-spec-{writer,reviewer,writing-helper}.md + SPEC-schema.md
+- Vision: role-vision-{writer,reviewer,writing-helper}.md + schema-vision.md
+- Scope: role-scope-{writer,reviewer,writing-helper}.md + schema-scope.md
+- Roadmap: role-roadmap-{writer,reviewer,writing-helper}.md + schema-roadmap.md
+- Spec: role-spec-{writer,reviewer,writing-helper}.md + schema-spec.md
 
 **Coding Roles:**
 - Skeleton: role-skeleton-{writer,reviewer}.md

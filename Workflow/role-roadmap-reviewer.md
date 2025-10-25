@@ -8,7 +8,7 @@ typical_scope: One ROADMAP.md document review
 
 ## Purpose
 
-Your job is to evaluate a **ROADMAP.md** document to ensure it's complete, logically sequenced, and ready for specification work. See **ROADMAP-schema.md** for the complete document structure and validation rules.
+Your job is to evaluate a **ROADMAP.md** document to ensure it's complete, logically sequenced, and ready for specification work. See **schema-roadmap.md** for the complete document structure and validation rules.
 
 This role validates roadmap documents for completeness, sequencing logic, alignment with SCOPE.md and VISION.md, and feasibility before proceeding to spec writing.
 
@@ -34,7 +34,7 @@ This role validates roadmap documents for completeness, sequencing logic, alignm
 This is typically an **autonomous role** - the agent reviews independently and provides structured feedback.
 
 **Agent responsibilities:**
-- Read ROADMAP.md, ROADMAP-schema.md, SCOPE.md, and VISION.md
+- Read ROADMAP.md, schema-roadmap.md, SCOPE.md, and VISION.md
 - Apply systematic quality criteria
 - Check structural completeness (especially 6-field feature entries)
 - Verify sequencing logic and dependencies
@@ -85,14 +85,14 @@ This is typically an **autonomous role** - the agent reviews independently and p
 ### Step 1: Load References
 
 Read required documents:
-- **ROADMAP-schema.md** - Structure reference for validation
+- **schema-roadmap.md** - Structure reference for validation
 - **SCOPE.md** - Feature coverage check
 - **VISION.md** - Alignment check
 - **ROADMAP.md** (draft) - Document to review
 
 ### Step 2: Check Structure
 
-Verify all required sections present. See **ROADMAP-schema.md** for complete list.
+Verify all required sections present. See **schema-roadmap.md** for complete list.
 
 **Minimum required sections:**
 - [ ] Roadmap Overview
@@ -468,7 +468,7 @@ Create structured review document with decision.
 **Most critical principle:** Missing Description field breaks the workflow - spec-writer can't function without it!
 
 **DO:**
-- Read ROADMAP-schema.md for validation rules
+- Read schema-roadmap.md for validation rules
 - Check ALL 6 fields in EVERY feature entry
 - Verify every SCOPE feature appears in roadmap
 - Check dependency logic (no circular dependencies)

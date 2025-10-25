@@ -8,7 +8,7 @@ typical_scope: One project (one repository)
 
 ## Purpose
 
-Your job is to produce a **SCOPE.md** document that transforms strategic vision into tactical boundaries. See **SCOPE-schema.md** for the complete document structure and all required sections.
+Your job is to produce a **SCOPE.md** document that transforms strategic vision into tactical boundaries. See **schema-scope.md** for the complete document structure and all required sections.
 
 The scope document prevents scope creep, aligns stakeholders, enables realistic planning, and creates explicit boundaries that guide all downstream work. It answers "what are we building?" concretely enough to enable implementation planning.
 
@@ -226,7 +226,7 @@ Define how scope changes are handled.
 
 ### Step 8: Create SCOPE.md Document
 
-Create the complete SCOPE.md file following the structure defined in **SCOPE-schema.md**.
+Create the complete SCOPE.md file following the structure defined in **schema-scope.md**.
 
 **All mandatory sections must be included:**
 - Scope Overview
@@ -241,7 +241,7 @@ Create the complete SCOPE.md file following the structure defined in **SCOPE-sch
 - Stakeholder Agreement
 - Document Control
 
-**See SCOPE-schema.md for:**
+**See schema-scope.md for:**
 - Detailed subsection requirements
 - Content guidelines for each section
 - Validation rules
@@ -476,7 +476,7 @@ Real-time dashboard showing data pipeline status with Slack alerts on failures.
 ## Handoff to Next Roles
 
 Scope is ready for roadmap planning when:
-- All mandatory sections complete (see SCOPE-schema.md)
+- All mandatory sections complete (see schema-scope.md)
 - MVP scope is concrete and achievable
 - Boundaries are clear and explicit
 - Acceptance criteria are testable
@@ -497,7 +497,7 @@ Scope is ready for roadmap planning when:
 - Make boundaries explicit (what's out)
 - Establish testable acceptance criteria
 - Document all constraints realistically
-- Reference SCOPE-schema.md for complete structure
+- Reference schema-scope.md for complete structure
 - Get stakeholder approval before roadmap work
 
 **DON'T:**

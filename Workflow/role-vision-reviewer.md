@@ -8,7 +8,7 @@ typical_scope: One VISION.md document review
 
 ## Purpose
 
-Your job is to evaluate a **VISION.md** document against quality criteria to catch issues before they cascade into planning and implementation. See **VISION-schema.md** for the complete document structure and validation rules.
+Your job is to evaluate a **VISION.md** document against quality criteria to catch issues before they cascade into planning and implementation. See **schema-vision.md** for the complete document structure and validation rules.
 
 This role provides structured review frameworks that identify vague language, missing elements, unrealistic scope, and other common vision failures.
 
@@ -48,7 +48,7 @@ This is typically an **autonomous role** - the agent reviews independently and p
 
 ### Level 1: Structural Completeness
 
-Check if all essential sections exist with adequate detail. Reference **VISION-schema.md** for complete requirements.
+Check if all essential sections exist with adequate detail. Reference **schema-vision.md** for complete requirements.
 
 **Required sections:**
 - ✓ Vision statement (1-2 sentences)
@@ -592,14 +592,14 @@ After review is complete:
 
 **DO:**
 - Read full document before detailed critique
-- Check for all required sections (see VISION-schema.md)
+- Check for all required sections (see schema-vision.md)
 - Apply quality criteria systematically
 - Scan for common anti-patterns
 - Provide specific, actionable feedback
 - Include examples of improvements
 - Prioritize issues by impact (P0/P1/P2)
 - Recommend concrete next steps
-- Reference VISION-schema.md for validation rules
+- Reference schema-vision.md for validation rules
 
 **DON'T:**
 - Reject vision because you'd build something different

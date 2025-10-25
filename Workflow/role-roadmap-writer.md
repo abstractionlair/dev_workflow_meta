@@ -8,7 +8,7 @@ typical_scope: One project roadmap
 
 ## Purpose
 
-Your job is to produce a **ROADMAP.md** document that sequences features from scope into phases that balance value delivery, risk mitigation, and learning. See **ROADMAP-schema.md** for the complete document structure and all required sections.
+Your job is to produce a **ROADMAP.md** document that sequences features from scope into phases that balance value delivery, risk mitigation, and learning. See **schema-roadmap.md** for the complete document structure and all required sections.
 
 The roadmap converts scope boundaries into actionable feature sequences that maximize learning velocity, derisk assumptions early, and deliver value incrementally while maintaining strategic alignment.
 
@@ -318,7 +318,7 @@ Explain WHY features are sequenced this way.
 
 ### Step 8: Create ROADMAP.md Document
 
-Create the complete ROADMAP.md file following the structure defined in **ROADMAP-schema.md**.
+Create the complete ROADMAP.md file following the structure defined in **schema-roadmap.md**.
 
 **All mandatory sections must be included:**
 - Roadmap Overview
@@ -331,7 +331,7 @@ Create the complete ROADMAP.md file following the structure defined in **ROADMAP
 - Flexibility and Adaptation
 - Document Control
 
-**See ROADMAP-schema.md for:**
+**See schema-roadmap.md for:**
 - Detailed subsection requirements
 - Content guidelines for each section
 - Validation rules
@@ -691,7 +691,7 @@ When multiple features have equal priority:
 ## Handoff to Next Roles
 
 Roadmap is ready for specification when:
-- All mandatory sections complete (see ROADMAP-schema.md)
+- All mandatory sections complete (see schema-roadmap.md)
 - Phase 1 features clearly defined
 - Dependencies mapped
 - Sequencing rationale documented
@@ -712,7 +712,7 @@ Roadmap is ready for specification when:
 - Include complete user journeys
 - Document sequencing rationale
 - Reality-check against timeline
-- Reference ROADMAP-schema.md for complete structure
+- Reference schema-roadmap.md for complete structure
 - Get stakeholder approval before spec work
 
 **DON'T:**
