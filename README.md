@@ -36,4 +36,4 @@ In this meta-project we will the following major components.
 2. **[Role Catalog](Workflow/RoleCatalog.md):** What roles existl what they do; what artifacts they depend on; what artifacts they create or edit.
 3. **[Workflow](Workflow/Workflow.md):** Who goes first; who goes next; who communicates with whom; when artifacts are created, edited, and read.
 4. **[File Layout and Project State](Workflow/LayoutAndState.md)
-4. **Evals?** How do different models and/or different prompts perform in various roles. This might go elsewhere?
+6. **Evals?** How do different models and/or different prompts perform in various roles. This might go elsewhere?
