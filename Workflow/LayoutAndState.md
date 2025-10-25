@@ -28,7 +28,8 @@ project/
 │   ├── roadmap/
 │   ├── skeletons/
 │   ├── tests/
-│   └── implementations/
+│   ├── implementations/
+│   └── bug-fixes
 ├── tests/
 │   ├── unit/              # Tests for contract correctness and completeness for isolated units
 │   ├── integration/       # Tests for contract correctness and completeness across units

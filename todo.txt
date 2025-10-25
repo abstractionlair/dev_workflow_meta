@@ -17,6 +17,10 @@
   - ConcreteProjectSetup.md - Currently just "This needs to be written"
   - ConcreteWorkflow.md - Currently just "To be written"
 
+* Add tool-specific guidance files:
+  - Populate CODEX.md, CLAUDE.md, GEMINI.md, OPENCODE.md with tool behaviors,
+    formatting rules, environment assumptions, and any workflow deviations
+
 ## HIGH PRIORITY - Workflow Process Gaps
 
 * Add REFACTOR step to TDD cycle in role-implementer.md
@@ -39,6 +43,11 @@
   - Test writing (missing acceptance criteria)
   - Implementation (behavioral ambiguities)
   Process: Who can request changes? Who approves? Does spec need re-review?
+
+* Guardrails to prevent contract weakening:
+  - Add explicit "no-weakening" checklist items to Test Reviewer and
+    Implementation Reviewer roles (e.g., detect softened assertions),
+    and require approver sign-off when modifying tests/specs
 
 * Add test coverage requirements to role-test-reviewer.md
   Coverage thresholds: >80% line, >70% branch
@@ -87,6 +96,21 @@
   Look for duplicated information across files
   Opportunities to simplify without losing value
 
+* Define a "Lite Mode" for solo/small teams:
+  Merge compatible roles, trim gates while preserving core artifacts and
+  quality bars; document when to use and how to escalate to full workflow
+
+* Document living-docs strategies for parallel feature branches:
+  Conflict mitigation patterns, sequencing guidance, and PR coordination
+
+* Create detailed graphical workflow diagram:
+  Visually represent roles, artifacts, state transitions, and feedback loops
+  to aid in comprehension and onboarding
+
+* Define an "Onboarding" guide for new contributors:
+  Practical companion to abstract schemas/roles, explaining how to start,
+  find key docs, and follow core principles
+
 ## AUTOMATION & TOOLING
 
 * How do we orchestrate handoffs between roles?
@@ -104,6 +128,16 @@
   Need: Quick status command or script
   Shows: What's in flight, what's next, what's blocked
   Design: State visualization tool/script
+
+* Add cross-document consistency checks (lint/CI):
+  - Verify Vision → Scope feature mapping, success criteria alignment
+  - Enforce Roadmap feature 6-field completeness
+  - Ensure verbatim vision statement copies across docs
+  - Wire into CI and pre-merge review scripts
+
+* Design a "bootstrap" or "init" script for new projects:
+  Tool to auto-create directory structure and stub artifacts, lowering
+  the barrier to adoption
 
 ## NOTES & CLARIFICATIONS
 
@@ -130,3 +164,4 @@
 ✓ Review documentation quality and structure
 ✓ Review workflow design and logic
 ✓ Map complete document network (zero orphans)
+✓ Align review subdirectories across docs (schema-review/LayoutAndState/roles)
