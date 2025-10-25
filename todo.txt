@@ -44,6 +44,10 @@
   - Implementation (behavioral ambiguities)
   Process: Who can request changes? Who approves? Does spec need re-review?
 
+* Design and document a formal "Request for Change" (RFC) process:
+  Create a lightweight, artifact-driven process for amending approved
+  artifacts (like specs or tests) when downstream discoveries necessitate changes.
+
 * Guardrails to prevent contract weakening:
   - Add explicit "no-weakening" checklist items to Test Reviewer and
     Implementation Reviewer roles (e.g., detect softened assertions),
