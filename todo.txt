@@ -1,0 +1,132 @@
+# Workflow Meta-Project TODO
+
+## CRITICAL - Documentation Quality
+
+* Properly write 6 minimal schemas to comprehensive format:
+  - schema-guidelines.md
+  - schema-system-map.md
+  - schema-review.md
+  - schema-implementation-code.md
+  - schema-interface-skeleton-code.md
+  - schema-test-code.md
+  Target: Match depth of vision/scope/roadmap/spec/bug-report schemas (500-1100 lines)
+
+* Flesh out stub documentation files:
+  - Ontology.md - Add introduction, context, organization, reading guidance
+  - RoleCatalog.md - Add title, intro explaining layered structure
+  - ConcreteProjectSetup.md - Currently just "This needs to be written"
+  - ConcreteWorkflow.md - Currently just "To be written"
+
+## HIGH PRIORITY - Workflow Process Gaps
+
+* Add REFACTOR step to TDD cycle in role-implementer.md
+  Currently: RED → GREEN
+  Should be: RED → GREEN → REFACTOR
+  Include: refactoring checklist, when to refactor, when to skip
+
+* Document feedback loop: Implementation → Planning
+  Add "Checkpoint Review" process to workflow documentation
+  Triggers: After Phase 1 complete, >50% features need spec changes, core assumption invalidated
+  Process: Platform Lead identifies need, assemble findings, update Vision/Scope/Roadmap with version bump
+
+* Spell out procedure when implementer requests test changes
+  Tests are contract, but what if tests are wrong?
+  Who approves test modifications?
+  How to validate proposed changes don't weaken contract?
+
+* Spell out how to update spec if issues discovered during:
+  - Skeleton writing (structural problems)
+  - Test writing (missing acceptance criteria)
+  - Implementation (behavioral ambiguities)
+  Process: Who can request changes? Who approves? Does spec need re-review?
+
+* Add test coverage requirements to role-test-reviewer.md
+  Coverage thresholds: >80% line, >70% branch
+  Verification commands
+  Edge case completeness checklist
+  Exception coverage requirements
+
+* Strengthen bug fix sentinel test verification
+  Add to Implementation Reviewer checklist:
+  - Verify sentinel test FAILS on old code
+  - Verify sentinel test PASSES on new code
+  - Test is specific to bug (not generic)
+  Include verification commands
+
+## MEDIUM PRIORITY - Workflow Design Questions
+
+* Should we have schema for review requests?
+  Currently: Reviews have schema, but not review requests
+  Would formalize what reviewers need to do their job
+
+* Are subdirectories of /reviews aligned with schema and role files?
+  Check: vision/, scope/, roadmap/, specs/, skeletons/, tests/, implementations/
+  vs role files and workflow stages
+
+* Is the unit/integration/regression test directory division best?
+  Alternative: contract/ (acceptance criteria tests) and sentinel/ (regression tests)
+  Evaluate: Does current structure match how tests are actually written/used?
+
+* Is who moves what and when consistent across all role files?
+  Audit: Ensure state transitions match between:
+  - LayoutAndState.md
+  - Workflow.md ownership matrix
+  - Individual role files
+
+* Clarify milestone-to-phase mapping
+  Vision has milestones (6mo/1yr/3yr)
+  Roadmap has phases and weeks
+  Add guidance: How do phases map to milestones? What if they don't fit?
+
+* When do we flesh out roadmap items that were sketched?
+  Just-in-time planning: When do Phase 2 features get detailed?
+  Before Phase 1 done? During Phase 1? Only when starting Phase 2?
+
+* Is there redundancy? Can we make this more concise?
+  General optimization pass
+  Look for duplicated information across files
+  Opportunities to simplify without losing value
+
+## AUTOMATION & TOOLING
+
+* How do we orchestrate handoffs between roles?
+  Currently: Manual - user switches CLI tools
+  Options: Scripts? Workflow automation? Git hooks?
+  Document current approach and future automation plans
+
+* Should writers/implementers call reviewers automatically?
+  Have MCP server example from previous project (Claude → Codex reviews)
+  Expand to: Auto-trigger reviews when work complete?
+  Referenced conversation with Claude chat - review and incorporate
+
+* How to quickly infer project state from filesystem?
+  Workflow captures state via directory structure
+  Need: Quick status command or script
+  Shows: What's in flight, what's next, what's blocked
+  Design: State visualization tool/script
+
+## NOTES & CLARIFICATIONS
+
+* Living docs on feature branches - DECISION MADE
+  REASON: Can't reference components that don't exist yet on main
+  - SYSTEM_MAP.md: Must point to new components introduced on branch
+  - GUIDELINES.md: Can reference new utilities introduced on branch
+  TRADEOFF: Risk of merge conflicts if multiple branches edit same docs
+  ACCEPTABLE: For serial feature development (initial target)
+  NOTE: Add to documentation:
+    "This workflow assumes primarily serial feature development. For parallel
+    feature development (multiple active feature branches), living docs on
+    branches may cause merge conflicts. Consider alternative strategies:
+    - Living docs PRs separate from feature PRs
+    - Serialize living doc updates (merge first branch touching docs before others)"
+
+* AGENTS.md routing wording
+  Current: Ambiguous about "official" vs "exploring" agents
+  Need: Better wording to guide agents that have AGENTS.md as init file
+  vs agents just poking around the project
+
+## COMPLETED
+✓ Fix typos in README.md, CONTRIBUTING.md, Workflow.md, LayoutAndState.md
+✓ Review documentation quality and structure
+✓ Review workflow design and logic
+✓ Map complete document network (zero orphans)
