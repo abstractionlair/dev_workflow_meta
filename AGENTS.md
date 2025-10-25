@@ -7,7 +7,7 @@ Please follow these routing instructions.
 - OpenCode (OpenCode TUI, opencode): read [OPENCODE.md](OPENCODE.md) next. Ignore the rest of this file.
 - If AGENTS.md is your "official" initial instruction file
   - report to the user that instructions for you need to be written. Ignore the rest of this file.
-- Otherwise
+- Otherwise (e.g. AGENTS.md isn't one of your official startup file, you're just browsing)
   - ignore this file.
 
 
