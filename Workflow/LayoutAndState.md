@@ -38,7 +38,7 @@ project/
 
 ## Recording State
 
-The locations of files under `bugs/`, `specs/`, `reviews/`, and `tets/` tell us about their states.
+The locations of files under `bugs/`, `specs/`, `reviews/`, and `tests/` tell us about their states.
 As does the brancg they are in.
 
 As a general principle, we adopt the following strategy for transitions.

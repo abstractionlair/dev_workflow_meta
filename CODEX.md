@@ -13,3 +13,4 @@ There is not yet any codex-specific information.
 # General Instructions
 
 Read **[CONTRIBUTING.md](CONTRIBUTING.md)** next.
+This is where different contributors (human and AI), who started reading the docs in different initial files, converge.

@@ -8,7 +8,7 @@ Please follow these routing instructions.
 - If AGENTS.md is your "official" initial instruction file
   - report to the user that instructions for you need to be written. Ignore the rest of this file.
 - Otherwise
-  - ignore this this file.
+  - ignore this file.
 
 
 
