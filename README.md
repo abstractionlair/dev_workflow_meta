@@ -5,7 +5,7 @@
 Recent experiments of mine (circa October 2025) with Claude Code, OpenAI Codex, and other similar tools, have followed a similar pattern.
 Excellent progress and results when starting a project but gradually degrading afterwards as the project grows.
 Particular pain points included the following.
-- Models "forgetting" big things like utility methods or layers that we'd already built. This led to reimplementing functionality we already had when adding new features. In more than one case, the reimplementing even recreated the same bugs as-in the initial implementation. This would happen over days.
+- Models "forgetting" big things like utility methods or layers that we'd already built. This led to reimplementing functionality we already had when adding new features. In more than one case, the reimplementing even recreated the same bugs as in the initial implementation. This would happen over days.
 - Models forgetting details. This was at smaller time scales and usually involved context filling and needing to be compacted. After the compaction a model would "remember" the general idea of what we were doing but lose details. E.g. it remembered we were writing an eval of something but forgot our conversation regarding methodology and just wrote a basic sanity check.
 - "The usual" imperfect implementations that would happen if I coded things myself didn't magically disappear.
 
@@ -36,4 +36,5 @@ In this meta-project we will the following major components.
 2. **[Role Catalog](Workflow/RoleCatalog.md):** What roles exist; what they do; what artifacts they depend on; what artifacts they create or edit.
 3. **[Workflow](Workflow/Workflow.md):** Who goes first; who goes next; who communicates with whom; when artifacts are created, edited, and read.
 4. **[File Layout and Project State](Workflow/LayoutAndState.md):** Where files are; what that tells you about the state of the project.
-5. **Evals?** How do different models and/or different prompts perform in various roles. This might go elsewhere?
+5. **[Setting Up a Concrete Project](Workflow/ConcreteProjectSetup.md):** How to setup a new concrete project using this workflow.
+6. **Evals?** How do different models and/or different prompts perform in various roles. This might go elsewhere?

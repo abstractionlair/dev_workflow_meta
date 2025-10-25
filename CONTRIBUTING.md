@@ -4,7 +4,7 @@
 
 This is the file at which contributor's reading converges after starting at agent-specific files like CLAUDE.md, GEMINI.md, ...
 
-## Informtion for Everyone
+## Information for Everyone
 
 Please read [README.md](README.md) to learn what the project is about.
 

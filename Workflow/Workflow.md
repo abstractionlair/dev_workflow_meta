@@ -39,7 +39,7 @@
 | Tests | Implementer, Implementation Reviewer | Contract verification |
 | Implementation | Implementation Reviewer, Platform Lead | Quality check, doc updates |
 | SYSTEM_MAP.md | All roles | Architecture reference |
-| GUIDELINES.md | Skeleton Writer, Implementer, Spec Writer, Implementer, Reviewers | Coding conventions |
+| GUIDELINES.md | Skeleton Writer, Spec Writer, Implementer, Reviewers | Coding conventions |
 | bug reports in bugs/fixed/ | Test Writer, Implementer, Reviewers | Regression prevention |
 
 

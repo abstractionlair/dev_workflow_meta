@@ -39,7 +39,7 @@ project/
 ## Recording State
 
 The locations of files under `bugs/`, `specs/`, `reviews/`, and `tests/` tell us about their states.
-As does the brancg they are in.
+As does the branch they are in.
 
 As a general principle, we adopt the following strategy for transitions.
 - If there is a reviewer acting as gatekeeper, the reviewer moves things to the next state on approval.

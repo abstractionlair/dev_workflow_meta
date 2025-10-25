@@ -1,0 +1,916 @@
+---
+name: roadmap-writer
+description: Transform scope documents into sequenced feature roadmaps that balance value delivery, risk mitigation, and learning. Use when you have VISION.md and SCOPE.md and need to create ROADMAP.md that defines feature sequencing, phases, and dependencies while maintaining strategic alignment.
+---
+
+# Roadmap Writer
+
+## Overview
+
+Convert scope boundaries into actionable feature sequences by creating roadmaps that maximize learning velocity, derisk assumptions early, and deliver value incrementally. This skill ensures roadmaps are realistic, stakeholder-aligned, and adaptable to change.
+
+## When to Use This Skill
+
+**Trigger scenarios:**
+- Have approved VISION.md and SCOPE.md, need to sequence work
+- User asks to create ROADMAP.md document
+- Need to prioritize features across multiple phases
+- Planning which features to build in what order
+- Stakeholders need visibility into delivery timeline
+
+**Do NOT use for:**
+- Detailed sprint/iteration planning (too granular)
+- Task breakdown and estimation (that's in specs)
+- Technical architecture decisions (belongs in system design)
+- Vision or scope creation (use other skills)
+
+## What Roadmaps Do
+
+**Primary purposes:**
+1. **Sequence features** - What to build in what order
+2. **Derisk early** - Validate riskiest assumptions first
+3. **Deliver value** - Get user value as soon as possible
+4. **Enable learning** - Build in feedback loops
+5. **Communicate plans** - Align stakeholders on timing
+
+**Roadmap is NOT:**
+- Project schedule with dates (too detailed, changes too often)
+- Commitment to specific features (must stay flexible)
+- Complete feature specifications (those come next)
+- Sprint backlog (too operational)
+
+## Inputs Required
+
+### From VISION.md
+
+**Essential elements:**
+- **Vision statement** - To ensure roadmap serves strategic direction
+- **Target users** - To prioritize features by user value
+- **Success criteria** - To sequence toward measurable outcomes
+- **Timeline milestones** - To understand delivery expectations (6mo/1yr/3yr)
+
+### From SCOPE.md
+
+**Essential elements:**
+- **In Scope - MVP** - Features to sequence in roadmap
+- **In Scope - Future Phases** - Post-MVP features to plan
+- **Explicitly Out of Scope** - To avoid including excluded items
+- **Constraints and Assumptions** - To plan realistically
+- **Success Criteria** - To know what "done" looks like
+
+### Additional Context
+
+**From stakeholders/team:**
+- Technical dependencies (what must be built before what)
+- Riskiest assumptions (what to validate first)
+- Team velocity or capacity (if known)
+- Market timing constraints (deadlines that matter)
+- Early access user availability (for validation)
+
+## ROADMAP.md Document Structure
+
+### Complete Structure
+
+```markdown
+# [Project Name] Roadmap
+
+## Roadmap Overview
+[2-3 sentences explaining sequencing strategy]
+
+## Alignment
+
+### Vision
+[Copy vision statement from VISION.md]
+
+### Success Criteria
+[Copy key metrics from VISION.md to show what roadmap achieves]
+
+### Scope Summary
+[Brief summary of in-scope features from SCOPE.md]
+
+## Sequencing Strategy
+
+### Key Principles
+[3-5 principles guiding feature sequence]
+
+### Risk Mitigation Approach
+[How roadmap derisks critical assumptions]
+
+### Value Delivery Pattern
+[How roadmap delivers user value incrementally]
+
+## Phase 1: MVP Foundation (Weeks 1-X)
+
+### Goals
+[What this phase achieves]
+
+### Features
+1. **[Feature Name]**
+   - **Description:** [1-2 sentence overview of what this feature does]
+   - **Why now:** [Rationale for sequencing]
+   - **Delivers:** [User value or learning]
+   - **Derisks:** [Assumptions validated]
+   - **Depends on:** [Prerequisites]
+   - **Effort:** [Rough size - Small/Medium/Large]
+
+2. **[Feature Name]**
+   [Same structure]
+
+### Success Criteria
+- [How to know Phase 1 is complete]
+
+### Learning Goals
+- [What we'll learn from building this]
+
+### Validation Checkpoints
+- [Where we pause to assess and adjust]
+
+## Phase 2: [Phase Name] (Weeks X-Y)
+
+[Same structure as Phase 1]
+
+## Phase 3+: Future Phases
+
+### Planned Features
+[Features from SCOPE.md future phases]
+
+### Dependencies
+[What must happen before these]
+
+### Flexibility
+[How these might change based on learning]
+
+## Dependencies and Sequencing
+
+### Technical Dependencies
+[Feature A requires Feature B to be complete]
+
+### Learning Dependencies
+[Feature C depends on validating assumption from Feature A]
+
+### External Dependencies
+[Features waiting on external factors]
+
+## Assumptions and Risks
+
+### Key Assumptions
+[Assumptions underlying this sequence]
+
+### Sequencing Risks
+[Risks if we get sequence wrong]
+
+### Mitigation Plans
+[How we'll handle if assumptions invalid]
+
+## Flexibility and Change
+
+### Adaptation Triggers
+[What would cause roadmap changes]
+
+### Review Cadence
+[How often we revisit roadmap]
+
+### Change Process
+[How to adjust roadmap based on learning]
+
+## Document Control
+
+### Version History
+[Track roadmap changes]
+
+### Related Documents
+- VISION.md - [link]
+- SCOPE.md - [link]
+- Feature specs - [links as created]
+```
+
+## Roadmap Planning Process
+
+### Step 1: Extract Features from Scope
+
+Read SCOPE.md and list all features to sequence.
+
+**From "In Scope - MVP":**
+- Core features
+- Technical requirements
+- Must-have capabilities
+
+**From "In Scope - Future Phases":**
+- Phase 2 features
+- Phase 3+ features
+- Deferred features
+
+**Create master feature list** with:
+- Feature name
+- Brief description (1-2 sentences of what feature does)
+- From which scope section
+- Rough size estimate (if possible)
+
+### Step 2: Identify Dependencies
+
+For each feature, determine:
+
+**Technical dependencies:**
+- Does this feature require another feature to exist first?
+- Example: "User dashboard" requires "User authentication"
+
+**Learning dependencies:**
+- Does this feature depend on validating an assumption?
+- Example: "Collaborative editing" depends on proving "Users work in teams" assumption
+
+**External dependencies:**
+- Does this feature require external factors?
+- Example: "Payment processing" requires "Merchant account approval"
+
+**Create dependency map** showing must-build-before relationships.
+
+### Step 3: Assess Risk and Value
+
+For each feature, evaluate:
+
+**Risk (High/Medium/Low):**
+- How uncertain is this feature?
+- How many unknowns?
+- How likely to fail?
+- How critical are assumptions?
+
+**Value (High/Medium/Low):**
+- How much user value does this deliver?
+- Does this enable measuring success criteria?
+- Does this derisk major assumptions?
+- Does this unlock other features?
+
+**Use risk/value matrix:**
+- High Value + High Risk → Build early (validates strategy)
+- High Value + Low Risk → Build early (delivers value)
+- Low Value + High Risk → Defer or cut (not worth risk)
+- Low Value + Low Risk → Build later (polish)
+
+### Step 4: Apply Sequencing Principles
+
+Use these principles to order features:
+
+**Principle 1: Derisk Early**
+- Build risky features first
+- Validate critical assumptions before betting big
+- Fail fast if core approach won't work
+
+**Principle 2: Deliver Value Fast**
+- Get something valuable to users ASAP
+- Even partial value beats no value
+- Build complete user journey, not perfect features
+
+**Principle 3: Enable Learning**
+- Sequence to maximize feedback loops
+- Build things users can actually use
+- Get features in front of users for validation
+
+**Principle 4: Respect Dependencies**
+- Build foundations before buildings
+- Technical dependencies must be sequenced correctly
+- Don't build features that depend on unvalidated assumptions
+
+**Principle 5: Maintain Flow**
+- Group related features together
+- Avoid context switching
+- Complete meaningful chunks before pivoting
+
+### Step 5: Create Phases
+
+Group features into phases based on:
+
+**Phase boundaries:**
+- Natural pause points for reflection
+- Delivery of complete user value
+- Validation of major assumptions
+- Shift in focus or strategy
+
+**Phase duration:**
+- 2-8 weeks typical for MVP phases
+- Longer phases for post-MVP
+- Short enough to maintain focus
+- Long enough to deliver value
+
+**Phase content:**
+- 3-7 features per phase (not too many)
+- Related features grouped together
+- Complete user capabilities
+- Mix of value and derisk
+
+### Step 6: Document Each Feature
+
+For each feature in each phase, write complete entry:
+
+```markdown
+1. **[Feature Name]**
+   - **Description:** [1-2 sentence overview of what this feature does]
+   - **Why now:** [Sequencing rationale from Step 4]
+   - **Delivers:** [User value or learning outcome]
+   - **Derisks:** [Assumptions validated, risks mitigated]
+   - **Depends on:** [Prerequisites from Step 2]
+   - **Effort:** [Small/Medium/Large estimate]
+```
+
+**Description field:**
+- Clear, concise statement of what feature is
+- Focuses on what feature does, not why or how
+- 1-2 sentences maximum
+- Enables spec-writer to understand feature without context
+
+**Example descriptions:**
+- ✅ "Analyzes Python code to automatically detect relationships between specs, tests, and implementation files"
+- ✅ "CLI command that finds all code/test files linked to a given specification"
+- ❌ "Static analysis" (too vague)
+- ❌ "Uses AST parsing to scan Python files..." (too detailed/technical)
+
+### Step 7: Define Learning Goals
+
+For each phase, specify:
+
+**What we'll learn:**
+- Which assumptions will be validated?
+- What user feedback do we need?
+- What technical feasibility questions answered?
+
+**How we'll learn:**
+- Early user testing
+- Prototype validation
+- Usage metrics
+- Technical proof-of-concept
+
+**Decision points:**
+- What would cause us to pivot?
+- What would cause us to continue?
+- What would cause us to stop?
+
+### Step 8: Plan Validation Checkpoints
+
+Insert checkpoints between phases:
+
+**At each checkpoint:**
+- Review what was learned
+- Validate assumptions with data
+- Assess if strategy still valid
+- Decide: continue, pivot, or stop
+
+**Checkpoint format:**
+```markdown
+### Checkpoint: Post-Phase 1 Review
+
+**Date:** [End of Phase 1]
+
+**Review questions:**
+- Did we validate [key assumption]?
+- Do users find [core feature] valuable?
+- Is technical approach sustainable?
+- Should we proceed to Phase 2 as planned?
+
+**Decision criteria:**
+- Proceed: [What must be true]
+- Pivot: [What would cause strategy change]
+- Stop: [What would cause project cancellation]
+```
+
+## Common Sequencing Patterns
+
+### Pattern 1: Walking Skeleton
+
+**Concept:** Build thinnest possible end-to-end flow first.
+
+**Sequence:**
+1. Basic infrastructure (auth, data storage, deployment)
+2. Simplest complete user journey
+3. Essential validation/error handling
+4. Iteratively add capability depth
+
+**When to use:** New product, unvalidated approach, high technical risk
+
+**Example:**
+1. User registration + basic profile
+2. Create one type of entity
+3. View/edit that entity
+4. Add more entity types and capabilities
+
+### Pattern 2: Riskiest First
+
+**Concept:** Build highest-risk features first to validate or fail fast.
+
+**Sequence:**
+1. Most critical assumption validation
+2. Hardest technical challenges
+3. Riskiest integrations
+4. Lower-risk value-adds
+
+**When to use:** Novel approach, unproven technology, critical dependencies
+
+**Example:**
+1. AI model accuracy proof-of-concept
+2. Real-time sync architecture validation
+3. Third-party API integration
+4. UI polish and additional features
+
+### Pattern 3: Value Ladder
+
+**Concept:** Deliver increasing value with each phase.
+
+**Sequence:**
+1. Minimum viable value (users get some benefit)
+2. Complete value (users get primary benefit)
+3. Enhanced value (users get additional benefits)
+4. Premium value (users get delightful extras)
+
+**When to use:** Clear user journey, validated problem, known solution
+
+**Example:**
+1. Manual task completion (works but effortful)
+2. Automated task completion (primary value)
+3. Batch operations (efficiency)
+4. AI suggestions (delight)
+
+### Pattern 4: Expand from Core
+
+**Concept:** Build core capability deeply, then expand breadth.
+
+**Sequence:**
+1. Core feature complete and polished
+2. Most adjacent use case
+3. Next adjacent use case
+4. Integration and ecosystem
+
+**When to use:** Platform play, clear core value, expansion path known
+
+**Example:**
+1. Specification management (core)
+2. Test management (adjacent)
+3. Documentation management (adjacent)
+4. IDE integrations (ecosystem)
+
+### Pattern 5: Parallel Tracks
+
+**Concept:** Build multiple independent value streams in parallel.
+
+**Sequence Track A:**
+1. Feature set A.1
+2. Feature set A.2
+
+**Sequence Track B:**
+1. Feature set B.1
+2. Feature set B.2
+
+**When to use:** Multiple user types, independent value streams, team has capacity
+
+**Example Track A (Developers):**
+1. CLI spec management
+2. Living docs automation
+
+**Example Track B (Managers):**
+1. Progress visibility
+2. Health metrics
+
+## Roadmap Quality Checklist
+
+### Alignment
+- [ ] Roadmap sequences features from SCOPE.md
+- [ ] Every feature in MVP scope is in roadmap
+- [ ] No features in roadmap that aren't in scope
+- [ ] Roadmap enables achieving vision success criteria
+- [ ] Timeline consistent with vision milestones
+
+### Sequencing Logic
+- [ ] Dependencies respected (foundations before buildings)
+- [ ] High-risk features early (validate or fail fast)
+- [ ] Value delivered as soon as possible
+- [ ] Learning opportunities built in
+- [ ] Natural phase boundaries
+
+### Feasibility
+- [ ] Phase durations realistic for team/resources
+- [ ] No phase has too many features (>7)
+- [ ] Technical dependencies accounted for
+- [ ] External dependencies identified
+- [ ] Constraints from SCOPE.md respected
+
+### Flexibility
+- [ ] Validation checkpoints defined
+- [ ] Adaptation triggers identified
+- [ ] Review cadence specified
+- [ ] Change process documented
+- [ ] Learning goals for each phase
+
+### Communication
+- [ ] Rationale for sequence explained
+- [ ] Each feature has "why now" justification
+- [ ] Success criteria for phases defined
+- [ ] Stakeholder alignment documented
+- [ ] Related documents linked
+
+## Common Pitfalls
+
+### Pitfall 1: Feature Packing
+
+**Problem:** Trying to fit too many features in early phases.
+
+**Why problematic:** Overcommitment leads to delays and cutting corners.
+
+**Fix:** Each phase should have 3-7 features maximum. If more, split into phases.
+
+### Pitfall 2: Ignoring Dependencies
+
+**Problem:** Sequencing features without considering what they depend on.
+
+**Why problematic:** Can't build feature if dependencies don't exist.
+
+**Fix:** Map dependencies explicitly. Build foundations first.
+
+### Pitfall 3: No Risk Mitigation
+
+**Problem:** Deferring risky features to later phases.
+
+**Why problematic:** Late discovery that approach won't work wastes effort.
+
+**Fix:** Build risky features early. Validate or fail fast.
+
+### Pitfall 4: No Learning Checkpoints
+
+**Problem:** Roadmap is linear with no pause for reflection.
+
+**Why problematic:** Can't adapt based on what's learned.
+
+**Fix:** Insert checkpoints between phases. Plan to assess and pivot.
+
+### Pitfall 5: Waterfall Mindset
+
+**Problem:** Treating roadmap as immutable contract.
+
+**Why problematic:** Real world changes, learning happens, plans must adapt.
+
+**Fix:** Roadmap is hypothesis. Review regularly. Adapt based on evidence.
+
+### Pitfall 6: No "Why Now"
+
+**Problem:** Features listed without rationale for sequence.
+
+**Why problematic:** Stakeholders can't understand or validate sequence logic.
+
+**Fix:** Every feature needs "why now" explanation with rationale.
+
+### Pitfall 7: Perfect Future Phases
+
+**Problem:** Planning Phase 2+ in excessive detail.
+
+**Why problematic:** Phase 1 will change everything about Phase 2+ plans.
+
+**Fix:** Detail decreases with distance. Phase 1 is detailed, Phase 2+ is rough.
+
+## Example Roadmap
+
+```markdown
+# DevContext Roadmap
+
+## Roadmap Overview
+This roadmap sequences DevContext features to derisk technical approach early while 
+delivering immediate user value through progressive capability addition. We start 
+with the riskiest technical challenge (static analysis linking), then layer user 
+value with specs and living docs.
+
+## Alignment
+
+### Vision
+"Help solo developers maintain project context across planning and execution 
+without documentation overhead"
+
+### Success Criteria (from Vision)
+- Time to answer "why does this exist?" <30 seconds (currently 30-60 min)
+- 100 active users within 6 months
+- 60% retention after 3 months
+
+### Scope Summary
+MVP delivers CLI tool with specification management, context linking between 
+specs/tests/code, and living documentation that stays current automatically.
+
+## Sequencing Strategy
+
+### Key Principles
+1. **Derisk technical linking first** - Most novel/risky capability
+2. **Deliver complete user journeys** - Usable value at each phase
+3. **Validate with real usage** - Get features in front of users ASAP
+4. **Build infrastructure as needed** - JIT, not upfront
+5. **Maintain development flow** - Group related features
+
+### Risk Mitigation Approach
+Phase 1 builds the riskiest technical piece (static analysis linking) as proof of 
+concept. If this fails, we pivot to manual linking before investing in full features.
+
+### Value Delivery Pattern
+Each phase delivers a complete user capability:
+- Phase 1: Can link code to specs (core value)
+- Phase 2: Can create and manage specs
+- Phase 3: Can maintain living docs automatically
+
+## Phase 1: Linking Proof-of-Concept (Weeks 1-2)
+
+### Goals
+Validate that static analysis can reliably detect spec/test/code relationships. 
+This is the riskiest technical assumption - if it fails, entire approach needs 
+rethinking.
+
+### Features
+
+1. **Static Analysis Engine**
+   - **Description:** Analyzes Python code to automatically detect relationships between specs, tests, and implementation files
+   - **Why now:** Highest technical risk, must validate before building more
+   - **Delivers:** Ability to detect code references to specs
+   - **Derisks:** "Static analysis is sufficient for linking" assumption
+   - **Depends on:** Nothing (first feature)
+   - **Effort:** Large (2 weeks)
+   - **Includes:**
+     * Python AST parsing for docstring references
+     * Pattern matching for spec IDs
+     * Relationship graph building
+     * Link validation logic
+
+2. **Simple Link Query**
+   - **Description:** CLI command that finds all code/test files linked to a given specification
+   - **Why now:** Need to test linking engine with actual usage
+   - **Delivers:** Basic `ctx find <spec>` command
+   - **Derisks:** Query performance concerns
+   - **Depends on:** Static Analysis Engine
+   - **Effort:** Small (2-3 days)
+   - **Includes:**
+     * CLI command parsing
+     * Query execution against graph
+     * Simple output formatting
+
+### Success Criteria
+- [ ] Can detect spec references in Python docstrings (>90% accuracy)
+- [ ] Can build relationship graph for 1000-file codebase in <5 seconds
+- [ ] `ctx find` returns results in <1 second
+- [ ] Links are validated correctly (detects broken references)
+
+### Learning Goals
+- Does static analysis work reliably enough?
+- Are there edge cases that break detection?
+- Is performance acceptable for target project sizes?
+
+### Validation Checkpoint
+
+**Date:** End of Week 2
+
+**Review questions:**
+- Does linking work reliably on test codebases?
+- Is accuracy >90% or do we need manual linking?
+- Is performance acceptable?
+- Should we proceed with spec management?
+
+**Decision criteria:**
+- **Proceed:** Linking accuracy >85%, performance <5sec for typical projects
+- **Pivot:** Linking <85% accurate → Add manual link support
+- **Stop:** Linking fundamentally broken → Reconsider entire approach
+
+## Phase 2: Specification Management (Weeks 3-6)
+
+### Goals
+Build complete spec lifecycle management so developers can actually use the 
+linking capability from Phase 1 with real specs.
+
+### Features
+
+1. **Spec Templates and Creation**
+   - **Description:** Generates new specification files from predefined templates with all required sections
+   - **Why now:** Need specs to link to (Phase 1 is useless without specs)
+   - **Delivers:** `ctx spec create <n>` generates spec from template
+   - **Derisks:** Template format acceptance by users
+   - **Depends on:** Nothing from Phase 1 (independent)
+   - **Effort:** Small (3-4 days)
+
+2. **Spec Listing and Status**
+   - **Description:** Displays all specifications in project with current status (draft/review/approved)
+   - **Why now:** Users need to see what specs exist
+   - **Delivers:** `ctx spec list` shows all specs with status
+   - **Derisks:** Status workflow comprehension
+   - **Depends on:** Spec creation
+   - **Effort:** Small (2-3 days)
+
+3. **Spec Editing and Validation**
+   - **Description:** Opens specs in editor and validates completeness against required structure
+   - **Why now:** Complete the spec workflow
+   - **Delivers:** `ctx spec edit <n>` and `ctx spec check <n>`
+   - **Derisks:** Validation approach effectiveness
+   - **Depends on:** Spec creation
+   - **Effort:** Medium (1 week)
+
+4. **Integrated Linking View**
+   - **Description:** Shows linked code and test files when viewing a specification
+   - **Why now:** Connect Phase 1 linking to Phase 2 specs
+   - **Delivers:** See links when viewing specs
+   - **Derisks:** Combined workflow usability
+   - **Depends on:** Static Analysis + Spec Management
+   - **Effort:** Medium (4-5 days)
+
+### Success Criteria
+- [ ] Can create spec in <2 minutes
+- [ ] Templates include all required sections
+- [ ] Validation catches missing sections
+- [ ] Can see related code from spec view
+- [ ] 5 beta users successfully create specs
+
+### Learning Goals
+- Do users find template format intuitive?
+- Is validation too strict or too loose?
+- Do users actually link specs to code?
+- Is the integrated workflow smooth?
+
+### Validation Checkpoint
+
+**Date:** End of Week 6
+
+**Review questions:**
+- Are 5 beta users successfully using specs?
+- Is the workflow natural or confusing?
+- Are users linking specs to code?
+- Should we proceed with living docs?
+
+**Decision criteria:**
+- **Proceed:** 4/5 users actively using specs, linking working
+- **Pivot:** Low linking adoption → Improve linking UX first
+- **Stop:** Users don't find specs valuable → Reconsider approach
+
+## Phase 3: Living Documentation (Weeks 7-10)
+
+### Goals
+Enable automatic living documentation that stays current as code changes, 
+completing the MVP value proposition.
+
+### Features
+
+1. **SYSTEM_MAP Template Generation**
+   - **Description:** Creates initial SYSTEM_MAP.md with project structure and component sections
+   - **Why now:** Need structure before auto-updates
+   - **Delivers:** `ctx init` creates SYSTEM_MAP.md
+   - **Derisks:** Documentation structure acceptance
+   - **Depends on:** Spec management infrastructure
+   - **Effort:** Small (3 days)
+
+2. **Automatic Component Detection**
+   - **Description:** Scans codebase to automatically identify and document system components and modules
+   - **Why now:** Core value of living docs
+   - **Delivers:** `ctx docs update` detects new modules
+   - **Derisks:** Detection accuracy concerns
+   - **Depends on:** Static Analysis from Phase 1
+   - **Effort:** Large (1.5 weeks)
+
+3. **Documentation Validation**
+   - **Description:** Checks if living documentation matches current codebase structure
+   - **Why now:** Complete living docs workflow
+   - **Delivers:** `ctx docs check` verifies current
+   - **Derisks:** Validation approach effectiveness
+   - **Depends on:** Component detection
+   - **Effort:** Medium (4-5 days)
+
+4. **Project Initialization**
+   - **Description:** Sets up complete DevContext configuration and directory structure for new projects
+   - **Why now:** Enable new users to get started
+   - **Delivers:** `ctx init` complete setup
+   - **Derisks:** Onboarding friction
+   - **Depends on:** All MVP features
+   - **Effort:** Medium (3-4 days)
+
+### Success Criteria
+- [ ] Living docs stay current automatically
+- [ ] `ctx docs check` catches stale sections
+- [ ] New users can initialize in <5 minutes
+- [ ] 10+ beta users actively using MVP
+- [ ] Context retrieval time <30 seconds (vision metric!)
+
+### Learning Goals
+- Do living docs actually stay current in practice?
+- Is automatic detection good enough?
+- Can new users onboard successfully?
+- Are we achieving vision success criteria?
+
+### Validation Checkpoint
+
+**Date:** End of Week 10 (MVP COMPLETE)
+
+**Review questions:**
+- Are we hitting vision success criteria?
+- Is context retrieval actually <30 seconds?
+- Would users recommend to others?
+- Should we proceed with Phase 2 features?
+
+**Decision criteria:**
+- **Proceed:** Meeting success criteria, positive user feedback
+- **Pivot:** Missing success criteria → Identify and fix gaps
+- **Stop:** Users don't find it valuable → Fundamental rethink
+
+## Phase 4+: Editor Integration (Weeks 11-18)
+
+### Planned Features
+- VS Code extension for in-editor spec access
+- Inline navigation (click reference → jump to spec)
+- Quick spec creation from editor
+- Real-time link validation
+
+### Dependencies
+- MVP must be validated as valuable
+- VS Code extension development expertise
+- User demand confirmed through beta feedback
+
+### Flexibility
+Phase 4 plans will change based on Phase 1-3 learnings. If users demand 
+different editor, we'll adjust. If linking adoption is low, we'll fix 
+usability before expanding platform.
+
+## Dependencies and Sequencing
+
+### Technical Dependencies
+- Integrated Linking View requires: Static Analysis Engine + Spec Management
+- Living Doc Updates require: Static Analysis Engine
+- Project Init requires: All other MVP features
+
+### Learning Dependencies
+- Phase 2 depends on validating Phase 1 linking approach
+- Phase 3 depends on validating Phase 2 spec workflow
+- Phase 4 depends on validating Phase 3 MVP completeness
+
+### External Dependencies
+None - all development is self-contained
+
+## Assumptions and Risks
+
+### Key Assumptions
+1. Static analysis will be reliable enough (>85% accuracy)
+2. Users will adopt spec-based workflow
+3. Solo developers experience context loss pain (validated in vision)
+4. 10 weeks is sufficient for MVP (180 hours @ 18 hrs/week)
+
+### Sequencing Risks
+
+**Risk:** Phase 1 linking fails technically  
+**Impact:** Must pivot to manual linking  
+**Mitigation:** Phase 1 is POC specifically to catch this early
+
+**Risk:** Users reject spec workflow in Phase 2  
+**Impact:** Entire approach needs rethinking  
+**Mitigation:** Early beta testing in Phase 2, checkpoint review
+
+**Risk:** Living docs don't stay current in practice  
+**Impact:** Core value proposition fails  
+**Mitigation:** Phase 3 validation with real usage before claiming MVP complete
+
+## Flexibility and Change
+
+### Adaptation Triggers
+- Checkpoint reviews show assumptions invalid
+- Beta user feedback reveals major usability issues
+- Technical approach proves infeasible
+- Market changes (competitor launches similar tool)
+
+### Review Cadence
+- Weekly: Progress against current phase
+- Phase boundaries: Formal checkpoint review
+- Monthly: Overall roadmap still valid?
+
+### Change Process
+1. Identify need for change (checkpoint or continuous)
+2. Document proposed change with rationale
+3. Assess impact on timeline and downstream phases
+4. Update ROADMAP.md with changelog entry
+5. Communicate changes to stakeholders/beta users
+
+## Document Control
+
+### Version History
+
+**Version 1.0 - 2025-01-15**
+- Initial roadmap
+- 3 phases over 10 weeks
+- Linking → Specs → Living Docs sequence
+
+### Related Documents
+- [VISION.md](./VISION.md)
+- [SCOPE.md](./SCOPE.md)
+- Feature specs (to be created as features are implemented)
+```
+
+## Critical Reminders
+
+**DO:**
+- Start from VISION.md and SCOPE.md
+- Sequence riskiest features first (derisk early)
+- Build complete user journeys in each phase
+- Insert validation checkpoints between phases
+- Explain "why now" for every feature
+- Keep phases small (2-8 weeks, 3-7 features)
+- Plan for learning and adaptation
+- Detail decreases with distance (later phases rougher)
+
+**DON'T:**
+- Add features not in SCOPE.md without updating scope
+- Ignore technical dependencies
+- Defer risky features to later phases
+- Pack too many features in early phases
+- Treat roadmap as immutable commitment
+- Plan distant phases in excessive detail
+- Sequence without clear rationale
+- Skip validation checkpoints

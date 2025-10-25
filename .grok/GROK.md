@@ -1,15 +1,16 @@
-# GROK.md
+# About this File
 
-This file, [.grok/GROK.md](GROK.md), is the entry point for new instances of the `grok` CLI in this project.
-It provides guidance to Grok the `grok` CLI interface when working in this repository.
-Multiple model-interface combinations will be used in this project.
-E.g. Claude in Claude Code, Claude in the OpenCode CLI, Gemini using the `gemini` CLI, ...
-Each will have a different entry point.
-Other model-interface combinations are welcome to read this file, but it does not contain instructions for them.
-This file should contain mostly `grok` CLI-specific instructions and information.
-We will attempt to ensure the documents in this project form a DAG.
-Model-interface combination-specific entry points will point to common documents, which will point to additional documents, ...
+This file's purpose is to contain instructions and documentation for new conversations/contexts in `grok`.
+We will attempt to ensure the documents in this project form a directed graph.
+This file is the entry point for `grok`.
+If you are not `grok`, the instructions and information below are not directed towards you.
+This file should contain mostly `grok`-specific instructions and information.
 
-## Repository Overview
+# Grok-specific Instructions
 
-Since general information about this project is not model-interface-specific, see **[README.md](README.md)** for that.
+There is not yet any grok-specific information. 
+
+# General Instructions
+
+Read **[CONTRIBUTING.md](CONTRIBUTING.md)** next.
+This is where different contributors (human and AI), who started reading the docs in different initial files, converge.
