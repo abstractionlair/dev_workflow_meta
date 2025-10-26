@@ -31,6 +31,20 @@
      - RFC template, decision criteria, anti-patterns
      - Created rfcs/open/, rfcs/approved/, rfcs/rejected/ directories
 
+
+* ✓ COMPLETE: Clarifications for strategic planning (commit 81300f5)
+
+  1. Milestone-to-phase mapping guidance (role-roadmap-writer.md)
+     - 4 options when milestones don't align (negotiate, reduce scope, accept mismatch, interim checkpoints)
+     - Red flags requiring adjustment, reality check questions
+
+  2. Just-in-time planning guidance (role-roadmap-writer.md)
+     - Phase 1: high detail upfront, Phase 2: medium detail initially
+     - Detail Phase 2 during late Phase 1 (~60-80% done)
+     - Checkpoint Review triggers replanning between phases
+     - Example showing roadmap evolution based on learnings
+
+
 * Add test coverage requirements to role-test-reviewer.md
   Coverage thresholds: >80% line, >70% branch
   Verification commands
