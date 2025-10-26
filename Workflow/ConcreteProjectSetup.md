@@ -135,7 +135,8 @@ For example, if using Claude Code:
 "Read CLAUDE.md, then act as vision-writing-helper to help me create a VISION.md"
 ```
 
-(For other tools, replace CLAUDE.md with the appropriate entry point: CODEX.md, AGENTS.md, GEMINI.md, or OPENCODE.md)
+(For other tools, replace CLAUDE.md with the appropriate entry point: AGENTS.md, GEMINI.md, or OPENCODE.md.
+In theory you don't need to ask them to read the files, but I think I've seen instances where it was not read.)
 
 ### General Pattern
 
