@@ -262,7 +262,7 @@ Map phases to vision's timeline expectations.
 **From VISION.md success criteria:**
 Extract timeline milestones (e.g., 6 months, 1 year, 3 years)
 
-**Map phases to milestones:**
+**Standard milestone-to-phase mapping:**
 
 **6-month milestone → Phase 1 (MVP)**
 - Core value delivered
@@ -279,11 +279,52 @@ Extract timeline milestones (e.g., 6 months, 1 year, 3 years)
 - Ecosystem development
 - Market leadership
 
-**Reality check:**
-- Does phase scope fit timeline?
-- Is team velocity realistic?
-- Have you included buffer (20%)?
+**When milestones don't align with natural phases:**
+
+**Problem:** VISION says "6-month milestone" but Phase 1 realistically needs 9 months.
+
+**Solutions:**
+
+**Option 1: Negotiate milestone** (preferred if vision still draft)
+- Flag timing concern to vision stakeholders
+- Provide evidence: feature list, team velocity, risk assessment
+- Propose updated milestone in VISION.md
+- Example: "6-month goal not achievable with solo dev. Recommend 9-month first milestone."
+
+**Option 2: Reduce scope** (if milestone is firm)
+- Identify sub-MVP that fits timeline
+- Document what's deferred to Phase 1b
+- Ensure sub-MVP still delivers meaningful value
+- Example: "Phase 1a (6mo): Create/edit only. Phase 1b (9mo): Add search."
+
+**Option 3: Accept mismatch and document** (if neither flexible)
+- Clearly state in ROADMAP.md: "Phase 1 extends beyond 6-month milestone"
+- Explain rationale (technical complexity, team size, dependencies)
+- Provide checkpoint at 6-month mark (demo, user feedback)
+- Example: "Phase 1 MVP targets 9mo. At 6mo checkpoint: working prototype for user testing."
+
+**Option 4: Add interim checkpoints**
+- Break Phase 1 into Phase 1a, 1b, 1c
+- Map checkpoints to vision milestones
+- Each checkpoint delivers demoable value
+- Example: "Phase 1a (6mo): Core features. Phase 1b (9mo): Complete MVP."
+
+**Key principle:** Better to extend timeline than cut core features or skip risk mitigation.
+
+**Red flags requiring milestone adjustment:**
+- Phase 1 scope > 50% of first milestone time
+- Solo developer with <20 hrs/week availability
+- Novel technology requiring learning curve
+- External dependencies outside your control
+- Team members with <50% allocation
+
+**Reality check questions:**
+- Does phase scope fit timeline realistically?
+- Is team velocity realistic (not aspirational)?
+- Have you included buffer (20% recommended)?
 - What if something is harder than expected?
+- What if someone is unavailable (vacation, sick)?
+- Have you accounted for non-coding time (planning, debugging, docs)?
 
 ### Step 7: Document Sequencing Rationale
 
@@ -547,6 +588,126 @@ When multiple features have equal priority:
 - Early phases inform later phases
 - User feedback opportunities
 - Technical learnings incorporated
+
+**Anti-pattern:** Detailed plan for all phases without flexibility
+
+### Just-in-Time Planning
+
+**Principle:** Detail phases progressively, not all upfront
+
+**Phase 1 (MVP):**
+- **Detail level:** High - Specific features with clear goals
+- **When:** During roadmap creation
+- **Why:** Need to start implementation immediately
+- **Includes:**
+  - Feature names and descriptions
+  - Dependencies between features
+  - Success criteria for phase
+  - Rough effort estimates
+
+**Phase 2 (Enhanced MVP):**
+- **Detail level:** Medium - Feature themes and examples
+- **When:** During roadmap creation
+- **Why:** Inform dependencies and sequencing
+- **Includes:**
+  - Major feature categories
+  - 2-3 example features per category
+  - How Phase 2 builds on Phase 1
+  - General goals (production-ready, user feedback addressed)
+
+**Phase 3+ (Growth):**
+- **Detail level:** Low - High-level themes only
+- **When:** During roadmap creation (outline), detailed during Phase 1-2 (refinement)
+- **Why:** Will change based on Phase 1-2 learnings
+- **Includes:**
+  - Strategic themes (scale, integrations, advanced features)
+  - Example possibilities (not commitments)
+  - General direction
+
+**When to flesh out Phase 2+ details:**
+
+**Too early (DON'T):**
+- ❌ Before Phase 1 starts
+- ❌ During Phase 1 specification writing
+- ❌ During Phase 1 implementation (unless blocked)
+
+**Just right (DO):**
+- ✓ **Phase 2 detailed during Phase 1 implementation** (late implementation, when ~60-80% done)
+- ✓ **Phase 3 detailed during Phase 2 implementation** (same timing)
+- ✓ Triggered by Checkpoint Review after phase completion
+
+**Why wait?**
+- Phase 1 reveals user needs you didn't predict
+- Phase 1 reveals technical complexity you underestimated
+- Phase 1 reveals features are more/less valuable than expected
+- User feedback changes priorities
+- Market conditions change
+- Technology landscape shifts
+
+**Checkpoint Review triggers detailed planning:**
+
+After Phase 1 complete:
+1. Run Checkpoint Review (see [FeedbackLoops.md](FeedbackLoops.md))
+2. Gather Phase 1 learnings: What worked? What didn't? What surprised us?
+3. Update ROADMAP.md Phase 2 with detailed features based on learnings
+4. Optionally update Phase 3+ outlines if strategic direction changed
+5. Approve updated roadmap before Phase 2 spec writing begins
+
+**Example progression:**
+
+**Initial ROADMAP.md (before Phase 1 starts):**
+```markdown
+## Phase 1: MVP (Detailed)
+- User authentication (email/password)
+- Task CRUD operations
+- Basic search (keyword in title/description)
+- API endpoints for all operations
+
+## Phase 2: Enhanced MVP (Medium detail)
+- Advanced search capabilities
+- User experience improvements
+- Performance optimizations
+- Example features: search filters, keyboard shortcuts, response caching
+
+## Phase 3: Growth (Low detail)
+- Collaboration features
+- Mobile applications
+- Third-party integrations
+- Advanced analytics
+```
+
+**Updated ROADMAP.md (after Phase 1 complete, before Phase 2 starts):**
+```markdown
+## Phase 1: MVP (COMPLETE)
+[... detailed features as implemented ...]
+
+## Phase 2: Enhanced MVP (NOW DETAILED)
+- Full-text search with Elasticsearch (users requested better search)
+- Task tags and filtering (most requested feature in Phase 1 feedback)
+- Bulk operations (power users need efficiency)
+- Keyboard shortcuts (accessibility requirement discovered)
+- API rate limiting (performance testing revealed need)
+- Response caching with Redis (p95 latency too high without)
+
+## Phase 3: Growth (Updated outline based on Phase 1)
+- Team workspaces and sharing (many users wanted collaboration)
+- Mobile-responsive web UI (defer native apps based on budget)
+- Slack/Email notifications (most requested integration)
+- Advanced filtering and saved searches
+```
+
+**Notice:**
+- Phase 2 features changed based on Phase 1 feedback and discoveries
+- Phase 2 now has specific technical decisions (Elasticsearch, Redis)
+- Phase 3 outline updated to reflect what users actually requested
+- Some original Phase 2 ideas removed or deferred
+
+**Red flags (over-planning):**
+- Writing detailed specs for Phase 2 features before Phase 1 starts
+- Committing to specific Phase 3 features in contracts/roadmaps
+- Detailed effort estimates for Phase 3+ features
+- Architecture diagrams for Phase 3 systems
+- Stakeholder promises about Phase 3 delivery dates
 
 **Anti-pattern:** Detailed plan for all phases without flexibility
 
