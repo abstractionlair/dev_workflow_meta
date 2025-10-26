@@ -1,16 +1,20 @@
 # Workflow Meta-Project TODO
 
-* Properly write 6 minimal schemas to comprehensive format:
+* ✓ COMPLETE: Expand minimal schemas to comprehensive format (commits 5c0aa0a, fd962cb)
+
   Priority 1 (most referenced):
-  - schema-review.md (gates all workflow stages)
-  - schema-guidelines.md (consumed by all code-writing roles)
-  - schema-system-map.md (architectural reference for all roles)
+    - schema-review.md: 27 → 1175 lines ✓
+    - schema-guidelines.md: 24 → 1625 lines ✓
+    - schema-system-map.md: 21 → 1460 lines ✓
+    Subtotal: 4260 lines
+
   Priority 2 (code artifacts):
-  - schema-implementation-code.md
-  - schema-interface-skeleton-code.md
-  - schema-test-code.md
-  Target: Match depth of vision/scope/roadmap/spec/bug-report schemas (500-1100 lines)
-  Include for each: purpose, structure, quality standards, examples, anti-patterns, downstream usage
+    - schema-interface-skeleton-code.md: 23 → 1173 lines ✓
+    - schema-test-code.md: 27 → 1050 lines ✓
+    - schema-implementation-code.md: 20 → 1029 lines ✓
+    Subtotal: 3252 lines
+
+  Grand total: 7512 lines of comprehensive schema documentation
 
 
 * Document feedback loop: Implementation → Planning
