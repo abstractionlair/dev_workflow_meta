@@ -119,17 +119,23 @@ Ask your AI tool to explain the workflow:
 "Can you explain the workflow documented in this project?"
 ```
 
-or
+For example, if using Claude Code:
 
 ```
 "Read CLAUDE.md and explain how this development workflow works"
 ```
 
-### Starting Your First Feature (Example)
+(For other tools, use CODEX.md, GEMINI.md, etc.)
+
+### Starting Your First Feature
+
+For example, if using Claude Code:
 
 ```
 "Read CLAUDE.md, then act as vision-writing-helper to help me create a VISION.md"
 ```
+
+(For other tools, replace CLAUDE.md with the appropriate entry point: CODEX.md, AGENTS.md, GEMINI.md, or OPENCODE.md)
 
 ### General Pattern
 
@@ -142,6 +148,8 @@ Examples:
 - `"Act as spec-writer to create a spec for user authentication"`
 - `"Act as test-writer for the spec at specs/doing/user-auth.md"`
 - `"Act as implementer for the user-auth feature"`
+
+Note: Some tools may automatically read their entry point file, so explicitly requesting it may not be necessary. However, including it ensures the agent starts from the correct context.
 
 ## Done
 
