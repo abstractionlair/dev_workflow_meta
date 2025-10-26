@@ -1,0 +1,18 @@
+{
+  "claude": {
+    "entry_point": "CLAUDE.md",
+    "cli": "claude"
+  },
+  "codex": {
+    "entry_point": "AGENTS.md",
+    "cli": "codex"
+  },
+  "gemini": {
+    "entry_point": "GEMINI.md",
+    "cli": "gemini"
+  },
+  "opencode": {
+    "entry_point": "AGENTS.md",
+    "cli": "opencode"
+  }
+}
