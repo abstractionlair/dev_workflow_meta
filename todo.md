@@ -45,18 +45,22 @@
      - Example showing roadmap evolution based on learnings
 
 
-* Add test coverage requirements to role-test-reviewer.md
-  Coverage thresholds: >80% line, >70% branch
-  Verification commands
-  Edge case completeness checklist
-  Exception coverage requirements
+* ✓ COMPLETE: Quality assurance enhancements (commit 6cdda3b)
 
-* Strengthen bug fix sentinel test verification
-  Add to Implementation Reviewer checklist:
-  - Verify sentinel test FAILS on old code
-  - Verify sentinel test PASSES on new code
-  - Test is specific to bug (not generic)
-  Include verification commands
+  1. Test coverage requirements (role-test-reviewer.md)
+     - Coverage thresholds: >80% line, >70% branch
+     - Verification commands for Python (pytest-cov) and TypeScript (Jest)
+     - Edge case completeness checklists by data type
+     - Exception coverage verification pattern
+     - ~260 lines added
+
+  2. Sentinel test verification (role-implementation-reviewer.md)
+     - Git-based verification (test FAILS on old code, PASSES on new code)
+     - Complete bash command sequences
+     - Automated verification script
+     - Good vs bad examples
+     - 5 common issues with fixes
+     - ~290 lines added
 
 * Should we have schema for review requests?
   Currently: Reviews have schema, but not review requests
@@ -75,15 +79,6 @@
   - LayoutAndState.md
   - Workflow.md ownership matrix
   - Individual role files
-
-* Clarify milestone-to-phase mapping
-  Vision has milestones (6mo/1yr/3yr)
-  Roadmap has phases and weeks
-  Add guidance: How do phases map to milestones? What if they don't fit?
-
-* When do we flesh out roadmap items that were sketched?
-  Just-in-time planning: When do Phase 2 features get detailed?
-  Before Phase 1 done? During Phase 1? Only when starting Phase 2?
 
 * Is there redundancy? Can we make this more concise?
   General optimization pass
