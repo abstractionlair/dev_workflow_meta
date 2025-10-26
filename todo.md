@@ -13,20 +13,21 @@
   Include for each: purpose, structure, quality standards, examples, anti-patterns, downstream usage
 
 * Flesh out stub documentation files:
-  - ConcreteProjectSetup.md (HIGHEST PRIORITY - blocks adoption)
-    Currently: "This needs to be written"
-    Needed: Step-by-step bootstrap guide for new projects
-    Include: Directory creation, stub file generation, initial docs, first feature walkthrough
+  - ConcreteProjectSetup.md ✓ DONE
+    Completed: Setup guide for fork/copy options and basic usage
+    Note: Simplified from original vision - focuses on setup, not full tutorial
   - Ontology.md
     Currently: Just list of schema files
     Add: Introduction explaining artifact types, relationships between docs, reading order, purpose
   - RoleCatalog.md
     Currently: Just list of role files
     Add: Title, intro explaining layered structure, role interaction patterns, when to use which role
-  - ConcreteWorkflow.md
-    Currently: "To be written"
+  - ContributingTemplate.md (renamed from ConcreteWorkflow.md) ✓ DONE
+    Serves as template CONTRIBUTING.md for concrete projects
+  - Workflow walkthrough example (NEW - different from ContributingTemplate.md)
     Needed: Complete worked example of full workflow execution from Vision to merged implementation
     Include: Concrete artifacts at each stage, exact commands, decision points
+    Location: Could be new doc like WorkflowExample.md or expanded section in Workflow.md
 
 * Enhance REFACTOR documentation in role-implementer.md
   REFACTOR step exists (lines 94-100) but could be more detailed
