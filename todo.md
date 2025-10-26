@@ -111,9 +111,15 @@
   Kept existing workflow-diagram.svg as comprehensive reference (not actively maintained).
   Hybrid approach: text-based for maintainability, visual for clarity.
 
-* Define an "Onboarding" guide for new contributors:
-  Practical companion to abstract schemas/roles, explaining how to start,
-  find key docs, and follow core principles
+* ✓ RESOLVED: Onboarding guide for new contributors
+
+  Existing files provide sufficient onboarding coverage:
+  - WorkflowExample.md - Complete scenario walkthrough (vision → first feature)
+  - ConcreteProjectSetup.md - How to set up a new project with workflow
+  - ContributingTemplate.md - Template for project CONTRIBUTING.md
+  - workflow-overview.md - High-level overview with diagrams and quick reference
+
+  Together these explain how to start, find key docs, and follow core principles.
 
 * How do we orchestrate handoffs between roles?
   Currently: Manual - user switches CLI tools
