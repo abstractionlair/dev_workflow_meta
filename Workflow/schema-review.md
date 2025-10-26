@@ -4,7 +4,9 @@ All reviews use timestamped filenames with status.
 
 | Review Type | Directory | Creator Role | Gates |
 |-------------|-----------|--------------|-------|
-| Planning reviews | `reviews/planning/` | Vision/Scope/Roadmap Reviewers | Quality check |
+| Vision review | `reviews/vision/` | Vision Reviewer | Quality check |
+| Scope review | `reviews/scope/` | Scope Reviewer | Quality check |
+| Roadmap reviews | `reviews/roadmap/` | Roadmap Reviewer | Quality check |
 | Spec reviews | `reviews/specs/` | Spec Reviewer | `proposed/` → `todo/` |
 | Skeleton reviews | `reviews/skeletons/` | Skeleton Reviewer | Approves for test writing |
 | Test reviews | `reviews/tests/` | Test Reviewer | RED → GREEN transition |

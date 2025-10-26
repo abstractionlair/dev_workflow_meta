@@ -1,32 +1,38 @@
 # Workflow Meta-Project TODO
 
-## CRITICAL - Documentation Quality
-
 * Properly write 6 minimal schemas to comprehensive format:
-  - schema-guidelines.md
-  - schema-system-map.md
-  - schema-review.md
+  Priority 1 (most referenced):
+  - schema-review.md (gates all workflow stages)
+  - schema-guidelines.md (consumed by all code-writing roles)
+  - schema-system-map.md (architectural reference for all roles)
+  Priority 2 (code artifacts):
   - schema-implementation-code.md
   - schema-interface-skeleton-code.md
   - schema-test-code.md
   Target: Match depth of vision/scope/roadmap/spec/bug-report schemas (500-1100 lines)
+  Include for each: purpose, structure, quality standards, examples, anti-patterns, downstream usage
 
 * Flesh out stub documentation files:
-  - Ontology.md - Add introduction, context, organization, reading guidance
-  - RoleCatalog.md - Add title, intro explaining layered structure
-  - ConcreteProjectSetup.md - Currently just "This needs to be written"
-  - ConcreteWorkflow.md - Currently just "To be written"
+  - ConcreteProjectSetup.md (HIGHEST PRIORITY - blocks adoption)
+    Currently: "This needs to be written"
+    Needed: Step-by-step bootstrap guide for new projects
+    Include: Directory creation, stub file generation, initial docs, first feature walkthrough
+  - Ontology.md
+    Currently: Just list of schema files
+    Add: Introduction explaining artifact types, relationships between docs, reading order, purpose
+  - RoleCatalog.md
+    Currently: Just list of role files
+    Add: Title, intro explaining layered structure, role interaction patterns, when to use which role
+  - ConcreteWorkflow.md
+    Currently: "To be written"
+    Needed: Complete worked example of full workflow execution from Vision to merged implementation
+    Include: Concrete artifacts at each stage, exact commands, decision points
 
-* Add tool-specific guidance files:
-  - Populate CODEX.md, CLAUDE.md, GEMINI.md, OPENCODE.md with tool behaviors,
-    formatting rules, environment assumptions, and any workflow deviations
-
-## HIGH PRIORITY - Workflow Process Gaps
-
-* Add REFACTOR step to TDD cycle in role-implementer.md
-  Currently: RED → GREEN
-  Should be: RED → GREEN → REFACTOR
-  Include: refactoring checklist, when to refactor, when to skip
+* Enhance REFACTOR documentation in role-implementer.md
+  REFACTOR step exists (lines 94-100) but could be more detailed
+  Add: Refactoring checklist, when to refactor, when to skip
+  Add: Refactoring patterns and anti-patterns
+  Add: How to validate refactoring doesn't break tests
 
 * Document feedback loop: Implementation → Planning
   Add "Checkpoint Review" process to workflow documentation
@@ -48,11 +54,6 @@
   Create a lightweight, artifact-driven process for amending approved
   artifacts (like specs or tests) when downstream discoveries necessitate changes.
 
-* Guardrails to prevent contract weakening:
-  - Add explicit "no-weakening" checklist items to Test Reviewer and
-    Implementation Reviewer roles (e.g., detect softened assertions),
-    and require approver sign-off when modifying tests/specs
-
 * Add test coverage requirements to role-test-reviewer.md
   Coverage thresholds: >80% line, >70% branch
   Verification commands
@@ -65,8 +66,6 @@
   - Verify sentinel test PASSES on new code
   - Test is specific to bug (not generic)
   Include verification commands
-
-## MEDIUM PRIORITY - Workflow Design Questions
 
 * Should we have schema for review requests?
   Currently: Reviews have schema, but not review requests
@@ -100,22 +99,18 @@
   Look for duplicated information across files
   Opportunities to simplify without losing value
 
-* Define a "Lite Mode" for solo/small teams:
-  Merge compatible roles, trim gates while preserving core artifacts and
-  quality bars; document when to use and how to escalate to full workflow
-
 * Document living-docs strategies for parallel feature branches:
   Conflict mitigation patterns, sequencing guidance, and PR coordination
 
-* Create detailed graphical workflow diagram:
-  Visually represent roles, artifacts, state transitions, and feedback loops
-  to aid in comprehension and onboarding
+* Enhance existing graphical workflow diagram (workflow-diagram.svg exists):
+  Current: Basic happy path flowchart
+  Add: More detailed roles, artifacts, state transitions, and feedback loops
+  Add: Legend explaining symbols and conventions
+  Consider: Separate diagrams for different workflow phases
 
 * Define an "Onboarding" guide for new contributors:
   Practical companion to abstract schemas/roles, explaining how to start,
   find key docs, and follow core principles
-
-## AUTOMATION & TOOLING
 
 * How do we orchestrate handoffs between roles?
   Currently: Manual - user switches CLI tools
@@ -123,49 +118,31 @@
   Document current approach and future automation plans
 
 * Should writers/implementers call reviewers automatically?
-  Have MCP server example from previous project (Claude → Codex reviews)
+  I have an MCP server example from previous project (Claude → Codex reviews)
   Expand to: Auto-trigger reviews when work complete?
-  Referenced conversation with Claude chat - review and incorporate
+  Referenced conversation with Claude chat - review and possibly incorporate
 
-* How to quickly infer project state from filesystem?
+* Create simple status script to infer project state from filesystem
   Workflow captures state via directory structure
-  Need: Quick status command or script
-  Shows: What's in flight, what's next, what's blocked
-  Design: State visualization tool/script
+  Simple script can show: What's proposed/todo/doing/done, what's next, what's blocked
+  Example: ./bin/workflow-status.sh
+  Output:
+    VISION: APPROVED (v1.0)
+    SCOPE: APPROVED (v1.0)
+    ROADMAP: APPROVED (v1.0)
+    SPECS: 3 proposed, 2 todo, 1 doing, 5 done
+    CURRENT: Implementing "User Authentication" (specs/doing/user-auth.md)
+    NEXT: 2 specs in todo/ ready to start
+  This is a quick win that dramatically improves workflow visibility
 
-* Add cross-document consistency checks (lint/CI):
-  - Verify Vision → Scope feature mapping, success criteria alignment
-  - Enforce Roadmap feature 6-field completeness
-  - Ensure verbatim vision statement copies across docs
-  - Wire into CI and pre-merge review scripts
-
-* Design a "bootstrap" or "init" script for new projects:
-  Tool to auto-create directory structure and stub artifacts, lowering
-  the barrier to adoption
-
-## NOTES & CLARIFICATIONS
-
-* Living docs on feature branches - DECISION MADE
-  REASON: Can't reference components that don't exist yet on main
-  - SYSTEM_MAP.md: Must point to new components introduced on branch
-  - GUIDELINES.md: Can reference new utilities introduced on branch
-  TRADEOFF: Risk of merge conflicts if multiple branches edit same docs
-  ACCEPTABLE: For serial feature development (initial target)
-  NOTE: Add to documentation:
-    "This workflow assumes primarily serial feature development. For parallel
-    feature development (multiple active feature branches), living docs on
-    branches may cause merge conflicts. Consider alternative strategies:
-    - Living docs PRs separate from feature PRs
-    - Serialize living doc updates (merge first branch touching docs before others)"
-
-* AGENTS.md routing wording
-  Current: Ambiguous about "official" vs "exploring" agents
-  Need: Better wording to guide agents that have AGENTS.md as init file
-  vs agents just poking around the project
-
-## COMPLETED
-✓ Fix typos in README.md, CONTRIBUTING.md, Workflow.md, LayoutAndState.md
-✓ Review documentation quality and structure
-✓ Review workflow design and logic
-✓ Map complete document network (zero orphans)
-✓ Align review subdirectories across docs (schema-review/LayoutAndState/roles)
+* Create "bootstrap" script for new projects (quick win after ConcreteProjectSetup.md done):
+  Tool to auto-create directory structure and stub artifacts
+  Example: ./bin/workflow-init.sh <project-name>
+  Creates:
+    - Directory structure (specs/, bugs/, reviews/, tests/, src/)
+    - Stub VISION.md, SCOPE.md, ROADMAP.md with templates
+    - Empty SYSTEM_MAP.md, GUIDELINES.md
+    - README pointing to workflow docs
+    - .gitignore with appropriate entries
+  Dramatically lowers barrier to adoption
+  Can start simple (mkdir + template copy) and enhance later
