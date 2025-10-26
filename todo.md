@@ -17,25 +17,19 @@
   Grand total: 7512 lines of comprehensive schema documentation
 
 
-* Document feedback loop: Implementation → Planning
-  Add "Checkpoint Review" process to workflow documentation
-  Triggers: After Phase 1 complete, >50% features need spec changes, core assumption invalidated
-  Process: Platform Lead identifies need, assemble findings, update Vision/Scope/Roadmap with version bump
+* ✓ COMPLETE: Feedback loops and change management (commit 620d54e)
 
-* Spell out procedure when implementer requests test changes
-  Tests are contract, but what if tests are wrong?
-  Who approves test modifications?
-  How to validate proposed changes don't weaken contract?
+  1. FeedbackLoops.md - Strategic feedback (Checkpoint Review)
+     - Triggers: phase completion, >50% RFC rate, core assumption invalid
+     - Process: assemble findings, review session, update VISION/SCOPE/ROADMAP
+     - Version bumping, re-review, communication
 
-* Spell out how to update spec if issues discovered during:
-  - Skeleton writing (structural problems)
-  - Test writing (missing acceptance criteria)
-  - Implementation (behavioral ambiguities)
-  Process: Who can request changes? Who approves? Does spec need re-review?
-
-* Design and document a formal "Request for Change" (RFC) process:
-  Create a lightweight, artifact-driven process for amending approved
-  artifacts (like specs or tests) when downstream discoveries necessitate changes.
+  2. RFC.md - Tactical feedback (Request for Change)
+     - Spec changes (discovered during skeleton/test/implementation)
+     - Test changes (implementer requests - extra scrutiny)
+     - Skeleton changes (discovered during test writing)
+     - RFC template, decision criteria, anti-patterns
+     - Created rfcs/open/, rfcs/approved/, rfcs/rejected/ directories
 
 * Add test coverage requirements to role-test-reviewer.md
   Coverage thresholds: >80% line, >70% branch
