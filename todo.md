@@ -62,9 +62,16 @@
      - 5 common issues with fixes
      - ~290 lines added
 
-* Should we have schema for review requests?
-  Currently: Reviews have schema, but not review requests
-  Would formalize what reviewers need to do their job
+
+* ✓ COMPLETE: Review request schema (commit 426b8d8)
+
+  Created schema-review-request.md (~1324 lines):
+  - Document structure and naming conventions
+  - Required context sections (related docs, dependencies, key decisions)
+  - Templates for all 8 review types (vision, scope, roadmap, spec, skeleton, test, implementation, bug-fix)
+  - Best practices with good/bad examples
+  - Anti-patterns (drive-by requests, everything urgent, scope creep, no-show reviewer, passive-aggressive)
+  - Integration with review lifecycle and directory structure
 
 * Are subdirectories of /reviews aligned with schema and role files?
   Check: vision/, scope/, roadmap/, specs/, skeletons/, tests/, implementations/
