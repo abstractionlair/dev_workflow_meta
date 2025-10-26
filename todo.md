@@ -98,11 +98,18 @@
 * Document living-docs strategies for parallel feature branches:
   Conflict mitigation patterns, sequencing guidance, and PR coordination
 
-* Enhance existing graphical workflow diagram (workflow-diagram.svg exists):
-  Current: Basic happy path flowchart
-  Add: More detailed roles, artifacts, state transitions, and feedback loops
-  Add: Legend explaining symbols and conventions
-  Consider: Separate diagrams for different workflow phases
+* ✓ COMPLETE: Workflow diagram enhancement (hybrid approach)
+
+  Created three complementary diagram files:
+  1. workflow-overview.md - Simple Mermaid diagrams showing main workflow path,
+     parallel workflows (bugs, feedback), role patterns, and quick reference tables
+  2. state-transitions.md - Detailed tables showing directory movements, ownership
+     matrix, state machines, and who-moves-what for all artifact types
+  3. feedback-loops-diagram.md - Mermaid diagrams for RFC and Checkpoint Review
+     processes, triggers, comparisons, and integration with main workflow
+
+  Kept existing workflow-diagram.svg as comprehensive reference (not actively maintained).
+  Hybrid approach: text-based for maintainability, visual for clarity.
 
 * Define an "Onboarding" guide for new contributors:
   Practical companion to abstract schemas/roles, explaining how to start,
