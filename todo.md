@@ -12,23 +12,6 @@
   Target: Match depth of vision/scope/roadmap/spec/bug-report schemas (500-1100 lines)
   Include for each: purpose, structure, quality standards, examples, anti-patterns, downstream usage
 
-* Flesh out stub documentation files:
-  - Ontology.md
-    Currently: Just list of schema files
-    Add: Introduction explaining artifact types, relationships between docs, reading order, purpose
-  - RoleCatalog.md
-    Currently: Just list of role files
-    Add: Title, intro explaining layered structure, role interaction patterns, when to use which role
-  - Workflow walkthrough example
-    Needed: Complete worked example of full workflow execution from Vision to merged implementation
-    Include: Concrete artifacts at each stage, exact commands, decision points
-    Location: Could be new doc like WorkflowExample.md or expanded section in Workflow.md
-
-* Enhance REFACTOR documentation in role-implementer.md
-  REFACTOR step exists (lines 94-100) but could be more detailed
-  Add: Refactoring checklist, when to refactor, when to skip
-  Add: Refactoring patterns and anti-patterns
-  Add: How to validate refactoring doesn't break tests
 
 * Document feedback loop: Implementation → Planning
   Add "Checkpoint Review" process to workflow documentation
@@ -118,27 +101,3 @@
   Expand to: Auto-trigger reviews when work complete?
   Referenced conversation with Claude chat - review and possibly incorporate
 
-* Create simple status script to infer project state from filesystem
-  Workflow captures state via directory structure
-  Simple script can show: What's proposed/todo/doing/done, what's next, what's blocked
-  Example: ./bin/workflow-status.sh
-  Output:
-    VISION: APPROVED (v1.0)
-    SCOPE: APPROVED (v1.0)
-    ROADMAP: APPROVED (v1.0)
-    SPECS: 3 proposed, 2 todo, 1 doing, 5 done
-    CURRENT: Implementing "User Authentication" (specs/doing/user-auth.md)
-    NEXT: 2 specs in todo/ ready to start
-  This is a quick win that dramatically improves workflow visibility
-
-* Create "bootstrap" script for new projects (quick win after ConcreteProjectSetup.md done):
-  Tool to auto-create directory structure and stub artifacts
-  Example: ./bin/workflow-init.sh <project-name>
-  Creates:
-    - Directory structure (specs/, bugs/, reviews/, tests/, src/)
-    - Stub VISION.md, SCOPE.md, ROADMAP.md with templates
-    - Empty SYSTEM_MAP.md, GUIDELINES.md
-    - README pointing to workflow docs
-    - .gitignore with appropriate entries
-  Dramatically lowers barrier to adoption
-  Can start simple (mkdir + template copy) and enhance later

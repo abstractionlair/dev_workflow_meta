@@ -93,13 +93,16 @@ pytest tests/test_user.py::test_register
 
 ### 4. Follow RED-GREEN-REFACTOR
 
-**For each function:**
-1. **GREEN**: Write minimal code to make test pass
-2. **RUN**: Execute test - does it pass?
-3. **REFACTOR**: Improve code quality (if tests still pass)
+**TDD cycle for each function:**
+1. **RED**: Verify test fails (already done by test-writer)
+2. **GREEN**: Write minimal code to make test pass
+3. **REFACTOR**: Improve code quality while keeping tests green
 4. **REPEAT**: Move to next test
 
-**Example cycle:**
+#### GREEN Phase: Make It Work
+
+Write the simplest code that makes tests pass:
+
 ```python
 # GREEN (minimal implementation)
 def validate_email(email: str) -> tuple[bool, Optional[str]]:
@@ -110,31 +113,477 @@ def validate_email(email: str) -> tuple[bool, Optional[str]]:
     if "@" not in email:
         return (False, "Missing @ symbol")
     return (True, None)
+```
 
-# RUN tests - pass? Yes!
+**Run tests:**
+```bash
+pytest tests/test_validation.py::test_validate_email -v
+# PASS ✓
+```
 
-# REFACTOR (improve readability)
+#### REFACTOR Phase: Make It Better
+
+Now that tests pass, improve code quality:
+
+```python
+# REFACTOR (improve readability and structure)
 def validate_email(email: str) -> tuple[bool, Optional[str]]:
-    """Validate email format per RFC 5322 simplified rules."""
+    """Validate email format per RFC 5322 simplified rules.
+
+    Args:
+        email: Email address to validate
+
+    Returns:
+        Tuple of (is_valid, error_message)
+        error_message is None if valid
+
+    Raises:
+        TypeError: If email is not a string
+    """
     if not isinstance(email, str):
         raise TypeError("email must be string")
-    
+
     # Check basic requirements
     if not email:
         return (False, "Email cannot be empty")
-    
+
     if "@" not in email:
         return (False, "Missing @ symbol")
-    
-    # Add more validation as tests require
+
+    # Validate structure
     local, _, domain = email.partition("@")
     if not local or not domain:
         return (False, "Invalid email structure")
-    
-    return (True, None)
 
-# RUN tests again - still pass? Good!
+    return (True, None)
 ```
+
+**Run tests again:**
+```bash
+pytest tests/test_validation.py::test_validate_email -v
+# PASS ✓ (still passing after refactoring)
+```
+
+### When to Refactor
+
+**Refactor when you see:**
+
+✓ **Duplication** - Same code in multiple places
+```python
+# Before refactoring
+def register(req, res):
+    if not email:
+        return res.status(400).json({"error": {"code": "INVALID", "message": "Invalid"}})
+
+def login(req, res):
+    if not password:
+        return res.status(400).json({"error": {"code": "INVALID", "message": "Invalid"}})
+
+# After refactoring - extract common pattern
+def send_error(res, code, message, status=400):
+    return res.status(status).json({"error": {"code": code, "message": message}})
+```
+
+✓ **Unclear names** - Variables/functions with cryptic names
+```python
+# Before: Unclear
+def proc(u):
+    return u.e if u else None
+
+# After: Clear intent
+def get_user_email(user):
+    return user.email if user else None
+```
+
+✓ **Long functions** - Function doing too many things
+```python
+# Before: One function doing everything (40 lines)
+def register_user(email, password):
+    # Validate email (10 lines)
+    # Hash password (5 lines)
+    # Save to database (10 lines)
+    # Send welcome email (10 lines)
+    # Log event (5 lines)
+
+# After: Extract smaller functions
+def register_user(email, password):
+    validated_email = validate_and_normalize_email(email)
+    password_hash = hash_password(password)
+    user = save_user_to_database(validated_email, password_hash)
+    send_welcome_email(user)
+    log_registration_event(user)
+    return user
+```
+
+✓ **Deep nesting** - Too many nested if/for statements
+```python
+# Before: Deep nesting
+def process_items(items):
+    for item in items:
+        if item.active:
+            if item.price > 0:
+                if item.stock > 0:
+                    # Process item
+
+# After: Early returns
+def process_items(items):
+    for item in items:
+        if not item.active:
+            continue
+        if item.price <= 0:
+            continue
+        if item.stock <= 0:
+            continue
+        # Process item
+```
+
+✓ **Magic numbers** - Unexplained constants
+```python
+# Before: Magic numbers
+if user.age >= 18 and user.score > 500:
+    grant_premium()
+
+# After: Named constants
+MINIMUM_AGE = 18
+PREMIUM_SCORE_THRESHOLD = 500
+
+if user.age >= MINIMUM_AGE and user.score > PREMIUM_SCORE_THRESHOLD:
+    grant_premium()
+```
+
+✓ **Poor error messages** - Generic or unclear errors
+```python
+# Before: Unclear
+raise ValueError("Invalid")
+
+# After: Specific
+raise ValueError(f"Email '{email}' is invalid: missing @ symbol")
+```
+
+**Don't refactor when:**
+
+❌ **Tests aren't passing** - Get to GREEN first
+❌ **Near deadline** - Document technical debt instead
+❌ **Unclear improvement** - If refactoring doesn't clearly help, skip it
+❌ **Working on greenfield** - Code might change significantly, wait
+❌ **Major changes needed** - Might indicate spec issue, flag for review
+
+### Refactoring Checklist
+
+**Before refactoring:**
+- [ ] All tests passing (GREEN state)
+- [ ] Clear improvement identified
+- [ ] Time available (not urgent deadline)
+
+**During refactoring:**
+- [ ] Make one change at a time
+- [ ] Run tests after each change
+- [ ] Keep changes small and focused
+- [ ] Don't change behavior (tests prove this)
+
+**After refactoring:**
+- [ ] All tests still passing
+- [ ] Code more readable/maintainable
+- [ ] No new complexity added
+- [ ] Commit with clear refactoring message
+
+### Refactoring Patterns
+
+#### Pattern 1: Extract Method
+
+**When:** Function doing multiple things, hard to understand
+
+**Before:**
+```python
+def process_order(order):
+    # Calculate total
+    total = 0
+    for item in order.items:
+        total += item.price * item.quantity
+
+    # Apply discount
+    if order.user.is_premium:
+        total *= 0.9
+
+    # Calculate tax
+    tax = total * 0.08
+
+    return total + tax
+```
+
+**After:**
+```python
+def process_order(order):
+    subtotal = calculate_subtotal(order.items)
+    discounted = apply_discount(subtotal, order.user)
+    return add_tax(discounted)
+
+def calculate_subtotal(items):
+    return sum(item.price * item.quantity for item in items)
+
+def apply_discount(amount, user):
+    return amount * 0.9 if user.is_premium else amount
+
+def add_tax(amount, rate=0.08):
+    return amount * (1 + rate)
+```
+
+**Benefits:** Each function has single responsibility, easier to test, clearer intent
+
+#### Pattern 2: Replace Conditionals with Polymorphism
+
+**When:** Complex if/elif chains based on type
+
+**Before:**
+```python
+def calculate_shipping(order):
+    if order.shipping_method == "standard":
+        return 5.00
+    elif order.shipping_method == "express":
+        return 15.00
+    elif order.shipping_method == "overnight":
+        return 30.00
+    else:
+        raise ValueError("Unknown method")
+```
+
+**After:**
+```python
+class ShippingMethod:
+    def calculate_cost(self): raise NotImplementedError
+
+class StandardShipping(ShippingMethod):
+    def calculate_cost(self): return 5.00
+
+class ExpressShipping(ShippingMethod):
+    def calculate_cost(self): return 15.00
+
+class OvernightShipping(ShippingMethod):
+    def calculate_cost(self): return 30.00
+
+def calculate_shipping(order):
+    return order.shipping_method.calculate_cost()
+```
+
+**Benefits:** Open for extension, closed for modification, easier to add new methods
+
+#### Pattern 3: Extract Configuration
+
+**When:** Multiple constants scattered through code
+
+**Before:**
+```python
+def validate_password(password):
+    if len(password) < 8:
+        return False
+    if not any(c.isupper() for c in password):
+        return False
+    if not any(c.isdigit() for c in password):
+        return False
+    return True
+```
+
+**After:**
+```python
+PASSWORD_MIN_LENGTH = 8
+PASSWORD_REQUIRE_UPPERCASE = True
+PASSWORD_REQUIRE_DIGIT = True
+
+def validate_password(password):
+    if len(password) < PASSWORD_MIN_LENGTH:
+        return False
+    if PASSWORD_REQUIRE_UPPERCASE and not any(c.isupper() for c in password):
+        return False
+    if PASSWORD_REQUIRE_DIGIT and not any(c.isdigit() for c in password):
+        return False
+    return True
+```
+
+**Benefits:** Configuration centralized, easier to change, self-documenting
+
+#### Pattern 4: Simplify Boolean Expressions
+
+**When:** Complex boolean logic hard to read
+
+**Before:**
+```python
+if not (user.is_active and user.email_verified) or user.is_banned:
+    deny_access()
+```
+
+**After:**
+```python
+def can_access(user):
+    if user.is_banned:
+        return False
+    return user.is_active and user.email_verified
+
+if not can_access(user):
+    deny_access()
+```
+
+**Benefits:** Named function explains intent, easier to test, more readable
+
+### Refactoring Anti-Patterns
+
+#### ❌ Anti-Pattern 1: Big Bang Refactoring
+
+**Don't:** Refactor everything at once
+
+```python
+# ❌ Bad: Changing multiple functions simultaneously
+# Risk: If tests fail, hard to know what broke
+def register(email, password):  # Refactored
+def login(email, password):     # Refactored
+def validate_email(email):      # Refactored
+def hash_password(password):    # Refactored
+```
+
+**Do:** Refactor incrementally
+
+```python
+# ✓ Good: One function at a time
+# 1. Refactor validate_email, run tests
+# 2. Refactor hash_password, run tests
+# 3. Refactor register, run tests
+# 4. Refactor login, run tests
+```
+
+#### ❌ Anti-Pattern 2: Premature Abstraction
+
+**Don't:** Abstract before you understand the pattern
+
+```python
+# ❌ Bad: Creating abstraction after seeing pattern once
+class ValidationRule:
+    def validate(self, value): pass
+
+class EmailValidationRule(ValidationRule):
+    def validate(self, email): ...
+
+class PasswordValidationRule(ValidationRule):
+    def validate(self, password): ...
+
+# Complexity not justified yet!
+```
+
+**Do:** Wait for 3rd occurrence (Rule of Three)
+
+```python
+# ✓ Good: Keep simple until pattern repeats
+def validate_email(email): ...
+def validate_password(password): ...
+
+# After 3rd similar function, consider abstraction
+```
+
+#### ❌ Anti-Pattern 3: Refactoring Without Tests
+
+**Don't:** Refactor when tests are failing
+
+```bash
+# ❌ Bad state
+$ pytest
+FAILED tests/test_user.py::test_register
+
+# Now refactoring register() - very risky!
+```
+
+**Do:** Only refactor from GREEN state
+
+```bash
+# ✓ Good state
+$ pytest
+PASSED tests/test_user.py::test_register
+
+# Safe to refactor register()
+```
+
+#### ❌ Anti-Pattern 4: Changing Behavior During Refactoring
+
+**Don't:** Add features while refactoring
+
+```python
+# ❌ Bad: Adding new validation during refactoring
+def validate_email(email):
+    if not email:
+        return False
+    if "@" not in email:
+        return False
+    # Adding new feature: domain validation (NOT refactoring!)
+    if not email.endswith((".com", ".org", ".net")):
+        return False
+    return True
+```
+
+**Do:** Refactor preserves behavior exactly
+
+```python
+# ✓ Good: Only improving structure, same behavior
+def validate_email(email):
+    """Validate email has @ symbol."""
+    if not email:
+        return False
+    return "@" in email
+
+# Tests prove behavior unchanged
+```
+
+### Validating Refactoring
+
+**Run tests after EVERY change:**
+
+```bash
+# After each refactoring step
+pytest tests/test_feature.py -v
+
+# Should see same results before and after:
+# Before refactoring: 10 passed
+# After refactoring:  10 passed ✓
+```
+
+**If tests fail after refactoring:**
+
+1. **Stop immediately** - Don't continue refactoring
+2. **Read failure** - What broke?
+3. **Revert change** - `git checkout -- file.py`
+4. **Understand why** - Was refactoring wrong? Or test exposed real issue?
+5. **Try smaller step** - Break refactoring into smaller pieces
+6. **Re-run tests** - Verify each small step
+
+**Commit after successful refactoring:**
+
+```bash
+git add src/services/auth.py
+git commit -m "refactor: extract error response formatting
+
+- Extract repeated error response code to utility
+- No behavior changes, all tests still passing
+- Improves maintainability and consistency"
+```
+
+**Separate refactoring commits from feature commits:**
+
+```bash
+# ✓ Good: Clear progression
+git log --oneline
+abc123 feat: implement user registration
+def456 refactor: extract validation helpers
+789abc feat: implement user login
+
+# ❌ Bad: Mixed changes
+git log --oneline
+abc123 feat: add login and refactor validation and fix bug
+```
+
+### Refactoring Example from WorkflowExample.md
+
+See `Workflow/WorkflowExample.md` Step 16 for a complete refactoring example showing:
+- Identifying duplication (error response formatting)
+- Extracting to shared utility
+- Updating multiple files consistently
+- Running tests to verify no breaks
+- Benefits of the refactoring
 
 ### 5. Use Existing Utilities
 
