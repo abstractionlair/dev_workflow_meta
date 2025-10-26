@@ -105,6 +105,260 @@ For withdraw(amount) method:
    3. test_withdraw_zero_amount_returns_unchanged_balance
 ```
 
+### Step 3a: Check Coverage Metrics
+
+**Coverage requirements:**
+- **Line coverage:** >80% of production code
+- **Branch coverage:** >70% of decision branches
+- **Edge case coverage:** All boundary conditions tested
+- **Exception coverage:** All error paths tested
+
+#### Verify Line Coverage
+
+**Python (pytest-cov):**
+```bash
+# Run tests with coverage
+pytest tests/ --cov=src --cov-report=term-missing
+
+# Output shows:
+# Name                Stmts   Miss  Cover   Missing
+# src/account.py         45      8    82%   23-25, 67-70
+```
+
+**TypeScript (Jest):**
+```bash
+# Run tests with coverage
+jest --coverage
+
+# Output shows:
+# File           | % Stmts | % Branch | % Funcs | % Lines | Uncovered Lines
+# account.ts     |   82.22 |    75.00 |  100.00 |   82.22 | 23-25,67-70
+```
+
+**Coverage checklist:**
+- [ ] Line coverage ≥80%
+- [ ] Branch coverage ≥70%
+- [ ] All public methods covered
+- [ ] All error paths covered
+- [ ] No untested critical logic
+
+**If coverage <80%:**
+```
+❌ Line coverage 72% (target: >80%)
+   Uncovered lines: src/account.py:23-25, 67-70
+
+   Missing tests:
+   1. Lines 23-25: Overdraft protection logic
+   2. Lines 67-70: Interest calculation for negative balance
+
+   Required:
+   - test_withdraw_with_overdraft_protection
+   - test_interest_calculation_for_negative_balance
+```
+
+#### Verify Branch Coverage
+
+**Check decision branches:**
+- [ ] All if/else paths tested
+- [ ] All switch/case paths tested
+- [ ] All logical operators (&&, ||) tested
+- [ ] All exception handlers tested
+
+**Example - full branch coverage:**
+```python
+# Code under test:
+def validate_amount(amount):
+    if amount <= 0:
+        raise ValueError("Amount must be positive")
+    elif amount > 1000:
+        raise ValueError("Amount exceeds limit")
+    return True
+
+# Tests covering all branches:
+✓ test_validate_amount_positive()        # Happy path
+✓ test_validate_amount_zero_raises()     # Branch 1: amount <= 0
+✓ test_validate_amount_negative_raises() # Branch 1: amount < 0
+✓ test_validate_amount_exceeds_limit()   # Branch 2: amount > 1000
+✓ test_validate_amount_at_limit()        # Boundary: amount == 1000
+```
+
+**If branch coverage <70%:**
+```
+❌ Branch coverage 58% (target: >70%)
+
+   Uncovered branches in validate_amount():
+   - If condition 'amount <= 0' negative case not tested
+   - Elif condition 'amount > 1000' not tested
+
+   Add:
+   - test_validate_amount_zero_raises_error
+   - test_validate_amount_negative_raises_error
+   - test_validate_amount_exceeds_limit_raises_error
+```
+
+#### Edge Case Completeness
+
+**Verify edge cases for each data type:**
+
+**Strings:**
+- [ ] Empty string ("")
+- [ ] Single character
+- [ ] Very long string (>1000 chars)
+- [ ] Special characters (unicode, emojis)
+- [ ] Whitespace only ("   ")
+
+**Numbers:**
+- [ ] Zero (0)
+- [ ] Negative (-1)
+- [ ] Maximum value (sys.maxsize, Number.MAX_SAFE_INTEGER)
+- [ ] Minimum value (sys.minsize, Number.MIN_SAFE_INTEGER)
+- [ ] Boundary values (limit - 1, limit, limit + 1)
+
+**Collections:**
+- [ ] Empty list/array ([])
+- [ ] Single element ([1])
+- [ ] Maximum size (performance concern)
+- [ ] Null/None values in collection
+- [ ] Duplicate elements
+
+**Booleans:**
+- [ ] True case
+- [ ] False case
+- [ ] Null/undefined (if nullable)
+
+**Dates/Times:**
+- [ ] Past date
+- [ ] Current date
+- [ ] Future date
+- [ ] Leap year date (Feb 29)
+- [ ] Timezone boundaries
+
+**Example edge case checklist:**
+```
+For email validation:
+✓ Empty string
+✓ Single character "a"
+✓ Missing @ symbol
+✓ Multiple @ symbols
+✓ Local part too long (>64 chars)
+✓ Domain too long (>255 chars)
+❌ Missing: Unicode characters (test@tëst.com)
+❌ Missing: Plus addressing (user+tag@domain.com)
+```
+
+#### Exception Coverage
+
+**For each exception type in spec:**
+- [ ] Test triggers the exception
+- [ ] Test verifies exception type
+- [ ] Test verifies exception message
+- [ ] Test verifies exception attributes (if any)
+
+**Example exception coverage:**
+```python
+# Spec says: "Raises InsufficientFundsError(amount, balance) if balance < amount"
+
+# Complete exception test:
+def test_withdraw_insufficient_funds_raises_error():
+    account = Account(balance=50)
+
+    with pytest.raises(InsufficientFundsError) as exc_info:
+        account.withdraw(100)
+
+    # Verify exception type
+    assert isinstance(exc_info.value, InsufficientFundsError)
+
+    # Verify exception message
+    assert "Insufficient funds" in str(exc_info.value)
+
+    # Verify exception attributes
+    assert exc_info.value.requested_amount == 100
+    assert exc_info.value.available_balance == 50
+```
+
+**Incomplete exception test:**
+```python
+# ❌ Incomplete - doesn't verify exception details
+def test_withdraw_insufficient_funds():
+    account = Account(balance=50)
+
+    with pytest.raises(Exception):  # Too generic
+        account.withdraw(100)
+    # Missing: exception type, message, attributes verification
+```
+
+#### Coverage Report Review
+
+**Analyze coverage gaps:**
+
+**High-value uncovered code (critical):**
+- Core business logic
+- Error handling paths
+- Security-sensitive code
+- Data validation logic
+
+**Low-value uncovered code (may be acceptable):**
+- Defensive assertions (should never happen)
+- Logging statements
+- Debug code
+- Generated code
+
+**Feedback for low coverage:**
+```
+❌ Coverage gaps in critical business logic
+
+High-priority uncovered code:
+1. src/account.py:45-48 - Overdraft calculation (CRITICAL)
+2. src/account.py:89-92 - Fraud detection logic (CRITICAL)
+3. src/account.py:103    - Transaction rollback (ERROR PATH)
+
+Required tests:
+- test_overdraft_calculation_with_fee
+- test_fraud_detection_blocks_transaction
+- test_transaction_rollback_on_error
+
+Low-priority uncovered (acceptable):
+- src/account.py:12 - Debug logging statement
+```
+
+#### Verification Commands
+
+**Python coverage commands:**
+```bash
+# Run tests with coverage
+pytest tests/ --cov=src --cov-report=term-missing --cov-report=html
+
+# Generate detailed HTML report
+open htmlcov/index.html
+
+# Check specific file
+pytest tests/ --cov=src/account.py --cov-report=term
+
+# Fail if coverage below threshold
+pytest tests/ --cov=src --cov-fail-under=80
+```
+
+**TypeScript coverage commands:**
+```bash
+# Run tests with coverage
+npm test -- --coverage
+
+# Generate detailed report
+npm test -- --coverage --coverageReporters=html
+open coverage/index.html
+
+# Check specific file
+npm test -- --coverage --collectCoverageFrom='src/account.ts'
+
+# Fail if coverage below threshold (configure in jest.config.js)
+coverageThreshold: {
+  global: {
+    lines: 80,
+    branches: 70
+  }
+}
+```
+
 ### Step 4: Check Independence & Isolation
 
 **Verify:**
@@ -336,6 +590,13 @@ Where STATUS ∈ {APPROVED, NEEDS-CHANGES}
 - ✓/❌ Error cases covered
 - ✓/❌ All spec exceptions tested
 - ✓/❌ Sentinel tests present
+
+## Coverage Metrics ⚠ Critical
+- ✓/❌ Line coverage ≥80%
+- ✓/❌ Branch coverage ≥70%
+- ✓/❌ All public methods covered
+- ✓/❌ All error paths covered
+- ✓/❌ Critical business logic covered
 
 ## Independence
 - ✓/❌ No shared state

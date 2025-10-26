@@ -538,23 +538,288 @@ Standard code review, focused on fix:
 - [ ] Follows GUIDELINES.md
 - [ ] No new issues introduced
 
-#### Step 4: Review Sentinel Test
+#### Step 4: Review Sentinel Test ⚠ CRITICAL
 
-Check `tests/regression/test_<bug>.py`:
-- [ ] Test has detailed comment explaining bug
-- [ ] Would test have caught bug before fix?
-- [ ] Does test pass after fix?
-- [ ] Test is simple and focused
+**Purpose:** Sentinel tests prevent regression. They MUST fail on old code and pass on new code, proving they catch the bug.
 
-**Verify test catches bug:**
+**Sentinel test requirements:**
+- [ ] Test has detailed comment explaining bug (bug number, description, reproduction steps)
+- [ ] Test is specific to THIS bug (not generic smoke test)
+- [ ] Test is simple and focused (tests one thing)
+- [ ] Test name references bug number (`test_bug_123_description`)
+
+#### Verify Test FAILS on Old Code
+
+**CRITICAL:** Must verify sentinel test would have caught the bug before fix.
+
+**Verification steps:**
+
+**Step 1: Identify pre-fix commit**
+```bash
+# Find the commit that introduced the fix
+git log --oneline --grep="BUG-123" -n 5
+
+# Or find commits in bugfix branch
+git log --oneline main..bugfix/BUG-123
+
+# Note the commit BEFORE the fix (parent of fix commit)
+git log --oneline -n 2 <fix-commit>
+# Example output:
+# abc1234 Fix BUG-123: Handle empty email validation  <-- fix commit
+# def5678 Add user registration feature               <-- parent (before fix)
+```
+
+**Step 2: Checkout pre-fix code**
 ```bash
 # Checkout commit before fix
-git checkout <commit-before-fix>
-pytest tests/regression/test_<bug>.py  # Should FAIL
+git checkout <parent-commit>
 
-# Back to fix
+# Example:
+git checkout def5678
+```
+
+**Step 3: Run sentinel test (should FAIL)**
+```bash
+# Python
+pytest tests/regression/test_bug_123.py -v
+
+# TypeScript
+npm test tests/regression/bug-123.test.ts
+
+# Expected output: FAILED
+# ❌ test_bug_123_empty_email_validation FAILED
+```
+
+**Step 4: Verify failure is for correct reason**
+```bash
+# Check failure output carefully
+
+# Good failure (catches bug):
+# AssertionError: assert is_valid == False
+# Expected empty email to be invalid, but was valid
+
+# Bad failure (test broken):
+# ImportError: cannot import validate_email
+# NameError: 'validator' is not defined
+```
+
+**If test PASSES on old code:**
+```
+❌ CRITICAL: Sentinel test passes on pre-fix code
+
+This means test does NOT catch the bug. Possible causes:
+1. Test doesn't trigger bug condition
+2. Test assertion too weak
+3. Test mocks away the bug
+4. Wrong commit checked out
+
+MUST FIX before approving.
+
+Example fix:
+# Current (doesn't catch bug):
+def test_bug_123():
+    result = validate_email("")
+    assert result is not None  # Too weak - passes even with bug
+
+# Fixed (catches bug):
+def test_bug_123_empty_email_validation():
+    is_valid, error = validate_email("")
+    assert is_valid is False
+    assert error == "Email cannot be empty"
+```
+
+**Step 5: Return to fix commit**
+```bash
+git checkout <bugfix-branch>
+# or
+git checkout -  # if was last checkout
+```
+
+#### Verify Test PASSES on New Code
+
+**Verification steps:**
+
+**Step 1: Run sentinel test with fix (should PASS)**
+```bash
+# Python
+pytest tests/regression/test_bug_123.py -v
+
+# TypeScript
+npm test tests/regression/bug-123.test.ts
+
+# Expected output: PASSED
+# ✓ test_bug_123_empty_email_validation PASSED
+```
+
+**If test FAILS on new code:**
+```
+❌ CRITICAL: Sentinel test fails with fix applied
+
+Fix is incomplete or test incorrect. Investigate:
+1. Does fix actually solve the bug?
+2. Is test assertion correct?
+3. Did fix introduce new bug?
+
+Example:
+# Test fails:
+test_bug_123_empty_email_validation FAILED
+AssertionError: assert is_valid == False
+Expected: is_valid = False, error = "Email cannot be empty"
+Actual: is_valid = False, error = "Invalid email format"
+
+Issue: Fix returns wrong error message. Update fix.
+```
+
+#### Verify Test Specificity
+
+**Sentinel test MUST be specific to bug, not generic smoke test.**
+
+**Good sentinel test (specific):**
+```python
+def test_bug_123_empty_email_validation():
+    """
+    Sentinel for BUG-123: Empty email bypassed validation.
+
+    Bug: validate_email("") returned (True, None) instead of
+    (False, "Email cannot be empty").
+
+    Steps to reproduce:
+    1. Call validate_email with empty string
+    2. Observed: validation passed
+    3. Expected: validation failed with specific error
+
+    Fix: Added explicit empty string check before regex validation.
+
+    Bug report: bugs/fixed/BUG-123-empty-email-validation.md
+    """
+    is_valid, error = validate_email("")
+
+    # Specific assertions that catch this exact bug
+    assert is_valid is False, "Empty email should be invalid"
+    assert error == "Email cannot be empty", f"Expected specific error, got: {error}"
+```
+
+**Bad sentinel test (too generic):**
+```python
+def test_bug_123():
+    """Bug 123 fix."""  # ❌ No explanation
+
+    # ❌ Too generic - this is a smoke test, not sentinel
+    result = validate_email("user@example.com")
+    assert result is not None
+
+    # Won't catch the BUG-123 regression (empty email)
+```
+
+**Specificity checklist:**
+- [ ] Test directly exercises bug condition (empty email, not valid email)
+- [ ] Test assertions verify EXACT bug symptoms
+- [ ] Test would catch ONLY this bug (not other issues)
+- [ ] Test comment explains bug in detail
+- [ ] Test name describes specific bug scenario
+
+#### Verification Command Summary
+
+**Complete verification sequence:**
+```bash
+# 1. Find parent of fix commit
+FIX_COMMIT=$(git log --oneline --grep="BUG-123" -n 1 | awk '{print $1}')
+PARENT_COMMIT=$(git log --oneline -n 2 $FIX_COMMIT | tail -1 | awk '{print $1}')
+
+echo "Fix commit: $FIX_COMMIT"
+echo "Parent (before fix): $PARENT_COMMIT"
+
+# 2. Verify test FAILS on old code
+echo "=== Testing on OLD code (should FAIL) ==="
+git checkout $PARENT_COMMIT
+pytest tests/regression/test_bug_123.py -v
+# Expect: FAILED
+
+# 3. Verify test PASSES on new code
+echo "=== Testing on NEW code (should PASS) ==="
+git checkout $FIX_COMMIT
+pytest tests/regression/test_bug_123.py -v
+# Expect: PASSED
+
+# 4. Return to review branch
+git checkout <bugfix-branch>
+```
+
+**Automated verification script** (optional):
+```bash
+#!/bin/bash
+# verify-sentinel.sh BUG-123 test_bug_123
+
+BUG_ID=$1
+TEST_NAME=$2
+
+FIX_COMMIT=$(git log --oneline --grep="$BUG_ID" -n 1 | awk '{print $1}')
+PARENT_COMMIT=$(git rev-parse $FIX_COMMIT^)
+
+echo "Verifying sentinel test for $BUG_ID"
+echo "Fix: $FIX_COMMIT | Parent: $PARENT_COMMIT"
+
+# Test on old code
+git checkout $PARENT_COMMIT 2>/dev/null
+echo "Testing on OLD code..."
+pytest tests/regression/$TEST_NAME.py -v > /tmp/old_test.log 2>&1
+
+if grep -q "PASSED" /tmp/old_test.log; then
+    echo "❌ FAIL: Test PASSED on old code (should FAIL)"
+    git checkout -
+    exit 1
+fi
+
+# Test on new code
+git checkout $FIX_COMMIT 2>/dev/null
+echo "Testing on NEW code..."
+pytest tests/regression/$TEST_NAME.py -v > /tmp/new_test.log 2>&1
+
+if grep -q "FAILED" /tmp/new_test.log; then
+    echo "❌ FAIL: Test FAILED on new code (should PASS)"
+    git checkout -
+    exit 1
+fi
+
 git checkout -
-pytest tests/regression/test_<bug>.py  # Should PASS
+echo "✓ Sentinel test verified successfully"
+```
+
+#### Common Sentinel Test Issues
+
+**Issue 1: Test too generic**
+```
+❌ Problem: test_user_validation() tests general validation
+   Impact: Won't catch specific BUG-123 (empty email)
+   Fix: Make test specific to empty email case
+```
+
+**Issue 2: Test mocks away bug**
+```
+❌ Problem: Test mocks validate_email()
+   Impact: Never exercises actual buggy code
+   Fix: Remove mock, test real function
+```
+
+**Issue 3: Weak assertions**
+```
+❌ Problem: assert result is not None
+   Impact: Passes even with bug present
+   Fix: assert result.is_valid is False
+```
+
+**Issue 4: Wrong test location**
+```
+❌ Problem: Sentinel in tests/unit/ instead of tests/regression/
+   Impact: Organizational issue, harder to track
+   Fix: Move to tests/regression/test_bug_123.py
+```
+
+**Issue 5: Test doesn't reproduce bug**
+```
+❌ Problem: Test uses valid email, bug was about empty email
+   Impact: Doesn't catch regression
+   Fix: Update test to use empty email (actual bug condition)
 ```
 
 #### Step 5: Check GUIDELINES.md Updates (if any)
