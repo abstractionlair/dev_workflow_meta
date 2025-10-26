@@ -77,9 +77,12 @@
   Check: vision/, scope/, roadmap/, specs/, skeletons/, tests/, implementations/
   vs role files and workflow stages
 
-* Is the unit/integration/regression test directory division best?
-  Alternative: contract/ (acceptance criteria tests) and sentinel/ (regression tests)
-  Evaluate: Does current structure match how tests are actually written/used?
+* ✓ RESOLVED: Test directory structure (unit/integration/regression)
+
+  Evaluated alternative (contract/sentinel) but decided to keep current structure.
+  Rationale: Performance-based organization (unit=fast, integration=slow) provides
+  clear value for developers and CI/CD pipelines. Industry-standard terminology
+  reduces onboarding friction. Source artifact can be documented in file headers.
 
 * Is who moves what and when consistent across all role files?
   Audit: Ensure state transitions match between:
