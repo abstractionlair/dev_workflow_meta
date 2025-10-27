@@ -33,7 +33,7 @@ This schema serves as the authoritative reference for:
 **Lifecycle:**
 - **Initial creation**: platform-lead creates during living documentation setup (after VISION/SCOPE/ROADMAP approved)
 - **Continuous evolution**: Updated after features that change architecture
-- **Version tracking**: Track major changes in Changelog section
+- **Version tracking**: Track major changes in Git commit history
 
 **Update triggers:**
 - New component added
@@ -1059,77 +1059,6 @@ if (req.user.id !== task.userId && !req.user.isAdmin) {
 
 ---
 
-## Section 9: Changelog
-
-```markdown
-## Changelog
-
-### [Version] - [Date]
-
-**Added:**
-- [New component]
-- [New integration]
-
-**Changed:**
-- [Modified architecture]
-- [Updated technology]
-
-**Deprecated:**
-- [Component being phased out]
-
-**Removed:**
-- [Component removed]
-```
-
-**Purpose:** Track architectural evolution
-
-**Content Requirements:**
-- Semantic versioning
-- Date of change
-- Added/Changed/Deprecated/Removed sections
-- Link to PR or commit if applicable
-
-**Example:**
-
-```markdown
-## Changelog
-
-### v1.2.0 - 2025-10-25
-
-**Added:**
-- Task Service component for task management logic
-- TaskRepository for data access
-- Caching layer for project metadata (300s TTL)
-
-**Changed:**
-- Refactored UserService to use dependency injection
-- Updated PostgreSQL connection pool from 10 to 20 connections
-
-**Related:** PR #42
-
----
-
-### v1.1.0 - 2025-10-20
-
-**Added:**
-- Email Service integration with SendGrid
-- Welcome email flow in user registration
-
-**Related:** PR #38
-
----
-
-### v1.0.0 - 2025-10-15
-
-**Added:**
-- Initial architecture (layered monolith)
-- API Gateway, UserService, UserRepository components
-- PostgreSQL database integration
-- JWT authentication
-```
-
----
-
 ## Quality Standards
 
 ### Completeness
@@ -1141,7 +1070,6 @@ if (req.user.id !== task.userId && !req.user.isAdmin) {
 - ✓ Integration Points (all external dependencies)
 - ✓ Key Design Decisions (major choices)
 - ✓ Technology Stack
-- ✓ Changelog
 
 **Optional sections** (add as needed):
 - Performance Characteristics (if performance-critical)
@@ -1286,7 +1214,7 @@ async createUser(email: string, password: string, name: string): Promise<User> {
 **Fix:**
 - Update system map when architecture changes
 - Mark deprecated components clearly
-- Remove obsolete components in Changelog
+- Remove obsolete components and document in commit message
 
 ---
 
@@ -1404,10 +1332,9 @@ We use SendGrid for email.
 
 1. Create feature branch
 2. Update SYSTEM_MAP.md
-3. Add entry to Changelog section
-4. Create PR with context/rationale
-5. platform-lead reviews and approves
-6. Merge to main
+3. Create PR with context/rationale in description
+4. platform-lead reviews and approves
+5. Merge to main
 
 **Living doc update special case:**
 - If feature branch modifies SYSTEM_MAP.md
@@ -1456,7 +1383,6 @@ SYSTEM_MAP.md is the architectural blueprint that documents how the system is st
 - Integration Points: All external dependencies
 - Key Design Decisions: Why architecture is this way
 - Technology Stack: What's being used
-- Changelog: Evolution tracking
 
 **Consumers:**
 - spec-writer: Architectural context for feature design

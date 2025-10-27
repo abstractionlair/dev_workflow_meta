@@ -221,7 +221,7 @@ Define how scope changes are handled.
 1. Proposed change documented with rationale
 2. Impact assessment (time, resources, risks)
 3. Stakeholder review and decision
-4. If approved, update SCOPE.md with changelog
+4. If approved, update SCOPE.md and commit changes
 5. Communicate changes to team
 
 **Change categories:**

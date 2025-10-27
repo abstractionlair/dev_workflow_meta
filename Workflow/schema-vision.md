@@ -212,16 +212,6 @@ VISION.md (strategic) → SCOPE.md (tactical) → ROADMAP.md (operational) → S
 
 **Hypotheses to Validate:**
 - [Assumption 1 needing testing]
-
-## Changelog
-
-### Version [X.Y] - [Date]
-**Changed:** [What changed]
-**Reason:** [Why it changed]
-**Impact:** [Effect on project/scope/timeline]
-
-### Version 1.0 - [Date]
-- Initial vision document created
 ```
 
 ## Section Semantics
@@ -568,25 +558,6 @@ Vision's high-level features → Scope's concrete deliverables
 - scope-writer: Identifies areas needing clarification
 - roadmap-writer: May influence phase sequencing (validate assumptions early)
 
-### Changelog
-
-**Purpose:** Track how vision evolves over time and why.
-
-**Content requirements:**
-- Version number and date
-- What changed (specific sections/content)
-- Reason for change (why it changed)
-- Impact (effect on project/scope/timeline)
-
-**Quality criteria:**
-- Every significant change documented
-- Rationale captured (not just what changed)
-- Impact on downstream documents noted
-
-**Consumed by:**
-- All roles: Understanding evolution of thinking
-- Stakeholders: Transparency on strategic changes
-
 ## Cross-Document References
 
 ### VISION.md References Other Documents
@@ -625,7 +596,6 @@ Vision's high-level features → Scope's concrete deliverables
 - Technical Approach
 - Assumptions and Constraints
 - Open Questions
-- Changelog
 
 **Optional but recommended:**
 - Secondary Personas
@@ -664,7 +634,6 @@ Vision's high-level features → Scope's concrete deliverables
 **When VISION.md changes:**
 - SCOPE.md must be reviewed for alignment
 - ROADMAP.md must be reviewed for timeline changes
-- Changelog must document impact on downstream docs
 
 **Validation checks:**
 - Scope features trace to Vision "In Scope (MVP)"
@@ -697,10 +666,9 @@ Vision's high-level features → Scope's concrete deliverables
 2. **Document proposed change** with rationale
 3. **Assess impact** on downstream documents
 4. **Update VISION.md** with new version number
-5. **Add changelog entry** (what, why, impact)
-6. **Archive old version** (VISION-v1-2024.md)
-7. **Review downstream docs** (SCOPE.md, ROADMAP.md) for needed updates
-8. **Communicate changes** to stakeholders and team
+5. **Archive old version** (VISION-v1-2024.md)
+6. **Review downstream docs** (SCOPE.md, ROADMAP.md) for needed updates
+7. **Communicate changes** to stakeholders and team
 
 ### Version Numbering
 
@@ -720,7 +688,7 @@ Vision's high-level features → Scope's concrete deliverables
 - Archive old version: `VISION-v1-2024.md`
 - Keep in repository (don't delete)
 - Update references in other documents
-- Changelog in new version explains changes
+- Document changes in commit message
 
 ## Common Patterns
 

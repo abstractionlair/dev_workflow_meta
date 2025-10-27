@@ -297,8 +297,8 @@ Planning documents (VISION.md, SCOPE.md, ROADMAP.md) don't move between director
 ```bash
 # Vision Writer executes:
 # 1. Edit VISION.md
-# 2. Increment version in Changelog
-# 3. Commit with version
+# 2. Increment version number in document
+# 3. Commit with descriptive message
 git add VISION.md
 git commit -m "Update VISION.md to v1.1: <change summary>"
 ```

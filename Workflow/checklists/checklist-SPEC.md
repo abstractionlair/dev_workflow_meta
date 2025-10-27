@@ -17,7 +17,6 @@ Use this checklist before requesting spec review.
 - [ ] Constraints and Limitations (performance, security, technical)
 - [ ] Open Questions (if any - should be minimal for review)
 - [ ] References (roadmap feature, vision alignment)
-- [ ] Changelog (version history)
 
 ## Quality Checks
 

@@ -783,41 +783,6 @@ example_instance = {
 
 ---
 
-## Section 14: Changelog
-
-```markdown
-## Changelog
-
-### Version [X.Y] - [Date]
-- [Change description]
-- [Change description]
-
-### Version 1.0 - [Date]
-- Initial specification created
-```
-
-**Purpose:** Track specification evolution
-
-**Format:** Reverse chronological (newest first)
-
-**Required Fields:**
-- Version number
-- Date
-- List of changes
-
-**Example:**
-```markdown
-### Version 1.1 - 2025-02-15
-- Added edge case for symlink handling
-- Clarified error message format for InvalidPathError
-- Updated performance requirement to <5 seconds
-
-### Version 1.0 - 2025-02-01
-- Initial specification created
-```
-
----
-
 ## Section Ordering
 
 **Required order:**
@@ -834,7 +799,6 @@ example_instance = {
 11. Implementation Notes (optional)
 12. Open Questions
 13. References
-14. Changelog
 
 **Rationale:** Flows from high-level (what/why) to detailed (how) to governance (tracking)
 
@@ -980,7 +944,7 @@ Before requesting spec review, verify completeness with [checklist-SPEC.md](chec
 2. **Review:** Spec reviewer validates completeness
 3. **Approved:** Ready for skeleton/test writing
 4. **Implemented:** Code complete, tests passing
-5. **Updated:** Changes tracked in Changelog
+5. **Updated:** Changes tracked in version control
 
 **Update triggers:**
 - Implementation reveals missing acceptance criteria

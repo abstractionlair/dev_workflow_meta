@@ -795,7 +795,6 @@ VISION.md (strategic) → SCOPE.md (tactical) → ROADMAP.md (operational) → S
 
 **When SCOPE.md changes:**
 - ROADMAP.md must be reviewed (if exists)
-- Changelog must document impact
 - VISION.md may need update if scope reveals vision misalignment
 
 **Validation checks:**
@@ -925,9 +924,8 @@ VISION.md (strategic) → SCOPE.md (tactical) → ROADMAP.md (operational) → S
 3. **Assess impact** on ROADMAP.md and ongoing work
 4. **Check vision alignment** (may require VISION.md update)
 5. **Update SCOPE.md** with new version number
-6. **Add changelog entry** (what, why, impact)
-7. **Review ROADMAP.md** for needed updates
-8. **Communicate changes** to team and stakeholders
+6. **Review ROADMAP.md** for needed updates
+7. **Communicate changes** to team and stakeholders
 
 ### Version Numbering
 

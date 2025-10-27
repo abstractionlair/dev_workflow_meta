@@ -357,7 +357,7 @@ Unlike Airflow's complex UI requiring navigation, our dashboard shows all pipeli
 **Version control:**
 - Maintain VISION.md in Git
 - Archive old versions: VISION-v1-2024.md
-- Changelog captures: what changed, why, impact
+- Commit messages capture: what changed, why, impact
 
 ## Integration with Workflow
 

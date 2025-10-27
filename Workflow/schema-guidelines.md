@@ -33,7 +33,7 @@ This schema serves as the authoritative reference for:
 **Lifecycle:**
 - **Initial creation**: platform-lead creates stub during living documentation setup
 - **Continuous evolution**: Updated as patterns emerge during implementation
-- **Version tracking**: Track major changes in Changelog section
+- **Version tracking**: Track major changes in Git commit history
 
 **Update triggers:**
 - Pattern emerges after 3rd occurrence (Rule of Three)
@@ -1231,73 +1231,6 @@ logger.error('Request failed:', {
 
 ---
 
-## Section 9: Changelog
-
-```markdown
-## Changelog
-
-### [Version] - [Date]
-
-**Added:**
-- [New pattern or guideline]
-
-**Changed:**
-- [Modified existing guideline]
-
-**Deprecated:**
-- [Guideline being phased out]
-
-**Removed:**
-- [Guideline no longer applicable]
-```
-
-**Purpose:** Track evolution of guidelines
-
-**Content Requirements:**
-- Semantic versioning
-- Date of change
-- Added/Changed/Deprecated/Removed sections
-- Link to pull request or commit if applicable
-
-**Example:**
-
-```markdown
-## Changelog
-
-### v1.2.0 - 2025-10-25
-
-**Added:**
-- Error handling pattern for validation errors
-- Performance guideline for database query batching
-- Security requirement: HTTPS only in production
-
-**Changed:**
-- Updated test coverage threshold from 75% to 80% (team decision after review)
-
-**Related:** PR #45
-
----
-
-### v1.1.0 - 2025-10-20
-
-**Added:**
-- Validate empty/null first pattern (emerged from bugs/fixed/validation-empty-email.md)
-- Dependency injection pattern examples
-
-**Related:** Commit abc123
-
----
-
-### v1.0.0 - 2025-10-15
-
-**Added:**
-- Initial guidelines structure
-- Code organization patterns
-- Naming conventions
-```
-
----
-
 ## Quality Standards
 
 ### Completeness
@@ -1308,7 +1241,6 @@ logger.error('Request failed:', {
 - ✓ Coding Patterns (at least 3)
 - ✓ Testing Standards
 - ✓ Architectural Constraints
-- ✓ Changelog
 
 **Optional sections** (add as needed):
 - Security Requirements (if project handles sensitive data)
@@ -1333,7 +1265,7 @@ logger.error('Request failed:', {
 ### Maintainability
 
 **Keep guidelines current:**
-- ✓ Update Changelog when patterns added/changed
+- ✓ Document pattern changes in commit messages
 - ✓ Remove outdated patterns
 - ✓ Link to related bugs/PRs for context
 - ✓ Review annually for relevance
@@ -1439,7 +1371,7 @@ Use MongoDB for all data storage.
 
 **Fix:**
 - Review guidelines when architecture changes
-- Update Changelog when patterns change
+- Document pattern changes in commit messages
 - Mark deprecated patterns clearly
 - Remove obsolete guidelines
 
@@ -1569,10 +1501,9 @@ const repo = new Repository();
 
 1. Create feature branch
 2. Update GUIDELINES.md
-3. Add entry to Changelog section
-4. Create PR with context/rationale
-5. platform-lead reviews and approves
-6. Merge to main
+3. Create PR with context/rationale in description
+4. platform-lead reviews and approves
+5. Merge to main
 
 **Living doc update special case:**
 - If feature branch modifies GUIDELINES.md
@@ -1620,7 +1551,6 @@ GUIDELINES.md is the living codification of project conventions, patterns, and c
 - Coding Patterns: Proven do's and don'ts
 - Testing Standards: Quality bar for tests
 - Architectural Constraints: Layer boundaries and dependencies
-- Changelog: Evolution tracking
 
 **Consumers:**
 - skeleton-writer: Follows organization, naming, patterns
@@ -1630,7 +1560,7 @@ GUIDELINES.md is the living codification of project conventions, patterns, and c
 
 **Maintenance:**
 - platform-lead approves all updates
-- Changelog tracks changes
+- Git history tracks changes
 - Remove outdated patterns
 - Review annually
 
