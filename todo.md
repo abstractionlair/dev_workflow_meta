@@ -121,13 +121,37 @@
 
   Together these explain how to start, find key docs, and follow core principles.
 
-* How do we orchestrate handoffs between roles?
-  Currently: Manual - user switches CLI tools
-  Options: Scripts? Workflow automation? Git hooks?
-  Document current approach and future automation plans
+* ✓ COMPLETE: Role orchestration scripts (commits 7d269be, 47516ef)
 
-* Should writers/implementers call reviewers automatically?
-  I have an MCP server example from previous project (Claude → Codex reviews)
-  Expand to: Auto-trigger reviews when work complete?
-  Referenced conversation with Claude chat - review and possibly incorporate
+  Created Workflow/scripts/ with two key scripts:
+
+  1. run-role.sh - Launch any role with proper initialization
+     - Config-driven role → tool/model mapping (role-config.json, tool-config.json)
+     - Interactive (-i flag) or one-shot mode for any role
+     - Auto-initialization for all tools (no copy-paste):
+       * Claude: --append-system-prompt to inject role
+       * Codex: Positional argument preserves TTY for interactive mode
+       * Gemini: -i/--prompt-interactive flag
+       * OpenCode: -p/--prompt flag
+     - Proper entry point routing (CLAUDE.md, AGENTS.md, GEMINI.md)
+     - ~270 lines
+
+  2. workflow-status.sh - Scan project state and suggest next actions
+     - Checks planning docs, specs (proposed/todo/doing/done), bugs, implementation progress
+     - Detects skeleton code, tests, review status, implementation completeness
+     - Color-coded status indicators (✓ ✗ ⊙ →)
+     - Prioritized suggestions with exact commands to run
+     - --verbose flag for detailed output
+     - ~390 lines
+
+  Total: ~660 lines of workflow automation
+
+* ✓ RESOLVED: Auto-trigger reviews decision
+
+  Discussed and decided NOT to pursue automatic review triggering. Rationale:
+  - Manual orchestration with good scripts provides sufficient efficiency (~12 min per feature)
+  - Human oversight prevents "test modification" problem (ImpossibleBench concern)
+  - workflow-status.sh scanner provides "what's next?" guidance without automation complexity
+  - MCP integration would add significant complexity for uncertain benefit
+  - Can revisit if real pain points emerge after using manual approach
 
