@@ -5,14 +5,76 @@ Scripts for orchestrating multi-role AI workflow.
 ## Quick Start
 
 ```bash
+# Check project status and get suggestions
+./workflow-status.sh
+
 # Review a spec
 ./run-role.sh spec-reviewer specs/proposed/user-auth.md
 
 # Start interactive spec writing session
-./run-role.sh spec-writer
+./run-role.sh -i spec-writer
 
 # Implement a feature
 ./run-role.sh implementer specs/doing/user-auth.md
+```
+
+## workflow-status.sh
+
+Scans the project to determine current state and suggests next actions.
+
+### Usage
+
+```bash
+./workflow-status.sh [--verbose]
+```
+
+**Options:**
+- `--verbose` - Show detailed information about completed items
+
+**What It Checks:**
+
+1. **Planning Documents** - VISION.md, SCOPE.md, ROADMAP.md existence and review status
+2. **Specifications** - What's in proposed/todo/doing/done and what each needs
+3. **Implementation Progress** - For specs in doing/, checks for skeleton code, tests, implementation completeness
+4. **Bugs** - What's in to_fix/fixing/fixed
+5. **Living Documentation** - SYSTEM_MAP.md, GUIDELINES.md existence
+6. **Git Status** - Current branch and uncommitted changes
+
+**Output:**
+
+The script provides:
+- Color-coded status for each item (✓ found, ✗ missing, ⊙ needs review, → in progress)
+- Prioritized list of suggested next actions with exact commands to run
+
+**Example:**
+
+```bash
+$ ./workflow-status.sh
+
+=== Workflow Status Report ===
+Project: my-project
+Path: /path/to/my-project
+
+=== Planning Documents ===
+  ✓ VISION.md (reviewed)
+  ✓ SCOPE.md (reviewed)
+  ⊙ ROADMAP.md (needs review)
+
+=== Specifications ===
+Proposed (needs review):
+  ⊙ user-authentication.md
+Todo (ready to start):
+  ✓ api-endpoints.md
+
+=== Suggested Next Actions ===
+1. Review ROADMAP.md
+   ./Workflow/scripts/run-role.sh roadmap-reviewer ROADMAP.md
+
+2. Review spec: user-authentication.md
+   ./Workflow/scripts/run-role.sh spec-reviewer specs/proposed/user-authentication.md
+
+3. Start implementing: api-endpoints.md
+   ./Workflow/scripts/run-role.sh skeleton-writer specs/todo/api-endpoints.md
 ```
 
 ## run-role.sh
@@ -22,8 +84,11 @@ Launches the appropriate AI tool with the correct model and role configuration.
 ### Usage
 
 ```bash
-./run-role.sh <role-name> [artifact-path] [additional-context...]
+./run-role.sh [-i] <role-name> [artifact-path] [additional-context...]
 ```
+
+**Options:**
+- `-i, --interactive` - Run in interactive mode (default is one-shot)
 
 **Arguments:**
 - `role-name` (required): Name of the role to assume (e.g., `spec-writer`, `spec-reviewer`)
@@ -33,17 +98,17 @@ Launches the appropriate AI tool with the correct model and role configuration.
 **Examples:**
 
 ```bash
-# Interactive sessions (helpers, writers)
-./run-role.sh vision-writing-helper
-./run-role.sh spec-writer
-./run-role.sh platform-lead
+# Interactive sessions (for exploration and writing)
+./run-role.sh -i vision-writing-helper
+./run-role.sh -i spec-writer
+./run-role.sh -i implementer specs/doing/user-auth.md
 
-# One-shot reviews
+# One-shot reviews (default mode)
 ./run-role.sh spec-reviewer specs/proposed/user-authentication.md
 ./run-role.sh test-reviewer specs/doing/user-authentication.md
 ./run-role.sh implementation-reviewer specs/doing/user-authentication.md
 
-# Implementation with context
+# One-shot implementation with context
 ./run-role.sh implementer specs/doing/user-auth.md "Focus on error handling"
 
 # List available roles
@@ -53,7 +118,7 @@ Launches the appropriate AI tool with the correct model and role configuration.
 ### How It Works
 
 1. **Loads configuration** from `role-config.json` (role → tool/model mapping) and `tool-config.json` (tool settings)
-2. **Builds initialization message** that tells the AI to:
+2. **Builds system prompt** that tells the AI to:
    - Read the appropriate entry point doc (CLAUDE.md, AGENTS.md, etc.)
    - Follow the document graph to understand the project
    - Assume the specified role
@@ -61,17 +126,23 @@ Launches the appropriate AI tool with the correct model and role configuration.
 
 ### Interactive vs One-Shot
 
-**Interactive roles** (writers, helpers):
-- Launches the tool in interactive mode
-- Displays the initialization message for you to paste
-- Continues as interactive session
+Any role can run in either mode, determined by the `-i` flag at call time:
 
-**One-shot roles** (most reviewers, implementers):
-- Sends initialization message automatically
+**One-shot mode** (default):
+- Requires artifact-path or additional-context
+- Sends initialization automatically
 - Executes task and returns result
 - Exits when complete
+- Best for: Reviews, focused implementation tasks
 
-The `interactive` flag in `role-config.json` controls this behavior.
+**Interactive mode** (with `-i` flag):
+- Optional initial task/artifact
+- Launches interactive session with role pre-loaded and automatically injected
+- For Claude: Uses `--append-system-prompt` to inject role
+- For Codex: Passes init message as positional argument (preserves TTY for interactive mode)
+- For Gemini: Uses `-i/--prompt-interactive` to inject role
+- For OpenCode: Uses `-p/--prompt` to inject role
+- Best for: Exploratory work, writing, iterative development
 
 ### Configuration
 
@@ -80,13 +151,16 @@ The `interactive` flag in `role-config.json` controls this behavior.
 {
   "spec-writer": {
     "tool": "claude",
-    "model": "claude-sonnet-4-5",
-    "interactive": true
+    "model": "claude-sonnet-4-5"
   },
   "spec-reviewer": {
     "tool": "codex",
     "model": "gpt-5",
     "reasoning_effort": "high"
+  },
+  "implementer": {
+    "tool": "codex",
+    "model": "gpt-5-codex"
   }
 }
 ```
@@ -136,5 +210,6 @@ When copying this workflow to a concrete project:
 
 ## Future Enhancements
 
-- **workflow-status.sh** - Scan project state and suggest next actions
-- **--append-system-prompt** - Use Claude's system prompt injection for more authoritative role loading (currently roles are loaded via initial message)
+- **Enhanced heuristics** - Improve workflow-status.sh detection of implementation completeness
+- **Parallel execution** - Add option to run-role.sh to execute multiple reviews in parallel
+- **Custom workflows** - Support for project-specific workflow variations

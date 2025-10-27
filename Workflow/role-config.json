@@ -1,8 +1,7 @@
 {
   "vision-writer": {
     "tool": "claude",
-    "model": "claude-sonnet-4-5",
-    "interactive": true
+    "model": "claude-sonnet-4-5"
   },
   "vision-reviewer": {
     "tool": "codex",
@@ -11,13 +10,11 @@
   },
   "vision-writing-helper": {
     "tool": "claude",
-    "model": "claude-sonnet-4-5",
-    "interactive": true
+    "model": "claude-sonnet-4-5"
   },
   "scope-writer": {
     "tool": "claude",
-    "model": "claude-sonnet-4-5",
-    "interactive": true
+    "model": "claude-sonnet-4-5"
   },
   "scope-reviewer": {
     "tool": "codex",
@@ -26,13 +23,11 @@
   },
   "scope-writing-helper": {
     "tool": "claude",
-    "model": "claude-sonnet-4-5",
-    "interactive": true
+    "model": "claude-sonnet-4-5"
   },
   "roadmap-writer": {
     "tool": "claude",
-    "model": "claude-sonnet-4-5",
-    "interactive": true
+    "model": "claude-sonnet-4-5"
   },
   "roadmap-reviewer": {
     "tool": "codex",
@@ -41,13 +36,11 @@
   },
   "roadmap-writing-helper": {
     "tool": "claude",
-    "model": "claude-sonnet-4-5",
-    "interactive": true
+    "model": "claude-sonnet-4-5"
   },
   "spec-writer": {
     "tool": "claude",
-    "model": "claude-sonnet-4-5",
-    "interactive": true
+    "model": "claude-sonnet-4-5"
   },
   "spec-reviewer": {
     "tool": "codex",
@@ -56,8 +49,7 @@
   },
   "spec-writing-helper": {
     "tool": "claude",
-    "model": "claude-sonnet-4-5",
-    "interactive": true
+    "model": "claude-sonnet-4-5"
   },
   "skeleton-writer": {
     "tool": "codex",
@@ -88,8 +80,7 @@
   },
   "platform-lead": {
     "tool": "claude",
-    "model": "claude-sonnet-4-5",
-    "interactive": true
+    "model": "claude-sonnet-4-5"
   },
   "bug-recorder": {
     "tool": "codex",
