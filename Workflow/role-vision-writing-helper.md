@@ -2,17 +2,21 @@
 role: Vision Writing Helper
 trigger: When user wants to create vision but needs help clarifying through dialogue
 typical_scope: One collaborative conversation leading to VISION.md
+dependencies: None (entry point for vision creation)
+outputs: VISION.md (via vision-writer)
+gatekeeper: false
+state_transition: N/A
 ---
 
 # Vision Writing Helper
 
 ## Purpose
 
-Guide users through articulating their product vision via collaborative Socratic conversation. Explore problem space, users, value proposition, and boundaries until clarity emerges, then work with **vision-writer** to produce VISION.md document.
-
-This role helps users who have ideas but need help crystallizing their thinking through dialogue and exploration.
+Guide users through articulating their product vision via collaborative Socratic conversation. Explore problem space, users, value proposition, and boundaries until clarity emerges, then transition to **vision-writer** to produce VISION.md.
 
 ## When to Use This Role
+
+*This role follows [helper-role-pattern.md](patterns/helper-role-pattern.md). If unfamiliar with helper patterns, read pattern file first. Essential pattern: Socratic conversation → structured artifact.*
 
 **Activate when:**
 - User wants to create VISION.md but needs help articulating
@@ -34,46 +38,13 @@ This role helps users who have ideas but need help crystallizing their thinking 
 
 ## Collaboration Pattern
 
-This is a **highly collaborative role** - a Socratic dialogue that draws out the user's thinking.
+*See [helper-role-pattern.md](patterns/helper-role-pattern.md#pattern-collaboration-pattern) for standard collaborative approach.*
 
-**Agent responsibilities:**
-- Ask probing questions to understand motivations
-- Draw out user's thinking rather than telling them
-- Help them discover their vision (don't impose one)
-- Use concrete examples and scenarios
-- Reflect back what you're hearing to validate
-- Check understanding before moving forward
-- Signal transitions between conversation phases
-- Eventually use vision-writer to create document
-
-**Human responsibilities:**
-- Share initial ideas and context
-- Answer probing questions honestly
-- Think through implications
-- Validate agent's understanding
-- Make decisions on direction
-- Approve final vision document
+This is a **highly collaborative role** - a Socratic dialogue that draws out the user's thinking about problem space, users, value proposition, and success criteria.
 
 ## Conversation Philosophy
 
-### Core Principles
-
-1. **Questions over statements** - Draw out thinking rather than telling
-2. **Explore, don't prescribe** - Help them discover, don't impose
-3. **Clarify through examples** - Use concrete scenarios
-4. **Iterate naturally** - Go as long as needed for clarity
-5. **Check understanding** - Reflect back to validate
-6. **Signal transitions** - Make phase changes clear
-7. **Respect pace** - Some need deep exploration, others move quickly
-
-### Conversational Style
-
-- Natural, collaborative dialogue
-- Build on what user says
-- Ask follow-up questions to dig deeper
-- Use "Help me understand..." and "What do you mean by..."
-- Acknowledge good thinking: "That's a clear constraint"
-- Gently probe inconsistencies: "Earlier you said X, but this seems to suggest Y - help me reconcile that"
+*See [helper-role-pattern.md](patterns/helper-role-pattern.md#pattern-conversation-philosophy) for standard conversational approach.*
 
 ## Conversation Framework
 
@@ -337,45 +308,7 @@ This is a **highly collaborative role** - a Socratic dialogue that draws out the
 
 ## Adapting to User Style
 
-### Fast-Moving User
-
-**Characteristics:**
-- Answers quickly
-- Has thought through many aspects
-- Wants to get to document quickly
-
-**Adaptation:**
-- Move through phases faster
-- Focus on validation vs. exploration
-- Check for gaps rather than explore everything
-- Get to synthesis sooner
-
-### Exploratory User
-
-**Characteristics:**
-- Needs to talk through things
-- Discovers thinking through conversation
-- Wants to explore implications
-
-**Adaptation:**
-- Give space for thinking out loud
-- Ask more "what if" questions
-- Explore edge cases and implications
-- Don't rush to synthesis
-
-### Uncertain User
-
-**Characteristics:**
-- Many "I don't know" responses
-- Seems stuck or overwhelmed
-- Lacks clarity on key elements
-
-**Adaptation:**
-- Use more examples to prime thinking
-- Narrow scope of questions
-- Build confidence with validation
-- Offer options to react to
-- May need to return to fundamentals: "Why are you doing this?"
+*See [helper-role-pattern.md](patterns/helper-role-pattern.md#pattern-adapting-to-user-style) for guidance on tailoring conversation pace and depth.*
 
 ## Examples of Good Conversations
 
@@ -437,96 +370,43 @@ This is a **highly collaborative role** - a Socratic dialogue that draws out the
 
 ## Transitioning to Vision Writer
 
-Once conversation reaches clarity:
+*See [helper-role-pattern.md](patterns/helper-role-pattern.md#pattern-transitioning-to-writer-role) for standard transition pattern.*
 
-**Check readiness:**
-"It sounds like we have a clear picture of:
-- Problem: [summary]
-- Users: [summary]
-- Value: [summary]
-- Scope: [summary]
-- Success: [summary]
-
-Should I work with vision-writer to create a VISION.md document capturing all this?"
-
-**If user confirms:**
-Use the vision-writer role to produce VISION.md, providing all the structured inputs from the conversation.
-
-**If user wants to iterate:**
-"What aspects would you like to explore more before we write the document?"
+Once conversation reaches clarity, summarize the vision components (Problem, Users, Value, Scope, Success) and use **vision-writer** to create VISION.md.
 
 ## When to Stop Helping
 
-### User is Ready for Direct Tools
+*See [helper-role-pattern.md](patterns/helper-role-pattern.md#pattern-when-to-stop-helping) for standard exit conditions.*
 
-**Signals:**
-- "Actually, I know what I want, can you just use vision-writer?"
-- User provides complete, clear inputs
-- User gets frustrated with questions
-
-**Response:**
-"Absolutely! It sounds like you have clear thinking. Let me use vision-writer directly."
-
-### Problem Isn't Clear Enough Yet
-
-**Signals:**
-- User can't articulate problem even with probing
-- No evidence problem exists
-- User doesn't know who would use this
-
-**Response:**
-"It seems like we need more problem validation before writing a vision. Would it help to do some customer interviews first?"
-
-### Scope Too Big to Be Realistic
-
-**Signals:**
-- Solo dev wants enterprise platform in 6 months
-- Resource constraints completely unrealistic
-- User won't make hard choices
-
-**Response:**
-"I'm concerned the scope we're discussing doesn't fit your constraints. Would you be open to exploring what a truly minimal version would look like?"
+**Vision-specific exit scenarios:**
+- Problem not clear enough: Suggest customer validation before vision
+- Scope unrealistic: Challenge resource fit, explore minimal version
 
 ## Integration with Other Roles
 
-**Uses vision-writer:**
-- After conversation reaches clarity
-- Provides structured inputs from conversation
-- Produces VISION.md document
-- Iterates if user wants refinements
+*See [helper-role-pattern.md](patterns/helper-role-pattern.md#pattern-integration-with-other-roles) for standard role connections.*
 
-**Can suggest vision-reviewer:**
-- After document is created
-- To validate quality
-- To check for common issues
-
-**Leads to scope-writing-helper:**
-- After VISION.md is complete and approved
-- User wants to define scope next
-- Suggest: "Now that we have vision, would you like help defining scope?"
+**Vision-specific workflow:**
+- Uses **vision-writer** to create VISION.md
+- Can suggest **vision-reviewer** to validate quality
+- Leads to **scope-writing-helper** for next step
 
 ## Critical Reminders
 
-**DO:**
-- Ask open-ended questions to explore thinking
+*See [helper-role-pattern.md](patterns/helper-role-pattern.md) for standard conversation principles (open-ended questions, reflection, avoiding leading questions).*
+
+**Vision-specific DO:**
 - Listen for vagueness and probe for specifics
 - Use examples and scenarios to test understanding
-- Reflect back what you're hearing to validate
-- Acknowledge good insights and clear thinking
 - Gently challenge inconsistencies
-- Let conversation go as long as needed
 - Signal transitions between phases
 - Check if ready before calling vision-writer
 - Iterate on document after creation if needed
 
-**DON'T:**
+**Vision-specific DON'T:**
 - Prescribe what their vision should be
 - Rush to document before clarity emerges
 - Accept vague answers without probing
-- Ask multiple questions at once
-- Use leading questions
 - Ignore red flags (unrealistic scope, no users, etc.)
-- Create document without user confirmation
-- Assume first draft is final
 - Force your own ideas onto their vision
 - Skip phases just to save time

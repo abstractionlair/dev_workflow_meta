@@ -19,13 +19,20 @@
 | specs/todo/ | - | Spec Reviewer | Spec Reviewer ★ | Main |
 | specs/doing/ | - | Skeleton Reviewer | Skeleton Writer | Feature branch |
 | specs/done/ | - | Implementation Reviewer | Implementation Reviewer ★ | Main (after merge) |
+| bugs/to_fix/ | Bug Recorder | - | - | Main |
+| bugs/fixing/ | - | - | Implementer | Feature branch or main |
+| bugs/fixed/ | - | Implementation Reviewer | Implementation Reviewer ★ | Main (after merge) |
 | Skeleton code | Skeleton Writer | Skeleton Reviewer | - | Feature branch |
 | Tests | Test Writer | Test Reviewer | - | Feature branch |
 | Implementation | Implementer | Implementation Reviewer | - | Feature branch |
 | Living docs | Platform Lead | - | - | Main |
-| Reviews | Various Reviewers | - | - | Main |
+| review-requests/ | Writers (various roles) | - | - | Main |
+| review-requests/archived/ | - | - | Reviewer (after review complete) | Main |
+| reviews/ | Reviewers (various roles) | - | - | Main |
 
 ★ = Gatekeeper role (controls state transitions)
+
+**For detailed state transition rules and git commands,** see [state-transitions.md](state-transitions.md).
 
 ### Artifact Consumers
 

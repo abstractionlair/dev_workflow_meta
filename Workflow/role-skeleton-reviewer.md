@@ -2,13 +2,19 @@
 role: Skeleton Reviewer
 trigger: After skeleton created, before test writing
 typical_scope: One feature's skeleton code
+dependencies: [SPEC from specs/todo/, skeleton code files, SYSTEM_MAP.md, GUIDELINES.md, schema-interface-skeleton-code.md]
+outputs: [reviews/skeletons/TIMESTAMP-FEATURE-STATUS.md]
+gatekeeper: true
+state_transition: Approves skeleton → test-writer begins
 ---
 
 # Skeleton Reviewer
 
+*Structure reference: [role-file-structure.md](patterns/role-file-structure.md)*
+
 ## Purpose
 
-Review skeleton code to ensure it accurately reflects the specification, enables TDD, and follows project patterns. Your approval gates progression to test writing.
+Review skeleton code to ensure it accurately reflects the specification, enables TDD, and follows project patterns. Approval gates progression to test writing.
 
 This review catches mismatches between spec and code before they propagate into tests and implementation.
 
@@ -38,9 +44,9 @@ This is an **independent role** - work separately from skeleton writer.
 
 **References:**
 - Approved SPEC from `specs/todo/`
+- [schema-interface-skeleton-code.md](schema-interface-skeleton-code.md) - Quality standards
 - SYSTEM_MAP.md - File organization patterns
-- GUIDELINES.md - Code style conventions
-- GUIDELINES.md - Architectural constraints
+- GUIDELINES.md - Code style conventions and architectural constraints
 - Existing codebase - Consistency check
 
 ## Process
@@ -53,7 +59,9 @@ This is an **independent role** - work separately from skeleton writer.
 
 ### Step 2: Check Contract Compliance
 
-**For each function/class in spec, verify:**
+For each function/class in spec, verify skeleton matches exactly. See [schema-interface-skeleton-code.md](schema-interface-skeleton-code.md) for complete quality standards.
+
+**Verify:**
 - [ ] Skeleton file exists
 - [ ] Signature matches spec exactly
 - [ ] All parameters present with correct types
@@ -74,7 +82,7 @@ Skeleton has: validate_email(email: str) -> tuple[bool, Optional[str]]
 
 ### Step 3: Check Data Types
 
-**For each data structure in spec, verify:**
+For each data structure in spec, verify:
 - [ ] Type defined in skeleton
 - [ ] Structure matches spec
 - [ ] Invariants documented
@@ -95,7 +103,7 @@ class User:
     """
     email: str
     id: Optional[int] = None
-    
+
     def __post_init__(self):
         if not self.email:
             raise ValueError("Email cannot be empty")
@@ -103,28 +111,16 @@ class User:
 
 ### Step 4: Check Exception Types
 
-**For each exception mentioned in spec:**
+For each exception mentioned in spec:
 - [ ] Exception class defined
 - [ ] Inherits from appropriate base
 - [ ] Constructor parameters sensible
 - [ ] Error message format clear
 - [ ] Attached to correct context
 
-**Example:**
-```python
-# Spec mentions: "Raises DuplicateEmailError if email exists"
-
-✓ Good skeleton:
-class DuplicateEmailError(Exception):
-    """Email already exists."""
-    def __init__(self, email: str):
-        self.email = email
-        super().__init__(f"Email registered: {email}")
-```
-
 ### Step 5: Check Dependency Injection (Critical for TDD)
 
-**For each class, verify:**
+For each class, verify:
 - [ ] Dependencies passed to __init__
 - [ ] No hard-coded dependencies
 - [ ] Dependencies are interfaces (abstract types)
@@ -144,49 +140,31 @@ class DuplicateEmailError(Exception):
 
 ### Step 6: Check Interface Abstractions
 
-**For dependencies, verify:**
+For dependencies, verify:
 - [ ] Abstract base classes exist
-- [ ] Use ABC and @abstractmethod
+- [ ] Use ABC and @abstractmethod (Python) or Protocol
 - [ ] Interface segregation (focused, not bloated)
 - [ ] Methods match what main class needs
 - [ ] No extra methods (keep interfaces minimal)
 
-**Example verification:**
-```python
-# Main class uses: repo.save(), repo.get_by_email()
-
-✓ Good interface:
-class UserRepository(ABC):
-    @abstractmethod
-    def save(self, user: User) -> User: pass
-    
-    @abstractmethod
-    def get_by_email(self, email: str) -> Optional[User]: pass
-```
+See [schema-interface-skeleton-code.md](schema-interface-skeleton-code.md) Section 5 for detailed interface requirements.
 
 ### Step 7: Check Docstrings
 
-**For each public method, verify:**
-- [ ] Purpose stated (one line minimum)
-- [ ] Args documented with types
-- [ ] Returns documented
-- [ ] Raises documented with conditions
-- [ ] Preconditions stated (if from spec)
-- [ ] Postconditions stated (if from spec)
-- [ ] Examples included (if helpful)
+For each public method, verify complete docstring format. See [schema-interface-skeleton-code.md](schema-interface-skeleton-code.md) Section 2 for documentation standards.
 
 **Minimum acceptable:**
 ```python
 def method(param: Type) -> ReturnType:
     """
     [Purpose in one sentence.]
-    
+
     Args:
         param: [Description]
-        
+
     Returns:
         [What gets returned]
-        
+
     Raises:
         ExceptionType: [When raised]
     """
@@ -221,7 +199,8 @@ def register(self, email: str) -> User:
 
 ### Step 9: Check Type Completeness
 
-**Verify complete typing:**
+Verify complete typing. See [schema-interface-skeleton-code.md](schema-interface-skeleton-code.md) Section 1 for type annotation requirements.
+
 - [ ] No `Any` types (be specific)
 - [ ] No missing type hints
 - [ ] No missing return types
@@ -229,15 +208,6 @@ def register(self, email: str) -> User:
 - [ ] Generic types parameterized (List[int] not List)
 - [ ] Optional used for nullable
 - [ ] Union used for multiple types
-
-**Common issues:**
-```python
-❌ Missing: def process(data) -> ...
-❌ Vague: def process(data: Any) -> Any
-❌ Generic: def process(data: List) -> dict
-
-✓ Complete: def process(data: List[int]) -> Dict[str, int]
-```
 
 ### Step 10: Check Module Organization
 
@@ -248,21 +218,6 @@ def register(self, email: str) -> User:
 - [ ] No circular imports
 - [ ] Files in correct location per SYSTEM_MAP.md
 
-**Module docstring template:**
-```python
-"""
-[Module name] module.
-
-[Brief description]
-
-Classes:
-    ClassName: Purpose
-    
-Exceptions:
-    ExceptionName: When raised
-"""
-```
-
 ### Step 11: Run Quality Checks
 
 **Automated verification:**
@@ -270,7 +225,7 @@ Exceptions:
 # Run linter
 ruff check src/  # or flake8, pylint per project
 
-# Run type checker  
+# Run type checker
 mypy src/  # or pyright per project
 
 # Try importing
@@ -288,6 +243,8 @@ Use structured format (see Outputs section).
 **Review document:** `reviews/skeletons/YYYY-MM-DDTHH-MM-SS-<feature>-<STATUS>.md`
 
 Where STATUS ∈ {APPROVED, NEEDS-CHANGES}
+
+Use seconds for uniqueness: `2025-01-23T14-30-47-weather-cache-APPROVED.md`
 
 **Review template:**
 ```markdown
@@ -357,7 +314,7 @@ Where STATUS ∈ {APPROVED, NEEDS-CHANGES}
 **[NEEDS-CHANGES]** - Address critical issues above before test writing.
 ```
 
-## Common Issues & Solutions
+## Common Issues
 
 ### Issue 1: Hard-Coded Dependencies
 ```
@@ -408,32 +365,6 @@ Impact: Import errors, can't run tests
 Fix: Restructure dependencies or use TYPE_CHECKING
 ```
 
-## Best Practices
-
-**Testability is paramount:**
-- If skeleton isn't testable, TDD won't work
-- Verify dependency injection obsessively
-- Interfaces must be abstract (ABC + @abstractmethod)
-- No hard-coded dependencies allowed
-
-**Match spec exactly:**
-- Every function/class from spec present
-- Signatures identical
-- Types precise
-- Exceptions defined
-
-**Quality bar:**
-- Linter passes
-- Type checker passes
-- Imports valid
-- Consistent with project patterns
-
-**Be specific in feedback:**
-- Point to exact file:line
-- Explain impact (why it matters)
-- Provide concrete fix
-- Distinguish critical vs. minor issues
-
 ## Examples
 
 ### Example 1: APPROVED Review
@@ -483,7 +414,7 @@ Hard-coded dependencies prevent test double injection.
 - **File:** src/services/user.py:15
 - **Problem:** `self.db = PostgresDB()` in __init__
 - **Impact:** Can't inject mock for testing
-- **Fix:** 
+- **Fix:**
   ```python
   def __init__(self, repo: UserRepository):
       self.repo = repo
@@ -505,60 +436,30 @@ Hard-coded dependencies prevent test double injection.
 NEEDS-CHANGES - Address 3 critical issues above.
 ```
 
-## When to Deviate
+## When to Adjust Rigor
 
-**Approve despite minor issues when:**
-- Core contract correct
-- Testability solid
-- Minor style inconsistencies
-- Can be cleaned up during implementation
+**Reduce rigor for:**
+- Internal utilities with single consumer
+- Exploratory prototypes (marked experimental)
+- Simple bug fixes (may document inline)
 
-**Always reject when:**
-- Hard-coded dependencies
-- Missing type hints
-- Implementation logic present
-- Doesn't match spec
-- Untestable structure
+**Never skip:**
+- Vision/Scope alignment check
+- Testability verification
+- Interface specification review
 
 Goal: Ensure skeleton enables TDD, not achieve perfection.
 
-## Critical Reminders
+## Integration with Workflow
 
-**DO:**
-- Check against spec meticulously
-- Verify dependency injection (testability critical)
-- Ensure complete type hints
-- Confirm hollowness (no logic)
-- Validate interfaces are abstract
-- Run linter and type checker
-- Provide specific, actionable feedback
+**Receives:** Skeleton code on feature branch, SPEC from specs/doing/
+**Produces:** Review in reviews/skeletons/
+**Next:** Test Writer (if approved), Skeleton Writer (if needs changes)
+**Gatekeeper:** Approves before test writing begins
 
-**DON'T:**
-- Allow hard-coded dependencies
-- Accept missing types or Any types
-- Permit implementation logic
-- Skip SOLID principle check
-- Overlook missing exceptions
-- Approve without running quality checks
-- Give vague feedback
-
-**Most critical:** If skeleton isn't testable, TDD won't work. Dependency injection is non-negotiable.
-
-## Integration
-
-**Consumes:**
-- SPEC.md from `specs/todo/` (contract reference)
-- Skeleton code files (to review)
-- SYSTEM_MAP.md, GUIDELINES.md, GUIDELINES.md
-
-**Produces:**
-- Review document with APPROVED / NEEDS-CHANGES decision
-- Specific feedback for skeleton writer
-
-**Gates:**
-- Approving review allows progression to test writing
-- Feature branch creation happens after approval
-- Spec moves to `doing/` after approval
+**To understand where this role fits:** See [workflow-overview.md](workflow-overview.md) role diagram
+**For state transitions this role controls:** See [state-transitions.md](state-transitions.md) gatekeeper matrix
+**For directory structure and file locations:** See [LayoutAndState.md](LayoutAndState.md)
 
 **Workflow position:**
 ```
@@ -578,3 +479,27 @@ implementer → implementation (TDD GREEN)
 ```
 
 Your approval is the gate before active development begins.
+
+## Critical Reminders
+
+**DO:**
+- Check against spec meticulously
+- Verify dependency injection (testability critical)
+- Ensure complete type hints
+- Confirm hollowness (no logic)
+- Validate interfaces are abstract
+- Run linter and type checker
+- Provide specific, actionable feedback with file:line locations
+- Reference [schema-interface-skeleton-code.md](schema-interface-skeleton-code.md) for detailed standards
+
+**DON'T:**
+- Allow hard-coded dependencies
+- Accept missing types or Any types
+- Permit implementation logic
+- Skip SOLID principle check
+- Overlook missing exceptions
+- Approve without running quality checks
+- Give vague feedback without concrete fixes
+- Rewrite skeleton yourself (return to writer with specific feedback)
+
+**Most critical:** If skeleton isn't testable, TDD won't work. Dependency injection is non-negotiable.

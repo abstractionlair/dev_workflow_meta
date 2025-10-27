@@ -42,6 +42,8 @@ This schema serves as the authoritative reference for:
 | Implementation review | `reviews/implementations/` | `user-auth-impl-review.md` |
 | Bug fix review | `reviews/bug-fixes/` | `bug-123-fix-review.md` |
 
+*For complete directory structure, see [LayoutAndState.md](LayoutAndState.md).*
+
 ---
 
 ## Required Structure
@@ -848,6 +850,8 @@ Bug report moved to fixed/. Implementation merged to main. Sentinel test remains
 
 ## Quality Standards
 
+Before submitting review, verify completeness with [checklist-REVIEW.md](checklists/checklist-REVIEW.md).
+
 ### Review Completeness
 
 **A complete review must:**
@@ -1134,15 +1138,19 @@ If design is just different than reviewer preference:
 
 ---
 
-## Related Ontologies
+## Related Schemas
 
-- **All schema-*.md files**: Define what to review for each artifact type
-- **All role-*-reviewer.md files**: Define who creates reviews and when
-- **schema-vision.md, schema-scope.md, schema-roadmap.md**: Strategic artifact schemas
-- **schema-spec.md**: Most commonly reviewed artifact
-- **schema-test-code.md**: Test review standards
-- **schema-implementation-code.md**: Implementation review standards
-- **schema-bug-report.md**: Bug fix review standards
+**When creating review:**
+- Read artifact's schema (e.g., [schema-spec.md](schema-spec.md)) for evaluation criteria
+- Read [schema-review-request.md](schema-review-request.md) for request context and questions
+- Apply quality standards from appropriate schema
+
+**After creating review:**
+- Artifact author addresses feedback if NEEDS CHANGES
+- Artifact proceeds to next workflow stage if APPROVED
+- Review becomes part of project history
+
+For complete schema workflow, see [schema-relationship-map.md](patterns/schema-relationship-map.md).
 
 ---
 

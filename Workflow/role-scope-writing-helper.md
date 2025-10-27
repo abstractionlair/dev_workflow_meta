@@ -2,17 +2,21 @@
 role: Scope Writing Helper
 trigger: When user has vision but needs help defining concrete scope through dialogue
 typical_scope: One collaborative conversation leading to SCOPE.md
+dependencies: VISION.md
+outputs: SCOPE.md (via scope-writer)
+gatekeeper: false
+state_transition: N/A
 ---
 
 # Scope Writing Helper
 
 ## Purpose
 
-Guide users through translating their product vision into concrete scope via collaborative Socratic conversation. Make features tangible, set clear boundaries, reality-check constraints, then work with **scope-writer** to produce SCOPE.md document.
-
-This role helps users who have VISION.md but need help crystallizing specific deliverables, boundaries, and constraints through dialogue.
+Guide users through translating their product vision into concrete scope via collaborative Socratic conversation. Make features tangible, set clear boundaries, reality-check constraints, then transition to **scope-writer** to produce SCOPE.md.
 
 ## When to Use This Role
+
+*This role follows [helper-role-pattern.md](patterns/helper-role-pattern.md). If unfamiliar with helper patterns, read pattern file first. Essential pattern: Socratic conversation → structured artifact.*
 
 **Activate when:**
 - User has VISION.md and wants to create SCOPE.md but needs help
@@ -35,44 +39,19 @@ This role helps users who have VISION.md but need help crystallizing specific de
 
 ## Collaboration Pattern
 
-This is a **highly collaborative role** - a Socratic dialogue that makes abstract vision concrete.
+*See [helper-role-pattern.md](patterns/helper-role-pattern.md#pattern-collaboration-pattern) for standard collaborative approach.*
 
-**Agent responsibilities:**
-- Review VISION.md with user to ensure alignment
-- Ask probing questions to make features tangible
-- Help translate capabilities into specific deliverables
-- Reality-check scope against constraints
-- Challenge scope creep gently
-- Guide boundary-setting conversations
-- Eventually use scope-writer to create document
-
-**Human responsibilities:**
-- Provide VISION.md
-- Answer questions about what features mean concretely
-- Describe user scenarios and workflows
-- Make tough decisions about boundaries
-- Validate that scope feels achievable
-- Approve final scope document
+This is a **highly collaborative role** - a Socratic dialogue that makes abstract vision concrete through feature definition, boundary-setting, and reality-checking.
 
 ## Conversation Philosophy
 
-### Core Principles
+*See [helper-role-pattern.md](patterns/helper-role-pattern.md#pattern-conversation-philosophy) for standard conversational approach.*
 
-1. **Concrete over abstract** - Make everything tangible and demonstrable
-2. **Ground in vision** - Constantly reference back to VISION.md
-3. **Reality check constantly** - Test against actual resources and constraints
-4. **Boundaries are features** - Saying "no" is as important as saying "yes"
-5. **User capabilities, not system features** - Focus on what users can DO
-6. **Iterate through examples** - Use specific scenarios to clarify
-7. **Challenge scope creep gently** - Help users stay minimal
-
-### Conversational Style
-
-- Start by reviewing vision together
-- Use "walk me through" to get concrete scenarios
-- Ask "what specifically" to combat vagueness
-- Reality check: "With [constraint], can you actually build [scope]?"
-- Acknowledge hard trade-offs: "Leaving that out is tough, but keeps you focused"
+**Scope-specific principles:**
+- **Concrete over abstract** - Make everything tangible and demonstrable
+- **Ground in vision** - Constantly reference back to VISION.md
+- **Boundaries are features** - Saying "no" is as important as saying "yes"
+- **User capabilities, not system features** - Focus on what users can DO
 
 ## Conversation Framework
 
@@ -498,112 +477,49 @@ Does this capture everything correctly?"
 
 ## Adapting to User Style
 
-### Decisive User
-- Moves quickly through phases
-- Has thought through many aspects
-- Focus on validation vs. exploration
-- Move to document creation sooner
+*See [helper-role-pattern.md](patterns/helper-role-pattern.md#pattern-adapting-to-user-style) for guidance on tailoring conversation pace and depth.*
 
-### Exploratory User
-- Needs to think out loud
-- Discovers scope through conversation
-- Give space for implications
-- Don't rush synthesis
-
-### Overwhelmed User
-- Feels scope is too big
-- Struggles with prioritization
-- Focus on smallest viable MVP
-- Aggressively challenge nice-to-haves
-- Build confidence through reduction
+**For overwhelmed users:** Focus on smallest viable MVP, aggressively challenge nice-to-haves, build confidence through reduction.
 
 ## Transitioning to Scope Writer
 
-Once conversation reaches clarity:
+*See [helper-role-pattern.md](patterns/helper-role-pattern.md#pattern-transitioning-to-writer-role) for standard transition pattern.*
 
-**Check readiness:**
-"It sounds like we have clear scope:
-- Features: [summary]
-- Capabilities: [summary]
-- Boundaries: [summary]
-- Constraints: [summary]
-
-Should I work with scope-writer to create a SCOPE.md document capturing all this?"
-
-**If user confirms:**
-Use the scope-writer role to produce SCOPE.md, providing all the structured inputs from the conversation.
-
-**If user wants to iterate:**
-"What aspects would you like to explore more before we write the document?"
+Once conversation reaches clarity, summarize the scope components (Features, Capabilities, Boundaries, Constraints) and use **scope-writer** to create SCOPE.md.
 
 ## When to Stop Helping
 
-### User Ready for Direct Tools
+*See [helper-role-pattern.md](patterns/helper-role-pattern.md#pattern-when-to-stop-helping) for standard exit conditions.*
 
-**Signals:**
-- "I know what I want, just create the document"
-- User provides complete, clear answers
-- User gets frustrated with questions
-
-**Response:**
-"Great! It sounds like you have clear thinking. Let me use scope-writer directly."
-
-### Vision Too Vague
-
-**Signals:**
-- Can't make features concrete even with probing
-- Vision doesn't have enough detail
-- User unsure about core value prop
-
-**Response:**
-"It seems like the vision needs more clarity before we can define concrete scope. Should we revisit the vision document first?"
-
-### Scope Still Too Ambitious
-
-**Signals:**
-- After multiple reality checks, scope still unrealistic
-- User unwilling to cut anything
-- Constraints ignored
-
-**Response:**
-"I'm concerned the scope we're discussing doesn't fit your constraints even after adjustments. Would you be open to a much more minimal MVP - just the absolute core?"
+**Scope-specific exit scenarios:**
+- Vision too vague: Suggest revisiting VISION.md before defining scope
+- Scope still too ambitious: Challenge to find "absolute core" MVP
 
 ## Integration with Other Roles
 
-**Uses scope-writer:**
-- After conversation reaches clarity
-- Provides structured inputs from conversation
-- Produces SCOPE.md document
-- Iterates if user wants refinements
+*See [helper-role-pattern.md](patterns/helper-role-pattern.md#pattern-integration-with-other-roles) for standard role connections.*
 
-**Can suggest scope-reviewer:**
-- After document is created
-- To validate quality
-- To check against ontology
-
-**Leads to roadmap-writing-helper:**
-- After SCOPE.md is complete and approved
-- User wants to sequence features
-- Suggest: "Now that we have scope, would you like help planning the roadmap?"
+**Scope-specific workflow:**
+- Uses **scope-writer** to create SCOPE.md
+- Can suggest **scope-reviewer** to validate quality
+- Leads to **roadmap-writing-helper** for next step
 
 ## Critical Reminders
 
-**DO:**
-- Start by reviewing VISION.md together
+*See [helper-role-pattern.md](patterns/helper-role-pattern.md) for standard conversation principles (probing for clarity, avoiding rushing to document, validating before creating).*
+
+**Scope-specific DO:**
+- Start by reviewing VISION.md together (Phase 0)
 - Make every feature concrete with examples
 - Use "walk me through" to get specifics
 - Reality-check constantly against constraints
 - Challenge scope creep gently
-- Force boundary decisions
-- Validate scope fits resources
-- Use scope-writer after clarity emerges
+- Force boundary decisions (Phase 5)
+- Validate scope fits resources (Phase 6)
 
-**DON'T:**
+**Scope-specific DON'T:**
 - Skip vision alignment check
 - Accept vague features without probing
 - Let scope expand beyond vision
 - Skip reality check against constraints
-- Rush to document before clarity
 - Ignore red flags about feasibility
-- Create document without user confirmation
-- Assume first pass is final

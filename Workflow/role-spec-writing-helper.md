@@ -2,17 +2,21 @@
 role: Specification Writing Helper
 trigger: When user has roadmap feature but needs help defining detailed spec through dialogue
 typical_scope: One collaborative conversation leading to SPEC.md
+dependencies: ROADMAP.md (specific feature)
+outputs: SPEC.md (via spec-writer)
+gatekeeper: false
+state_transition: N/A
 ---
 
 # Specification Writing Helper
 
 ## Purpose
 
-Guide users through translating roadmap features into detailed, testable specifications via collaborative Socratic conversation. Explore acceptance criteria, interface contracts, edge cases, and scenarios, then work with **spec-writer** to produce SPEC.md document.
-
-This role helps users who have a ROADMAP.md feature but need help defining acceptance criteria, interface contracts, and scenarios through dialogue.
+Guide users through translating roadmap features into detailed, testable specifications via collaborative Socratic conversation. Explore acceptance criteria, interface contracts, edge cases, and scenarios, then transition to **spec-writer** to produce SPEC.md.
 
 ## When to Use This Role
+
+*This role follows [helper-role-pattern.md](patterns/helper-role-pattern.md). If unfamiliar with helper patterns, read pattern file first. Essential pattern: Socratic conversation → structured artifact.*
 
 **Activate when:**
 - User has ROADMAP.md feature and wants to create SPEC.md but needs help
@@ -35,45 +39,21 @@ This role helps users who have a ROADMAP.md feature but need help defining accep
 
 ## Collaboration Pattern
 
-This is a **highly collaborative role** - a Socratic dialogue that makes features concrete and testable.
+*See [helper-role-pattern.md](patterns/helper-role-pattern.md#pattern-collaboration-pattern) for standard collaborative approach.*
 
-**Agent responsibilities:**
-- Review roadmap feature with user
-- Ask probing questions about behavior and boundaries
-- Help define observable, testable requirements
-- Guide interface contract definition
-- Explore edge cases and error conditions
-- Create concrete scenarios in Given-When-Then format
-- Eventually use spec-writer to create document
-
-**Human responsibilities:**
-- Provide ROADMAP.md feature
-- Answer questions about desired behavior
-- Describe scenarios and examples
-- Make decisions about error handling
-- Validate that specification is complete
-- Approve final spec document
+This is a **highly collaborative role** - a Socratic dialogue that makes features testable through interface contracts, acceptance criteria, scenarios, and edge case exploration.
 
 ## Conversation Philosophy
 
-### Core Principles
+*See [helper-role-pattern.md](patterns/helper-role-pattern.md#pattern-conversation-philosophy) for standard conversational approach.*
 
-1. **Behavior, not implementation** - Focus on WHAT, not HOW
-2. **Testability first** - Every requirement must be verifiable
-3. **Scenarios ground abstractions** - Use concrete examples
-4. **Error cases equal importance** - Failures matter as much as success
-5. **Boundaries reveal edge cases** - Explore min/max/null/empty
-6. **Observable outcomes** - Specify what you can see/measure
-7. **Interface contracts enable TDD** - Clear signatures drive skeleton creation
-
-### Conversational Style
-
-- Start by reviewing roadmap feature together
-- Use "walk me through" to get concrete scenarios
-- Ask "what could go wrong?" to find error cases
-- Challenge vagueness: "What specifically do you mean by [term]?"
-- Test observability: "How would you demo this?"
-- Reality check: "Can you write a test for that?"
+**Spec-specific principles:**
+- **Behavior, not implementation** - Focus on WHAT, not HOW
+- **Testability first** - Every requirement must be verifiable
+- **Scenarios ground abstractions** - Use concrete examples
+- **Error cases equal importance** - Failures matter as much as success
+- **Observable outcomes** - Specify what you can see/measure
+- **Interface contracts enable TDD** - Clear signatures drive skeleton creation
 
 ## Conversation Framework
 
@@ -560,98 +540,45 @@ Sound right?"
 
 ## Transitioning to Spec Writer
 
-Once conversation reaches clarity:
+*See [helper-role-pattern.md](patterns/helper-role-pattern.md#pattern-transitioning-to-writer-role) for standard transition pattern.*
 
-**Check readiness:**
-"Great! We have clear specification:
-- Observable behaviors: [summary]
-- Interface contracts: [summary]
-- Acceptance criteria: [count] criteria
-- Scenarios: [count] scenarios
-- Dependencies and constraints documented
-
-Should I work with spec-writer to create SPEC.md capturing all this?"
-
-**If user confirms:**
-Use the spec-writer role to produce SPEC.md, providing all the structured inputs from the conversation.
-
-**If user wants to iterate:**
-"What aspects would you like to explore more before we write the document?"
+Once conversation reaches clarity, summarize the specification (Behaviors, Interfaces, Acceptance Criteria, Scenarios, Dependencies) and use **spec-writer** to create SPEC.md.
 
 ## Output Quality Checklist
 
-Before transitioning to spec-writer, verify:
-
-**Observable behavior:**
-- [ ] 3-5 behaviors defined
-- [ ] External, user-facing
-- [ ] No implementation details
-- [ ] Demonstrable
-
-**Interface contracts:**
-- [ ] All functions/classes specified
-- [ ] Complete type signatures
-- [ ] Exceptions documented
-- [ ] Pre/postconditions stated
-
-**Acceptance criteria:**
-- [ ] 10-20 criteria total
-- [ ] Grouped by category
-- [ ] Each specific and testable
-- [ ] Each independent
-
-**Scenarios:**
-- [ ] 3-7 scenarios minimum
-- [ ] Given-When-Then format
-- [ ] Concrete values
-- [ ] Cover major criteria
-
-**Dependencies:**
-- [ ] All dependencies identified
-- [ ] Constraints documented
-- [ ] Performance requirements stated
-
-**Testing strategy:**
-- [ ] Test categories defined
-- [ ] Mocking approach clear
-- [ ] Fixtures identified
+Before transitioning to spec-writer, verify all elements from [schema-spec.md](schema-spec.md) are defined:
+- Observable behaviors (3-5, external, demonstrable)
+- Interface contracts (complete signatures, exceptions, pre/postconditions)
+- Acceptance criteria (10-20, grouped, testable, independent)
+- Scenarios (3-7, Given-When-Then, concrete values)
+- Dependencies and constraints
+- Testing strategy
 
 ## Integration with Other Roles
 
-**Uses spec-writer:**
-- After conversation reaches clarity
-- Provides structured inputs from conversation
-- Produces SPEC.md document
-- Iterates if user wants refinements
+*See [helper-role-pattern.md](patterns/helper-role-pattern.md#pattern-integration-with-other-roles) for standard role connections.*
 
-**Can suggest spec-reviewer:**
-- After document is created
-- To validate quality
-- To check against schema-spec.md
-
-**Leads to skeleton-writer:**
-- After SPEC.md is complete and approved
-- User ready to create interface skeletons
-- Suggest: "Now that we have spec, should we create the interface skeleton?"
+**Spec-specific workflow:**
+- Uses **spec-writer** to create SPEC.md
+- Can suggest **spec-reviewer** to validate quality
+- Leads to **skeleton-writer** to create interface skeletons
 
 ## Critical Reminders
 
-**DO:**
-- Start by reviewing roadmap feature together
-- Focus on observable behavior (WHAT, not HOW)
-- Define complete interface contracts with types
-- Enumerate 10-20 testable acceptance criteria
-- Create 3-7 concrete scenarios in Given-When-Then format
-- Explore error cases as thoroughly as happy path
-- Use actual values in scenarios
-- Use spec-writer after clarity emerges
+*See [helper-role-pattern.md](patterns/helper-role-pattern.md) for standard conversation principles (concrete examples, avoiding rushing to document, validating before creating).*
 
-**DON'T:**
+**Spec-specific DO:**
+- Start by reviewing roadmap feature together (Phase 0)
+- Focus on observable behavior (WHAT, not HOW) - Phase 1
+- Define complete interface contracts with types (Phase 3)
+- Enumerate 10-20 testable acceptance criteria (Phase 4)
+- Create 3-7 concrete scenarios in Given-When-Then format (Phase 5)
+- Explore error cases as thoroughly as happy path
+- Use actual values in scenarios (not abstractions)
+
+**Spec-specific DON'T:**
 - Let implementation details leak into behavior
 - Accept vague criteria ("works well")
 - Skip error cases
-- Use abstract values in scenarios
-- Skip interface contracts
-- Ignore dependencies
-- Create document without user confirmation
-- Assume first pass is final
+- Use abstract values in scenarios ("a user")
+- Skip interface contracts or dependencies

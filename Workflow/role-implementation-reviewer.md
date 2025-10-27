@@ -2,13 +2,19 @@
 role: Implementation Reviewer
 trigger: After implementation complete and tests pass (GREEN)
 typical_scope: One feature implementation
+dependencies: [SPEC from specs/doing/, implementation files, test files, SYSTEM_MAP.md, GUIDELINES.md, schema-implementation-code.md, bugs/fixed/]
+outputs: [reviews/implementations/TIMESTAMP-FEATURE-STATUS.md]
+gatekeeper: true
+state_transition: doing → done (moves spec on approval)
 ---
 
 # Implementation Reviewer
 
+*Structure reference: [role-file-structure.md](patterns/role-file-structure.md)*
+
 ## Purpose
 
-Review implementations after tests pass (TDD GREEN/REFACTOR phase) to verify spec compliance, code quality, security, and maintainability before merge. Your approval is the final quality gate. Passing tests don't guarantee good code - reviews catch what tests miss.
+Review implementations after tests pass (TDD GREEN/REFACTOR phase) to verify spec compliance, code quality, security, and maintainability before merge. Approval is the final quality gate. Passing tests don't guarantee good code - reviews catch what tests miss.
 
 ## Collaboration Pattern
 
@@ -40,9 +46,9 @@ This is an **independent role** - work separately from implementer.
 - SPEC from `specs/doing/`
 - Skeleton code (original interfaces)
 - SYSTEM_MAP.md - Architecture patterns
-- GUIDELINES.md - Code conventions
-- GUIDELINES.md - Architectural constraints
-- Sentinel tests in tests/regression/
+- GUIDELINES.md - Code conventions and architectural constraints
+- [schema-implementation-code.md](schema-implementation-code.md) - Implementation standards
+- bugs/fixed/ - Sentinel tests in tests/regression/
 
 ## Process
 
@@ -79,12 +85,14 @@ git diff origin/main tests/test_feature.py
 
 ### Step 3: Verify Spec Compliance
 
-**For each acceptance criterion:**
+For each acceptance criterion:
 - [ ] Corresponding implementation exists
 - [ ] Behavior matches specification
 - [ ] All edge cases handled
 - [ ] All error conditions handled
 - [ ] Performance requirements met (if specified)
+
+See [schema-implementation-code.md](schema-implementation-code.md) for complete implementation standards.
 
 **Check method:**
 1. Read spec requirement
@@ -92,27 +100,6 @@ git diff origin/main tests/test_feature.py
 3. Verify behavior matches
 4. Check test exists and passes
 5. Flag any discrepancies
-
-**Example verification:**
-
-**Spec says:**
-```
-Register user:
-- Validates email format
-- Hashes password
-- Saves to repository
-- Sends welcome email
-- Raises DuplicateEmailError if email exists
-```
-
-**Check implementation:**
-```python
-✓ Email validation present
-✓ Password hashing used
-✓ Repository save called
-✓ Welcome email sent
-✓ DuplicateEmailError raised
-```
 
 ### Step 4: Check Code Quality
 
@@ -143,27 +130,17 @@ def calculate_discount(price: float) -> float:
 
 ### Step 5: Verify Architectural Adherence
 
-**Check against GUIDELINES.md:**
+Check against GUIDELINES.md and SYSTEM_MAP.md. See [schema-implementation-code.md](schema-implementation-code.md) for architectural standards.
+
 - [ ] No forbidden imports
 - [ ] Layer boundaries respected
 - [ ] No global state
 - [ ] Dependency injection used
 - [ ] No hard-coded dependencies
-
-**Check against GUIDELINES.md:**
 - [ ] Follows naming conventions
 - [ ] Uses standard utilities
 - [ ] Matches organizational patterns
 - [ ] Consistent with similar features
-
-**Red flags:**
-```python
-# ❌ Violates GUIDELINES.md
-from internal.database import PostgresConnection  # Direct DB import in service
-
-# ❌ Ignores GUIDELINES.md
-def validateEmail(email):  # Should be validate_email per conventions
-```
 
 ### Step 6: Security Review
 
@@ -223,17 +200,6 @@ except PaymentError as e:
 - [ ] No unnecessary loops
 - [ ] Database indexes considered (if applicable)
 
-**Example issues:**
-```python
-# ❌ N+1 query problem
-for user in users:
-    user.orders = db.query(f"SELECT * FROM orders WHERE user_id = {user.id}")
-
-# ✓ Batch query
-user_ids = [u.id for u in users]
-orders = db.query("SELECT * FROM orders WHERE user_id IN (?)", user_ids)
-```
-
 ### Step 9: Check for Duplication
 
 **Verify:**
@@ -242,30 +208,7 @@ orders = db.query("SELECT * FROM orders WHERE user_id IN (?)", user_ids)
 - [ ] Uses existing utilities
 - [ ] DRY principle followed
 
-**Example issues:**
-```python
-# ❌ Duplicated validation
-def register(email, password):
-    if not email or "@" not in email:
-        raise ValidationError("Invalid email")
-    # ...
-
-def update_email(user, new_email):
-    if not new_email or "@" not in new_email:  # Duplicated
-        raise ValidationError("Invalid email")
-    # ...
-
-# ✓ Extracted utility
-def validate_email(email: str) -> None:
-    if not email or "@" not in email:
-        raise ValidationError("Invalid email")
-
-def register(email, password):
-    validate_email(email)
-    # ...
-```
-
-### Step 10: Check for Bug-Related Updates
+### Step 10: Check Bug-Related Updates
 
 **Check implementation avoids past bugs:**
 - [ ] Known anti-patterns not used
@@ -315,7 +258,7 @@ Where STATUS ∈ {APPROVED, NEEDS-CHANGES}
 
 ## Architecture
 - ✓/❌ Follows GUIDELINES.md
-- ✓/❌ Respects GUIDELINES.md
+- ✓/❌ Respects SYSTEM_MAP.md
 - ✓/❌ Uses dependency injection
 - ✓/❌ Layer boundaries respected
 
@@ -349,7 +292,7 @@ Where STATUS ∈ {APPROVED, NEEDS-CHANGES}
 **[NEEDS-CHANGES]** - Address critical issues above before merge
 ```
 
-## Common Issues & Solutions
+## Common Issues
 
 ### Issue 1: Spec Requirement Missing
 ```
@@ -392,30 +335,6 @@ Problem: Validation logic repeated in 3 places
 Impact: Hard to maintain, violates DRY
 Fix: Extract to shared utility function
 ```
-
-## Best Practices
-
-**Be specific:**
-- Point to exact file:line
-- Explain impact clearly
-- Provide concrete fix
-- Show example code
-
-**Prioritize issues:**
-- Critical: Must fix (blocks merge)
-- Important: Should fix (quality)
-- Minor: Nice to have (polish)
-
-**Balance rigor with pragmatism:**
-- Don't nitpick formatting (linter handles it)
-- Focus on correctness and maintainability
-- Allow different approaches if valid
-- Recognize good solutions
-
-**Positive reinforcement:**
-- Note clean code
-- Acknowledge good patterns
-- Highlight clever solutions
 
 ## Examples
 
@@ -492,18 +411,8 @@ Tests passing but implementation needs fixes before merge.
       self.account_repo = account_repo
   ```
 
-### Issue 3: Missing Error Handling
-- **Location:** src/services/payment.py:62
-- **Problem:** No handling for insufficient funds
-- **Impact:** Spec requires InsufficientFundsError
-- **Fix:** Add balance check before transfer
-  ```python
-  if sender.balance < amount:
-      raise InsufficientFundsError(f"Balance {sender.balance} < {amount}")
-  ```
-
 ## Decision
-NEEDS-CHANGES - Fix 3 critical issues above before merge
+NEEDS-CHANGES - Fix 2 critical issues above before merge
 ```
 
 ## Bug Fix Review Process (Alternative Workflow)
@@ -517,22 +426,13 @@ Bug fixes are simpler than feature implementations - no spec, no skeleton, light
 ### Process
 
 #### Step 1: Read Bug Report
-
-Read `bugs/fixing/<bug>.md` thoroughly:
-- Understand observed vs expected behavior
-- Check steps to reproduce
-- Note severity and impact
+Read `bugs/fixing/<bug>.md` thoroughly to understand observed vs expected behavior, reproduction steps, and severity.
 
 #### Step 2: Verify Root Cause
-
-Check Root Cause section in bug report:
-- [ ] Makes sense given symptoms
-- [ ] Points to specific code location
-- [ ] Explains mechanism (not just symptoms)
+Check Root Cause section makes sense, points to specific code location, and explains mechanism (not just symptoms).
 
 #### Step 3: Review Fix Code
-
-Standard code review, focused on fix:
+Standard code review focused on fix:
 - [ ] Fix addresses root cause directly
 - [ ] Minimal changes (no scope creep)
 - [ ] Follows GUIDELINES.md
@@ -543,138 +443,42 @@ Standard code review, focused on fix:
 **Purpose:** Sentinel tests prevent regression. They MUST fail on old code and pass on new code, proving they catch the bug.
 
 **Sentinel test requirements:**
-- [ ] Test has detailed comment explaining bug (bug number, description, reproduction steps)
+- [ ] Test has detailed comment explaining bug (number, description, reproduction)
 - [ ] Test is specific to THIS bug (not generic smoke test)
-- [ ] Test is simple and focused (tests one thing)
+- [ ] Test is simple and focused
 - [ ] Test name references bug number (`test_bug_123_description`)
 
-#### Verify Test FAILS on Old Code
-
-**CRITICAL:** Must verify sentinel test would have caught the bug before fix.
-
-**Verification steps:**
-
-**Step 1: Identify pre-fix commit**
+**Verify Test FAILS on Old Code:**
 ```bash
-# Find the commit that introduced the fix
-git log --oneline --grep="BUG-123" -n 5
+# Find parent of fix commit
+FIX_COMMIT=$(git log --oneline --grep="BUG-123" -n 1 | awk '{print $1}')
+PARENT_COMMIT=$(git rev-parse $FIX_COMMIT^)
 
-# Or find commits in bugfix branch
-git log --oneline main..bugfix/BUG-123
-
-# Note the commit BEFORE the fix (parent of fix commit)
-git log --oneline -n 2 <fix-commit>
-# Example output:
-# abc1234 Fix BUG-123: Handle empty email validation  <-- fix commit
-# def5678 Add user registration feature               <-- parent (before fix)
-```
-
-**Step 2: Checkout pre-fix code**
-```bash
-# Checkout commit before fix
-git checkout <parent-commit>
-
-# Example:
-git checkout def5678
-```
-
-**Step 3: Run sentinel test (should FAIL)**
-```bash
-# Python
+# Checkout pre-fix code and run sentinel test (should FAIL)
+git checkout $PARENT_COMMIT
 pytest tests/regression/test_bug_123.py -v
-
-# TypeScript
-npm test tests/regression/bug-123.test.ts
-
-# Expected output: FAILED
-# ❌ test_bug_123_empty_email_validation FAILED
-```
-
-**Step 4: Verify failure is for correct reason**
-```bash
-# Check failure output carefully
-
-# Good failure (catches bug):
-# AssertionError: assert is_valid == False
-# Expected empty email to be invalid, but was valid
-
-# Bad failure (test broken):
-# ImportError: cannot import validate_email
-# NameError: 'validator' is not defined
+# Expected: FAILED with specific assertion error
 ```
 
 **If test PASSES on old code:**
 ```
-❌ CRITICAL: Sentinel test passes on pre-fix code
-
-This means test does NOT catch the bug. Possible causes:
-1. Test doesn't trigger bug condition
-2. Test assertion too weak
-3. Test mocks away the bug
-4. Wrong commit checked out
-
-MUST FIX before approving.
-
-Example fix:
-# Current (doesn't catch bug):
-def test_bug_123():
-    result = validate_email("")
-    assert result is not None  # Too weak - passes even with bug
-
-# Fixed (catches bug):
-def test_bug_123_empty_email_validation():
-    is_valid, error = validate_email("")
-    assert is_valid is False
-    assert error == "Email cannot be empty"
+❌ CRITICAL: Sentinel test doesn't catch the bug
+   Possible causes:
+   1. Test doesn't trigger bug condition
+   2. Test assertion too weak
+   3. Test mocks away the bug
+   Fix: Update test to specifically catch this bug
 ```
 
-**Step 5: Return to fix commit**
+**Verify Test PASSES on New Code:**
 ```bash
-git checkout <bugfix-branch>
-# or
-git checkout -  # if was last checkout
-```
-
-#### Verify Test PASSES on New Code
-
-**Verification steps:**
-
-**Step 1: Run sentinel test with fix (should PASS)**
-```bash
-# Python
+# Checkout fix commit and run sentinel test (should PASS)
+git checkout $FIX_COMMIT
 pytest tests/regression/test_bug_123.py -v
-
-# TypeScript
-npm test tests/regression/bug-123.test.ts
-
-# Expected output: PASSED
-# ✓ test_bug_123_empty_email_validation PASSED
+# Expected: PASSED
 ```
 
-**If test FAILS on new code:**
-```
-❌ CRITICAL: Sentinel test fails with fix applied
-
-Fix is incomplete or test incorrect. Investigate:
-1. Does fix actually solve the bug?
-2. Is test assertion correct?
-3. Did fix introduce new bug?
-
-Example:
-# Test fails:
-test_bug_123_empty_email_validation FAILED
-AssertionError: assert is_valid == False
-Expected: is_valid = False, error = "Email cannot be empty"
-Actual: is_valid = False, error = "Invalid email format"
-
-Issue: Fix returns wrong error message. Update fix.
-```
-
-#### Verify Test Specificity
-
-**Sentinel test MUST be specific to bug, not generic smoke test.**
-
-**Good sentinel test (specific):**
+**Good sentinel test example:**
 ```python
 def test_bug_123_empty_email_validation():
     """
@@ -699,212 +503,26 @@ def test_bug_123_empty_email_validation():
     assert error == "Email cannot be empty", f"Expected specific error, got: {error}"
 ```
 
-**Bad sentinel test (too generic):**
-```python
-def test_bug_123():
-    """Bug 123 fix."""  # ❌ No explanation
-
-    # ❌ Too generic - this is a smoke test, not sentinel
-    result = validate_email("user@example.com")
-    assert result is not None
-
-    # Won't catch the BUG-123 regression (empty email)
-```
-
-**Specificity checklist:**
-- [ ] Test directly exercises bug condition (empty email, not valid email)
-- [ ] Test assertions verify EXACT bug symptoms
-- [ ] Test would catch ONLY this bug (not other issues)
-- [ ] Test comment explains bug in detail
-- [ ] Test name describes specific bug scenario
-
-#### Verification Command Summary
-
-**Complete verification sequence:**
-```bash
-# 1. Find parent of fix commit
-FIX_COMMIT=$(git log --oneline --grep="BUG-123" -n 1 | awk '{print $1}')
-PARENT_COMMIT=$(git log --oneline -n 2 $FIX_COMMIT | tail -1 | awk '{print $1}')
-
-echo "Fix commit: $FIX_COMMIT"
-echo "Parent (before fix): $PARENT_COMMIT"
-
-# 2. Verify test FAILS on old code
-echo "=== Testing on OLD code (should FAIL) ==="
-git checkout $PARENT_COMMIT
-pytest tests/regression/test_bug_123.py -v
-# Expect: FAILED
-
-# 3. Verify test PASSES on new code
-echo "=== Testing on NEW code (should PASS) ==="
-git checkout $FIX_COMMIT
-pytest tests/regression/test_bug_123.py -v
-# Expect: PASSED
-
-# 4. Return to review branch
-git checkout <bugfix-branch>
-```
-
-**Automated verification script** (optional):
-```bash
-#!/bin/bash
-# verify-sentinel.sh BUG-123 test_bug_123
-
-BUG_ID=$1
-TEST_NAME=$2
-
-FIX_COMMIT=$(git log --oneline --grep="$BUG_ID" -n 1 | awk '{print $1}')
-PARENT_COMMIT=$(git rev-parse $FIX_COMMIT^)
-
-echo "Verifying sentinel test for $BUG_ID"
-echo "Fix: $FIX_COMMIT | Parent: $PARENT_COMMIT"
-
-# Test on old code
-git checkout $PARENT_COMMIT 2>/dev/null
-echo "Testing on OLD code..."
-pytest tests/regression/$TEST_NAME.py -v > /tmp/old_test.log 2>&1
-
-if grep -q "PASSED" /tmp/old_test.log; then
-    echo "❌ FAIL: Test PASSED on old code (should FAIL)"
-    git checkout -
-    exit 1
-fi
-
-# Test on new code
-git checkout $FIX_COMMIT 2>/dev/null
-echo "Testing on NEW code..."
-pytest tests/regression/$TEST_NAME.py -v > /tmp/new_test.log 2>&1
-
-if grep -q "FAILED" /tmp/new_test.log; then
-    echo "❌ FAIL: Test FAILED on new code (should PASS)"
-    git checkout -
-    exit 1
-fi
-
-git checkout -
-echo "✓ Sentinel test verified successfully"
-```
-
-#### Common Sentinel Test Issues
-
-**Issue 1: Test too generic**
-```
-❌ Problem: test_user_validation() tests general validation
-   Impact: Won't catch specific BUG-123 (empty email)
-   Fix: Make test specific to empty email case
-```
-
-**Issue 2: Test mocks away bug**
-```
-❌ Problem: Test mocks validate_email()
-   Impact: Never exercises actual buggy code
-   Fix: Remove mock, test real function
-```
-
-**Issue 3: Weak assertions**
-```
-❌ Problem: assert result is not None
-   Impact: Passes even with bug present
-   Fix: assert result.is_valid is False
-```
-
-**Issue 4: Wrong test location**
-```
-❌ Problem: Sentinel in tests/unit/ instead of tests/regression/
-   Impact: Organizational issue, harder to track
-   Fix: Move to tests/regression/test_bug_123.py
-```
-
-**Issue 5: Test doesn't reproduce bug**
-```
-❌ Problem: Test uses valid email, bug was about empty email
-   Impact: Doesn't catch regression
-   Fix: Update test to use empty email (actual bug condition)
-```
-
-#### Step 5: Check GUIDELINES.md Updates (if any)
-
-If GUIDELINES.md updated:
-- [ ] Update appropriate (bug reveals pattern)
-- [ ] Example included
-- [ ] Explains why pattern matters
-
-#### Step 6: Verify Bug Report Completeness
-
-Bug report should have:
-- [ ] Root Cause section
-- [ ] Fix section with commit reference
-- [ ] Sentinel test location
-
-#### Step 7: Decide and Document
+#### Step 5: Decide and Document
 
 **If APPROVED:**
-
-1. Update bug report:
-   ```yaml
-   status: fixed
-   fixed: YYYY-MM-DD
-   ```
-
+1. Update bug report: `status: fixed, fixed: YYYY-MM-DD`
 2. Create review: `reviews/bug-fixes/YYYY-MM-DDTHH-MM-SS-<bug>-APPROVED.md`
-
-3. Move bug report:
-   ```bash
-   git mv bugs/fixing/<bug>.md bugs/fixed/<bug>.md
-   ```
+3. Move bug report: `git mv bugs/fixing/<bug>.md bugs/fixed/<bug>.md`
 
 **If NEEDS-CHANGES:**
-
 Create review with specific feedback, leave in `bugs/fixing/`.
 
-## Critical Reminders
+## Integration with Workflow
 
-**DO:**
-- Verify all tests pass first
-- Check test integrity (no modifications)
-- Verify spec compliance thoroughly
-- Check architectural adherence
-- Review security carefully
-- Provide specific, actionable feedback
-- Balance rigor with pragmatism
-- Note positive aspects
+**Receives:** Implementation (all tests GREEN) on feature branch, SPEC from specs/doing/
+**Produces:** Review in reviews/implementations/, merges feature branch, moves spec to specs/done/
+**Next:** Platform Lead (if living docs updated), next feature planning
+**Gatekeeper:** Controls merge to main and spec transition from doing → done
 
-**DON'T:**
-- Approve if tests failing
-- Approve if tests weakened
-- Allow architectural violations
-- Ignore security issues
-- Give vague feedback
-- Nitpick minor style issues
-- Block on personal preferences
-
-**Most critical:** You are the final quality gate. Tests passing is necessary but not sufficient. Ensure code is correct, secure, and maintainable.
-
-**Gatekeeper responsibility:** After APPROVED, move spec from `doing/` to `done/`:
-```bash
-git mv specs/doing/feature.md specs/done/feature.md
-git commit -m "feat: complete feature implementation
-
-Implementation reviewed and approved.
-All acceptance criteria met."
-```
-
-## Integration
-
-**Consumes:**
-- Implementation code (tests GREEN)
-- Tests (should be unmodified)
-- SPEC from `specs/doing/`
-- Architecture docs
-
-**Produces:**
-- Review with APPROVED / NEEDS-CHANGES
-- Specific feedback
-
-**Gates:**
-- Approval required for merge
-- Moves spec from `doing/` to `done/`
-- Final quality gate before production
+**To understand where this role fits:** See [workflow-overview.md](workflow-overview.md) role diagram
+**For state transitions this role controls:** See [state-transitions.md](state-transitions.md) gatekeeper matrix
+**For directory structure and file locations:** See [LayoutAndState.md](LayoutAndState.md)
 
 **Workflow position:**
 ```
@@ -920,3 +538,38 @@ platform-lead updates docs
 ```
 
 You are the final quality gate. Ensure everything is correct before merge.
+
+**Gatekeeper responsibility:** After APPROVED, move spec from `doing/` to `done/`:
+```bash
+git mv specs/doing/feature.md specs/done/feature.md
+git commit -m "feat: complete feature implementation
+
+Implementation reviewed and approved.
+All acceptance criteria met."
+```
+
+## Critical Reminders
+
+**DO:**
+- Verify all tests pass first
+- Check test integrity (no modifications)
+- Verify spec compliance thoroughly
+- Check architectural adherence to GUIDELINES.md and SYSTEM_MAP.md
+- Review security carefully (input validation, no injection, secrets protected)
+- Provide specific, actionable feedback with file:line locations
+- Balance rigor with pragmatism
+- Note positive aspects
+- Reference [schema-implementation-code.md](schema-implementation-code.md) for standards
+- For bug fixes: Verify sentinel test FAILS on old code and PASSES on new code
+
+**DON'T:**
+- Approve if tests failing
+- Approve if tests weakened
+- Allow architectural violations
+- Ignore security issues
+- Give vague feedback without concrete examples
+- Nitpick minor style issues (linter handles it)
+- Block on personal preferences
+- For bug fixes: Approve sentinel test that doesn't catch the bug
+
+**Most critical:** You are the final quality gate. Tests passing is necessary but not sufficient. Ensure code is correct, secure, and maintainable. For bug fixes, sentinel test MUST prove it catches the regression.

@@ -1238,6 +1238,8 @@ Process for review requests:
    Status: Archived
 ```
 
+*For complete directory structure and lifecycle details, see [LayoutAndState.md](LayoutAndState.md).*
+
 ### Directory Structure
 
 ```
@@ -1269,30 +1271,28 @@ reviews/
 
 ---
 
-## Relationship to Other Schemas
+## Related Schemas
 
-**schema-review-request.md** (this document) defines inputs to review process.
-**schema-review.md** defines outputs from review process.
+**When creating this artifact:**
+- Artifact already created (SPEC, ROADMAP, etc.)
+- Reference artifact's schema for quality criteria
+- Formulate specific questions or concerns for reviewer
 
-Together, they formalize the complete review workflow:
+**After creating this artifact:**
+- Reviewer reads review request as input
+- Reviewer creates [schema-review.md](schema-review.md) as output
+- Writer addresses feedback or artifact proceeds if approved
 
+**Review workflow:**
 ```
-Writer creates artifact
+Writer creates artifact → Writer creates REVIEW REQUEST (this schema)
      ↓
-Writer creates REVIEW REQUEST (this schema)
-     ↓
-Reviewer reads review request
-     ↓
-Reviewer gathers context (documents listed in request)
-     ↓
-Reviewer evaluates artifact
-     ↓
-Reviewer creates REVIEW (schema-review.md)
+Reviewer reads review request → Reviewer creates REVIEW (schema-review.md)
      ↓
 Writer addresses feedback or artifact approved
 ```
 
-**Key principle:** Review requests formalize what reviewers need; reviews formalize what writers get back.
+For complete schema workflow, see [schema-relationship-map.md](patterns/schema-relationship-map.md).
 
 ---
 

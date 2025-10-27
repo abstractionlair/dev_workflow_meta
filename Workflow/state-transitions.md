@@ -1,6 +1,11 @@
 # State Transitions
 
-This document defines **who moves what when** in the development workflow. For high-level overview, see [workflow-overview.md](workflow-overview.md).
+This document is the **single source of truth** for state transitions in the development workflow. It defines **who moves what when** with detailed preconditions, postconditions, and git commands.
+
+For different perspectives:
+- **High-level overview**: [workflow-overview.md](workflow-overview.md) - Mermaid diagrams and principles
+- **Quick reference**: [LayoutAndState.md](LayoutAndState.md#state-transition-summary) - Directory structure and summary table
+- **Ownership matrix**: [Workflow.md](Workflow.md#artifact-ownership-matrix) - Who creates, approves, and moves artifacts
 
 ## Artifact State Machine
 
@@ -24,12 +29,12 @@ proposed/ → todo/ → doing/ → done/
 Bug reports move through three states from discovery to fix:
 
 ```
-reported/ → fixing/ → fixed/
+to_fix/ → fixing/ → fixed/
 ```
 
 | State | Directory | Meaning | Who Owns | Next Transition |
 |-------|-----------|---------|----------|-----------------|
-| **Reported** | `bugs/reported/` | Bug identified, needs investigation | Bug Reporter | Bug Fixer moves to `fixing/` when starting work |
+| **Reported** | `bugs/to_fix/` | Bug identified, needs investigation | Bug Reporter | Bug Fixer moves to `fixing/` when starting work |
 | **Fixing** | `bugs/fixing/` | Investigation and fix in progress | Bug Fixer (Implementer) | Implementation Reviewer moves to `fixed/` when approved |
 | **Fixed** | `bugs/fixed/` | Fix merged, sentinel test added | Implementation Reviewer (gatekeeper) | Terminal state (permanent archive) |
 
@@ -65,10 +70,10 @@ open/ → approved/ OR rejected/
 
 | Transition | Who | Action | Git Command |
 |------------|-----|--------|-------------|
-| reported/ → fixing/ | **Bug Fixer** | Start investigation | `git mv bugs/reported/<bug>.md bugs/fixing/<bug>.md` |
+| to_fix/ → fixing/ | **Bug Fixer** | Start investigation | `git mv bugs/to_fix/<bug>.md bugs/fixing/<bug>.md` |
 | fixing/ → fixed/ | **Implementation Reviewer** | Approve fix and sentinel test | `git mv bugs/fixing/<bug>.md bugs/fixed/<bug>.md` |
 
-**Note:** Bug Fixer can self-move from reported → fixing (no review needed to start investigation). Only the fixing → fixed transition requires reviewer approval.
+**Note:** Bug Fixer can self-move from to_fix → fixing (no review needed to start investigation). Only the fixing → fixed transition requires reviewer approval.
 
 ### RFC Workflow
 
@@ -173,16 +178,16 @@ git push
 
 ---
 
-### 4. Bug: reported/ → fixing/
+### 4. Bug: to_fix/ → fixing/
 
 **Preconditions:**
-- ✓ Bug report complete in `bugs/reported/<bug>.md`
+- ✓ Bug report complete in `bugs/to_fix/<bug>.md`
 - ✓ Bug Fixer assigned
 
 **Transition:**
 ```bash
 # Bug Fixer executes:
-git mv bugs/reported/<bug>.md bugs/fixing/<bug>.md
+git mv bugs/to_fix/<bug>.md bugs/fixing/<bug>.md
 git commit -m "Investigate bug: <bug>"
 ```
 
@@ -363,9 +368,9 @@ git commit -m "Update ROADMAP.md to v2.0: <strategic change summary>"
 - Implementation Reviewer: doing/ → done/, fixing/ → fixed/
 
 **Writers/implementers can only:**
-- Create artifacts in initial location (proposed/, reported/, open/)
+- Create artifacts in initial location (proposed/, to_fix/, open/)
 - Move from todo/ → doing/ (start work, not a quality gate)
-- Self-move reported/ → fixing/ (start investigation, not a quality gate)
+- Self-move to_fix/ → fixing/ (start investigation, not a quality gate)
 
 **Rationale:** Prevents self-approval, ensures independent review.
 
@@ -461,7 +466,7 @@ Artifacts in terminal states never move again:
        │
        v
 ┌──────────────────┐
-│ bugs/reported/   │
+│ bugs/to_fix/     │
 └────────┬─────────┘
          │
          │ Bug Fixer
@@ -525,7 +530,7 @@ Artifacts in terminal states never move again:
 ### Scenario 4: Bug Fix
 
 ```
-1. Bug discovered            → bugs/reported/BUG-123-empty-email.md
+1. Bug discovered            → bugs/to_fix/BUG-123-empty-email.md
 2. Bug Fixer starts          → bugs/fixing/BUG-123-empty-email.md
 3. Bug Fixer investigates    → (Root Cause added to bug report)
 4. Bug Fixer implements fix  → (code + sentinel test)

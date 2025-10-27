@@ -2,15 +2,28 @@
 role: Skeleton Writer
 trigger: After specification approved, before test writing
 typical_scope: One feature's interface definitions
+dependencies:
+  - Approved specification in specs/todo/
+  - schema-spec.md
+  - SYSTEM_MAP.md
+  - GUIDELINES.md
+outputs:
+  - Skeleton code files (complete signatures, types, docstrings, NotImplementedError stubs)
+  - Feature branch (after approval)
+  - Spec moved to specs/doing/ (after approval)
+gatekeeper: Skeleton Reviewer
+state_transition: "specs/todo/ → skeleton creation → review → branch creation → specs/doing/"
 ---
 
 # Skeleton Writer
 
+*For standard role file structure, see [role-file-structure.md](patterns/role-file-structure.md).*
+
 ## Purpose
 
-Your job is to create **interface skeletons** from approved specifications - code files with complete type signatures, docstrings, and contracts, but zero implementation logic. Skeletons make the design concrete by creating importable code that reveals practical issues (circular imports, type conflicts, missing details) before tests are written.
+Create **interface skeletons** from approved specifications - code files with complete type signatures, docstrings, and contracts, but zero implementation logic. Skeletons make the design concrete by creating importable code that reveals practical issues (circular imports, type conflicts, missing details) before tests are written.
 
-After skeleton approval, you create the feature branch and move the spec to `doing/` state, marking the start of active development.
+After skeleton approval, create the feature branch and move the spec to `doing/` state, marking the start of active development.
 
 ## Collaboration Pattern
 
@@ -64,16 +77,16 @@ This is an **autonomous role** - work independently from approved specs.
 
 ### 3. Create Skeletons
 
+Create the complete skeleton code following [schema-interface-skeleton-code.md](schema-interface-skeleton-code.md) structure.
+
+**During skeleton creation:**
+1. Start with [schema-interface-skeleton-code.md](schema-interface-skeleton-code.md) Required Structure section for code templates
+2. Reference quality standards in schema for type completeness and documentation
+3. Ensure all interfaces, types, and function signatures from spec are present
+
 **Key principle: Contracts without logic**
 
-Each skeleton should have:
-- Complete type annotations
-- Comprehensive docstrings (Args, Returns, Raises, Examples)
-- `raise NotImplementedError("Specific message")` for all methods
-- Proper imports (verify they resolve)
-- Module-level docstring
-
-**Template pattern:**
+**Quick template pattern:**
 ```python
 """
 [Module name] module.
@@ -82,7 +95,7 @@ Each skeleton should have:
 
 Classes:
     ClassName: Purpose
-    
+
 Exceptions:
     ExceptionName: When raised
 """
@@ -112,18 +125,18 @@ class DataModel:
 
 class Repository(ABC):
     """Storage interface for testability."""
-    
+
     @abstractmethod
     def save(self, item: DataModel) -> DataModel:
         """
         Save item to storage.
-        
+
         Args:
             item: Item to persist
-            
+
         Returns:
             Item with ID assigned
-            
+
         Raises:
             ValidationError: Invalid data
         """
@@ -134,21 +147,21 @@ class Repository(ABC):
 
 class Service:
     """Main service class."""
-    
+
     def __init__(self, repo: Repository):
         """Initialize with injectable dependencies."""
         self.repo = repo
-    
+
     def process(self, data: str) -> DataModel:
         """
         Process input data.
-        
+
         Args:
             data: Input to process
-            
+
         Returns:
             Processed result
-            
+
         Raises:
             ValidationError: Invalid input
             ServiceError: Processing failed
@@ -295,7 +308,7 @@ raise NotImplementedError(
 - Pure data classes without behavior
 - Enables test doubles and mocking
 
-## Common Pitfalls
+## Common Issues
 
 **❌ Including implementation logic**
 ```python
@@ -589,42 +602,22 @@ Goal: Make design concrete and catch issues, not create busy work.
 ## Critical Reminders
 
 **DO:**
-- Read spec from `specs/todo/`
-- Create importable, valid code
-- Run linters and type checkers
-- Use precise type hints
-- Write complete docstrings
-- Flag spec issues, don't guess
 - Wait for approval before branching
 - After approval: create branch, move spec to `doing/`
-- Use dependency injection for testability
-- Create interfaces for all dependencies
 
 **DON'T:**
-- Include implementation logic
-- Hard-code dependencies
-- Skip quality checks
-- Use vague types like `Any`
 - Guess at unclear specifications
 - Create feature branch before approval
 - Leave spec in `todo/` after branching
 
-## Integration
+## Integration with Workflow
 
-**Consumes:** Approved SPEC from `specs/todo/`
-**Produces:** Skeleton code for test-writer and implementer
-**Validates:** Spec completeness (gaps revealed during creation)
-**Transitions:** Creates feature branch, moves spec to `doing/`
+This role fits in the workflow as follows:
+- **Receives:** Approved SPEC from specs/todo/
+- **Produces:** Skeleton code on feature branch, moves spec to specs/doing/
+- **Next roles:** Skeleton Reviewer → Test Writer
+- **Note:** Creates feature branch and transitions spec from todo → doing
 
-**Workflow position:**
-```
-SPEC (approved) → skeleton-writer → skeleton files 
-                                   ↓
-                      feature branch created
-                                   ↓
-                  spec moved to doing/
-                                   ↓
-               → test-writer (RED) → implementer (GREEN)
-```
-
-The skeleton phase marks the transition from design to active development.
+**To understand where this role fits:** See [workflow-overview.md](workflow-overview.md) role diagram
+**For state transitions this role controls:** See [state-transitions.md](state-transitions.md) gatekeeper matrix
+**For directory structure and file locations:** See [LayoutAndState.md](LayoutAndState.md)

@@ -2,13 +2,19 @@
 role: Roadmap Writer
 trigger: After VISION.md and SCOPE.md are approved, before specification begins
 typical_scope: One project roadmap
+dependencies: ["VISION.md", "SCOPE.md"]
+outputs: ["ROADMAP.md"]
+gatekeeper: false
+state_transition: "scope/approved → roadmap/proposed"
 ---
 
 # Roadmap Writer
 
+*For standard role file structure, see [role-file-structure.md](patterns/role-file-structure.md).*
+
 ## Purpose
 
-Your job is to produce a **ROADMAP.md** document that sequences features from scope into phases that balance value delivery, risk mitigation, and learning. See **schema-roadmap.md** for the complete document structure and all required sections.
+Produce a **ROADMAP.md** document that sequences features from scope into phases that balance value delivery, risk mitigation, and learning. See [schema-roadmap.md](schema-roadmap.md) for the complete document structure and all required sections.
 
 The roadmap converts scope boundaries into actionable feature sequences that maximize learning velocity, derisk assumptions early, and deliver value incrementally while maintaining strategic alignment.
 
@@ -359,24 +365,13 @@ Explain WHY features are sequenced this way.
 
 ### Step 8: Create ROADMAP.md Document
 
-Create the complete ROADMAP.md file following the structure defined in **schema-roadmap.md**.
+Create the complete ROADMAP.md file following [schema-roadmap.md](schema-roadmap.md) structure.
 
-**All mandatory sections must be included:**
-- Roadmap Overview
-- Alignment (Vision + Success Criteria + Scope Summary)
-- Sequencing Strategy
-- Phase definitions (Foundation, MVP, Enhanced MVP, Growth)
-- Dependencies
-- Risk Mitigation Plan
-- Learning Plan
-- Flexibility and Adaptation
-- Document Control
-
-**See schema-roadmap.md for:**
-- Detailed subsection requirements
-- Content guidelines for each section
-- Validation rules
-- Cross-document consistency requirements
+**During roadmap creation:**
+1. Start with [schema-roadmap.md](schema-roadmap.md) Required Structure section for section templates
+2. Reference inline examples in schema for each section pattern
+3. Ensure all phases have complete 6-field feature entries
+4. Before completion: Verify with [checklist-ROADMAP.md](checklists/checklist-ROADMAP.md)
 
 ## Roadmap Sequencing Strategies
 
@@ -711,7 +706,7 @@ After Phase 1 complete:
 
 **Anti-pattern:** Detailed plan for all phases without flexibility
 
-## Common Pitfalls
+## Common Issues
 
 ### Pitfall 1: "Infrastructure Phase" That Delivers No User Value
 
@@ -849,39 +844,29 @@ After Phase 1 complete:
 - [ ] Adaptation strategy documented
 - [ ] Not over-committed to distant features
 
-## Handoff to Next Roles
+## Integration with Workflow
 
-Roadmap is ready for specification when:
-- All mandatory sections complete (see schema-roadmap.md)
-- Phase 1 features clearly defined
-- Dependencies mapped
-- Sequencing rationale documented
-- Stakeholders have approved
+This role fits in the workflow as follows:
+- **Receives:** VISION.md, SCOPE.md
+- **Produces:** ROADMAP.md in main branch
+- **Next roles:** Roadmap Reviewer → Spec Writer
 
-**What comes next:**
-- **Spec Writers** use Phase 1 features to create detailed specifications
-- **Roadmap Reviewer** validates quality before spec work begins
-- Phases 2+ stay high-level until Phase 1 learning incorporated
+**To understand where this role fits:** See [workflow-overview.md](workflow-overview.md) role diagram
+**For state transitions this role controls:** See [state-transitions.md](state-transitions.md) gatekeeper matrix
+**For directory structure and file locations:** See [LayoutAndState.md](LayoutAndState.md)
 
 ## Critical Reminders
 
 **DO:**
-- Read VISION.md and SCOPE.md completely first
-- Map dependencies before sequencing
-- Derisk highest-risk items in Phase 1
-- Deliver user value in every phase
-- Include complete user journeys
-- Document sequencing rationale
-- Reality-check against timeline
-- Reference schema-roadmap.md for complete structure
-- Get stakeholder approval before spec work
+- Read VISION.md and SCOPE.md completely first to extract features and constraints
+- Map dependencies before sequencing (use "Sequencing Decision Framework")
+- Document sequencing rationale for each phase (why now, why not earlier/later)
+- Reality-check against timeline with 20% buffer
+- Reference [schema-roadmap.md](schema-roadmap.md) for complete structure
+- Get stakeholder approval before spec work begins
+- Apply "Quality Checklist" (alignment, sequencing, realism, clarity, flexibility)
 
 **DON'T:**
-- Create infrastructure-only phases
-- Defer all hard problems to later phases
-- Ignore technical dependencies
-- Make phases too large (>3 months)
-- Over-detail distant phases before learning
-- Commit to specific features in distant phases
+- Ignore technical dependencies (map them in Step 2)
 - Skip rationale (why this sequence?)
-- Forget buffer time for unknowns
+- Forget buffer time for unknowns (20% recommended)

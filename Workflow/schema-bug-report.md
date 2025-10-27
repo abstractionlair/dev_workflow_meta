@@ -190,6 +190,8 @@ bugs/fixing/     [Implementation Reviewer approves]
 bugs/fixed/
 ```
 
+*For complete directory structure and state transition rules, see [LayoutAndState.md](LayoutAndState.md) and [state-transitions.md](state-transitions.md).*
+
 ### State Transitions
 
 **to_fix → fixing:**

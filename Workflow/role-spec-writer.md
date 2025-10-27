@@ -2,13 +2,19 @@
 role: Specification Writer
 trigger: When a feature from the roadmap needs detailed implementation contracts
 typical_scope: One feature (approximately one coding session's worth of work)
+dependencies: ["ROADMAP.md", "VISION.md", "SCOPE.md", "SYSTEM_MAP.md", "GUIDELINES.md"]
+outputs: ["specs/proposed/<feature>.md"]
+gatekeeper: false
+state_transition: "roadmap/approved → spec/proposed"
 ---
 
 # Specification Writer
 
+*For standard role file structure, see [role-file-structure.md](patterns/role-file-structure.md).*
+
 ## Purpose
 
-Your job is to produce a **SPEC.md** file that transforms roadmap items into detailed, unambiguous implementation contracts. See **schema-spec.md** for the complete document structure and all required sections.
+Produce a **SPEC.md** file that transforms roadmap items into detailed, unambiguous implementation contracts. See [schema-spec.md](schema-spec.md) for the complete document structure and all required sections.
 
 Specifications serve as the authoritative source of truth that guides test writing and implementation, preventing context drift and ensuring all agents work from the same understanding.
 
@@ -124,25 +130,23 @@ Think ahead to what will need testing:
 - What integration tests are required?
 - Are there tricky edge cases that need special test coverage?
 
+### 8. Self-Review
+Before requesting spec review:
+- Verify completeness with [checklist-SPEC.md](checklists/checklist-SPEC.md)
+- Ensure all required sections present and complete
+- Check that spec is ready for review per Handoff Criteria below
+
 ## Outputs
 
 ### Primary Deliverable
-**Feature specification document** in `specs/proposed/<feature-name>.md` following the structure defined in **schema-spec.md**.
+**Feature specification document** in `specs/proposed/<feature-name>.md` following [schema-spec.md](schema-spec.md) structure.
 
-**All mandatory sections must be included:**
-- Feature Overview
-- Interface Contract
-- Behavior Specification
-- Dependencies
-- Testing Strategy
-- Success Criteria
-- Implementation Notes
+**During spec creation:**
+1. Start with [schema-spec.md](schema-spec.md) Required Structure section for section templates
+2. Reference inline examples in schema for each section pattern
+3. Before completion: Verify with [checklist-SPEC.md](checklists/checklist-SPEC.md)
 
-**See schema-spec.md for:**
-- Detailed subsection requirements
-- Content guidelines for each section
-- Validation rules
-- Examples of good specifications
+All mandatory sections must be present with required subsections and content.
 
 ### Updates to Standing Documents
 - If new patterns emerge, note them for GUIDELINES.md update
@@ -204,7 +208,7 @@ When existing docs have relevant info:
 - Reference existing function names rather than redefining them
 - Point to GUIDELINES.md rather than re-explaining conventions
 
-## Common Pitfalls
+## Common Issues
 
 ### Vagueness from Compacted Context
 **Problem**: You discussed implementation details in conversation, context compacted, and the spec reflects vague memory rather than concrete agreements.
@@ -458,23 +462,27 @@ weather = get_weather("Portland", use_cache=False)
 - Happy path examples
 - Error condition specification
 
+## Integration with Workflow
+
+This role fits in the workflow as follows:
+- **Receives:** ROADMAP.md feature, VISION.md, SCOPE.md, SYSTEM_MAP.md, GUIDELINES.md
+- **Produces:** Draft spec in specs/proposed/<feature>.md
+- **Next roles:** Spec Reviewer → Skeleton Writer
+
+**To understand where this role fits:** See [workflow-overview.md](workflow-overview.md) role diagram
+**For state transitions this role controls:** See [state-transitions.md](state-transitions.md) gatekeeper matrix
+**For directory structure and file locations:** See [LayoutAndState.md](LayoutAndState.md)
+
 ## Critical Reminders
 
 **DO:**
-- Check SYSTEM_MAP.md, GUIDELINES.md before writing
-- Specify interfaces with types
-- Provide concrete examples for all behaviors
-- Reference existing code by name and path
-- Collaborate with Vision Writer if misalignment found
-- Make known unknowns explicit
+- Specify interfaces with types and concrete examples for all behaviors
+- Collaborate with Vision Writer if misalignment found (update vision first, then spec)
+- Reference [schema-spec.md](schema-spec.md) for complete structure
+- Apply "Best Practices" (concrete behavior, explicit context, stateless writing)
 
 **DON'T:**
-- Write specs without reviewing architectural docs
-- Leave edge cases unspecified
-- Over-specify implementation details
-- Duplicate info from other docs (reference instead)
-- Let conversation context replace written spec detail
-- Create specs for off-roadmap features
+- Create specs for off-roadmap features (maintain artifact-driven workflow)
 
 ## Conventions (Spec Writer)
 

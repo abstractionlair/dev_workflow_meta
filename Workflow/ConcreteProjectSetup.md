@@ -93,7 +93,17 @@ project/
     │   ├── todo/
     │   ├── doing/
     │   └── done/
-    ├── reviews/
+    ├── review-requests/        # Review requests (inputs to reviewers)
+    │   ├── vision/
+    │   ├── scope/
+    │   ├── roadmap/
+    │   ├── specs/
+    │   ├── skeletons/
+    │   ├── tests/
+    │   ├── implementations/
+    │   ├── bug-fixes/
+    │   └── archived/           # Completed review requests
+    ├── reviews/                # Review outputs (created by reviewers)
     │   ├── vision/
     │   ├── scope/
     │   ├── roadmap/

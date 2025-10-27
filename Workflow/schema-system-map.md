@@ -1416,12 +1416,25 @@ We use SendGrid for email.
 
 ---
 
-## Related Ontologies
+## Related Schemas
 
-- **schema-guidelines.md**: SYSTEM_MAP.md shows structure, GUIDELINES.md shows conventions
-- **schema-spec.md**: Specs reference SYSTEM_MAP.md for architectural context
-- **schema-implementation-code.md**: Implementations follow SYSTEM_MAP.md architecture
-- **schema-review.md**: Reviewers check compliance with SYSTEM_MAP.md
+**When creating this artifact:**
+- Initial creation: Document existing project structure if transitioning to workflow
+- Reference [schema-guidelines.md](schema-guidelines.md) for complementary constraints
+- Start minimal, expand as project grows
+
+**When using this artifact:**
+- During spec/skeleton/test/implementation: Find existing components and utilities
+- During reviews: Verify architectural consistency
+- When adding components: Update SYSTEM_MAP.md (living document)
+
+**Continuous updates:**
+- Add new modules/directories as created
+- Update component descriptions when refactored
+- Add integration points when systems connect
+- Prune deleted components
+
+For complete schema workflow, see [schema-relationship-map.md](patterns/schema-relationship-map.md).
 
 ---
 

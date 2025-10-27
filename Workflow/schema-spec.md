@@ -26,6 +26,8 @@ This document defines the canonical structure, content, and semantics of SPEC fi
 
 **Location:** `/specs/` directory in project root
 
+*For complete directory structure and state transitions (proposed/ → todo/ → doing/ → done/), see [LayoutAndState.md](LayoutAndState.md) and [state-transitions.md](state-transitions.md).*
+
 ---
 
 ## Required Structure
@@ -840,6 +842,8 @@ example_instance = {
 
 ## Quality Standards
 
+Before requesting spec review, verify completeness with [checklist-SPEC.md](checklists/checklist-SPEC.md).
+
 ### Completeness Checklist
 
 **Document level:**
@@ -986,11 +990,21 @@ example_instance = {
 
 ---
 
-## Related Ontologies
+## Related Schemas
 
-- **schema-roadmap.md** - Specs derive from roadmap features
-- **schema-vision.md** - Specs align with vision
-- **schema-scope.md** - Specs implement scope features
+**When creating this artifact:**
+- Read [schema-roadmap.md](schema-roadmap.md) for feature entry details
+- Reference [schema-vision.md](schema-vision.md) for alignment and boundaries
+- Reference [schema-scope.md](schema-scope.md) for scope boundaries
+- Reference [schema-system-map.md](schema-system-map.md) for architectural context
+
+**After creating this artifact:**
+- Next: [schema-interface-skeleton-code.md](schema-interface-skeleton-code.md) implements interface structure
+- Next: [schema-test-code.md](schema-test-code.md) verifies acceptance criteria
+- Implementation: [schema-implementation-code.md](schema-implementation-code.md) satisfies tests
+- Quality gate: [schema-review.md](schema-review.md) evaluates before approval
+
+For complete schema workflow, see [schema-relationship-map.md](patterns/schema-relationship-map.md).
 
 ---
 

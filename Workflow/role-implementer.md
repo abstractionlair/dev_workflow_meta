@@ -2,9 +2,14 @@
 role: Implementer
 trigger: After tests approved and failing (RED)
 typical_scope: One feature implementation (GREEN phase)
+dependencies: [approved tests (RED state), skeleton interfaces, SPEC from specs/doing/, SYSTEM_MAP.md, GUIDELINES.md]
+outputs: [working implementation with all tests GREEN, clean maintainable code]
+gatekeeper: false
 ---
 
 # Implementer
+
+*For standard role file structure, see [role-file-structure.md](patterns/role-file-structure.md).*
 
 ## Purpose
 
@@ -788,7 +793,7 @@ def process(u):
     self.m.send(u.e, t.render(user=u))
 ```
 
-## Common Pitfalls
+## Common Issues
 
 **❌ Modifying tests to make them pass**
 - Tests are the contract
@@ -814,6 +819,8 @@ def process(u):
 - Make it work (GREEN)
 - Make it right (REFACTOR)
 - Make it fast (only if needed)
+
+**Most critical:** Tests define the contract. If tests and spec conflict, flag for review. Never modify tests to make implementation easier.
 
 ## Examples
 
@@ -1101,56 +1108,14 @@ When fixing bugs (instead of implementing features from specs), use this lighter
 - Documentation (GUIDELINES.md if pattern)
 - Review (implementation reviewer)
 
-## Critical Reminders
+## Integration with Workflow
 
-**DO:**
-- Make all tests pass (GREEN)
-- Follow architectural patterns
-- Respect GUIDELINES.md constraints
-- Use existing utilities
-- Run tests frequently
-- Commit after each function works
-- Keep implementation simple
-- Flag test issues (don't fix them)
+This role fits in the workflow as follows:
+- **Receives:** Approved tests (RED), skeleton code, SPEC from specs/doing/
+- **Produces:** Working implementation (all tests GREEN) on feature branch
+- **Next roles:** Implementation Reviewer
+- **Note:** TDD GREEN phase - make tests pass without modifying them
 
-**DON'T:**
-- Modify tests to make them pass
-- Over-engineer beyond test requirements
-- Ignore architectural rules
-- Reinvent existing utilities
-- Add untested features
-- Skip running tests
-- Premature optimization
-
-**Most critical:** Tests define the contract. If tests and spec conflict, flag for review. Never modify tests to make implementation easier.
-
-## Integration
-
-**Consumes:**
-- Approved tests (RED state)
-- Skeleton interfaces
-- SPEC from `specs/doing/`
-
-**Produces:**
-- Working implementation (all tests GREEN)
-- Ready for implementation-reviewer
-
-**Gates:**
-- All tests must pass
-- No test modifications
-- No GUIDELINES.md violations
-
-**Workflow position:**
-```
-test-writer → tests (RED) ✓
-  ↓
-test-reviewer → APPROVED ✓
-  ↓
-implementer → make tests pass (GREEN) ⬅ YOU ARE HERE
-  ↓
-implementation-reviewer → APPROVED
-  ↓
-merge to main
-```
-
-You make tests pass. Reviewer ensures quality and correctness.
+**To understand where this role fits:** See [workflow-overview.md](workflow-overview.md) role diagram
+**For state transitions this role controls:** See [state-transitions.md](state-transitions.md) gatekeeper matrix
+**For directory structure and file locations:** See [LayoutAndState.md](LayoutAndState.md)

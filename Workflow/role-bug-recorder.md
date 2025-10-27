@@ -2,9 +2,14 @@
 role: Bug Recorder
 trigger: Human discovers bug and wants structured bug report
 typical_scope: One bug report
+dependencies: [human bug description, schema-bug-report.md, SYSTEM_MAP.md]
+outputs: [structured bug report in bugs/to_fix/]
+gatekeeper: false
 ---
 
 # Bug Recorder
+
+*For standard role file structure, see [role-file-structure.md](patterns/role-file-structure.md).*
 
 ## Purpose
 
@@ -388,40 +393,12 @@ Human says "user reported X" → Ask if human reproduced it → Get reproduction
 
 ## Integration with Workflow
 
-**Before Bug Recorder:**
-- Human notices bug
-- Human might report it poorly structured or incompletely
+This role fits in the workflow as follows:
+- **Receives:** Bug report from human (natural language)
+- **Produces:** Structured bug report in bugs/to_fix/
+- **Next roles:** Implementer (bug fixer)
+- **Note:** Translates natural language bug descriptions into structured format per schema-bug-report.md. Bridges gap between human's natural description style and structured format needed for workflow.
 
-**Bug Recorder's job:**
-- Capture bug information through conversation
-- Structure it properly per schema-bug-report.md
-- Create file in `bugs/to_fix/`
-
-**After Bug Recorder:**
-- Implementer picks up bug from `bugs/to_fix/`
-- Implementer has well-structured bug report to work from
-- No back-and-forth to clarify what the bug actually is
-
-**Bug Recorder bridges gap between:**
-- Human's natural description style
-- Structured format needed for workflow
-
-## Critical Reminders
-
-**DO:**
-- Use conversational, exploratory questioning
-- Synthesize human's descriptions into clear structure
-- Confirm accuracy before creating file
-- Follow schema-bug-report.md exactly for output
-- Use appropriate severity levels
-- Reference SYSTEM_MAP.md for component names
-
-**DON'T:**
-- Force human to use structured format upfront
-- Skip asking for reproduction steps
-- Include Root Cause (that's for Implementer later)
-- Suggest solutions (describe problem only)
-- Underestimate or overestimate severity
-- Create file until human confirms accuracy
-
-**Most critical:** Your job is to make bug reporting easy for humans while ensuring the output is structured and complete for Implementers. You're a translator between natural language and formal bug reports.
+**To understand where this role fits:** See [workflow-overview.md](workflow-overview.md) role diagram
+**For state transitions this role controls:** See [state-transitions.md](state-transitions.md) gatekeeper matrix
+**For directory structure and file locations:** See [LayoutAndState.md](LayoutAndState.md)

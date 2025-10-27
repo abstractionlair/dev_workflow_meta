@@ -73,9 +73,20 @@
   - Anti-patterns (drive-by requests, everything urgent, scope creep, no-show reviewer, passive-aggressive)
   - Integration with review lifecycle and directory structure
 
-* Are subdirectories of /reviews aligned with schema and role files?
-  Check: vision/, scope/, roadmap/, specs/, skeletons/, tests/, implementations/
-  vs role files and workflow stages
+* ✓ COMPLETE: Subdirectories of /reviews and /review-requests aligned with schema and role files
+
+  Fixed alignment issues between directory layouts and schemas:
+  - Added review-requests/ directory tree to LayoutAndState.md and ConcreteProjectSetup.md
+  - Added archived/ subdirectory for completed review requests
+  - Fixed trailing slash inconsistency (bug-fixes → bug-fixes/)
+  - Added explanatory comments distinguishing review-requests/ (inputs) vs reviews/ (outputs)
+  - Updated "Recording State" section to mention review-requests/
+
+  Verified alignment:
+  - All 8 review subdirectories consistent: vision/, scope/, roadmap/, specs/,
+    skeletons/, tests/, implementations/, bug-fixes/
+  - Matches schema-review-request.md and schema-review.md
+  - Matches all 7 reviewer role files (bug-fix reviews use implementation-reviewer)
 
 * ✓ RESOLVED: Test directory structure (unit/integration/regression)
 
@@ -84,16 +95,185 @@
   clear value for developers and CI/CD pipelines. Industry-standard terminology
   reduces onboarding friction. Source artifact can be documented in file headers.
 
-* Is who moves what and when consistent across all role files?
-  Audit: Ensure state transitions match between:
-  - LayoutAndState.md
-  - Workflow.md ownership matrix
-  - Individual role files
+* ✓ COMPLETE: State transition consistency audit across all documentation
 
-* Is there redundancy? Can we make this more concise?
-  General optimization pass
-  Look for duplicated information across files
-  Opportunities to simplify without losing value
+  Audited state transitions across LayoutAndState.md, Workflow.md ownership matrix,
+  and all individual role files. Fixed inconsistencies found:
+
+  **Workflow.md ownership matrix updates:**
+  - Added bug lifecycle: to_fix/ → fixing/ → fixed/ with ownership
+  - Expanded review entries to show review-requests/ and archived/ lifecycle
+  - Added explicit gatekeeper markers for bug transitions
+
+  **LayoutAndState.md updates:**
+  - Added explicit Spec State Transitions section (6 transitions)
+  - Added explicit Bug State Transitions section (3 transitions)
+  - Added Review Lifecycle section (3 actions)
+  - Added State Transition Summary table for quick reference
+
+  **Verification:**
+  - ✓ Spec transitions consistent: Spec Writer → Spec Reviewer → Skeleton Writer → Implementation Reviewer
+  - ✓ Bug transitions consistent: Bug Recorder → Implementer → Implementation Reviewer
+  - ✓ Review lifecycle consistent: Writers create requests → Reviewers create reviews → Reviewers archive
+  - ✓ All gatekeeper roles clearly identified (Spec Reviewer, Implementation Reviewer)
+  - ✓ Branching strategy aligned (feature branch created by Skeleton Writer)
+  - ✓ All role files match the documented transitions
+
+* ✓ COMPLETE: Redundancy optimization across Workflow/ directory
+
+  Consolidated ~650-700 lines of redundant content across 30+ files:
+
+  **Phase 1: Critical Bug Fix**
+  - Fixed bugs/reported/ → bugs/to_fix/ in state-transitions.md (5 instances)
+  - Now consistent with rest of project
+
+  **Phase 2: Helper Role Pattern (~400 lines reduction)**
+  - Created Workflow/patterns/helper-role-pattern.md (~350 lines)
+  - Documents common structure for all helper roles (activation, collaboration,
+    conversation philosophy, user adaptation, transitions, exits, integration)
+  - Updated 4 helper roles to reference pattern: vision-writing-helper,
+    scope-writing-helper, roadmap-writing-helper, spec-writing-helper
+  - Each file reduced by ~150-165 lines of boilerplate
+
+  **Phase 3: Workflow Overview Cross-References (~50-100 lines reduction)**
+  - Enhanced Workflow.md with link to state-transitions.md after ownership matrix
+  - Enhanced LayoutAndState.md with link to state-transitions.md after summary table
+  - Enhanced state-transitions.md header establishing it as single source of truth
+  - Clear documentation hierarchy with bidirectional references
+
+  **Phase 4: Role File Structure Pattern (~200-250 lines reduction)**
+  - Created Workflow/patterns/role-file-structure.md (~300 lines)
+  - Documents standard structure for all role files
+  - Updated 16 non-helper roles (6 writers, 7 reviewers, 3 implementers)
+  - Integration sections simplified from 15-30 lines to 4-7 lines + link
+  - Preserved all role-specific content (process, examples, critical reminders)
+
+  **Phase 5: Schema Cross-References (0 line reduction, improved navigation)**
+  - Added cross-references in 5 schema files pointing to LayoutAndState.md:
+    * schema-spec.md (specs/ directory structure)
+    * schema-bug-report.md (bugs/ directory structure)
+    * schema-review.md (reviews/ directory structure)
+    * schema-review-request.md (review-requests/ directory structure)
+    * schema-interface-skeleton-code.md (src/ directory structure)
+  - LayoutAndState.md established as canonical source for directory structure
+
+  **Results:**
+  - Files modified: 32 (9 in Part 1, 23 in Part 2)
+  - Pattern files created: 2 (helper-role-pattern.md, role-file-structure.md)
+  - Lines reduced: ~650-700 lines of redundancy eliminated
+  - Maintainability: Changes to common patterns now update in one place
+  - Consistency: All role files follow standard structure
+  - Navigation: Clear documentation hierarchy with cross-references
+
+* ✓ COMPLETE: Role file optimization using validated principles
+
+  Applied 8 optimization principles systematically to 20 role files:
+
+  **Batch A (Reviewers) - 7 files:**
+  - 4260 → 3158 lines (-1102, -26%)
+  - Heavy reduction due to consolidating duplicate review sections
+  - Common pattern: Best Practices + Critical Reminders → single section
+
+  **Batch B (Writers) - 6 files:**
+  - 3329 → 3227 lines (-102, -3.1%)
+  - Already lean with straightforward process sections
+  - Smaller reduction reflects less duplication
+
+  **Batch C (Helpers) - 4 files:**
+  - 2056 → 2025 lines (-31, -1.5%)
+  - Already optimized with helper-role-pattern.md references
+  - Minimal reduction expected and achieved
+
+  **Batch D (Implementation) - 3 files:**
+  - 2250 → 2180 lines (-70, -3.1%)
+  - role-implementer.md (1137→1119, -1.6%): Extensive refactoring guidance preserved
+  - role-platform-lead.md (674→659, -2.2%): Removed redundant Critical Reminders
+  - role-bug-recorder.md (439→402, -8.4%): Removed duplicate Integration section
+
+  **Total Results:**
+  - 20 files optimized: 11895 → 10590 lines (-1305, -11.0%)
+  - Zero information loss (all essential procedural knowledge preserved)
+  - All examples fully preserved (most valuable learning signal)
+  - Enhanced frontmatter added (dependencies, outputs, gatekeeper flags)
+
+  **8 Validated Principles:**
+  1. Enhanced frontmatter (dependencies, outputs, gatekeeper, state_transition)
+  2. Imperative form ("Create..." not "Your job is to create...")
+  3. Preserve essential procedural context (Collaboration Pattern sections)
+  4. Consolidate duplicate guidance (merge overlapping sections)
+  5. Aggressive schema reference (link instead of inline duplication)
+  6. Better terminology ("Common Issues" not "Common Pitfalls")
+  7. Keep all examples (most valuable learning signal)
+  8. Target lean but complete (no arbitrary percentage targets)
+
+  Documentation: Workflow/patterns/role-optimization-pattern.md (~390 lines)
+
+* ✓ COMPLETE: Schema optimization with relationship map
+
+  Applied optimization principles to 12 schema files (13,007 lines total):
+
+  **Created:**
+  - `Workflow/patterns/schema-relationship-map.md` (269 lines)
+  - Central map of all schema relationships
+  - Workflow flow visualization
+  - Dependency levels documentation
+
+  **Optimization Results:**
+  - Batch A (Planning): vision, scope, roadmap → 2668→2670 lines (+2, +0.07%)
+  - Batch B (Spec & Review): spec, review, review-request → 3515→3514 lines (-1, -0.03%)
+  - Batch C (Code Artifacts): skeleton, test, implementation → No relationship sections (0 change)
+  - Batch D (Living Docs): guidelines, system-map, bug-report → 3573→3574 lines (+1, +0.03%)
+  - **Total schemas:** 13,007 → 13,009 lines (+2, +0.02%)
+  - **Plus relationship map:** +269 lines
+  - **Net change:** +271 lines (+2.1%)
+
+  **Key Findings:**
+  1. Schemas are structural templates, not procedural guides
+  2. "Related Ontologies" sections already concise (3-6 lines each)
+  3. Anti-patterns are schema-specific, not duplicative
+  4. Value is qualitative: central navigation map + maintainability
+  5. Different optimization profile than roles (which had 11% reduction)
+
+  **Lessons Learned:**
+  - Anti-patterns appeared similar ("vague", "stale") but were contextual to each schema
+  - Replacing 3-6 line sections with 4-5 line standard format = minimal line savings
+  - Central relationship map (269 lines) improves navigation despite adding lines
+  - Schema optimization focus: navigation and consistency > line reduction
+
+* ✓ COMPLETE: Documentation improvements (checklists + trigger pattern)
+
+  **Created checklists (3 files, ~200 lines each):**
+  - `Workflow/checklists/checklist-SPEC.md` - Spec creation verification
+  - `Workflow/checklists/checklist-REVIEW.md` - Review quality verification
+  - `Workflow/checklists/checklist-ROADMAP.md` - Roadmap completeness verification
+
+  **Created linking strategy pattern (~600 lines):**
+  - `Workflow/patterns/documentation-linking-strategy.md`
+  - Defines when/how to create links with clear triggers
+  - 5 successful trigger patterns (need-based, authority, scope-expansion, action, conditional)
+  - 3 failed patterns to avoid (forward-refs, lateral alternatives, optional enrichment)
+  - Decision framework and maintenance guidelines
+
+  **Key insight:** Links without clear triggers create cognitive overhead
+  - Readers (human/AI) must know WHEN to follow link
+  - Successful triggers answer: "Under what circumstance should I follow this link?"
+  - Inline examples work better than external when trigger is ambiguous
+
+* IN PROGRESS: Apply trigger improvements across documentation
+
+  **Identified 7 categories of improvements (~54 files):**
+
+  1. **Related Schemas sections** (7 schemas) - Replace informational with action-based
+  2. **Helper pattern references** (4 roles) - Add conditional triggers
+  3. **External example references** (3 schemas) - Clarify location and when to consult
+  4. **Workflow context references** (~20 roles) - Replace vague with need-based
+  5. **Checklist integration** (~10 files) - Reference new checklists with clear triggers
+  6. **Schema-to-role cross-refs** (6 roles) - Strengthen action context
+  7. **Pattern file headers** (4 patterns) - Add "when to use" triggers
+
+  **Plan:** Systematic improvement in fresh context with full trigger pattern as guide
+
+  **Reference:** See `Workflow/patterns/documentation-linking-strategy.md` for trigger patterns
 
 * Document living-docs strategies for parallel feature branches:
   Conflict mitigation patterns, sequencing guidance, and PR coordination

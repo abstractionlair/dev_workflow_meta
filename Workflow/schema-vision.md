@@ -856,18 +856,25 @@ Vision's high-level features → Scope's concrete deliverables
 
 ## Example Vision Documents
 
-See vision-writer assets for complete examples:
-- Full SaaS product vision (DevContext)
-- Minimal internal tool vision (Data Pipeline Monitor)
+**Before writing your first vision:** Study complete examples in role-vision-writer.md:
+- Full SaaS product vision (DevContext) - comprehensive example
+- Minimal internal tool vision (Data Pipeline Monitor) - minimal viable example
 
-## Related Documents
+**Inline examples throughout this schema** demonstrate individual section patterns.
 
-- **SCOPE.md Ontology** - Defines scope document structure
-- **ROADMAP.md Ontology** - Defines roadmap document structure
-- **vision-writer** - Creates VISION.md documents
-- **vision-reviewer** - Validates VISION.md quality
-- **scope-writer** - Consumes VISION.md to create SCOPE.md
-- **roadmap-writer** - Consumes VISION.md (+ SCOPE.md) to create ROADMAP.md
+## Related Schemas
+
+**When creating this artifact:**
+- No prerequisite documents (foundation of workflow)
+- Consider existing project context if transitioning to workflow
+
+**After creating this artifact:**
+- Next: [schema-scope.md](schema-scope.md) translates vision into concrete boundaries
+- Next: [schema-roadmap.md](schema-roadmap.md) references vision for alignment
+- Next: [schema-spec.md](schema-spec.md) ensures features serve vision
+- Quality gate: Vision review validates clarity and feasibility
+
+For complete schema workflow, see [schema-relationship-map.md](patterns/schema-relationship-map.md).
 
 ## Document Metadata
 

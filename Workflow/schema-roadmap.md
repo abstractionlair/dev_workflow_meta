@@ -530,6 +530,8 @@ Each feature entry follows this exact structure:
 
 ## Quality Standards
 
+Before requesting roadmap review, verify completeness with [checklist-ROADMAP.md](checklists/checklist-ROADMAP.md).
+
 ### Completeness Checklist
 
 **Document level:**
@@ -658,11 +660,19 @@ Each feature entry follows this exact structure:
 
 ---
 
-## Related Ontologies
+## Related Schemas
 
-- **schema-vision.md** - Roadmap aligns with vision
-- **schema-scope.md** - Roadmap sequences scope features
-- **schema-spec.md** - Roadmap features become specs
+**When creating this artifact:**
+- Read [schema-vision.md](schema-vision.md) for strategic alignment
+- Read [schema-scope.md](schema-scope.md) for features to sequence
+- Apply sequencing principles (value, risk, learning, dependencies)
+
+**After creating this artifact:**
+- Next: [schema-spec.md](schema-spec.md) details individual features
+- Quality gate: Roadmap review evaluates sequencing logic
+- Living artifact: Updated at validation checkpoints
+
+For complete schema workflow, see [schema-relationship-map.md](patterns/schema-relationship-map.md).
 
 ---
 

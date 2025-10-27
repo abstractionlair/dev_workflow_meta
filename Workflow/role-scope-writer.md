@@ -2,13 +2,19 @@
 role: Scope Writer
 trigger: After VISION.md is approved, before roadmap planning begins
 typical_scope: One project (one repository)
+dependencies: ["VISION.md"]
+outputs: ["SCOPE.md"]
+gatekeeper: false
+state_transition: "vision/approved → scope/proposed"
 ---
 
 # Scope Writer
 
+*For standard role file structure, see [role-file-structure.md](patterns/role-file-structure.md).*
+
 ## Purpose
 
-Your job is to produce a **SCOPE.md** document that transforms strategic vision into tactical boundaries. See **schema-scope.md** for the complete document structure and all required sections.
+Produce a **SCOPE.md** document that transforms strategic vision into tactical boundaries. See [schema-scope.md](schema-scope.md) for the complete document structure and all required sections.
 
 The scope document prevents scope creep, aligns stakeholders, enables realistic planning, and creates explicit boundaries that guide all downstream work. It answers "what are we building?" concretely enough to enable implementation planning.
 
@@ -226,26 +232,12 @@ Define how scope changes are handled.
 
 ### Step 8: Create SCOPE.md Document
 
-Create the complete SCOPE.md file following the structure defined in **schema-scope.md**.
+Create the complete SCOPE.md file following [schema-scope.md](schema-scope.md) structure.
 
-**All mandatory sections must be included:**
-- Scope Overview
-- Vision Alignment
-- Project Objectives
-- In Scope - MVP (Core Features + User Capabilities + Technical Requirements + Acceptance Criteria)
-- In Scope - Future Phases
-- Explicitly Out of Scope
-- Constraints and Assumptions
-- Success Criteria
-- Risks and Mitigation
-- Stakeholder Agreement
-- Document Control
-
-**See schema-scope.md for:**
-- Detailed subsection requirements
-- Content guidelines for each section
-- Validation rules
-- Cross-document consistency requirements
+**During scope creation:**
+1. Start with [schema-scope.md](schema-scope.md) Required Structure section for section templates
+2. Reference inline examples in schema for each section pattern
+3. Ensure all mandatory sections present with required subsections and content
 
 ## Common Scope Patterns
 
@@ -335,7 +327,7 @@ Scope must fit constraints:
 - Part-time (10-20 hrs/week) ≠ full-time team velocity
 - 3-month timeline ≠ year-long scope
 
-## Common Pitfalls
+## Common Issues
 
 ### Scope Too Ambitious for Resources
 
@@ -473,39 +465,27 @@ Real-time dashboard showing data pipeline status with Slack alerts on failures.
 - [ ] No ambiguous language
 - [ ] Examples clarify complex features
 
-## Handoff to Next Roles
+## Integration with Workflow
 
-Scope is ready for roadmap planning when:
-- All mandatory sections complete (see schema-scope.md)
-- MVP scope is concrete and achievable
-- Boundaries are clear and explicit
-- Acceptance criteria are testable
-- Constraints are documented
-- Stakeholders have approved
+This role fits in the workflow as follows:
+- **Receives:** VISION.md
+- **Produces:** SCOPE.md in main branch
+- **Next roles:** Scope Reviewer → Roadmap Writer
 
-**What comes next:**
-- **Roadmap Writer** uses this scope to sequence features into phases
-- **Spec Writers** reference scope to ensure features serve project
-- **Scope Reviewer** validates quality before roadmap work begins
+**To understand where this role fits:** See [workflow-overview.md](workflow-overview.md) role diagram
+**For state transitions this role controls:** See [state-transitions.md](state-transitions.md) gatekeeper matrix
+**For directory structure and file locations:** See [LayoutAndState.md](LayoutAndState.md)
 
 ## Critical Reminders
 
 **DO:**
-- Start by reading VISION.md completely
-- Transform vision scope into concrete deliverables
-- Define user capabilities for each feature
-- Make boundaries explicit (what's out)
-- Establish testable acceptance criteria
-- Document all constraints realistically
-- Reference schema-scope.md for complete structure
-- Get stakeholder approval before roadmap work
+- Start by reading VISION.md completely to extract scope elements
+- Define user capabilities for each feature (observable outcomes)
+- Reference [schema-scope.md](schema-scope.md) for complete structure
+- Get stakeholder approval before roadmap work begins
+- Apply "Scope Quality Checklist" (alignment, concreteness, completeness, realism, clarity)
 
 **DON'T:**
 - Create scope without approved vision
 - Include features not in vision without justification
-- Leave "out of scope" empty
-- Use vague language ("better", "improved")
-- Skip acceptance criteria
-- Ignore resource constraints
-- Let scope creep in through "while we're at it"
-- Create overly ambitious MVP for available resources
+- Let scope creep in through "while we're at it" additions

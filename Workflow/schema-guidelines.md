@@ -1581,13 +1581,25 @@ const repo = new Repository();
 
 ---
 
-## Related Ontologies
+## Related Schemas
 
-- **schema-system-map.md**: Architectural context (GUIDELINES.md documents constraints, SYSTEM_MAP.md documents structure)
-- **schema-implementation-code.md**: GUIDELINES.md defines standards implementer must follow
-- **schema-test-code.md**: GUIDELINES.md defines testing standards
-- **schema-interface-skeleton-code.md**: GUIDELINES.md defines patterns for skeletons
-- **schema-review.md**: Reviewers use GUIDELINES.md to evaluate compliance
+**When creating this artifact:**
+- Initial creation: Start with minimal patterns and constraints
+- Reference [schema-system-map.md](schema-system-map.md) for structural context
+- Document patterns as they emerge (Rule of Three)
+
+**When using this artifact:**
+- During skeleton/test/implementation: Follow documented patterns and constraints
+- During reviews: Verify adherence to patterns and constraints
+- When patterns emerge: Update GUIDELINES.md (living document)
+
+**Continuous updates:**
+- Add patterns after they appear 3+ times
+- Document constraints from architectural decisions
+- Update examples when APIs change
+- Prune obsolete patterns
+
+For complete schema workflow, see [schema-relationship-map.md](patterns/schema-relationship-map.md).
 
 ---
 

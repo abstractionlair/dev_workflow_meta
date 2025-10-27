@@ -24,6 +24,8 @@ This schema defines what skeleton code should look like across supported languag
 **Reviewed by:** Skeleton Reviewer
 **Consumed by:** Test Writer (to understand contracts), Implementer (to fill in logic)
 
+*For complete project directory structure, see [LayoutAndState.md](LayoutAndState.md).*
+
 ---
 
 ## Required Structure

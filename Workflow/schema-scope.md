@@ -1092,16 +1092,25 @@ VISION.md (strategic) → SCOPE.md (tactical) → ROADMAP.md (operational) → S
 
 ## Example Scope Documents
 
-See scope-writer for complete examples:
-- Full developer tool scope (DevContext)
-- Minimal internal tool scope (Data Pipeline Monitor)
+**Before writing your first scope:** Study complete examples in role-scope-writer.md:
+- Full developer tool scope (DevContext) - comprehensive example
+- Minimal internal tool scope (Data Pipeline Monitor) - minimal viable example
 
-## Related Documents
+**Inline examples throughout this schema** demonstrate individual section patterns.
 
-- **VISION.md Ontology** - Defines vision document structure (upstream)
-- **ROADMAP.md Ontology** - Defines roadmap document structure (downstream) - NOT YET CREATED
-- **scope-writer** - Creates SCOPE.md from VISION.md
-- **roadmap-writer** - Creates ROADMAP.md from VISION.md + SCOPE.md
+## Related Schemas
+
+**When creating this artifact:**
+- Read [schema-vision.md](schema-vision.md) to understand strategic direction
+- Translate vision into concrete features and boundaries
+
+**After creating this artifact:**
+- Next: [schema-roadmap.md](schema-roadmap.md) sequences scope features into phases
+- Next: [schema-spec.md](schema-spec.md) details individual features
+- Quality gate: Scope review validates completeness and alignment
+- Living artifact: Updated through change control process
+
+For complete schema workflow, see [schema-relationship-map.md](patterns/schema-relationship-map.md).
 
 ## Document Metadata
 

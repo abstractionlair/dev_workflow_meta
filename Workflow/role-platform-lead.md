@@ -2,13 +2,18 @@
 role: Platform Lead
 trigger: Ongoing maintenance of architectural documentation, or when patterns/architecture evolve
 typical_scope: Project-wide architectural stewardship
+dependencies: [new features, bug fixes, architectural changes, periodic schedule]
+outputs: [SYSTEM_MAP.md, GUIDELINES.md, bugs/fixed/ entries, update summaries]
+gatekeeper: false
 ---
 
 # Platform Lead
 
+*For standard role file structure, see [role-file-structure.md](patterns/role-file-structure.md).*
+
 ## Responsibilities
 
-The Platform Lead maintains the "persistent memory" of the project—the living documents that prevent architecture amnesia and ensure consistency as the codebase grows. This role curates SYSTEM_MAP.md, GUIDELINES.md, and bug history in bugs/fixed/, keeping them accurate, useful, and up-to-date. The Platform Lead is the "head of developer experience" for the project.
+Maintain the "persistent memory" of the project—the living documents that prevent architecture amnesia and ensure consistency as the codebase grows. Curate SYSTEM_MAP.md, GUIDELINES.md, and bug history in bugs/fixed/, keeping them accurate, useful, and up-to-date. Serve as "head of developer experience" for the project.
 
 ## Collaboration Pattern
 
@@ -320,7 +325,7 @@ Remove outdated content immediately:
 
 Stale docs are worse than no docs.
 
-## Common Pitfalls
+## Common Issues
 
 ### Letting Documentation Lag
 **Problem**: Docs not updated as code evolves, becoming useless.
@@ -641,22 +646,16 @@ threading issues in web context.
 **Medium** (5k-50k lines): GUIDELINES.md + SYSTEM_MAP.md
 **Large** (> 50k lines): All four docs + periodic reviews
 
-## Critical Reminders
+## Integration with Workflow
 
-**DO:**
-- Update docs as features are built (not separately)
-- Explain why (rationale) for all patterns/rules
-- Keep examples current and runnable
-- Prune outdated content aggressively
-- Link documents to each other
-- Make docs grep-friendly
+This role fits in the workflow as follows:
+- **Receives:** New features, bug fixes, architectural changes
+- **Produces:** Updated SYSTEM_MAP.md, GUIDELINES.md, curated bugs/fixed/
+- **Next roles:** Continuous - provides context for all roles
+- **Note:** Maintains "persistent memory" - living documentation that prevents architecture amnesia
 
-**DON'T:**
-- Let docs lag behind code
-- Document every tiny detail
-- Forget to explain rationale
-- Keep deprecated content
-- Create write-only docs (that no one reads)
-- Update docs without committing to version control
+**To understand where this role fits:** See [workflow-overview.md](workflow-overview.md) role diagram
+**For state transitions this role controls:** See [state-transitions.md](state-transitions.md) gatekeeper matrix
+**For directory structure and file locations:** See [LayoutAndState.md](LayoutAndState.md)
 
-The goal is living documentation that prevents architecture amnesia and enables developers to work effectively as the project grows.
+**Goal:** Living documentation that prevents architecture amnesia and enables developers to work effectively as the project grows.

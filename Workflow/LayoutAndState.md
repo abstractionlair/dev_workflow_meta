@@ -21,15 +21,25 @@ project/
 │   ├── todo/              # Approved, not started
 │   ├── doing/             # In progress (on feature branch)
 │   └── done/              # Completed (merged to main)
-├── reviews/
+├── review-requests/        # Review requests (inputs to reviewers)
 │   ├── vision/
 │   ├── scope/
-│   ├── specs/
 │   ├── roadmap/
+│   ├── specs/
 │   ├── skeletons/
 │   ├── tests/
 │   ├── implementations/
-│   └── bug-fixes
+│   ├── bug-fixes/
+│   └── archived/           # Completed review requests
+├── reviews/                # Review outputs (created by reviewers)
+│   ├── vision/
+│   ├── scope/
+│   ├── roadmap/
+│   ├── specs/
+│   ├── skeletons/
+│   ├── tests/
+│   ├── implementations/
+│   └── bug-fixes/
 ├── tests/
 │   ├── unit/              # Tests for contract correctness and completeness for isolated units
 │   ├── integration/       # Tests for contract correctness and completeness across units
@@ -39,7 +49,7 @@ project/
 
 ## Recording State
 
-The locations of files under `bugs/`, `specs/`, `reviews/`, and `tests/` tell us about their states.
+The locations of files under `bugs/`, `specs/`, `review-requests/`, `reviews/`, and `tests/` tell us about their states.
 As does the branch they are in.
 
 As a general principle, we adopt the following strategy for transitions.
@@ -50,6 +60,39 @@ As a general principle, we adopt the following strategy for transitions.
 - - E.g. As the first role that writes code for a spec, the Skeleton Writer moves the spec from `todo/` to `doing/`
 - - It also needs a feature branch to start writing code to, so it creates the branch and switches to it.
 
+### Spec State Transitions
+
+- Spec Writer creates in `specs/proposed/`
+- Spec Reviewer moves from `proposed/` to `todo/` on approval (gatekeeper)
+- Skeleton Writer moves from `todo/` to `doing/` when starting implementation
+- Skeleton Writer creates feature branch when moving to `doing/`
+- Implementation Reviewer moves from `doing/` to `done/` on approval (gatekeeper)
+- Implementation Reviewer merges feature branch to main
+
+### Bug State Transitions
+
+- Bug Recorder creates in `bugs/to_fix/`
+- Implementer moves from `to_fix/` to `fixing/` when starting work
+- Implementation Reviewer moves from `fixing/` to `fixed/` on approval (gatekeeper)
+
+### Review Lifecycle
+
+- Writers create review-requests in `review-requests/[type]/`
+- Reviewers create review outputs in `reviews/[type]/`
+- Reviewers move review-requests to `review-requests/archived/` after creating review
+
+### State Transition Summary
+
+| Artifact Type | Transition | Who Moves | Gatekeeper? |
+|---------------|------------|-----------|-------------|
+| Specs | proposed → todo | Spec Reviewer | ✓ |
+| Specs | todo → doing | Skeleton Writer | |
+| Specs | doing → done | Implementation Reviewer | ✓ |
+| Bugs | to_fix → fixing | Implementer | |
+| Bugs | fixing → fixed | Implementation Reviewer | ✓ |
+| Review requests | active → archived | Reviewer | |
+
+**For detailed state transition rules, preconditions, postconditions, and git commands,** see [state-transitions.md](state-transitions.md).
 
 ## Branching Strategy
 

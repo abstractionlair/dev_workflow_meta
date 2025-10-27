@@ -2,15 +2,21 @@
 role: Vision Writer
 trigger: At project inception, before any other planning begins
 typical_scope: One project (the entire initiative)
+dependencies: []
+outputs: ["VISION.md"]
+gatekeeper: false
+state_transition: "none → vision/proposed"
 ---
 
 # Vision Writer
 
+*For standard role file structure, see [role-file-structure.md](patterns/role-file-structure.md).*
+
 ## Purpose
 
-Your job is to produce a **VISION.md** document that provides strategic direction for a software project. See **schema-vision.md** for the complete document structure and all required sections.
+Produce a **VISION.md** document that provides strategic direction for a software project. See [schema-vision.md](schema-vision.md) for the complete document structure and all required sections.
 
-The vision captures the "why" - what problem this solves, for whom, what success looks like, and what makes this worth building. This prevents common failures like feature-focused thinking, architecture amnesia, and premature abandonment.
+The vision captures the "why" - what problem this solves, for whom, what success looks like, and what makes this worth building. This prevents feature-focused thinking, architecture amnesia, and premature abandonment.
 
 ## When to Use This Role
 
@@ -199,25 +205,12 @@ Make implicit assumptions explicit:
 
 ### Step 8: Create VISION.md Document
 
-Create the complete VISION.md file following the structure defined in **schema-vision.md**.
+Create the complete VISION.md file following [schema-vision.md](schema-vision.md) structure.
 
-**All mandatory sections must be included:**
-- Vision Statement (1-2 sentences)
-- Problem Statement (Current State + Desired Future State)
-- Target Users (Primary Persona with all subsections)
-- Value Proposition (Core Benefit + Differentiation)
-- Product Scope (In Scope MVP + Future Scope + Never in Scope)
-- Success Criteria (Key Metrics + Counter-Metrics + Timeline Milestones)
-- Technical Approach (Technology Stack + Architecture Principles + Known Risks)
-- Assumptions and Constraints (Market + Technical + Resource)
-- Open Questions
-- Changelog
-
-**See schema-vision.md for:**
-- Detailed subsection requirements
-- Content guidelines for each section
-- Validation rules
-- Cross-document consistency requirements
+**During vision creation:**
+1. Start with [schema-vision.md](schema-vision.md) Required Structure section for section templates
+2. Reference inline examples in schema for each section pattern
+3. Ensure all mandatory sections present with required subsections and content
 
 ## Key Principles
 
@@ -264,7 +257,7 @@ Make riskiest assumptions explicit so they can be tested first.
 - One Metric That Matters for current stage
 - Explicit "not doing" list
 
-## Common Pitfalls
+## Common Issues
 
 ### Architecture Amnesia from Day One
 
@@ -366,35 +359,29 @@ Unlike Airflow's complex UI requiring navigation, our dashboard shows all pipeli
 - Archive old versions: VISION-v1-2024.md
 - Changelog captures: what changed, why, impact
 
-## Handoff to Next Roles
+## Integration with Workflow
 
-Vision is ready for scope writing when:
-- Core value is clear and compelling
-- Problem and solution are well-articulated
-- Success criteria are defined
-- Human feels excited and aligned
-- Another person reading this would understand "why we're doing this"
+This role fits in the workflow as follows:
+- **Receives:** Initial idea/problem from human
+- **Produces:** VISION.md in main branch
+- **Next roles:** Vision Reviewer → Scope Writer
 
-**What comes next:**
-- **Scope Writer** uses this vision to define concrete project boundaries
-- **Roadmap Writer** uses success criteria and timeline milestones for sequencing
-- **Spec Writers** reference vision to ensure features serve strategic goals
+**To understand where this role fits:** See [workflow-overview.md](workflow-overview.md) role diagram
+**For state transitions this role controls:** See [state-transitions.md](state-transitions.md) gatekeeper matrix
+**For directory structure and file locations:** See [LayoutAndState.md](LayoutAndState.md)
 
 ## Critical Reminders
 
 **DO:**
-- Write vision BEFORE any code or specs
-- Focus on customer outcomes, not features
+- Write vision BEFORE any code or specs to prevent architecture amnesia
+- Keep vision statement to 1-2 sentences (memorable and clear)
 - Make assumptions explicit for validation
-- Keep vision statement to 1-2 sentences
-- Validate riskiest assumptions early
-- Maintain as living document with reviews
-- Reference schema-vision.md for complete structure
+- Maintain as living document with quarterly reviews
+- Reference [schema-vision.md](schema-vision.md) for complete structure
+- Balance ambition with feasibility (challenging yet believable)
 
 **DON'T:**
-- Confuse vision with mission or strategy
-- List features instead of outcomes
-- Skip user validation
-- Update too frequently (signals lack of commitment)
+- Confuse vision with mission (vision is 2-5 year horizon, mission is timeless)
+- Update too frequently (signals lack of commitment - vision changes rarely)
 - Create vision too ambitious for resources
 - Write implementation details (save for specs)

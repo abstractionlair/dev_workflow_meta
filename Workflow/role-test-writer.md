@@ -2,9 +2,22 @@
 role: Test Writer
 trigger: After skeleton approved, before implementation
 typical_scope: Complete test suite for one feature
+dependencies:
+  - Approved SPEC from specs/doing/
+  - Approved skeleton code (importable interfaces)
+  - SYSTEM_MAP.md (architecture for integration tests)
+  - GUIDELINES.md (test organization conventions)
+  - bugs/fixed/ (past bug fixes for sentinel tests)
+outputs:
+  - Test file(s) in tests/
+  - All tests failing appropriately (RED phase)
+gatekeeper: Test Reviewer
+state_transition: specs/doing/SPEC.md → tests/test_feature.py (RED) → Test Reviewer
 ---
 
 # Test Writer
+
+*For standard role file structure, see [role-file-structure.md](patterns/role-file-structure.md).*
 
 ## Purpose
 
@@ -75,10 +88,10 @@ def test_function_name_scenario_expected():
     """Test description."""
     # Arrange: Set up test data
     input_data = create_valid_input()
-    
+
     # Act: Call function
     result = function_name(input_data)
-    
+
     # Assert: Verify outcome
     assert result.status == "success"
 ```
@@ -124,10 +137,10 @@ def test_user_registration_end_to_end():
     mock_email = Mock(spec=EmailService)
     repo = InMemoryUserRepository()
     hasher = RealPasswordHasher()
-    
+
     service = UserService(repo, mock_email, hasher)
     user = service.register("user@example.com", "password")
-    
+
     assert user.id is not None
     assert repo.get_by_email("user@example.com") is not None
     mock_email.send_welcome.assert_called_once()
@@ -157,7 +170,7 @@ def test_register_duplicate_email_raises_error():
     repo = Mock(spec=UserRepository)
     repo.get_by_email.return_value = User(email="exists@example.com")
     service = UserService(repo=repo)
-    
+
     with pytest.raises(DuplicateEmailError, match="exists@example.com"):
         service.register("exists@example.com", "password")
 ```
@@ -179,26 +192,12 @@ pytest tests/test_feature.py
 
 ### 10. Document Test Organization
 
-**Single file per feature:**
-```python
-"""
-Tests for user registration feature.
+Create the complete test file following [schema-test-code.md](schema-test-code.md) structure.
 
-Covers:
-- Happy path, edge cases, error cases
-- Integration with repository, email service
-- Sentinels: Bug #42 (empty email validation)
-"""
-
-# === Unit Tests ===
-def test_register_valid_user_succeeds(): ...
-
-# === Integration Tests ===
-def test_registration_sends_welcome_email(): ...
-
-# === Sentinel Tests ===
-def test_bug_42_empty_email_validation(): ...
-```
+**During test creation:**
+1. Start with [schema-test-code.md](schema-test-code.md) Required Structure section for test templates
+2. Reference quality standards in schema for test completeness and structure
+3. Ensure all acceptance criteria from spec have corresponding tests
 
 **Attribution when multiple contributors:**
 ```python
@@ -245,10 +244,10 @@ def test_error_case()
 def test_deposit_increases_balance():
     # Arrange
     account = Account(balance=100)
-    
+
     # Act
     account.deposit(50)
-    
+
     # Assert
     assert account.balance == 150
 ```
@@ -279,13 +278,27 @@ def test_login_calls_bcrypt():
         # Couples to bcrypt implementation
 ```
 
-## Common Pitfalls
+**Mock only external dependencies:**
+- Mock: Databases, file systems, network APIs, external services
+- Use real objects: Internal collaborators and domain objects
 
-**❌ Missing edge cases** - Only testing happy path  
-**❌ Shared state** - Tests affect each other  
-**❌ Over-mocking** - Mocking internal objects  
-**❌ Weak assertions** - `assert result` vs `assert result.value == 42`  
-**❌ Tests passing** - No RED phase, something wrong
+**Descriptive test names:**
+- Format: `test_<method>_<scenario>_<expected>`
+- Should read like documentation
+
+**Follow Arrange-Act-Assert structure:**
+- Clear separation makes tests readable and maintainable
+
+**Cover all test categories:**
+- Happy path, edge cases, error cases, integration points, state transitions
+
+## Common Issues
+
+**Missing edge cases** - Only testing happy path
+**Shared state** - Tests affect each other
+**Over-mocking** - Mocking internal objects
+**Weak assertions** - `assert result` vs `assert result.value == 42`
+**Tests passing** - No RED phase, something wrong
 
 ## Examples
 
@@ -343,9 +356,9 @@ def test_register_user_end_to_end(mock_email_service):
     repo = InMemoryUserRepository()
     hasher = BCryptHasher()
     service = UserService(repo, mock_email_service, hasher)
-    
+
     user = service.register("alice@example.com", "password")
-    
+
     assert user.id is not None
     assert repo.get_by_email("alice@example.com") is not None
     mock_email_service.send_welcome.assert_called_once()
@@ -355,9 +368,9 @@ def test_register_duplicate_email_prevents_double_registration():
     """Test duplicate email raises error."""
     repo = InMemoryUserRepository()
     service = UserService(repo, Mock(), Mock())
-    
+
     service.register("alice@example.com", "password1")
-    
+
     with pytest.raises(DuplicateEmailError):
         service.register("alice@example.com", "password2")
 ```
@@ -373,55 +386,14 @@ E   NotImplementedError: Implement UserService.register()
 ✓ Good - Failing for correct reason
 ```
 
-## Critical Reminders
+## Integration with Workflow
 
-**DO:**
-- Write tests from spec requirements
-- Ensure all tests fail initially (RED)
-- Test behavior, not implementation
-- Mock only external dependencies
-- Use descriptive test names (test_method_scenario_expected)
-- Follow Arrange-Act-Assert structure
-- Add sentinel tests for past bugs (check bugs/fixed/)
-- Keep tests independent
-- Cover happy path, edges, errors
+This role fits in the workflow as follows:
+- **Receives:** SPEC from specs/doing/, approved skeleton code, bugs/fixed/ for sentinel tests
+- **Produces:** Test suite (all RED) on feature branch
+- **Next roles:** Test Reviewer → Implementer
+- **Note:** Defines specification-as-tests that implementer must satisfy (TDD RED phase)
 
-**DON'T:**
-- Write tests that already pass
-- Over-mock internal collaborators
-- Share state between tests
-- Test implementation details
-- Skip edge or error cases
-- Use vague names
-
-**Most critical:** Tests must fail initially (RED phase). If tests pass before implementation, something is wrong.
-
-## Integration
-
-**Consumes:**
-- SPEC from `specs/doing/`
-- Skeleton code (approved)
-- bug reports in bugs/fixed/
-
-**Produces:**
-- Test suite (all tests RED)
-- Ready for implementer (GREEN phase)
-
-**Gates:**
-- Test Reviewer approval required
-- All tests must fail correctly
-
-**Workflow position:**
-```
-skeleton-writer → skeleton ✓
-  ↓
-skeleton-reviewer → APPROVED ✓
-  ↓
-test-writer → tests (RED) ⬅ YOU ARE HERE
-  ↓
-test-reviewer → APPROVED
-  ↓
-implementer → make tests pass (GREEN)
-```
-
-You define specification-as-tests that implementer must satisfy.
+**To understand where this role fits:** See [workflow-overview.md](workflow-overview.md) role diagram
+**For state transitions this role controls:** See [state-transitions.md](state-transitions.md) gatekeeper matrix
+**For directory structure and file locations:** See [LayoutAndState.md](LayoutAndState.md)

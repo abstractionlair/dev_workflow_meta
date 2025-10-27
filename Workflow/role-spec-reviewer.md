@@ -1,16 +1,20 @@
 ---
 role: Spec Reviewer
-trigger: After specification is written in specs/proposed/, before implementation begins
+trigger: Spec written in specs/proposed/, before implementation
 typical_scope: One feature specification
+dependencies: [VISION.md, SCOPE.md, ROADMAP.md, schema-spec.md]
+outputs: [reviews/specs/TIMESTAMP-FEATURE-STATUS.md]
+gatekeeper: true
+state_transition: proposed → todo
 ---
 
 # Spec Reviewer
 
+*Structure reference: [role-file-structure.md](patterns/role-file-structure.md)*
+
 ## Purpose
 
-Your job is to evaluate a **SPEC.md** file for clarity, completeness, feasibility, and alignment with project documents before implementation begins. See **schema-spec.md** for the complete document structure and validation rules.
-
-As gatekeeper, you independently assess specifications and move approved specs from `proposed/` to `todo/`.
+Evaluate SPEC.md files for clarity, completeness, feasibility, and alignment before implementation. As gatekeeper, move approved specs from `proposed/` to `todo/`.
 
 ## Collaboration Pattern
 
@@ -32,69 +36,63 @@ This is an **independent role** - the reviewer works separately from the spec wr
 
 ## Inputs
 
-- Draft spec in `specs/proposed/<feature>.md`
-- VISION.md, SCOPE.md, ROADMAP.md
-- SYSTEM_MAP.md (if exists)
-- Prior review records (if any)
+- Draft spec: `specs/proposed/<feature>.md`
+- Project docs: VISION.md, SCOPE.md, ROADMAP.md
+- Architecture: SYSTEM_MAP.md (if exists)
+- Structure rules: [schema-spec.md](schema-spec.md)
 
 ## Process
 
-### 0. Check Structure Against Ontology
-Review **schema-spec.md** to understand required sections and validation rules.
+### 1. Initial Check
 
-**Verify all mandatory sections present:**
-- [ ] Feature Overview
-- [ ] Interface Contract
-- [ ] Behavior Specification
-- [ ] Dependencies
-- [ ] Testing Strategy
-- [ ] Success Criteria
-- [ ] Implementation Notes
+Artifact should pass [checklist-SPEC.md](checklists/checklist-SPEC.md) before formal review begins.
 
-### 1. Read Spec with Fresh Eyes
-- Can you understand what's being built?
-- Are interfaces clear?
-- Are behaviors specified?
+### 2. Verify Structure
+
+Check against [schema-spec.md](schema-spec.md) for required sections. All mandatory sections must be present.
+
+### 3. Read for Clarity
+
+Assess whether spec is implementable:
+- Interfaces clear?
+- Behaviors specified?
 - Could someone implement from this alone?
 
-### 2. Check Alignment
-- [ ] Feature aligns with Vision's purpose?
-- [ ] Within Scope boundaries?
-- [ ] Fits Roadmap sequencing?
+### 4. Check Alignment
 
-### 3. Verify Completeness
+- Feature aligns with Vision's purpose?
+- Within Scope boundaries?
+- Fits Roadmap sequencing?
+
+### 5. Verify Completeness
+
 - [ ] Interface signatures (functions, parameters, types)
 - [ ] Happy path examples
 - [ ] Edge cases and error conditions
-- [ ] Integration points with existing code
+- [ ] Integration points
 - [ ] Non-functional requirements (if applicable)
 
-### 4. Assess Testability
+### 6. Assess Testability
+
 - [ ] Acceptance criteria clear?
 - [ ] Behavior verifiable?
 - [ ] Examples concrete enough to derive tests?
 
-### 5. Check Clarity
-- [ ] Ambiguous terms defined?
-- [ ] Examples match descriptions?
-- [ ] Would implementer have questions?
+### 7. Check Dependencies
 
-### 6. Verify Dependencies
 - [ ] Dependencies on other features identified?
 - [ ] Risks or blockers noted?
 - [ ] Integration strategy clear?
 
 ## Outputs
 
-### Review Record
-Create in `reviews/specs/` with format:
-```
-YYYY-MM-DDTHH-MM-SS-<feature>-<STATUS>.md
-```
+### Review File
 
-Where STATUS ∈ {APPROVED, NEEDS-CHANGES}
+Create in `reviews/specs/` with format: `YYYY-MM-DDTHH-MM-SS-<feature>-<STATUS>.md`
 
-Use seconds to avoid collisions (e.g., `2025-01-23T14-30-47-weather-cache-APPROVED.md`)
+STATUS ∈ {APPROVED, NEEDS-CHANGES}
+
+Use seconds for uniqueness: `2025-01-23T14-30-47-weather-cache-APPROVED.md`
 
 ### Review Template
 
@@ -112,8 +110,7 @@ Use seconds to avoid collisions (e.g., `2025-01-23T14-30-47-weather-cache-APPROV
 ## Checklist
 - [ ] Aligns with Vision/Scope/Roadmap
 - [ ] Interfaces specified
-- [ ] Happy paths covered
-- [ ] Edge cases covered
+- [ ] Happy/edge paths covered
 - [ ] Error handling specified
 - [ ] Integration points clear
 - [ ] Testability verified
@@ -123,111 +120,73 @@ Use seconds to avoid collisions (e.g., `2025-01-23T14-30-47-weather-cache-APPROV
 [Section-by-section comments]
 
 ## Approval Criteria
-[What needs to change for APPROVED status, if NEEDS-CHANGES]
+[What needs to change for APPROVED, if NEEDS-CHANGES]
 
 ## Next Steps
-- [ ] [Concrete actions required]
+- [ ] [Concrete actions]
 ```
 
-## Gatekeeper Movement
+## Gatekeeper Actions
 
-**On APPROVED:**
+### On APPROVED
 ```bash
 git mv specs/proposed/<feature>.md specs/todo/<feature>.md
 git add reviews/specs/YYYY-MM-DDTHH-MM-SS-<feature>-APPROVED.md
 git commit -m "Approve spec: <feature>"
 ```
 
-**On NEEDS-CHANGES:**
+### On NEEDS-CHANGES
 - Do NOT move spec
 - Create review with actionable feedback
-- Return to Spec Writer
-
-## Best Practices
-
-**DO:**
-- Read spec completely before judging
-- Verify examples actually work
-- Check against Vision explicitly
-- Note unclear assumptions
-- Suggest concrete improvements
-- Use timestamped review filenames with STATUS
-
-**DON'T:**
-- Rewrite the spec yourself
-- Accept vague requirements
-- Approve without checking testability
-- Skip the Vision/Scope alignment check
-- Use generic feedback ("more detail needed")
-
-## Common Pitfalls
-
-### Pitfall: Approving Untestable Specs
-**Example**: "Feature should be fast and reliable"
-**Fix**: Require concrete criteria: "Response time < 200ms for 95th percentile"
-
-### Pitfall: Missing Integration Gaps
-**Example**: Spec assumes existing API without checking SYSTEM_MAP
-**Fix**: Verify all external dependencies exist or are planned
-
-### Pitfall: Accepting Ambiguity
-**Example**: "Handle errors appropriately"
-**Fix**: Require specific error cases and responses
+- Spec Writer addresses feedback
 
 ## Examples
 
-### Example 1: APPROVED Spec
+### Example: APPROVED
+
 ```markdown
 # Spec Review: user-authentication
 
 **Reviewer**: Claude Sonnet 4.5
 **Date**: 2025-01-23
-**Spec Version**: specs/proposed/user-authentication.md
 **Status**: APPROVED
 
 ## Summary
-Spec clearly defines authentication flow with JWT tokens. All interfaces specified,
-error cases covered, integration with existing user store documented. Ready for implementation.
+Spec clearly defines authentication flow with JWT tokens. All interfaces
+specified, error cases covered, integration with existing user store documented.
 
 ## Checklist
-- [x] Aligns with Vision/Scope/Roadmap
-- [x] Interfaces specified
-- [x] Happy paths covered
-- [x] Edge cases covered
-- [x] Error handling specified
-- [x] Integration points clear
-- [x] Testability verified
-- [x] Dependencies identified
+- [x] All items verified
 
 ## Next Steps
 - [x] Move to specs/todo/user-authentication.md
 ```
 
-### Example 2: NEEDS-CHANGES Spec
+### Example: NEEDS-CHANGES
+
 ```markdown
 # Spec Review: weather-cache
 
 **Reviewer**: Claude Sonnet 4.5
 **Date**: 2025-01-23
-**Spec Version**: specs/proposed/weather-cache.md
 **Status**: NEEDS-CHANGES
 
 ## Summary
-Spec has good happy path but missing critical details on cache invalidation,
-error handling for API failures, and integration with existing HTTP client.
+Good happy path but missing cache invalidation, error handling for API
+failures, and HTTP client integration.
 
 ## Detailed Feedback
 
-### Section 2.1: Cache Storage
+**Section 2.1: Cache Storage**
 - ✗ Cache expiry not specified. How long should weather data live?
 - ✗ What happens if cache is full?
 
-### Section 2.2: API Integration
-- ✗ Which HTTP client library? Check GUIDELINES.md
+**Section 2.2: API Integration**
+- ✗ Which HTTP client? Check GUIDELINES.md
 - ✗ Timeout values not specified
 - ✗ Retry logic for transient failures?
 
-### Section 3: Error Cases
+**Section 3: Error Cases**
 - ✗ What if weather API is down?
 - ✗ What if API returns invalid data?
 - ✗ What if cache read fails?
@@ -240,34 +199,68 @@ Must specify:
 4. Concrete timeout/retry values
 
 ## Next Steps
-- [ ] Add cache expiry specification (suggest 15 minutes based on API rate limits)
+- [ ] Add cache expiry (suggest 15 min based on API rate limits)
 - [ ] Document all error cases with expected behavior
 - [ ] Reference existing HTTP client from SYSTEM_MAP
 - [ ] Add timeout values (suggest 5s connect, 10s read)
 ```
 
-## When to Deviate
+## Common Issues
 
-**Reduce rigor for:**
+### Approving Untestable Specs
+**Problem**: "Feature should be fast and reliable"
+**Fix**: Require concrete criteria: "Response time < 200ms for 95th percentile"
+
+### Missing Integration Gaps
+**Problem**: Spec assumes existing API without checking SYSTEM_MAP
+**Fix**: Verify all external dependencies exist or are planned
+
+### Accepting Ambiguity
+**Problem**: "Handle errors appropriately"
+**Fix**: Require specific error cases and responses
+
+## When to Adjust Rigor
+
+**Reduce for**:
 - Internal utilities with single consumer
-- Exploratory prototypes explicitly marked experimental
-- Specs for fixing simple bugs (may document the fix inline)
+- Exploratory prototypes (marked experimental)
+- Simple bug fixes (may document inline)
 
-**Never skip:**
+**Never skip**:
 - Vision/Scope alignment check
 - Testability verification
 - Interface specification review
 
+## Integration with Workflow
+
+**Receives**: specs/proposed/<feature>.md
+**Produces**: Review in reviews/specs/, moves approved spec to specs/todo/
+**Next**: Skeleton Writer (if approved), Spec Writer (if changes needed)
+**Gatekeeper**: Controls proposed → todo transition
+
+Complete workflow: [workflow-overview.md](workflow-overview.md)
+State transitions: [state-transitions.md](state-transitions.md)
+
 ## Critical Reminders
 
-**DO:**
-- Always create timestamped review with STATUS in filename
+**DO**:
+- Read spec completely before judging
+- Verify examples actually work
+- Check against Vision explicitly
+- Note unclear assumptions
+- Suggest concrete improvements
+- Create timestamped review with STATUS in filename
 - Move specs to todo/ only on APPROVED
-- Check against Vision/Scope/Roadmap every time
 - Verify examples are concrete and testable
+- Provide specific, actionable feedback
 
-**DON'T:**
-- Never approve vague or untestable specs
-- Never skip the gatekeeper movement responsibility
-- Never provide feedback without concrete next steps
-- Never move specs on NEEDS-CHANGES status
+**DON'T**:
+- Rewrite spec yourself (return to writer)
+- Accept vague requirements
+- Approve without checking testability
+- Skip Vision/Scope alignment check
+- Use generic feedback ("more detail needed")
+- Approve vague or untestable specs
+- Skip gatekeeper movement responsibility
+- Provide feedback without concrete next steps
+- Move specs on NEEDS-CHANGES status
