@@ -37,3 +37,9 @@ In this meta-project we will the following major components.
 3. **[Workflow](Workflow/Workflow.md):** Who goes first; who goes next; who communicates with whom; when artifacts are created, edited, and read.
 4. **[File Layout and Project State](Workflow/LayoutAndState.md):**
 4. **Evals?** How do different models and/or different prompts perform in various roles. This might go elsewhere?
+
+## Coming Soon
+
+In another project that I've been rapidly iterating on and haven't gotten into git yet, I took some ideas from this project but added an email communication between the roles.
+Results are _super_ interesting and I will merge that here eventually.
+(Literal email. I monitor things using Mutt. Good memories.)
