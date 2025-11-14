@@ -1,0 +1,42 @@
+From: {{FROM_ROLE}}@workflow.local
+To: {{TO_ROLE}}@workflow.local
+Subject: [CLARIFICATION NEEDED] {{ARTIFACT_NAME}}
+Date: {{DATE}}
+Message-ID: {{MESSAGE_ID}}
+In-Reply-To: {{IN_REPLY_TO}}
+References: {{REFERENCES}}
+X-Event-Type: clarification-request
+X-Artifacts: {{ARTIFACT_PATH}}
+X-Workflow-State: {{WORKFLOW_STATE}}
+
+Clarification needed regarding {{ARTIFACT_NAME}}.
+
+Artifact: {{ARTIFACT_PATH}}
+State: {{WORKFLOW_STATE}}
+Requestor: {{FROM_ROLE}}
+Blocking: {{BLOCKING}}
+Date: {{DATE}}
+
+Question:
+
+{{QUESTION}}
+
+Context:
+
+{{CONTEXT}}
+
+Why clarification is needed:
+- This affects the review/implementation of the artifact
+- The current artifact does not provide sufficient detail on this point
+- Proceeding without clarification may lead to incorrect implementation
+
+{{BLOCKING_DETAILS}}
+
+Next steps:
+- Please provide clarification or additional details
+- If the artifact needs updating, please revise and resubmit
+- Reply to this message with your response
+
+---
+Sent by {{FROM_ROLE}} role
+Generated: {{DATE}}

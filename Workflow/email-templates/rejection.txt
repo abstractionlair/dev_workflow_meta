@@ -1,0 +1,42 @@
+From: {{FROM_ROLE}}@workflow.local
+To: {{TO_ROLE}}@workflow.local
+Subject: [REVISION NEEDED] {{ARTIFACT_NAME}} requires changes
+Date: {{DATE}}
+Message-ID: {{MESSAGE_ID}}
+In-Reply-To: {{IN_REPLY_TO}}
+References: {{REFERENCES}}
+X-Event-Type: rejection
+X-Artifacts: {{ARTIFACT_PATH}}
+X-Workflow-State: {{WORKFLOW_STATE}}
+
+The {{REVIEW_TYPE}} requires revision before approval.
+
+Artifact: {{ARTIFACT_PATH}}
+State: {{WORKFLOW_STATE}} (unchanged)
+Reviewer: {{FROM_ROLE}}
+Date: {{DATE}}
+
+Issues identified:
+
+{{REVIEWER_COMMENTS}}
+
+{{ISSUES_FOUND}}
+
+Required actions:
+1. Address the issues listed above
+2. Update the artifact at {{ARTIFACT_PATH}}
+3. Re-submit for review when ready
+
+Guidance:
+- Focus on the specific issues identified
+- Maintain overall structure and approach
+- Ask for clarification if any feedback is unclear
+- Re-read relevant schema documents if needed
+
+Next steps:
+- Revise the artifact to address feedback
+- Send updated review-request when complete
+
+---
+Sent by {{FROM_ROLE}} role
+Generated: {{DATE}}

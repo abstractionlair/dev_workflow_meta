@@ -1,0 +1,34 @@
+From: {{FROM_ROLE}}@workflow.local
+To: {{TO_ROLE}}@workflow.local
+Subject: [APPROVAL] {{ARTIFACT_NAME}} approved
+Date: {{DATE}}
+Message-ID: {{MESSAGE_ID}}
+In-Reply-To: {{IN_REPLY_TO}}
+References: {{REFERENCES}}
+X-Event-Type: approval
+X-Artifacts: {{ARTIFACT_PATH}}
+X-Workflow-State: {{NEXT_STATE}}
+
+The {{REVIEW_TYPE}} has been approved and transitioned to {{NEXT_STATE}} state.
+
+Artifact: {{ARTIFACT_PATH}}
+Previous State: {{WORKFLOW_STATE}}
+New State: {{NEXT_STATE}}
+Reviewer: {{FROM_ROLE}}
+Date: {{DATE}}
+
+Review outcome:
+✓ Meets workflow standards
+✓ Complete and correct
+✓ Ready for next phase
+
+{{REVIEWER_COMMENTS}}
+
+Next steps:
+The artifact is now ready for: {{NEXT_ROLES}}
+
+{{NEXT_ACTIONS}}
+
+---
+Sent by {{FROM_ROLE}} role
+Generated: {{DATE}}
