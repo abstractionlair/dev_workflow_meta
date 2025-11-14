@@ -1,0 +1,3 @@
+[submodule "docs/inspiration/MultiModelCLIEmail"]
+	path = docs/inspiration/MultiModelCLIEmail
+	url = git@github.com:abstractionlair/MultiModelCLIEmail.git
