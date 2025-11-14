@@ -20,44 +20,9 @@ This document tracks all active work for the dev_workflow_meta project. Use this
 
 ## Next Actions
 
-**Top Priority**: Email integration Milestone 1 - Basic email automation (see detailed plan below)
+**Top Priority**: Email integration Phase 1 - Basic email automation (see detailed plan below)
 
----
-
-## Backlog Items
-
-When email integration Milestone 1 is complete (or paused), choose from:
-
-- **TDD pattern for non-code artifacts** - Document and formalize the discovered TDD approach for prompts/templates (see pattern description below)
-- **State transition discipline detection** - Add checks to workflow-status.sh to detect when work starts without moving specs from `todo/` to `doing/`
-- **Feature branch creation timing** - Verify and fix when/how skeleton-writer creates feature branches
-- **Merge timing verification** - Document when feature branches merge to main and who performs merges
-- **Vision/scope schema enhancements** - Update vision role/schema to focus on timeline, tech stack, available time, deferred scope
-- **Timestamp resolution in file names** - Need higher resolution timestamps (likely milliseconds)
-- **Version history cleanup** - There is still version history to remove from somewhere (need to specify where)
-
-### TDD Pattern for Non-Code Artifacts (Prompts/Templates)
-
-We discovered this TDD approach works for specs whose implementation is prompts/prompt templates/context (not code):
-
-**Skeleton Phase:**
-- Create outline of prompt document structure
-- Headers, sections, subsections with placeholders
-- Each section marked: "This section needs to be written."
-
-**Test Phase:**
-- Tests become evals using LLM Judge
-- Tell model how to "fail" when info is missing
-- Define success criteria for each prompt section
-
-**Implementation Phase:**
-- Make tests pass by writing actual prompt content
-- Iterative refinement based on eval results
-
-**To implement/document:**
-- Decide: New schema `schema-prompt-artifact.md` OR new section in existing schemas (implementation, test)?
-- Update relevant role files (skeleton-writer, test-writer, implementer)
-- Create example showing the pattern in action
+When complete (or paused), see backlog at end of document.
 
 ---
 

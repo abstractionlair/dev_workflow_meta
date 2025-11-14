@@ -30,6 +30,16 @@ This document explains why certain files must remain at the root and the dual na
 
 Many files exist in both locations for these distinct purposes.
 
+## Planning and Progress
+
+See [docs/PLAN.md](docs/PLAN.md) for:
+- Current status and recently completed work
+- Next actions (what to work on next)
+- Email integration implementation plan
+- Backlog of other tasks
+
+This is the single source of truth for tracking progress and choosing what to work on.
+
 ## Time Estimates
 
 **Do not provide time estimates for tasks or projects.**
