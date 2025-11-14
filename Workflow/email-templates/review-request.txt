@@ -1,0 +1,32 @@
+From: {{FROM_ROLE}}@workflow.local
+To: {{TO_ROLE}}@workflow.local
+Subject: [REVIEW REQUEST] {{ARTIFACT_NAME}} ready for review
+Date: {{DATE}}
+Message-ID: {{MESSAGE_ID}}
+X-Event-Type: review-request
+X-Artifacts: {{ARTIFACT_PATH}}
+X-Workflow-State: {{WORKFLOW_STATE}}
+
+The {{REVIEW_TYPE}} is ready for review.
+
+Artifact: {{ARTIFACT_PATH}}
+State: {{WORKFLOW_STATE}}
+Author: {{FROM_ROLE}}
+Date: {{DATE}}
+
+Please review for:
+- Completeness against requirements
+- Clarity and correctness
+- Adherence to workflow standards
+- Testability (for specs) or correctness (for implementations)
+
+{{CONTEXT}}
+
+Next steps:
+- Review the artifact at the path above
+- Provide feedback via approval or rejection message
+- If clarification needed, send clarification-request
+
+---
+Sent by {{FROM_ROLE}} role
+Generated: {{DATE}}
