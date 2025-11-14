@@ -450,6 +450,57 @@ NEEDS-CHANGES - Address 3 critical issues above.
 
 Goal: Ensure skeleton enables TDD, not achieve perfection.
 
+## Communication Protocol
+
+See [EmailIntegration.md](EmailIntegration.md) for complete email workflow documentation.
+
+### When to Check Email
+
+**Before starting work:**
+- Check for skeleton review-request messages
+- Check for answers to clarification questions
+
+**After completing work:**
+- Send approval or rejection message
+- Send clarification-request if skeleton is unclear
+
+**Use email workflow:**
+```bash
+./Workflow/scripts/run-role.sh --with-email skeleton-reviewer
+```
+
+### Message Types to Send
+
+**approval** - Skeleton is approved
+```bash
+./Workflow/scripts/workflow-notify.sh \
+  approval \
+  specs/doing/feature-name.md \
+  skeleton-writer,test-writer \
+  NEXT_ROLES="test-writer" \
+  CONTEXT="Skeleton approved, ready for test development"
+```
+
+**rejection** - Skeleton needs revision
+```bash
+./Workflow/scripts/workflow-notify.sh \
+  rejection \
+  specs/doing/feature-name.md \
+  skeleton-writer \
+  REVIEWER_COMMENTS="Type annotations incomplete, dependency injection not testable"
+```
+
+**clarification-request** - Need clarification
+```bash
+./Workflow/scripts/workflow-notify.sh \
+  --in-reply-to "<review-request-message-id>" \
+  clarification-request \
+  specs/doing/feature-name.md \
+  skeleton-writer \
+  QUESTION="Should CacheInterface support async operations?" \
+  BLOCKING="no"
+```
+
 ## Integration with Workflow
 
 **Receives:** Skeleton code on feature branch, SPEC from specs/doing/

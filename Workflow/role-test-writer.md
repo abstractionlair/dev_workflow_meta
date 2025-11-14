@@ -386,6 +386,82 @@ E   NotImplementedError: Implement UserService.register()
 ✓ Good - Failing for correct reason
 ```
 
+## Communication Protocol
+
+See [EmailIntegration.md](EmailIntegration.md) for complete email workflow documentation.
+
+### When to Check Email
+
+**Before starting work:**
+- Check for skeleton approval notifications
+- Check for answers to test design questions
+- Verify skeleton is approved and available
+
+**After completing work:**
+- Send review-request to test-reviewer
+- Send status-update to implementer (they're waiting for tests)
+- Report if spec is untestable (needs revision)
+
+**Use email workflow:**
+```bash
+./Workflow/scripts/run-role.sh --with-email test-writer
+```
+
+### Message Types to Handle
+
+**approval** - Skeleton approved, ready for test writing
+- Action: Review approved skeleton code
+- Action: Start writing tests (RED phase)
+- Action: Ensure all tests fail for correct reasons
+
+**answer** - Response to test design question
+- Action: Incorporate testing guidance
+- Action: Continue test development
+- Action: Adjust test approach based on answer
+
+**clarification-request** - Reviewer needs clarification
+- Action: Explain test coverage decisions
+- Action: Clarify why specific test cases were included
+- Action: Update test documentation if needed
+
+### Message Types to Send
+
+**review-request** - Tests are ready for review (all RED)
+```bash
+./Workflow/scripts/workflow-notify.sh \
+  review-request \
+  specs/doing/feature-name.md \
+  test-reviewer \
+  CONTEXT="All 25 tests RED, failing for correct reasons (NotImplementedError)"
+```
+
+**status-update** - Notify waiting implementer
+```bash
+./Workflow/scripts/workflow-notify.sh \
+  status-update \
+  specs/doing/feature-name.md \
+  implementer,coordinator \
+  CONTEXT="Tests 80% complete, covering all spec scenarios, ready for review soon"
+```
+
+**question** - Need testing guidance or spec clarification
+```bash
+./Workflow/scripts/workflow-notify.sh \
+  question \
+  specs/doing/feature-name.md \
+  spec-writer,platform-lead \
+  QUESTION="Spec says 'handle errors gracefully' but doesn't specify error types. What should tests verify?"
+```
+
+**blocker-report** - Spec is untestable (rare)
+```bash
+./Workflow/scripts/workflow-notify.sh \
+  blocker-report \
+  specs/doing/feature-name.md \
+  spec-writer,coordinator \
+  BLOCKING_DETAILS="Spec describes behavior but provides no testable interface or observable outputs"
+```
+
 ## Integration with Workflow
 
 This role fits in the workflow as follows:

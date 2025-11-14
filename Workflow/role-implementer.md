@@ -1108,6 +1108,94 @@ When fixing bugs (instead of implementing features from specs), use this lighter
 - Documentation (GUIDELINES.md if pattern)
 - Review (implementation reviewer)
 
+## Communication Protocol
+
+See [EmailIntegration.md](EmailIntegration.md) for complete email workflow documentation.
+
+### When to Check Email
+
+**Before starting work:**
+- Check for test approval notifications
+- Check for answers to technical questions
+- Check for blocker resolutions from platform-lead
+
+**During long sessions:**
+- Use `--email-poll-interval 300` to check every 5 minutes
+- Watch for urgent clarifications or blocker responses
+- May receive updated specs or test corrections
+
+**After completing work:**
+- Send review-request to implementation-reviewer
+- Send blocker-report if blocked
+- Send status-update for long-running implementations
+
+**Use email workflow:**
+```bash
+./Workflow/scripts/run-role.sh --with-email --email-poll-interval 300 implementer
+```
+
+### Message Types to Handle
+
+**approval** - Tests approved, ready to implement
+- Action: Note tests are in specs/doing/
+- Action: Start implementation following TDD green phase
+- Action: Make tests pass without modifying them
+
+**answer** - Response to technical question or blocker
+- Action: Apply suggested solution
+- Action: Continue implementation
+- Action: Send status-update when unblocked
+
+**clarification-request** - Reviewer or tester needs clarification
+- Action: Provide implementation details
+- Action: Explain technical decisions
+- Action: Update code comments if question reveals unclear implementation
+
+### Message Types to Send
+
+**review-request** - Implementation is complete (tests passing)
+```bash
+./Workflow/scripts/workflow-notify.sh \
+  review-request \
+  specs/doing/feature-name.md \
+  implementation-reviewer \
+  CONTEXT="All tests passing, focused on performance per spec requirements"
+```
+
+**blocker-report** - Work is blocked
+```bash
+# First: Move spec to blocked state
+git mv specs/doing/feature-name.md specs/blocked/feature-name.md
+git commit -m "implementer: Block feature-name - API incompatibility"
+
+# Then: Report blocker
+./Workflow/scripts/workflow-notify.sh \
+  blocker-report \
+  specs/blocked/feature-name.md \
+  platform-lead,coordinator \
+  BLOCKING_DETAILS="External API library incompatible with specified interface" \
+  CONTEXT="Tried adapters, but async/sync mismatch prevents clean integration"
+```
+
+**question** - Need technical guidance
+```bash
+./Workflow/scripts/workflow-notify.sh \
+  question \
+  specs/doing/feature-name.md \
+  platform-lead \
+  QUESTION="Performance spec requires <100ms but current approach is 500ms. Suggestions?" \
+  BLOCKING="no"
+```
+
+**status-update** - Progress report for long implementations
+```bash
+./Workflow/scripts/workflow-notify.sh \
+  status-update \
+  specs/doing/feature-name.md \
+  coordinator,implementation-reviewer \
+  CONTEXT="Implementation 60% complete, 15/25 tests passing, ETA 2 more sessions"
+```
+
 ## Integration with Workflow
 
 This role fits in the workflow as follows:

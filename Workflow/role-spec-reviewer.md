@@ -231,6 +231,89 @@ Must specify:
 - Testability verification
 - Interface specification review
 
+## Communication Protocol
+
+See [EmailIntegration.md](EmailIntegration.md) for complete email workflow documentation.
+
+### When to Check Email
+
+**Before starting work:**
+- Check for new review-request messages
+- Check for answers to clarification questions you've asked
+- Prioritize review requests by urgency and dependencies
+
+**After completing work:**
+- Send approval or rejection message
+- Send clarification-request if spec is ambiguous
+- Send status-update if review is taking longer than expected
+
+**Use email workflow:**
+```bash
+./Workflow/scripts/run-role.sh --with-email spec-reviewer
+```
+
+### Message Types to Handle
+
+**review-request** - Spec ready for review
+- Action: Review the spec at the specified path
+- Action: Provide approval or rejection
+- Action: Send clarification-request if needed
+
+**answer** - Response to your clarification question
+- Action: Incorporate answer into review decision
+- Action: Continue review process
+- Action: Send approval/rejection when review is complete
+
+**question** - Spec writer or others asking about review
+- Action: Provide guidance on review criteria
+- Action: Clarify review timeline if needed
+
+### Message Types to Send
+
+**approval** - Spec is approved
+```bash
+# First: Move spec to approved state
+git mv specs/proposed/feature-name.md specs/todo/feature-name.md
+git commit -m "spec-reviewer: Approve feature-name spec"
+
+# Then: Send approval notification
+./Workflow/scripts/workflow-notify.sh \
+  approval \
+  specs/todo/feature-name.md \
+  spec-writer \
+  NEXT_STATE="todo" \
+  NEXT_ROLES="skeleton-writer,test-writer"
+```
+
+**rejection** - Spec needs revision
+```bash
+./Workflow/scripts/workflow-notify.sh \
+  rejection \
+  specs/proposed/feature-name.md \
+  spec-writer \
+  REVIEWER_COMMENTS="Missing error handling section, interface types incomplete"
+```
+
+**clarification-request** - Need clarification to proceed
+```bash
+./Workflow/scripts/workflow-notify.sh \
+  --in-reply-to "<review-request-message-id>" \
+  clarification-request \
+  specs/proposed/feature-name.md \
+  spec-writer \
+  QUESTION="Should OAuth tokens expire or use refresh pattern?" \
+  BLOCKING="no"
+```
+
+**status-update** - Review progress update
+```bash
+./Workflow/scripts/workflow-notify.sh \
+  status-update \
+  specs/proposed/feature-name.md \
+  coordinator,spec-writer \
+  CONTEXT="Review 70% complete, need to verify integration points with platform-lead"
+```
+
 ## Integration with Workflow
 
 **Receives**: specs/proposed/<feature>.md

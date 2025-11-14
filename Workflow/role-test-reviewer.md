@@ -542,6 +542,57 @@ Tests share state which will cause intermittent failures.
 NEEDS-CHANGES - Address 4 critical issues and add 3 missing tests
 ```
 
+## Communication Protocol
+
+See [EmailIntegration.md](EmailIntegration.md) for complete email workflow documentation.
+
+### When to Check Email
+
+**Before starting work:**
+- Check for test review-request messages
+- Check for answers to clarification questions
+
+**After completing work:**
+- Send approval or rejection message
+- Send clarification-request if tests are unclear
+
+**Use email workflow:**
+```bash
+./Workflow/scripts/run-role.sh --with-email test-reviewer
+```
+
+### Message Types to Send
+
+**approval** - Tests are approved
+```bash
+./Workflow/scripts/workflow-notify.sh \
+  approval \
+  specs/doing/feature-name.md \
+  test-writer,implementer \
+  NEXT_ROLES="implementer" \
+  CONTEXT="All tests RED for correct reasons, ready for implementation"
+```
+
+**rejection** - Tests need revision
+```bash
+./Workflow/scripts/workflow-notify.sh \
+  rejection \
+  specs/doing/feature-name.md \
+  test-writer \
+  REVIEWER_COMMENTS="Missing edge cases, test coverage 68% (need 80%+)"
+```
+
+**clarification-request** - Need clarification
+```bash
+./Workflow/scripts/workflow-notify.sh \
+  --in-reply-to "<review-request-message-id>" \
+  clarification-request \
+  specs/doing/feature-name.md \
+  test-writer \
+  QUESTION="Why no tests for error condition described in spec section 4.2?" \
+  BLOCKING="no"
+```
+
 ## Integration with Workflow
 
 **Receives:** Test suite (all RED) on feature branch, SPEC from specs/doing/
