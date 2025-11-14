@@ -1,0 +1,35 @@
+# [Project Name]
+
+## What This Is
+
+[Brief description of what this project delivers/produces]
+
+## For Contributors
+
+This project uses the AI-Augmented Software Development Workflow. See:
+- Entry points for different AI tools: CLAUDE.md, AGENTS.md, GEMINI.md, etc.
+- CONTRIBUTING.md for how to work in this project
+- project-meta/ directory for planning, specs, and workflow documentation
+
+## For Users
+
+[Information about using the deliverables of this project]
+
+### Installation
+
+[Installation instructions]
+
+### Usage
+
+[Usage examples]
+
+## Project Structure
+
+```
+project-meta/       # Planning, specs, architecture, workflow docs
+project-content/    # Source code, tests, documentation
+```
+
+## License
+
+[License information]
