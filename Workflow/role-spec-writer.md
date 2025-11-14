@@ -462,6 +462,86 @@ weather = get_weather("Portland", use_cache=False)
 - Happy path examples
 - Error condition specification
 
+## Communication Protocol
+
+See [EmailIntegration.md](EmailIntegration.md) for complete email workflow documentation.
+
+### When to Check Email
+
+**Before starting work:**
+- Check for approval/rejection of previously submitted specs
+- Check for clarification questions from reviewers
+- Check for answers to questions you've asked
+
+**After completing work:**
+- Send review-request when spec is ready
+- Send answers to clarification questions
+- Send status-updates if work is taking longer than expected
+
+**Use email workflow:**
+```bash
+./Workflow/scripts/run-role.sh --with-email spec-writer
+```
+
+### Message Types to Handle
+
+**approval** - Your spec was approved
+- Action: Note artifact moved to specs/todo/
+- Action: Can start work on next feature
+
+**rejection** - Your spec needs revision
+- Action: Review reviewer comments
+- Action: Revise spec
+- Action: Resubmit for review
+
+**clarification-request** - Reviewer needs clarification
+- Action: Read question carefully
+- Action: Provide clear answer via answer message
+- Action: Update spec if clarification reveals ambiguity
+
+**question** - General questions from other roles
+- Action: Provide guidance on spec interpretation
+- Action: Update spec if question reveals unclear requirements
+
+### Message Types to Send
+
+**review-request** - Spec is ready for review
+```bash
+./Workflow/scripts/workflow-notify.sh \
+  review-request \
+  specs/proposed/feature-name.md \
+  spec-reviewer \
+  CONTEXT="Focus on error handling patterns"
+```
+
+**answer** - Response to clarification request
+```bash
+./Workflow/scripts/workflow-notify.sh \
+  --in-reply-to "<reviewer-message-id>" \
+  answer \
+  specs/proposed/feature-name.md \
+  spec-reviewer \
+  CONTEXT="Use refresh token pattern per OAuth 2.0 spec"
+```
+
+**question** - Need expert input
+```bash
+./Workflow/scripts/workflow-notify.sh \
+  question \
+  specs/proposed/feature-name.md \
+  platform-lead \
+  QUESTION="Should we use sync or async interface here?"
+```
+
+**status-update** - Inform stakeholders of progress
+```bash
+./Workflow/scripts/workflow-notify.sh \
+  status-update \
+  specs/proposed/feature-name.md \
+  coordinator \
+  CONTEXT="Spec 60% complete, need one more conversation with product"
+```
+
 ## Integration with Workflow
 
 This role fits in the workflow as follows:

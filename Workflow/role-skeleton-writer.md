@@ -610,6 +610,72 @@ Goal: Make design concrete and catch issues, not create busy work.
 - Create feature branch before approval
 - Leave spec in `todo/` after branching
 
+## Communication Protocol
+
+See [EmailIntegration.md](EmailIntegration.md) for complete email workflow documentation.
+
+### When to Check Email
+
+**Before starting work:**
+- Check for spec approval notifications
+- Check for answers to interface design questions
+- Verify spec is in specs/todo/ and approved
+
+**After completing work:**
+- Send review-request to skeleton-reviewer
+- Send status-update to test-writer (they're waiting for skeleton)
+- Notify coordinator if skeleton creation reveals spec issues
+
+**Use email workflow:**
+```bash
+./Workflow/scripts/run-role.sh --with-email skeleton-writer
+```
+
+### Message Types to Handle
+
+**approval** - Spec approved, ready for skeleton
+- Action: Note spec is in specs/todo/
+- Action: Create feature branch
+- Action: Move spec to specs/doing/
+- Action: Create skeleton code
+
+**answer** - Response to interface design question
+- Action: Incorporate guidance into skeleton design
+- Action: Continue skeleton development
+
+**clarification-request** - Reviewer needs clarification
+- Action: Explain interface design decisions
+- Action: Update docstrings if question reveals ambiguity
+
+### Message Types to Send
+
+**review-request** - Skeleton is ready for review
+```bash
+./Workflow/scripts/workflow-notify.sh \
+  review-request \
+  specs/doing/feature-name.md \
+  skeleton-reviewer \
+  CONTEXT="Complete type definitions, dependency injection ready for testing"
+```
+
+**status-update** - Notify waiting roles
+```bash
+./Workflow/scripts/workflow-notify.sh \
+  status-update \
+  specs/doing/feature-name.md \
+  test-writer,coordinator \
+  CONTEXT="Skeleton complete and under review, test-writer can start soon"
+```
+
+**question** - Need design guidance
+```bash
+./Workflow/scripts/workflow-notify.sh \
+  question \
+  specs/doing/feature-name.md \
+  platform-lead,spec-writer \
+  QUESTION="Spec describes sync interface but dependency is async. Should spec be updated?"
+```
+
 ## Integration with Workflow
 
 This role fits in the workflow as follows:

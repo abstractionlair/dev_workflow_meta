@@ -513,6 +513,67 @@ def test_bug_123_empty_email_validation():
 **If NEEDS-CHANGES:**
 Create review with specific feedback, leave in `bugs/fixing/`.
 
+## Communication Protocol
+
+See [EmailIntegration.md](EmailIntegration.md) for complete email workflow documentation.
+
+### When to Check Email
+
+**Before starting work:**
+- Check for implementation review-request messages
+- Check for answers to clarification questions
+
+**After completing work:**
+- Send approval message (feature complete!)
+- Send rejection if implementation has issues
+- Notify coordinator when feature is merged
+
+**Use email workflow:**
+```bash
+./Workflow/scripts/run-role.sh --with-email implementation-reviewer
+```
+
+### Message Types to Send
+
+**approval** - Implementation approved, feature complete!
+```bash
+# First: Merge feature branch, move spec to done
+git checkout main
+git merge feature-name
+git push origin main
+git mv specs/doing/feature-name.md specs/done/feature-name.md
+git commit -m "implementation-reviewer: Approve feature-name implementation"
+git push
+
+# Then: Send approval notification
+./Workflow/scripts/workflow-notify.sh \
+  approval \
+  specs/done/feature-name.md \
+  implementer,coordinator \
+  NEXT_STATE="done" \
+  CONTEXT="Feature complete, merged to main, all tests passing"
+```
+
+**rejection** - Implementation needs revision
+```bash
+./Workflow/scripts/workflow-notify.sh \
+  rejection \
+  specs/doing/feature-name.md \
+  implementer \
+  REVIEWER_COMMENTS="Security vulnerability in line 42, performance issue in loop (spec requires <100ms)"
+```
+
+**clarification-request** - Need clarification
+```bash
+./Workflow/scripts/workflow-notify.sh \
+  --in-reply-to "<review-request-message-id>" \
+  clarification-request \
+  specs/doing/feature-name.md \
+  implementer \
+  QUESTION="Why did you deviate from the recommended caching approach in spec?" \
+  BLOCKING="no"
+```
+
 ## Integration with Workflow
 
 **Receives:** Implementation (all tests GREEN) on feature branch, SPEC from specs/doing/
