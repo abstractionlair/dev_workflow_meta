@@ -1,16 +1,118 @@
-# Email Communication Integration Plan
+# Meta-Project Development Plan
 
 ## Overview
 
-This plan documents the integration of the email-based communication system (from `MultiModelCLIEmail`) into the artifact-driven workflow system (from `dev_workflow_meta`).
+This document tracks all active work for the dev_workflow_meta project. Use this as the single source of truth for:
+- What's been completed
+- What's currently in progress
+- What to work on next
+- Long-term plans and milestones
+
+**Last Updated**: 2025-11-14
+
+## Current Status
+
+**Active Work**: None - waiting to select next item from backlog below
+
+**Recently Completed**:
+- ✅ Meta-project structure fixes (README.md, entry points, guidance documentation)
+- ✅ Email communication integration planning
+
+## Next Actions
+
+Choose one of the following to work on in your next session:
+
+### Quick Wins (1-2 hours)
+1. **Fix state transition discipline detection** - Add checks to workflow-status.sh to detect when work starts without moving specs from `todo/` to `doing/`
+2. **Document TDD pattern for prompts** - Create documentation for the discovered TDD approach for non-code artifacts
+
+### Medium Tasks (3-8 hours)
+3. **Feature branch creation timing** - Verify and fix when/how skeleton-writer creates feature branches
+4. **Merge timing verification** - Document when feature branches merge to main and who performs merges
+5. **Vision/scope schema enhancements** - Update vision role/schema to focus on timeline, tech stack, available time, deferred scope
+
+### Major Projects (1-2 weeks each)
+6. **Email integration Milestone 1** - Basic email automation (see detailed plan below)
+7. **Prompts/context workflow** - Figure out how to incorporate prompt templates into workflow, including testing and review
+
+---
+
+## Backlog Items
+
+### Workflow Infrastructure
+
+#### State Transition Issues
+- **Feature branch creation timing**: Seems to be in the wrong place and/or not happening consistently
+  - Need to verify when skeleton-writer creates the branch
+  - Ensure it happens before implementation work starts
+
+- **State transition discipline**: Observed work starting on implementing a spec without moving it from `todo/` to `doing/` first
+  - Add checks in workflow-status.sh to detect this?
+  - Email notifications when state transitions are skipped?
+
+- **Merge timing verification**: Need to recheck when merges happen
+  - When does feature branch merge to main?
+  - Who performs the merge?
+  - State transitions on merge?
+
+#### Documentation and Schema Enhancements
+
+- **Vision/scope enhancements**: Vision roles and/or schema should focus on:
+  - Timeline and milestones
+  - Tech stack decisions
+  - Developer time available
+  - Scope that should be deferred to later phases
+
+- **Prompts/context in workflow**: Need to figure out how to incorporate prompts/prompt templates/context into the workflow
+  - How to test prompts? (Evals/LLM Judge)
+  - How to review prompts?
+  - Document the TDD pattern discovered (see below)
+
+#### Technical Debt
+
+- **Timestamp resolution in file names**: Need higher resolution timestamps (likely milliseconds)
+  - This got dropped somehow - did it come back?
+  - Note from GPT-5: may not have access to system clock
+
+- **Version history cleanup**: There is still version history to remove from somewhere
+  - Need to specify where this is
+
+### Discovered Patterns to Document
+
+#### TDD for Non-Code Artifacts (Prompts/Templates)
+
+Had a spec whose implementation was all prompts/prompt templates/context (not Python code). We discovered this TDD approach works:
+
+**Skeleton Phase:**
+- Create outline of prompt document structure
+- Headers, sections, subsections with placeholders
+- Each section marked: "This section needs to be written."
+
+**Test Phase:**
+- Tests become evals using LLM Judge
+- Tell model how to "fail" when info is missing
+- Define success criteria for each prompt section
+
+**Implementation Phase:**
+- Make tests pass by writing actual prompt content
+- Iterative refinement based on eval results
+
+**Action:** Document this pattern in:
+- New schema: `schema-prompt-artifact.md`? or
+- New section in existing schemas (implementation, test)?
+- Update relevant role files (skeleton-writer, test-writer, implementer)
+
+---
+
+## Email Communication Integration
 
 **Goal**: Enable asynchronous, bidirectional communication between workflow roles while preserving the structured artifact-driven approach.
 
-**Status**: Planning phase - implementation not yet started
+**Overall Status**: Planning complete - ready to begin Milestone 1 when selected
 
-## Background
+### Background
 
-### Current State
+#### Current State
 
 **dev_workflow_meta** provides:
 - Structured artifact workflow (vision → scope → roadmap → specs → implementation)
@@ -24,7 +126,7 @@ This plan documents the integration of the email-based communication system (fro
 - `run-role.sh` for launching agents with role context
 - Support for multiple AI models (Claude, GPT-5, Gemini, Grok)
 
-### The Problem
+#### The Problem
 
 Current workflow requires **manual handoffs** between roles:
 - Spec writer completes → manually invoke spec reviewer
@@ -32,7 +134,7 @@ Current workflow requires **manual handoffs** between roles:
 - Implementer blocked → manually ask for help
 - No mechanism for clarification questions during work
 
-### The Solution
+#### The Solution
 
 Integrate email communication to enable:
 1. **Automated workflow notifications** (spec ready for review, approval complete, etc.)
@@ -40,7 +142,7 @@ Integrate email communication to enable:
 3. **Multi-model collaboration** (different models can discuss approaches)
 4. **Reduced manual coordination overhead**
 
-## Design Principles
+### Design Principles
 
 1. **Preserve the artifact-driven workflow** - Email complements, doesn't replace artifacts
 2. **Graceful degradation** - Workflow still works without email (manual fallback)
@@ -48,30 +150,30 @@ Integrate email communication to enable:
 4. **Learn from usage** - Early milestones inform later ones
 5. **Role autonomy** - Roles decide when to check/send email based on their needs
 
-## Architecture Options Considered
+### Architecture Options Considered
 
-### Option 1: agentd Supervisor (Full Vision)
+#### Option 1: agentd Supervisor (Full Vision)
 External daemon per role that continuously polls mailbox, invokes CLI tool when messages arrive, handles loop detection and budgets.
 
 **Pros**: True async, fast response, sophisticated error handling
 **Cons**: Complex, longer timeline (5-7 weeks), more moving parts
 
-### Option 2: Event-Driven Email Integration (Selected Approach)
+#### Option 2: Event-Driven Email Integration (Selected Approach)
 Workflow scripts send notifications at key events; roles check email at strategic points (before/during/after work).
 
 **Pros**: Simpler, faster delivery (2 weeks), natural integration
 **Cons**: Not truly continuous, some latency in responses
 
-### Decision: Incremental Path
+#### Decision: Incremental Path
 Start with event-driven integration (Option 2), evolve toward supervision (Option 1) based on learnings.
 
-## Implementation Roadmap
+### Implementation Roadmap
 
-### Milestone 1: Basic Email Automation (Phase 1 Core)
+#### Milestone 1: Basic Email Automation (Phase 1 Core)
 **Timeline: 1 week**
 **Goal**: Automate simple workflow handoffs with email notifications
 
-#### Deliverables
+**Deliverables:**
 
 1. **Email-aware workflow scripts** (`Workflow/scripts/`)
    - Extend state transition scripts to send notifications
@@ -89,13 +191,13 @@ Start with event-driven integration (Option 2), evolve toward supervision (Optio
    - Spec Reviewer reads spec, sends feedback → email to spec writer
    - Validate bidirectional communication works
 
-#### Success Criteria
+**Success Criteria:**
 - [ ] Can trigger a role manually, it automatically checks email
 - [ ] Role can send notifications at workflow milestones
 - [ ] Successfully complete one spec-write-review-feedback loop via email
 - [ ] Fallback to manual mode still works if email disabled
 
-#### Technical Details
+**Technical Details:**
 
 **New scripts**:
 ```bash
@@ -130,11 +232,11 @@ Date: 2025-11-14
 
 ---
 
-### Milestone 2: Structured Communication Protocols (Phase 1 Complete)
+#### Milestone 2: Structured Communication Protocols (Phase 1 Complete)
 **Timeline: +1 week (2 weeks total)**
 **Goal**: Well-defined communication patterns for all major workflow events
 
-#### Deliverables
+**Deliverables:**
 
 4. **Message templates** (`Workflow/email-templates/`)
    - Review request template
@@ -161,14 +263,14 @@ Date: 2025-11-14
    - Document email workflow in `Workflow/EmailIntegration.md`
    - Update `GUIDELINES.md` with email conventions
 
-#### Success Criteria
+**Success Criteria:**
 - [ ] All major workflow events have defined message templates
 - [ ] Each role knows when to check email and how to respond
 - [ ] Threads properly track conversations (can follow in Mutt)
 - [ ] Artifacts referenced correctly survive state transitions
 - [ ] Documentation complete for email-enabled workflow
 
-#### Technical Details
+**Technical Details:**
 
 **New directory structure**:
 ```
@@ -233,11 +335,11 @@ Use templates:
 
 ---
 
-### Milestone 3: Lightweight Supervision (Phase 1.5)
+#### Milestone 3: Lightweight Supervision (Phase 1.5)
 **Timeline: +1-2 weeks (3-4 weeks total)**
 **Goal**: Proof of concept for continuous async monitoring
 
-#### Deliverables
+**Deliverables:**
 
 8. **Simple supervisor for reviewers** (`Workflow/scripts/reviewer-daemon.sh`)
    - Continuously polls reviewer mailboxes
@@ -256,14 +358,14 @@ Use templates:
     - Log file per daemon for debugging
     - Status command to check if daemons running
 
-#### Success Criteria
+**Success Criteria:**
 - [ ] Reviewer daemon runs continuously without crashing
 - [ ] Automatically picks up review requests within reasonable time (< 5 min)
 - [ ] Completes review and sends response without manual intervention
 - [ ] Can start/stop daemons easily
 - [ ] Logs provide visibility into daemon activity
 
-#### Technical Details
+**Technical Details:**
 
 **New scripts**:
 ```bash
@@ -310,11 +412,11 @@ done
 
 ---
 
-### Milestone 4: Full agentd Supervision (Phase 2)
+#### Milestone 4: Full agentd Supervision (Phase 2)
 **Timeline: +2-3 weeks (5-7 weeks total)**
 **Goal**: Production-ready async multi-model workflow with robust error handling
 
-#### Deliverables
+**Deliverables:**
 
 11. **Generalized supervisor** (`agentd.py`)
     - Works for any role (not just reviewers)
@@ -342,7 +444,7 @@ done
     - Diagnose proposes multiple hypotheses
     - Budget awareness and escalation
 
-#### Success Criteria
+**Success Criteria:**
 - [ ] agentd runs stably for multiple roles simultaneously
 - [ ] Loop detection prevents infinite retry cycles
 - [ ] Budget system stops unproductive work
@@ -350,7 +452,7 @@ done
 - [ ] All protocol headers and fields properly implemented
 - [ ] Roles follow invariants and escalate when stuck
 
-#### Technical Details
+**Technical Details:**
 
 **New components**:
 ```
@@ -396,9 +498,9 @@ On budget exhaustion or no DeltaProof:
 
 ---
 
-## Integration with Existing Workflow
+### Integration with Existing Workflow
 
-### Directory Structure
+#### Directory Structure
 
 ```
 dev_workflow_meta/
@@ -428,7 +530,7 @@ MultiModelCLIEmail/
     # Add workflow role files (reuse from dev_workflow_meta/Workflow/role-*.md)
 ```
 
-### Workflow Event Notifications
+#### Workflow Event Notifications
 
 | Event | Triggered By | Notifies | Message Type |
 |-------|-------------|----------|--------------|
@@ -445,7 +547,7 @@ MultiModelCLIEmail/
 | Bug recorded | Bug Recorder | Implementer | bug-assignment |
 | Architecture question | Any role | Platform Lead | question |
 
-### State Transition Integration
+#### State Transition Integration
 
 Extend state transition scripts to send notifications:
 
@@ -461,7 +563,7 @@ git commit -m "Approve spec: authentication"
   skeleton-writer,test-writer
 ```
 
-### Role Invocation Patterns
+#### Role Invocation Patterns
 
 **Without email** (current):
 ```bash
@@ -481,29 +583,29 @@ git commit -m "Approve spec: authentication"
 # Daemon runs continuously, invokes role when needed
 ```
 
-## Testing Strategy
+### Testing Strategy
 
-### Milestone 1 Testing
+#### Milestone 1 Testing
 - Manual end-to-end: Spec write → review request → review → feedback
 - Verify email format and headers
 - Verify fallback to manual mode if email disabled
 - Test with at least 2 different AI models
 
-### Milestone 2 Testing
+#### Milestone 2 Testing
 - Test all message templates
 - Verify threading works (can follow in Mutt)
 - Test artifact references survive state transitions
 - Test bidirectional communication (questions and answers)
 - Test with all primary roles (writers, reviewers, implementer)
 
-### Milestone 3 Testing
+#### Milestone 3 Testing
 - Daemon stability test (run for 24 hours)
 - Performance test (multiple concurrent review requests)
 - Timeout protection test (long-running reviews)
 - Log analysis (verify activity captured)
 - Graceful shutdown test
 
-### Milestone 4 Testing
+#### Milestone 4 Testing
 - Loop detection: Trigger same error multiple times
 - Budget enforcement: Exhaust budget, verify escalation
 - DeltaProof validation: Retry without changes, verify block
@@ -511,79 +613,79 @@ git commit -m "Approve spec: authentication"
 - Stress test: High message volume
 - Error recovery: Kill and restart agentd
 
-## Success Metrics
+### Success Metrics
 
-### Milestone 1
+#### Milestone 1
 - 80% reduction in manual handoff steps for spec review flow
 - Email notifications delivered within 1 minute of event
 - Zero failures to fallback to manual mode
 
-### Milestone 2
+#### Milestone 2
 - All major workflow events (10+) have email integration
 - 100% of roles have documented communication protocols
 - Threads maintain context across ≥3 message exchanges
 
-### Milestone 3
+#### Milestone 3
 - Reviewer daemon uptime ≥99% over 1 week
 - Review requests processed automatically within 5 minutes
 - Zero missed notifications
 
-### Milestone 4
+#### Milestone 4
 - Loop detection prevents ≥90% of infinite retry scenarios
 - Budget system stops unproductive work in ≤2 attempts
 - Multi-role workflows complete without manual intervention
 - Zero uncontrolled agent loops in 1 week of testing
 
-## Risk Mitigation
+### Risk Mitigation
 
-### Risk: Email system adds complexity
+#### Risk: Email system adds complexity
 **Mitigation**: Graceful degradation - workflow works without email
 
-### Risk: Agents get stuck in loops
+#### Risk: Agents get stuck in loops
 **Mitigation**:
 - M1-M2: Simple timeouts and manual monitoring
 - M3: Daemon timeout protection
 - M4: Full loop detection and budget system
 
-### Risk: Messages lost or delayed
+#### Risk: Messages lost or delayed
 **Mitigation**:
 - Maildir is atomic and reliable
 - Monitoring via monitor mailbox
 - Can always check manually with Mutt
 
-### Risk: Integration breaks existing workflow
+#### Risk: Integration breaks existing workflow
 **Mitigation**:
 - Email is additive, doesn't change core workflow
 - Extensive testing at each milestone
 - Can revert to manual mode
 
-### Risk: Too many daemons consuming resources
+#### Risk: Too many daemons consuming resources
 **Mitigation**:
 - Start with critical roles only (reviewers)
 - Monitor resource usage
 - Can stop daemons and fall back to event-driven
 
-## Decision Points
+### Decision Points
 
 After each milestone, evaluate:
 
-### After Milestone 1
+#### After Milestone 1
 - **Go/No-Go for M2**: Is event-driven email useful enough to invest in structured protocols?
 - **Adjust scope**: Which roles benefit most? Which events are highest value?
 
-### After Milestone 2
+#### After Milestone 2
 - **Go/No-Go for M3**: Is continuous monitoring needed, or is event-driven sufficient?
 - **Timeline**: Fast-track to M4 or stay at M2 longer?
 
-### After Milestone 3
+#### After Milestone 3
 - **Go/No-Go for M4**: Is simple supervision enough, or is loop detection critical?
 - **Scope**: Which roles get full agentd supervision vs lightweight daemon?
 
-### After Milestone 4
+#### After Milestone 4
 - **Expand or stabilize**: Add more roles, or focus on reliability and optimization?
 - **Advanced features**: Multi-parent threading (true DAG), cross-machine sync, etc.
 
-## Open Questions
+### Open Questions
 
 1. **Model assignment**: Which AI model for which workflow role?
    - Spec Writer: Claude? GPT-5?
@@ -610,9 +712,9 @@ After each milestone, evaluate:
    - How many concurrent agents feasible?
    - Resource limits per agent?
 
-## References
+### References
 
-### Source Documents
+#### Source Documents
 - `dev_workflow_meta/README.md` - Workflow overview
 - `dev_workflow_meta/GUIDELINES.md` - Meta-project guidelines
 - `dev_workflow_meta/Workflow/` - Role definitions and schemas
@@ -620,7 +722,7 @@ After each milestone, evaluate:
 - `MultiModelCLIEmail/README.md` - Email system usage
 - `MultiModelCLIEmail/docs/workflow_improvements.md` - agentd specification
 
-### Key Concepts
+#### Key Concepts
 - **Artifact-driven workflow**: Vision → Scope → Roadmap → Specs → Implementation
 - **Role-based messaging**: Messages between roles, not models
 - **Maildir format**: Standard email storage (new/, cur/, tmp/)
@@ -628,20 +730,14 @@ After each milestone, evaluate:
 - **Loop detection**: ErrorSignature + DeltaProof prevent infinite retries
 - **Budget system**: Limits per error type prevent wasted work
 
-## Next Steps
-
-1. **Review and approve this plan**
-2. **Begin Milestone 1 implementation**:
-   - Create `Workflow/scripts/workflow-notify.sh`
-   - Extend `Workflow/scripts/run-role.sh` with `--with-email`
-   - Create first message template
-   - Test spec write-review-feedback loop
-3. **Document learnings** as we go
-4. **Evaluate** after M1 before proceeding to M2
-
 ---
 
-**Last Updated**: 2025-11-14
-**Status**: Planning complete, ready to begin implementation
-**Current Milestone**: None (planning phase)
-**Next Milestone**: Milestone 1 - Basic Email Automation
+## Appendix: Email Integration Implementation Notes
+
+When ready to begin Milestone 1:
+1. Create `Workflow/scripts/workflow-notify.sh`
+2. Extend `Workflow/scripts/run-role.sh` with `--with-email`
+3. Create first message template
+4. Test spec write-review-feedback loop
+5. Document learnings as we go
+6. Evaluate after M1 before proceeding to M2
