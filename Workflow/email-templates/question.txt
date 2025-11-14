@@ -1,0 +1,42 @@
+From: {{FROM_ROLE}}@workflow.local
+To: {{TO_ROLE}}@workflow.local
+Subject: [QUESTION] {{ARTIFACT_NAME}}
+Date: {{DATE}}
+Message-ID: {{MESSAGE_ID}}
+In-Reply-To: {{IN_REPLY_TO}}
+References: {{REFERENCES}}
+X-Event-Type: question
+X-Artifacts: {{ARTIFACT_PATH}}
+X-Workflow-State: {{WORKFLOW_STATE}}
+
+Question regarding {{ARTIFACT_NAME}}.
+
+Artifact: {{ARTIFACT_PATH}}
+State: {{WORKFLOW_STATE}}
+Questioner: {{FROM_ROLE}}
+Blocking: {{BLOCKING}}
+Date: {{DATE}}
+
+Question:
+
+{{QUESTION}}
+
+Context:
+
+{{CONTEXT}}
+
+Why this is being asked:
+- Need expert input on this topic
+- Decision affects implementation approach
+- Clarification will improve quality of deliverable
+
+{{BLOCKING_DETAILS}}
+
+Next steps:
+- Please provide your expertise or guidance
+- If you're not the right person, please forward to appropriate expert
+- Reply to this message with your answer
+
+---
+Sent by {{FROM_ROLE}} role
+Generated: {{DATE}}

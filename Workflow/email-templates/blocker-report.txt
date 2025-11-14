@@ -1,0 +1,41 @@
+From: {{FROM_ROLE}}@workflow.local
+To: {{TO_ROLE}}@workflow.local
+Subject: [BLOCKED] {{ARTIFACT_NAME}} - work cannot proceed
+Date: {{DATE}}
+Message-ID: {{MESSAGE_ID}}
+In-Reply-To: {{IN_REPLY_TO}}
+References: {{REFERENCES}}
+X-Event-Type: blocker-report
+X-Artifacts: {{ARTIFACT_PATH}}
+X-Workflow-State: blocked
+
+Work on {{ARTIFACT_NAME}} is BLOCKED and cannot proceed without intervention.
+
+Artifact: {{ARTIFACT_PATH}}
+State: blocked
+Reporter: {{FROM_ROLE}}
+Date: {{DATE}}
+
+Blocker description:
+
+{{BLOCKING_DETAILS}}
+
+What was attempted:
+{{CONTEXT}}
+
+Why this is blocking:
+- Cannot make progress without resolving this issue
+- Attempted workarounds were unsuccessful
+- This requires human intervention or platform-lead decision
+
+{{ISSUES_FOUND}}
+
+Required actions:
+- Review the blocker and determine resolution path
+- Provide guidance on how to proceed
+- Consider if artifact needs revision or environment needs changes
+- Update workflow state once blocker is resolved
+
+---
+Sent by {{FROM_ROLE}} role
+Generated: {{DATE}}
