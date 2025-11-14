@@ -3,15 +3,18 @@ set -euo pipefail
 
 # run-role.sh - Launch AI tool in appropriate role
 #
-# Usage: ./run-role.sh [-i] <role-name> [artifact-path] [additional-context...]
+# Usage: ./run-role.sh [OPTIONS] <role-name> [artifact-path] [additional-context...]
 #
 # Options:
-#   -i, --interactive    Force interactive mode (default: one-shot)
+#   -i, --interactive           Force interactive mode (default: one-shot)
+#   --with-email                Enable email checking before/after work
+#   --email-poll-interval SEC   Check email every SEC seconds during work
 #
 # Examples:
 #   ./run-role.sh spec-reviewer specs/proposed/user-auth.md
 #   ./run-role.sh -i spec-writer
-#   ./run-role.sh -i implementer specs/doing/user-auth.md
+#   ./run-role.sh --with-email spec-reviewer specs/proposed/user-auth.md
+#   ./run-role.sh -i --with-email --email-poll-interval 300 implementer
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 WORKFLOW_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
@@ -26,11 +29,21 @@ fi
 
 # Parse flags
 INTERACTIVE=false
+WITH_EMAIL=false
+EMAIL_POLL_INTERVAL=""
 while [[ $# -gt 0 ]]; do
     case "$1" in
         -i|--interactive)
             INTERACTIVE=true
             shift
+            ;;
+        --with-email)
+            WITH_EMAIL=true
+            shift
+            ;;
+        --email-poll-interval)
+            EMAIL_POLL_INTERVAL="$2"
+            shift 2
             ;;
         -*)
             echo "Error: Unknown option: $1" >&2
@@ -168,8 +181,75 @@ build_init_message() {
     fi
 }
 
+# Email checking functions (Phase 1 - event-driven notifications)
+check_email_inbox() {
+    local role="$1"
+
+    # TODO: Implement actual email checking when email system is integrated (Milestone 1, part 2)
+    # For now, emit informative message
+
+    if [ "$WITH_EMAIL" = "true" ]; then
+        echo "=== Email Check (before work) ===" >&2
+        echo "Role: $role" >&2
+        echo "" >&2
+        echo "Note: Email system integration pending (Milestone 1, part 2)" >&2
+        echo "When integrated, would check: ~/.maildir/workflow/$role/new/" >&2
+        echo "" >&2
+
+        # Future implementation:
+        # MAILDIR="${HOME}/.maildir/workflow/${role}/new"
+        # if [ -d "$MAILDIR" ]; then
+        #     NEW_MSGS=$(find "$MAILDIR" -type f | wc -l)
+        #     if [ "$NEW_MSGS" -gt 0 ]; then
+        #         echo "You have $NEW_MSGS new message(s):" >&2
+        #         # Display messages filtered by relevance
+        #     fi
+        # fi
+    fi
+}
+
+check_email_after_work() {
+    local role="$1"
+
+    if [ "$WITH_EMAIL" = "true" ]; then
+        echo "" >&2
+        echo "=== Email Check (after work) ===" >&2
+        echo "Role: $role" >&2
+        echo "" >&2
+        echo "Note: Email system integration pending (Milestone 1, part 2)" >&2
+        echo "When integrated, would check: ~/.maildir/workflow/$role/new/" >&2
+        echo "" >&2
+
+        # Future implementation:
+        # Check for new replies received during work
+        # Display any urgent messages
+    fi
+}
+
+setup_email_polling() {
+    local interval="$1"
+    local role="$2"
+
+    if [ -n "$interval" ]; then
+        echo "Note: Email polling ($interval seconds) will be available in Milestone 1, part 2" >&2
+
+        # Future implementation:
+        # Background process that checks email every $interval seconds
+        # Notifies role if urgent messages arrive
+    fi
+}
+
 # Change to project root for execution
 cd "$PROJECT_ROOT"
+
+# Pre-work email check
+if [ "$WITH_EMAIL" = "true" ]; then
+    check_email_inbox "$ROLE_NAME"
+
+    if [ -n "$EMAIL_POLL_INTERVAL" ]; then
+        setup_email_polling "$EMAIL_POLL_INTERVAL" "$ROLE_NAME"
+    fi
+fi
 
 # Execute based on tool and mode
 case "$TOOL" in
@@ -186,9 +266,9 @@ case "$TOOL" in
                 echo "" >&2
                 echo "Initial task: $TASK_MSG" >&2
                 echo "" >&2
-                exec claude --model "$MODEL" --append-system-prompt "$SYSTEM_PROMPT" "$TASK_MSG"
+                claude --model "$MODEL" --append-system-prompt "$SYSTEM_PROMPT" "$TASK_MSG"
             else
-                exec claude --model "$MODEL" --append-system-prompt "$SYSTEM_PROMPT"
+                claude --model "$MODEL" --append-system-prompt "$SYSTEM_PROMPT"
             fi
         else
             # One-shot Claude
@@ -197,7 +277,7 @@ case "$TOOL" in
                 echo "Use -i for interactive mode" >&2
                 exit 1
             fi
-            exec claude --model "$MODEL" --append-system-prompt "$SYSTEM_PROMPT" --print "$TASK_MSG"
+            claude --model "$MODEL" --append-system-prompt "$SYSTEM_PROMPT" --print "$TASK_MSG"
         fi
         ;;
 
@@ -213,7 +293,7 @@ case "$TOOL" in
 
             # Pass init message as positional argument (not via stdin)
             # This keeps stdin/stdout as TTYs, so codex stays interactive
-            exec codex -m "$MODEL" "$INIT_MSG"
+            codex -m "$MODEL" "$INIT_MSG"
         else
             # One-shot codex
             CODEX_CMD="codex exec --full-auto -m $MODEL"
@@ -222,7 +302,7 @@ case "$TOOL" in
                 CODEX_CMD="$CODEX_CMD -c model_reasoning_effort=$REASONING_EFFORT"
             fi
 
-            build_init_message | eval exec "$CODEX_CMD"
+            build_init_message | eval "$CODEX_CMD"
         fi
         ;;
 
@@ -235,10 +315,10 @@ case "$TOOL" in
             echo "Role: $ROLE_NAME" >&2
             echo "Model: $MODEL" >&2
             echo "" >&2
-            exec gemini -m "$MODEL" -i "$INIT_MSG"
+            gemini -m "$MODEL" -i "$INIT_MSG"
         else
             # One-shot
-            exec gemini -m "$MODEL" -p "$INIT_MSG"
+            gemini -m "$MODEL" -p "$INIT_MSG"
         fi
         ;;
 
@@ -251,10 +331,10 @@ case "$TOOL" in
             echo "Role: $ROLE_NAME" >&2
             echo "Model: $MODEL" >&2
             echo "" >&2
-            exec opencode -m "$MODEL" -p "$INIT_MSG"
+            opencode -m "$MODEL" -p "$INIT_MSG"
         else
             # One-shot
-            exec opencode run -m "$MODEL" "$INIT_MSG"
+            opencode run -m "$MODEL" "$INIT_MSG"
         fi
         ;;
 
@@ -263,3 +343,8 @@ case "$TOOL" in
         exit 1
         ;;
 esac
+
+# Post-work email check
+if [ "$WITH_EMAIL" = "true" ]; then
+    check_email_after_work "$ROLE_NAME"
+fi

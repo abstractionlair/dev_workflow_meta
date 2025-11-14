@@ -1,0 +1,36 @@
+From: {{FROM_ROLE}}@workflow.local
+To: {{TO_ROLE}}@workflow.local
+Subject: [STATUS UPDATE] {{ARTIFACT_NAME}}
+Date: {{DATE}}
+Message-ID: {{MESSAGE_ID}}
+In-Reply-To: {{IN_REPLY_TO}}
+References: {{REFERENCES}}
+X-Event-Type: status-update
+X-Artifacts: {{ARTIFACT_PATH}}
+X-Workflow-State: {{WORKFLOW_STATE}}
+X-Session-Id: {{SESSION_ID}}
+
+Status update on {{ARTIFACT_NAME}}.
+
+Artifact: {{ARTIFACT_PATH}}
+State: {{WORKFLOW_STATE}}
+Reporter: {{FROM_ROLE}}
+Date: {{DATE}}
+
+Progress summary:
+
+{{CONTEXT}}
+
+Current status:
+- Work is progressing on this artifact
+- No blockers at this time
+- Expected next steps are outlined below
+
+{{NEXT_ACTIONS}}
+
+Next steps:
+{{NEXT_ROLES}}
+
+---
+Sent by {{FROM_ROLE}} role
+Generated: {{DATE}}

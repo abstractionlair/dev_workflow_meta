@@ -1,0 +1,38 @@
+From: {{FROM_ROLE}}@workflow.local
+To: {{TO_ROLE}}@workflow.local
+Subject: Re: [QUESTION] {{ARTIFACT_NAME}}
+Date: {{DATE}}
+Message-ID: {{MESSAGE_ID}}
+In-Reply-To: {{IN_REPLY_TO}}
+References: {{REFERENCES}}
+X-Event-Type: answer
+X-Artifacts: {{ARTIFACT_PATH}}
+X-Workflow-State: {{WORKFLOW_STATE}}
+
+Answer to your question regarding {{ARTIFACT_NAME}}.
+
+Artifact: {{ARTIFACT_PATH}}
+State: {{WORKFLOW_STATE}}
+Answerer: {{FROM_ROLE}}
+Date: {{DATE}}
+
+Original question:
+
+{{QUESTION}}
+
+Answer:
+
+{{CONTEXT}}
+
+Additional guidance:
+
+{{NEXT_ACTIONS}}
+
+Next steps:
+- Use this guidance to proceed with your work
+- If you need further clarification, reply to this message
+- Update artifact status as you progress
+
+---
+Sent by {{FROM_ROLE}} role
+Generated: {{DATE}}
