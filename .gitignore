@@ -1,10 +1,18 @@
-# Claude Code local settings (user-specific)
-.claude/settings.local.json
+# Meta-project .gitignore
 
 # macOS
 .DS_Store
 
-# Python
+# Linux
+*~
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Python (for any eval scripts)
 __pycache__/
 *.py[cod]
 *$py.class
@@ -13,19 +21,16 @@ __pycache__/
 *.egg-info/
 dist/
 build/
-
-# IDEs
-.vscode/
-.idea/
-*.swp
-*.swo
+venv/
+env/
+.venv/
 
 # Test coverage
 .coverage
 htmlcov/
 
-# Virtual environments
-venv/
-env/
-.venv/
+# Logs
+*.log
+
+# Evaluation outputs (evals directory is for local experimentation)
 evals/

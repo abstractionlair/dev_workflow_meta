@@ -1,0 +1,19 @@
+{
+  "_comment": "Path configuration for concrete projects using the workflow",
+  "_description": "Copy this to your project root as project-meta.config.json and customize if needed",
+
+  "meta_root": "project-meta",
+  "planning_dir": "project-meta/planning",
+  "architecture_dir": "project-meta/architecture",
+  "specs_dir": "project-meta/specs",
+  "bugs_dir": "project-meta/bugs",
+  "reviews_dir": "project-meta/reviews",
+  "review_requests_dir": "project-meta/review-requests",
+
+  "content_root": "project-content",
+  "src_dir": "project-content/src",
+  "tests_dir": "project-content/tests",
+  "docs_dir": "project-content/docs",
+
+  "workflow_submodule": "project-meta/workflow"
+}
