@@ -29,3 +29,21 @@ This document explains why certain files must remain at the root and the dual na
 2. A workflow definition for other projects (provides templates)
 
 Many files exist in both locations for these distinct purposes.
+
+## Time Estimates
+
+**Do not provide time estimates for tasks or projects.**
+
+AI agents should avoid estimating how long tasks will take. Reasons:
+- Pre-AI development timelines are not applicable to AI-augmented workflows
+- Agent estimates are often off by orders of magnitude
+- Estimates add noise without providing value
+- Focus instead on dependencies, sequence, and scope
+
+When planning work, describe:
+- What needs to be done
+- What depends on what
+- What can be done in parallel
+- Clear completion criteria
+
+But do not estimate hours, days, or weeks for completion.
