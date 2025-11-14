@@ -20,68 +20,25 @@ This document tracks all active work for the dev_workflow_meta project. Use this
 
 ## Next Actions
 
-Choose one of the following to work on in your next session:
-
-### Quick Wins (1-2 hours)
-1. **Fix state transition discipline detection** - Add checks to workflow-status.sh to detect when work starts without moving specs from `todo/` to `doing/`
-2. **Document TDD pattern for prompts** - Create documentation for the discovered TDD approach for non-code artifacts
-
-### Medium Tasks (3-8 hours)
-3. **Feature branch creation timing** - Verify and fix when/how skeleton-writer creates feature branches
-4. **Merge timing verification** - Document when feature branches merge to main and who performs merges
-5. **Vision/scope schema enhancements** - Update vision role/schema to focus on timeline, tech stack, available time, deferred scope
-
-### Major Projects (1-2 weeks each)
-6. **Email integration Milestone 1** - Basic email automation (see detailed plan below)
-7. **Prompts/context workflow** - Figure out how to incorporate prompt templates into workflow, including testing and review
+**Top Priority**: Email integration Milestone 1 - Basic email automation (see detailed plan below)
 
 ---
 
 ## Backlog Items
 
-### Workflow Infrastructure
+When email integration Milestone 1 is complete (or paused), choose from:
 
-#### State Transition Issues
-- **Feature branch creation timing**: Seems to be in the wrong place and/or not happening consistently
-  - Need to verify when skeleton-writer creates the branch
-  - Ensure it happens before implementation work starts
+- **TDD pattern for non-code artifacts** - Document and formalize the discovered TDD approach for prompts/templates (see pattern description below)
+- **State transition discipline detection** - Add checks to workflow-status.sh to detect when work starts without moving specs from `todo/` to `doing/`
+- **Feature branch creation timing** - Verify and fix when/how skeleton-writer creates feature branches
+- **Merge timing verification** - Document when feature branches merge to main and who performs merges
+- **Vision/scope schema enhancements** - Update vision role/schema to focus on timeline, tech stack, available time, deferred scope
+- **Timestamp resolution in file names** - Need higher resolution timestamps (likely milliseconds)
+- **Version history cleanup** - There is still version history to remove from somewhere (need to specify where)
 
-- **State transition discipline**: Observed work starting on implementing a spec without moving it from `todo/` to `doing/` first
-  - Add checks in workflow-status.sh to detect this?
-  - Email notifications when state transitions are skipped?
+### TDD Pattern for Non-Code Artifacts (Prompts/Templates)
 
-- **Merge timing verification**: Need to recheck when merges happen
-  - When does feature branch merge to main?
-  - Who performs the merge?
-  - State transitions on merge?
-
-#### Documentation and Schema Enhancements
-
-- **Vision/scope enhancements**: Vision roles and/or schema should focus on:
-  - Timeline and milestones
-  - Tech stack decisions
-  - Developer time available
-  - Scope that should be deferred to later phases
-
-- **Prompts/context in workflow**: Need to figure out how to incorporate prompts/prompt templates/context into the workflow
-  - How to test prompts? (Evals/LLM Judge)
-  - How to review prompts?
-  - Document the TDD pattern discovered (see below)
-
-#### Technical Debt
-
-- **Timestamp resolution in file names**: Need higher resolution timestamps (likely milliseconds)
-  - This got dropped somehow - did it come back?
-  - Note from GPT-5: may not have access to system clock
-
-- **Version history cleanup**: There is still version history to remove from somewhere
-  - Need to specify where this is
-
-### Discovered Patterns to Document
-
-#### TDD for Non-Code Artifacts (Prompts/Templates)
-
-Had a spec whose implementation was all prompts/prompt templates/context (not Python code). We discovered this TDD approach works:
+We discovered this TDD approach works for specs whose implementation is prompts/prompt templates/context (not code):
 
 **Skeleton Phase:**
 - Create outline of prompt document structure
@@ -97,10 +54,10 @@ Had a spec whose implementation was all prompts/prompt templates/context (not Py
 - Make tests pass by writing actual prompt content
 - Iterative refinement based on eval results
 
-**Action:** Document this pattern in:
-- New schema: `schema-prompt-artifact.md`? or
-- New section in existing schemas (implementation, test)?
+**To implement/document:**
+- Decide: New schema `schema-prompt-artifact.md` OR new section in existing schemas (implementation, test)?
 - Update relevant role files (skeleton-writer, test-writer, implementer)
+- Create example showing the pattern in action
 
 ---
 
