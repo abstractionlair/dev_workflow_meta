@@ -71,13 +71,13 @@ We discovered this TDD approach works for specs whose implementation is prompts/
 
 #### Current State
 
-**dev_workflow_meta** provides:
+**dev_workflow_meta** (this project) provides:
 - Structured artifact workflow (vision → scope → roadmap → specs → implementation)
 - Clear role definitions (writers, reviewers, implementers, platform lead)
 - Git-based state transitions with gatekeepers
 - Scripts for launching roles and checking workflow status
 
-**MultiModelCLIEmail** provides:
+**MultiModelCLIEmail** (another project; reference copy in docs/inspiration/MultiModelCLIEmail) provides:
 - Maildir-based messaging using standard email protocols
 - `msg` CLI tool for send/poll/read/reply operations
 - `run-role.sh` for launching agents with role context
