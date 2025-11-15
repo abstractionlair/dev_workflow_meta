@@ -8,11 +8,27 @@ This document tracks all active work for the dev_workflow_meta project. Use this
 - What to work on next
 - Long-term plans and milestones
 
-**Last Updated**: 2025-11-14
+**Last Updated**: 2025-11-15
 
 ---
 
 ## Completed Work
+
+### Project Initialization Structure Fix ✅
+
+**Completed**: 2025-11-15
+
+Fixed confusing nested structure where `init-project.sh` created projects inside `dev_workflow_meta/`.
+
+**Solution implemented:**
+- Auto-detect when running from inside dev_workflow_meta repository
+- Create projects in parent directory (as siblings) when detected
+- Intelligent template fallback (checks submodule and meta project locations)
+- Clear user messaging showing where project is being created
+- Display absolute path in success message and next steps
+- Updated Quick Start documentation in README.md and ConcreteProjectSetup.md
+
+**Result**: New projects are now created as siblings to dev_workflow_meta, avoiding circular submodule references and maintaining clean structure.
 
 ### Meta-Project Structure Fixes ✅
 
@@ -138,21 +154,7 @@ Proof of concept for continuous async monitoring. Simple daemon that automatical
 
 **Priority**: These issues affect new users trying to adopt the workflow. Should be addressed before promoting wider adoption.
 
-#### 1. Project Initialization Structure Problems
-
-**Problem**: `init-project.sh` creates confusing nested structure
-- New project ends up inside `dev_workflow_meta/my-project-name/`
-- Should create projects in a sibling directory or elsewhere
-- Current structure: `dev_workflow_meta/my-project-name/project-meta/workflow/` → `dev_workflow_meta` (circular!)
-
-**Impact**: Users can't easily initialize new projects; structure is confusing
-
-**Actions needed**:
-- [ ] Fix `init-project.sh` to create projects outside dev_workflow_meta
-- [ ] OR provide clear guidance on where to run it from
-- [ ] Update Quick Start documentation to match corrected behavior
-
-#### 2. ConcreteProjectSetup.md Missing Helper Role Integration
+#### 1. ConcreteProjectSetup.md Missing Helper Role Integration
 
 **Problem**: Documentation tells users to manually create VISION.md, SCOPE.md, ROADMAP.md
 - We have helper roles for this: `vision-writing-helper`, `scope-writing-helper`, `roadmap-writing-helper`
@@ -169,7 +171,7 @@ Proof of concept for continuous async monitoring. Simple daemon that automatical
 - [ ] Link to relevant schemas and role documentation
 - [ ] Show the progression: helper → writer → reviewer → approved artifact
 
-#### 3. Broken Documentation Links
+#### 2. Broken Documentation Links
 
 **Problem**: Top-level docs may not properly link to helper workflow
 - Entry points (CLAUDE.md, AGENTS.md, etc.) might not mention helpers
@@ -184,7 +186,7 @@ Proof of concept for continuous async monitoring. Simple daemon that automatical
 - [ ] Check CONTRIBUTING.md references helpers for new projects
 - [ ] Add "Getting Started" section that starts with vision-writing-helper
 
-#### 4. Helper Roles and Email Workflow Design
+#### 3. Helper Roles and Email Workflow Design
 
 **Problem**: Helper roles (`*-writing-helper`) are interactive/conversational
 - Designed for synchronous back-and-forth dialogue
@@ -306,4 +308,3 @@ These questions will be answered as we implement future phases:
   - How to migrate insights from email to artifacts?
 
 ---
-
