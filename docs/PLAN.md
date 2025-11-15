@@ -10,38 +10,20 @@ This document tracks all active work for the dev_workflow_meta project. Use this
 
 **Last Updated**: 2025-11-14
 
-## Current Status
-
-**Active Work**: None - Phase 2 complete, ready to select next item from backlog
-
-**Recently Completed**:
-- ✅ Meta-project structure fixes (README.md, entry points, guidance documentation)
-- ✅ Email communication integration planning
-- ✅ **Email integration Phase 1 - Event-Driven Email (COMPLETE 2025-11-14)**
-  - workflow-notify.sh script with 8 message types
-  - run-role.sh extended with --with-email support
-  - Complete message format specification (MessageFormat.md)
-  - Comprehensive email workflow documentation (EmailIntegration.md)
-  - All 8 email templates created and tested
-  - Communication Protocol sections added to all main workflow roles
-  - End-to-end testing validated
-- ✅ **Email integration Phase 2 - Lightweight Supervision (COMPLETE 2025-11-14)**
-  - reviewer-daemon.sh for continuous polling and automatic review processing
-  - daemon-control.sh for daemon management (start/stop/status/logs/list)
-  - Timeout protection (10min per invocation)
-  - Activity logging to logs/daemon-${ROLE}.log
-  - Graceful shutdown handling
-  - Infrastructure ready for async review workflows
-
-## Next Actions
-
-**Options**: Choose next priority from backlog below, OR continue to Phase 3 (full agentd supervision) after gathering learnings from Phase 2 usage.
-
-**Recommendation**: Use Phase 2 in practice to evaluate effectiveness of continuous monitoring before proceeding to Phase 3.
-
 ---
 
-## Email Communication Integration
+## Completed Work
+
+### Meta-Project Structure Fixes ✅
+
+**Completed**: 2025-11-14
+
+- Fixed README.md structure and content
+- Restored entry points to root directory
+- Added docs/MetaProjectStructure.md guidance
+- Updated CONTRIBUTING.md
+
+### Email Communication Integration
 
 **Goal**: Enable asynchronous, bidirectional communication between workflow roles while preserving the structured artifact-driven approach.
 
@@ -49,11 +31,11 @@ This document tracks all active work for the dev_workflow_meta project. Use this
 
 **Approach**: Start simple (event-driven notifications), evolve toward full automation (supervised agents) based on learnings.
 
-### Phase 1: Event-Driven Email ✅ COMPLETE
+#### Phase 1: Event-Driven Email ✅
+
+**Completed**: 2025-11-14
 
 Simple workflow handoffs with email notifications. Roles check email at strategic points (before/during/after work).
-
-**Status**: Phase 1 completed 2025-11-14
 
 **Implementation:**
 
@@ -110,18 +92,11 @@ Simple workflow handoffs with email notifications. Roles check email at strategi
   - Best practices and troubleshooting
   - References MessageFormat.md for technical details
 
-**Decision point**: ✅ Phase 1 is complete and functional
-  - Event-driven email infrastructure fully operational
-  - All roles have communication protocols defined
-  - Message templates cover all workflow scenarios
-  - Ready to evaluate: Continue to Phase 2 for daemon automation?
-  - Recommendation: Use Phase 1 in practice first, gather learnings, then decide Phase 2 timing
+#### Phase 2: Lightweight Supervision ✅
 
-### Phase 2: Lightweight Supervision ✅ COMPLETE
+**Completed**: 2025-11-14
 
 Proof of concept for continuous async monitoring. Simple daemon that automatically processes review requests.
-
-**Status**: Phase 2 completed 2025-11-14
 
 **Implementation:**
 
@@ -150,16 +125,6 @@ Proof of concept for continuous async monitoring. Simple daemon that automatical
   - Infrastructure ready for full integration with email system
   - Ready to test with real maildir when email system integrated
 
-**Decision point**: ✅ Phase 2 infrastructure complete
-  - Daemon automation infrastructure operational
-  - Ready to evaluate: Use in practice to assess continuous monitoring needs
-  - Recommendation: Gather learnings from real usage before deciding on Phase 3
-  - Questions to answer through usage:
-    - Is event-driven (Phase 1) sufficient for most workflows?
-    - Which roles benefit most from daemon automation?
-    - What performance characteristics emerge?
-    - Should we fast-track to Phase 3 or stabilize at Phase 2?
-
 **Limitations** (to be addressed in Phase 3):
 - No loop detection
 - No state management across invocations
@@ -167,7 +132,83 @@ Proof of concept for continuous async monitoring. Simple daemon that automatical
 
 ---
 
-### Phase 3: Full agentd Supervision
+## Current Work
+
+### Immediate Issues to Address
+
+**Priority**: These issues affect new users trying to adopt the workflow. Should be addressed before promoting wider adoption.
+
+#### 1. Project Initialization Structure Problems
+
+**Problem**: `init-project.sh` creates confusing nested structure
+- New project ends up inside `dev_workflow_meta/my-project-name/`
+- Should create projects in a sibling directory or elsewhere
+- Current structure: `dev_workflow_meta/my-project-name/project-meta/workflow/` → `dev_workflow_meta` (circular!)
+
+**Impact**: Users can't easily initialize new projects; structure is confusing
+
+**Actions needed**:
+- [ ] Fix `init-project.sh` to create projects outside dev_workflow_meta
+- [ ] OR provide clear guidance on where to run it from
+- [ ] Update Quick Start documentation to match corrected behavior
+
+#### 2. ConcreteProjectSetup.md Missing Helper Role Integration
+
+**Problem**: Documentation tells users to manually create VISION.md, SCOPE.md, ROADMAP.md
+- We have helper roles for this: `vision-writing-helper`, `scope-writing-helper`, `roadmap-writing-helper`
+- We have writer roles: `vision-writer`, `scope-writer`, `roadmap-writer`
+- We have reviewer roles: `vision-reviewer`, `scope-reviewer`, `roadmap-reviewer`
+- We have schemas they should follow
+- Extensive documentation exists but isn't referenced
+
+**Impact**: Users miss the guided workflow and create documents from scratch without assistance
+
+**Actions needed**:
+- [ ] Rewrite ConcreteProjectSetup.md "Next Steps" section to guide users through helper workflow
+- [ ] Add example: "Ask AI to act as vision-writing-helper" with expected flow
+- [ ] Link to relevant schemas and role documentation
+- [ ] Show the progression: helper → writer → reviewer → approved artifact
+
+#### 3. Broken Documentation Links
+
+**Problem**: Top-level docs may not properly link to helper workflow
+- Entry points (CLAUDE.md, AGENTS.md, etc.) might not mention helpers
+- README.md might not explain the interactive helper pattern
+- New users may not discover the guided onboarding flow
+
+**Impact**: Users don't know helpers exist or how to use them
+
+**Actions needed**:
+- [ ] Audit all entry point files for helper role mentions
+- [ ] Verify README.md explains helper workflow
+- [ ] Check CONTRIBUTING.md references helpers for new projects
+- [ ] Add "Getting Started" section that starts with vision-writing-helper
+
+#### 4. Helper Roles and Email Workflow Design
+
+**Problem**: Helper roles (`*-writing-helper`) are interactive/conversational
+- Designed for synchronous back-and-forth dialogue
+- Don't fit async email-based workflow model
+- Need special handling or explicit exemption from email automation
+
+**Impact**: Unclear how helpers work in email-enabled workflow
+
+**Design decision needed**:
+- [ ] Document that helpers are synchronous-only (never run via daemon)
+- [ ] Update EmailIntegration.md to clarify helper role exception
+- [ ] Consider: Do helpers eventually hand off to async writers?
+- [ ] Define clear boundary: helpers (sync) → writers (can be async) → reviewers (can be async)
+
+**Proposed approach**:
+- Helpers remain interactive CLI sessions (no email, no daemon)
+- Helpers invoke writers when done (writers use email workflow)
+- Update role documentation to clarify this distinction
+
+---
+
+## Future Work
+
+### Email Integration Phase 3: Full agentd Supervision
 
 Production-ready async multi-model workflow with robust error handling and loop prevention.
 
@@ -204,32 +245,13 @@ Production-ready async multi-model workflow with robust error handling and loop 
   - Focus on reliability and optimization?
   - Advanced features: multi-parent threading, cross-machine sync?
 
----
+**Questions to answer through Phase 2 usage before proceeding**:
+- Is event-driven (Phase 1) sufficient for most workflows?
+- Which roles benefit most from daemon automation?
+- What performance characteristics emerge?
+- Should we fast-track to Phase 3 or stabilize at Phase 2?
 
-## Open Questions
-
-These questions will be answered as we implement the phases above:
-
-- [ ] **Model assignment**: Which AI model for which workflow role?
-  - Spec Writer: Claude? GPT-5?
-  - Reviewer: Different model than writer for diversity?
-  - Implementer: Best coding model?
-
-- [ ] **Escalation paths**: When BLOCKED, who resolves?
-  - Coordinator (human) always involved?
-  - Platform Lead can resolve some blocks?
-  - Peer roles can help?
-
-- [ ] **Conversation vs workflow**: When to use email vs artifacts?
-  - Transient discussion → email
-  - Decisions → artifacts
-  - How to migrate insights from email to artifacts?
-
----
-
-## Backlog Items
-
-When email integration Phase 1 is complete (or paused), choose from:
+### Backlog Items
 
 - **TDD pattern for non-code artifacts** - Document and formalize the discovered TDD approach for prompts/templates (see pattern description below)
 - **State transition discipline detection** - Add checks to workflow-status.sh to detect when work starts without moving specs from `todo/` to `doing/`
@@ -261,6 +283,27 @@ We discovered this TDD approach works for specs whose implementation is prompts/
 - Decide: New schema `schema-prompt-artifact.md` OR new section in existing schemas (implementation, test)?
 - Update relevant role files (skeleton-writer, test-writer, implementer)
 - Create example showing the pattern in action
+
+---
+
+## Open Questions
+
+These questions will be answered as we implement future phases:
+
+- [ ] **Model assignment**: Which AI model for which workflow role?
+  - Spec Writer: Claude? GPT-5?
+  - Reviewer: Different model than writer for diversity?
+  - Implementer: Best coding model?
+
+- [ ] **Escalation paths**: When BLOCKED, who resolves?
+  - Coordinator (human) always involved?
+  - Platform Lead can resolve some blocks?
+  - Peer roles can help?
+
+- [ ] **Conversation vs workflow**: When to use email vs artifacts?
+  - Transient discussion → email
+  - Decisions → artifacts
+  - How to migrate insights from email to artifacts?
 
 ---
 
