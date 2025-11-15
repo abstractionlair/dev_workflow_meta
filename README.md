@@ -54,14 +54,17 @@ In this meta-project we document the following major components:
 ```bash
 # Clone this repository
 git clone https://github.com/abstractionlair/dev_workflow_meta.git
-cd dev_workflow_meta
 
 # Initialize a new project with the workflow
-./bin/init-project.sh my-project-name
+./dev_workflow_meta/bin/init-project.sh my-project-name
+
+# The script auto-detects and creates the project as a sibling to dev_workflow_meta
 cd my-project-name
 
 # The workflow is now available in project-meta/workflow/
 ```
+
+**Note:** The script automatically detects if you're running from inside dev_workflow_meta and creates projects in the parent directory to avoid nesting. You can also specify a custom location with the `-d` flag.
 
 See [docs/ConcreteProjectSetup.md](docs/ConcreteProjectSetup.md) for detailed setup instructions.
 
