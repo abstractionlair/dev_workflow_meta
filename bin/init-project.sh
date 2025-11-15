@@ -92,9 +92,24 @@ if [[ -z "$PROJECT_NAME" ]]; then
     exit 1
 fi
 
+# Detect meta project root (needed for templates and auto-detection)
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+META_PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+
 # Set default target directory if not specified
 if [[ -z "$TARGET_DIR" ]]; then
-    TARGET_DIR="./$PROJECT_NAME"
+    # Check if current directory is inside the meta project
+    CURRENT_DIR="$(pwd)"
+    if [[ "$CURRENT_DIR" == "$META_PROJECT_ROOT" || "$CURRENT_DIR" == "$META_PROJECT_ROOT"/* ]]; then
+        # Running from inside dev_workflow_meta - create project in parent directory
+        TARGET_DIR="$META_PROJECT_ROOT/../$PROJECT_NAME"
+        echo -e "${YELLOW}⧗ Detected running from inside dev_workflow_meta${NC}"
+        echo -e "${YELLOW}  Creating project in parent directory: $TARGET_DIR${NC}"
+        echo
+    else
+        # Running from outside - create in current directory
+        TARGET_DIR="./$PROJECT_NAME"
+    fi
 fi
 
 echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
@@ -193,10 +208,14 @@ echo -e "${YELLOW}Creating configuration files...${NC}"
 
 # Determine workflow path for templates
 if [[ -d "project-meta/workflow/templates" ]]; then
+    # Templates from workflow submodule
     WORKFLOW_TEMPLATES="project-meta/workflow/templates"
+elif [[ -d "$META_PROJECT_ROOT/templates" ]]; then
+    # Running from inside meta project - use templates directly
+    WORKFLOW_TEMPLATES="$META_PROJECT_ROOT/templates"
 else
     echo -e "${RED}  ✗ Workflow templates not found${NC}"
-    echo "  Please ensure the workflow submodule is properly initialized"
+    echo "  Checked: project-meta/workflow/templates and $META_PROJECT_ROOT/templates"
     exit 1
 fi
 
@@ -459,6 +478,8 @@ echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━
 echo -e "${GREEN}✓ Project initialized successfully!${NC}"
 echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
 echo
+echo -e "${GREEN}Project location:${NC} $(cd "$TARGET_DIR" && pwd)"
+echo
 echo -e "${YELLOW}Project structure:${NC}"
 echo "  project-meta/               Meta information about the project"
 echo "    ├── workflow/             Workflow documentation (git submodule)"
@@ -473,9 +494,10 @@ echo "    ├── tests/                Test code"
 echo "    └── docs/                 User documentation"
 echo
 echo -e "${YELLOW}Next steps:${NC}"
-echo "  1. Review and complete project-meta/planning/VISION.md"
-echo "  2. Read CLAUDE.md (or AGENTS.md, etc.) and CONTRIBUTING.md"
-echo "  3. For AI tools: 'act as vision-writing-helper' to refine vision"
+echo "  1. cd $(cd "$TARGET_DIR" && pwd)"
+echo "  2. Review and complete project-meta/planning/VISION.md"
+echo "  3. Read CLAUDE.md (or AGENTS.md, etc.) and CONTRIBUTING.md"
+echo "  4. For AI tools: 'act as vision-writing-helper' to refine vision"
 echo
 echo -e "${BLUE}Workflow documentation: project-meta/workflow/Workflow/${NC}"
 echo

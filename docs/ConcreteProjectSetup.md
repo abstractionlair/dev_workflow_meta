@@ -14,12 +14,17 @@ The fastest way to get started:
 git clone https://github.com/abstractionlair/dev_workflow_meta.git
 
 # Run the initialization script
-cd dev_workflow_meta
-./bin/init-project.sh my-project-name
+./dev_workflow_meta/bin/init-project.sh my-project-name
 
-# Your new project is created in ./my-project-name/
+# The script auto-detects and creates the project as a sibling to dev_workflow_meta
 cd my-project-name
 ```
+
+**Auto-Detection Features:**
+- The script automatically detects if you run it from inside `dev_workflow_meta`
+- When detected, it creates your project in the parent directory (avoiding nested structure)
+- You can override this with `-d /path/to/custom/location`
+- Clear messaging shows you where the project is being created
 
 ## What Gets Created
 
