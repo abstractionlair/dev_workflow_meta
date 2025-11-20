@@ -8,7 +8,19 @@ This document tracks all active work for the dev_workflow_meta project. Use this
 - What to work on next
 - Long-term plans and milestones
 
-**Last Updated**: 2025-11-20
+### Planning Philosophy
+
+**This plan is intentionally simple, linear, and chronological.**
+
+Since this is a meta-project (defines a workflow for other projects), we avoid over-planning to prevent "plans to make plans to make plans" recursion. The plan follows a straightforward progression:
+- Phase 1 → Phase 2 → Phase 3 (email integration evolution)
+- Each phase builds on the previous
+- Features listed in implementation order where dependencies exist
+- Backlog items tracked but not elaborately prioritized
+
+**Success criterion:** Being able to migrate other projects onto this workflow and see improved development pace.
+
+**Last Updated**: 2025-11-20 (Added Phase 3 panel infrastructure requirements)
 
 ---
 
@@ -220,50 +232,87 @@ Proof of concept for continuous async monitoring. Simple daemon that automatical
 
 Production-ready async multi-model workflow with robust error handling and loop prevention.
 
-**Implementation:**
+**Implementation order (linear):**
 
-- [ ] Create generalized supervisor `Workflow/scripts/agentd.py`
-  - Works for any role (not just reviewers)
-  - Supports persistent_session mode (keep CLI alive) and single_shot mode
-  - State management across invocations
-  - Configurable per role via `config/supervisor-config.json`
+1. Fix known email tooling issues
+2. Build core agentd supervisor
+3. Add interactive intervention capability
+4. Implement panel infrastructure
+5. (Expected: Iterate on email tooling based on panel usage discoveries)
 
-- [ ] Implement Interactive Intervention UX
-  - "One terminal per role" architecture (supervisor runs in visible terminal)
-  - Hotkey interruption (e.g., Ctrl+Z or custom) to pause daemon
-  - Seamless launch of interactive CLI for human-agent conversation
-  - Auto-resume of daemon loop when interactive session closes
+**Detailed tasks:**
 
-- [ ] Implement loop detection and budgets
-  - ErrorSignature normalization (strip line numbers, paths)
-  - DeltaProof tracking across attempts
-  - Budget management per error type (deps=1, perm=0, test-fail=2, etc.)
-  - BLOCKED escalation when budget exhausted
-  - Workspace fingerprinting (detect actual changes)
+- [ ] 1. Improve email tooling for model usage
+  - **Fix `msg` tool (or replace)**:
+    - Current issues: escape sequences not working (newlines show as `\n`), HTML/XML tags getting stripped
+    - Solution: Write message to temp file, pass file path to CLI rather than piping content
+    - Makes message content more reliable
+  - **Efficient email search**:
+    - Don't waste tokens reading every file in maildir
+    - Use `mu` (maildir search tool) for queries
+    - Or: provide code execution capability for models to write search scripts
+    - Example: "Find all review-request messages about auth.md in last 7 days" → `mu` query, not manual file reading
 
-- [ ] Extend `msg` tool with full protocol
-  - Headers: X-Thread, X-Seq, X-Event-Id, Auto-Submitted, X-Loop
-  - Body fields: Mode, ErrorSignature, DeltaProof, BudgetRemaining, NextAction
-  - Diagnose mode and template
-  - ACTION_REQUEST/ACTION_RESULT protocol
+- [ ] 2. Create generalized supervisor `Workflow/scripts/agentd.py`
+  - **Fresh context model**: Each spawn starts with clean slate
+  - **Queue draining behavior**:
+    - Spawn CLI with fresh context
+    - Process all messages in email queue
+    - After each message, check for new arrivals
+    - Continue until queue empty
+    - Exit (don't wait/poll)
+    - Next spawn is fresh context again
+  - **Catch-up protocol**: When spawned, model must:
+    - Read relevant artifacts (VISION.md, SPEC.md, etc. based on role)
+    - Review recent email threads (not entire maildir history)
+    - Get context from artifacts + emails, not from prior sessions
+    - Need to provide guidance on efficient catch-up strategy
+  - **Configuration**: `config/supervisor-config.json`
+    - Role-to-CLI mapping
+    - Catch-up artifacts per role (e.g., spec-reviewer reads current spec)
+    - Email lookback window (e.g., last 7 days, or threads touching current artifacts)
 
-- [ ] Update all role files with error handling invariants
-  - Verify after every action (exit code + output)
-  - No repeat without DeltaProof
-  - Same error twice → switch to Diagnose mode
-  - Diagnose proposes ≥2 distinct hypotheses
-  - Budget awareness and escalation to BLOCKED
+- [ ] 3. Implement Interactive Intervention UX
+  - **Physical layout**: One terminal per active role, each running `agentd` in foreground
+    - Example: Terminal 1: `agentd spec-reviewer`, Terminal 2: `agentd implementer`, etc.
+    - Each agentd process is visible (not background daemon) so you can see what it's doing
+  - **Keystroke detection**: agentd watches for specific key (e.g., `i` for interactive)
+    - Non-blocking stdin monitoring while running event loop
+    - Immediate response when keystroke detected
+  - **Interactive mode launch**: When interrupted, agentd:
+    - Pauses its monitoring loop
+    - Spawns appropriate CLI tool based on role (claude, codex, gemini, etc.)
+    - Hands control to interactive session
+  - **Auto-resume**: When interactive session closes:
+    - agentd detects subprocess exit
+    - Automatically resumes monitoring loop
+    - Continues processing email queue
+  - **Configuration**: Role-to-CLI mapping in `config/supervisor-config.json`
+    - Maps role name → CLI command to launch
+    - Example: `spec-reviewer` → `claude --role spec-reviewer`
 
-- [ ] Decision point: Expand or stabilize?
-  - Add more roles to agentd supervision?
-  - Focus on reliability and optimization?
-  - Advanced features: multi-parent threading, cross-machine sync?
+  **Rationale**: Solves event loop juggling problem. Instead of managing multiple CLI sessions manually, watch agentd terminals and jump into interactive mode only when needed.
 
-**Questions to answer through Phase 2 usage before proceeding**:
-- Is event-driven (Phase 1) sufficient for most workflows?
-- Which roles benefit most from daemon automation?
-- What performance characteristics emerge?
-- Should we fast-track to Phase 3 or stabilize at Phase 2?
+- [ ] 4. Implement panel-based role infrastructure
+  - Panel coordination for multi-model review (Tier 1 priority)
+  - Panel coordination for multi-model writing (Tier 2 priority)
+  - Email visibility boundaries (panel-internal vs cross-panel)
+  - Independence enforcement (fresh context + different prompts)
+  - Primary + helpers decision pattern for writing panels
+  - Consensus mechanisms for review panels
+  - Panel-specific message routing and filtering
+
+  **Note**: Panel infrastructure will likely reveal new email system requirements. Expect to iterate on email tooling after this is working.
+
+**Design documented in:**
+- [Workflow/EmailIntegration.md](../Workflow/EmailIntegration.md) - Email Communication Model, Panel-Based vs. Solo Roles, Independence Principle, Email Visibility Boundaries
+
+**Key principles:**
+- **Review panels (highest value)**: Catch "didn't think of that" failures - all significant artifacts reviewed by panels
+- **Writing panels (strategic value)**: Collaborative exploration for vision/scope/roadmap/spec
+- **Solo implementation (sufficient)**: Skeleton/test/implementation work
+- **Independence via**: Fresh context + different role prompts + email isolation
+- **Email phases**: Collaborative (strategic/planning), transactional (implementation), collaborative (exception handling)
 
 ---
 
@@ -271,13 +320,12 @@ Production-ready async multi-model workflow with robust error handling and loop 
 
 ### Backlog Items
 
+**Note:** None of these items need to be addressed before Phase 3.
+
 - **TDD pattern for non-code artifacts** - Document and formalize the discovered TDD approach for prompts/templates (see pattern description below)
-- **State transition discipline detection** - Add checks to workflow-status.sh to detect when work starts without moving specs from `todo/` to `doing/`
-- **Feature branch creation timing** - Verify and fix when/how skeleton-writer creates feature branches
-- **Merge timing verification** - Document when feature branches merge to main and who performs merges
-- **Vision/scope schema enhancements** - Update vision role/schema to focus on timeline, tech stack, available time, deferred scope
-- **Timestamp resolution in file names** - Need higher resolution timestamps (likely milliseconds)
-- **Version history cleanup** - There is still version history to remove from somewhere (need to specify where)
+- **State transition discipline** - Enforce proper state transitions throughout workflow. Includes: moving specs from `todo/` to `doing/` when work starts, proper feature branch creation timing, and correct merge timing. May involve checks in workflow-status.sh, pre-commit hooks, or role enforcement.
+- **Timestamp resolution in file names** - Need higher resolution timestamps (likely milliseconds). Issue: one CLI tool didn't allow the agent to get accurate times.
+- **Loop detection and budgets** - ErrorSignature normalization, DeltaProof tracking, budget management per error type, BLOCKED escalation when exhausted, workspace fingerprinting. Originally needed for infinite event loops; may be less necessary after model upgrades. Implement if loops resurface.
 
 ### TDD Pattern for Non-Code Artifacts (Prompts/Templates)
 
@@ -308,19 +356,21 @@ We discovered this TDD approach works for specs whose implementation is prompts/
 
 These questions will be answered as we implement future phases:
 
-- [ ] **Model assignment**: Which AI model for which workflow role?
-  - Spec Writer: Claude? GPT-5?
-  - Reviewer: Different model than writer for diversity?
-  - Implementer: Best coding model?
+- [x] **Model assignment**: Addressed via panel-based roles
+  - Panels use multiple models (vertical diversity)
+  - Same models can be on writer and reviewer panels (horizontal diversity via fresh context)
+  - See [Workflow/EmailIntegration.md](../Workflow/EmailIntegration.md) - Panel-Based vs. Solo Roles
 
 - [ ] **Escalation paths**: When BLOCKED, who resolves?
   - Coordinator (human) always involved?
   - Platform Lead can resolve some blocks?
   - Peer roles can help?
 
-- [ ] **Conversation vs workflow**: When to use email vs artifacts?
-  - Transient discussion → email
-  - Decisions → artifacts
-  - How to migrate insights from email to artifacts?
+- [x] **Conversation vs workflow**: Answered via phase-based email model
+  - Strategic/planning phases: Collaborative email encouraged
+  - Implementation phases: Transactional email preferred
+  - Exception handling: Collaborative email for problem-solving
+  - Principle: Email coordinates, artifacts remain source of truth
+  - See [Workflow/EmailIntegration.md](../Workflow/EmailIntegration.md) - Email Communication Model
 
 ---

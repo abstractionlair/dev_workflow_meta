@@ -4,8 +4,8 @@
 
 Email integration enables asynchronous, bidirectional communication between workflow roles while preserving the structured artifact-driven approach. This document describes how roles use email to coordinate handoffs, request reviews, provide feedback, and ask questions.
 
-**Status**: Phase 1 - Event-driven email notifications
-**Last Updated**: 2025-11-14
+**Status**: Phase 1 - Event-driven email notifications (Phase 3 design in progress)
+**Last Updated**: 2025-11-20
 
 ## Architecture
 
@@ -16,6 +16,155 @@ Email integration enables asynchronous, bidirectional communication between work
 3. **Asynchronous communication** - Roles check email at strategic points, not continuously
 4. **Threaded conversations** - Message threading preserves context and conversation history
 5. **State coordination** - Email headers track artifact state and workflow transitions
+
+### Email Communication Model
+
+Email serves different purposes at different workflow stages:
+
+**Strategic/Planning Phases** (Vision, Scope, Roadmap, Spec)
+- **Collaborative email encouraged** - Rich multi-turn discussions explore ideas
+- **Message types:** question, answer, clarification-request
+- **Purpose:** Surface tradeoffs, challenge assumptions, explore alternatives
+- **Pattern:** "What about X?" → "That gains Y but loses Z" → "How about W instead?"
+- **Outcome:** Discussions must result in artifact updates (email coordinates, artifacts capture decisions)
+
+**Implementation Phases** (Skeleton, Test, Implementation)
+- **Transactional email preferred** - Coordinate handoffs and state transitions
+- **Message types:** review-request, approval, rejection, status-update
+- **Purpose:** "I'm done, your turn" handoffs between roles
+- **Pattern:** Straightforward workflow progression
+- **Outcome:** Artifact moves through states (proposed → todo → doing → done)
+
+**Exception Handling** (Blockers, spec doesn't work as planned)
+- **Collaborative email for problem-solving** - Figure out how to proceed
+- **Message types:** blocker-report, question, answer
+- **Purpose:** Resolve unexpected issues, adapt plans
+- **Pattern:** "Hit blocker X" → discussion → "Try approach Y" → resolution
+- **Outcome:** Updated spec or new implementation strategy
+
+**Key principle:** Artifacts remain the source of truth. Email discussions that reach conclusions must update the relevant artifact. Email is for coordination and exploration, not archival decisions.
+
+### Panel-Based vs. Solo Roles
+
+The workflow supports both individual roles and multi-model panels:
+
+**Review Panels (Tier 1 - Highest Value)**
+
+Review panels provide the greatest value by catching "didn't think of that" failures. All significant artifacts should be reviewed by panels:
+
+```
+vision-reviewer-panel: [claude, gpt-5, gemini]
+scope-reviewer-panel: [claude, gpt-5, gemini]
+roadmap-reviewer-panel: [claude, gpt-5, gemini]
+spec-reviewer-panel: [claude, gpt-5, gemini]
+skeleton-reviewer-panel: [claude, gpt-5, gemini]
+test-reviewer-panel: [claude, gpt-5, gemini]
+implementation-reviewer-panel: [claude, gpt-5, gemini]
+```
+
+**Panel review process:**
+1. Each panel member reviews independently (fresh context, reviewer prompt)
+2. Each writes individual review assessment
+3. Panel discusses reviews via internal email
+4. Panel reaches consensus: approve, reject, or request revisions
+5. Panel sends unified decision via cross-panel email
+
+**Writing Panels (Tier 2 - Strategic Value)**
+
+Writing panels provide collaborative exploration for strategic/planning work:
+
+```
+vision-writer-panel: [claude (primary), gpt-5, gemini]
+scope-writer-panel: [claude (primary), gpt-5, gemini]
+roadmap-writer-panel: [claude (primary), gpt-5, gemini]
+spec-writer-panel: [claude (primary), gpt-5, gemini]
+```
+
+**Panel writing process (Primary + Helpers pattern):**
+1. Primary announces section: "Starting Section A: Problem Statement"
+2. All panel members contribute ideas equally (collaborative exploration)
+3. Panel discusses tradeoffs, challenges assumptions
+4. Primary makes decision: "Section A decided: [summary]. Moving to Section B..."
+5. Primary integrates discussion into artifact
+6. Process repeats for each section
+7. Primary sends completed artifact for review
+
+**Solo Roles (Tier 3 - Sufficient for Implementation)**
+
+Solo roles are sufficient for mechanical/implementation work:
+
+```
+skeleton-writer: single model
+test-writer: single model
+implementer: single model
+```
+
+**Rationale:** Implementation issues ("can't figure out how to write the code") are less common than planning issues ("forgot about that requirement"). Review panels catch implementation problems.
+
+### Independence Principle
+
+**Definition of Independence:**
+
+Reviewers must be independent from writers, even when using the same models. Independence has three components:
+
+1. **Fresh context** - Reviewers have no memory of participating in writing
+2. **Different system prompt** - Reviewers use reviewer role definition, not writer role
+3. **Email isolation** - Reviewers cannot see writer panel internal emails
+
+**Example with same model on both panels:**
+
+```
+Writing phase:
+  Model: Claude
+  Role: vision-writer (primary)
+  Context: [30 emails of collaborative discussion]
+  Produces: VISION.md
+
+Review phase:
+  Model: Claude
+  Role: vision-reviewer
+  Context: [Fresh - no memory of writing phase]
+  Input: VISION.md only (cannot see writing emails)
+  Produces: Independent review
+```
+
+**Rationale for fresh context independence:**
+
+- With single writer + single reviewer: Use different models (e.g., GPT-5 writes, Claude reviews)
+- With panels: Fresh context + different prompt provides independence even with same models
+- Vertical diversity (multiple models in panel) + horizontal diversity (fresh context) catches more issues than single model diversity alone
+
+### Email Visibility Boundaries
+
+Panels create distinct email spaces to preserve independence:
+
+**1. Writer Panel Internal**
+- Address: `{artifact}-writer-panel-internal@workflow.local`
+- Visible to: Writer panel members only
+- Purpose: Collaborative drafting discussions
+- Example: "Should we prioritize X or Y in the roadmap?"
+
+**2. Reviewer Panel Internal**
+- Address: `{artifact}-reviewer-panel-internal@workflow.local`
+- Visible to: Reviewer panel members only
+- Purpose: Review coordination and consensus building
+- Example: "Claude found issue X, I found issue Y. Should we reject or request clarification?"
+
+**3. Cross-Panel Communication**
+- Address: `{artifact}-discussion@workflow.local`
+- Visible to: Both writer and reviewer panels
+- Purpose: Clarification requests, questions about artifact
+- Example: "In Section 3, you mention 'scalability' - do you mean horizontal or vertical?"
+
+**Threading rules:**
+- Panel-internal threads: Never reference or reply to other panel's internal emails
+- Cross-panel threads: New threads only (don't reference internal discussions)
+- This preserves independence while allowing necessary communication
+
+**Prevents:**
+- Reviewers seeing "we chose X because..." rationale from writers (reduces bias)
+- Writers seeing "I'm worried about Y" reviewer concerns before official review
+- Loss of independent perspective
 
 ### Synchronous vs. Asynchronous Roles
 
