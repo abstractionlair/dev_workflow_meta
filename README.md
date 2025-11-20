@@ -68,6 +68,26 @@ cd my-project-name
 
 See [docs/ConcreteProjectSetup.md](docs/ConcreteProjectSetup.md) for detailed setup instructions.
 
+### Getting Started with Your First Project
+
+After initializing your project, use the **interactive helper workflow** to create your planning documents. Don't create VISION.md, SCOPE.md, or ROADMAP.md manually - the workflow provides guided helpers that work with you through Socratic dialogue.
+
+**First steps in your new project:**
+
+```bash
+# In your AI tool (Claude Code, etc.):
+"Read CLAUDE.md, then act as vision-writing-helper"
+```
+
+The helper will ask you questions about your project to clarify your thinking, then create VISION.md for you. Continue with `scope-writing-helper` and `roadmap-writing-helper` to complete your planning phase.
+
+**The helper → writer → reviewer progression:**
+- **Helpers** (`*-writing-helper`): Interactive Socratic dialogue to clarify thinking
+- **Writers** (`*-writer`): Create structured documents
+- **Reviewers** (`*-reviewer`): Validate quality before proceeding
+
+See [docs/ConcreteProjectSetup.md](docs/ConcreteProjectSetup.md) for complete walkthrough with examples.
+
 **Concrete Project Structure:**
 
 When used as a submodule, concrete projects are organized as:
