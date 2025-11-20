@@ -234,6 +234,12 @@ Production-ready async multi-model workflow with robust error handling and loop 
   - State management across invocations
   - Configurable per role via `config/supervisor-config.json`
 
+- [ ] Implement Interactive Intervention UX
+  - "One terminal per role" architecture (supervisor runs in visible terminal)
+  - Hotkey interruption (e.g., Ctrl+Z or custom) to pause daemon
+  - Seamless launch of interactive CLI for human-agent conversation
+  - Auto-resume of daemon loop when interactive session closes
+
 - [ ] Implement loop detection and budgets
   - ErrorSignature normalization (strip line numbers, paths)
   - DeltaProof tracking across attempts
