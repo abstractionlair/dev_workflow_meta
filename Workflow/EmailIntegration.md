@@ -17,6 +17,36 @@ Email integration enables asynchronous, bidirectional communication between work
 4. **Threaded conversations** - Message threading preserves context and conversation history
 5. **State coordination** - Email headers track artifact state and workflow transitions
 
+### Synchronous vs. Asynchronous Roles
+
+The workflow distinguishes between two types of roles with different communication models:
+
+**1. Synchronous Helper Roles** (`*-writing-helper`)
+- **Interaction:** Interactive CLI session (Socratic dialogue with user)
+- **Communication:** Direct user input/output only
+- **Email:** Does **NOT** check or send email
+- **Daemon:** Never runs in background/daemon mode
+- **Purpose:** guiding the user to create the *initial* artifact (VISION.md, etc.)
+- **Handoff:** Creates the file, which then allows the Asynchronous Workflow to begin (by sending a review request)
+
+**2. Asynchronous Workflow Roles** (`*-writer`, `*-reviewer`, `implementer`)
+- **Interaction:** Often autonomous or task-based
+- **Communication:** Via artifacts and Email notifications
+- **Email:** Fully integrated (checks for requests, sends status/approvals)
+- **Daemon:** Can run in background (agentd) to process queues
+- **Purpose:** Reviewing, refining, testing, and implementing defined artifacts
+
+**The Handoff Pattern:**
+```
+[User] <-> [Helper] (Sync Chat)
+       |
+       v
+[Creates Artifact]
+       |
+       v
+[Writer/User] -> (Sends 'review-request' Email) -> [Reviewer] (Async)
+```
+
 ### Components
 
 **workflow-notify.sh** - Generates structured workflow messages

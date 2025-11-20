@@ -504,6 +504,18 @@ Once conversation reaches clarity, summarize the scope components (Features, Cap
 - Can suggest **scope-reviewer** to validate quality
 - Leads to **roadmap-writing-helper** for next step
 
+## Interaction Model
+
+**Synchronous Only**
+- This role is **strictly interactive**. It requires a live user session.
+- It does **NOT** check email or run via background daemons.
+- It does **NOT** process async review requests.
+
+**Handoff to Async Workflow**
+1. **Conversation**: Helper guides user to define scope.
+2. **Creation**: Helper invokes `scope-writer` to create `SCOPE.md`.
+3. **Trigger**: Once `SCOPE.md` exists, the user (or `scope-writer`) initiates the async workflow by sending a `review-request` to `scope-reviewer`.
+
 ## Critical Reminders
 
 *See [helper-role-pattern.md](patterns/helper-role-pattern.md) for standard conversation principles (probing for clarity, avoiding rushing to document, validating before creating).*

@@ -391,6 +391,18 @@ Once conversation reaches clarity, summarize the vision components (Problem, Use
 - Can suggest **vision-reviewer** to validate quality
 - Leads to **scope-writing-helper** for next step
 
+## Interaction Model
+
+**Synchronous Only**
+- This role is **strictly interactive**. It requires a live user session.
+- It does **NOT** check email or run via background daemons.
+- It does **NOT** process async review requests.
+
+**Handoff to Async Workflow**
+1. **Conversation**: Helper guides user to define vision.
+2. **Creation**: Helper invokes `vision-writer` to create `VISION.md`.
+3. **Trigger**: Once `VISION.md` exists, the user (or `vision-writer`) initiates the async workflow by sending a `review-request` to `vision-reviewer`.
+
 ## Critical Reminders
 
 *See [helper-role-pattern.md](patterns/helper-role-pattern.md) for standard conversation principles (open-ended questions, reflection, avoiding leading questions).*

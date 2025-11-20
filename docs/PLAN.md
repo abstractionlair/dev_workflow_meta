@@ -8,7 +8,7 @@ This document tracks all active work for the dev_workflow_meta project. Use this
 - What to work on next
 - Long-term plans and milestones
 
-**Last Updated**: 2025-11-15
+**Last Updated**: 2025-11-20
 
 ---
 
@@ -146,13 +146,7 @@ Proof of concept for continuous async monitoring. Simple daemon that automatical
 - No state management across invocations
 - No budget tracking
 
----
-
-## Current Work
-
-### Immediate Issues to Address
-
-**Priority**: These issues affect new users trying to adopt the workflow. Should be addressed before promoting wider adoption.
+### Documentation Fixes & Improvements ✅
 
 #### 1. ConcreteProjectSetup.md Missing Helper Role Integration ✅
 
@@ -198,7 +192,9 @@ Proof of concept for continuous async monitoring. Simple daemon that automatical
 - Entry points (CLAUDE.md, etc.) correctly route to CONTRIBUTING.md which now references helper workflow
 - All documentation properly links to ConcreteProjectSetup.md for complete guidance
 
-#### 3. Helper Roles and Email Workflow Design
+#### 3. Helper Roles and Email Workflow Design ✅
+
+**Completed**: 2025-11-20
 
 **Problem**: Helper roles (`*-writing-helper`) are interactive/conversational
 - Designed for synchronous back-and-forth dialogue
@@ -207,20 +203,18 @@ Proof of concept for continuous async monitoring. Simple daemon that automatical
 
 **Impact**: Unclear how helpers work in email-enabled workflow
 
-**Design decision needed**:
-- [ ] Document that helpers are synchronous-only (never run via daemon)
-- [ ] Update EmailIntegration.md to clarify helper role exception
-- [ ] Consider: Do helpers eventually hand off to async writers?
-- [ ] Define clear boundary: helpers (sync) → writers (can be async) → reviewers (can be async)
+**Actions completed**:
+- [x] Document that helpers are synchronous-only (never run via daemon)
+- [x] Update EmailIntegration.md to clarify helper role exception
+- [x] Defined clear boundary: helpers (sync) → writers (can be async) → reviewers (can be async)
 
-**Proposed approach**:
-- Helpers remain interactive CLI sessions (no email, no daemon)
-- Helpers invoke writers when done (writers use email workflow)
-- Update role documentation to clarify this distinction
+**Result**:
+- `Workflow/EmailIntegration.md` now includes a "Synchronous vs. Asynchronous Roles" section explicitly distinguishing the models.
+- All Helper role definitions (`role-*-writing-helper.md`) now include an "Interaction Model" section clarifying they are interactive-only and explaining the handoff trigger.
 
 ---
 
-## Future Work
+## Current Work
 
 ### Email Integration Phase 3: Full agentd Supervision
 
@@ -270,6 +264,10 @@ Production-ready async multi-model workflow with robust error handling and loop 
 - Which roles benefit most from daemon automation?
 - What performance characteristics emerge?
 - Should we fast-track to Phase 3 or stabilize at Phase 2?
+
+---
+
+## Future Work
 
 ### Backlog Items
 

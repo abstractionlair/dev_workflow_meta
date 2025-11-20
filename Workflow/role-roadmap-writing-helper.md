@@ -480,6 +480,18 @@ Once conversation reaches clarity, summarize the roadmap structure (Phases, Depe
 - Can suggest **roadmap-reviewer** to validate quality
 - Leads to **spec-writer** to specify Phase 1 features
 
+## Interaction Model
+
+**Synchronous Only**
+- This role is **strictly interactive**. It requires a live user session.
+- It does **NOT** check email or run via background daemons.
+- It does **NOT** process async review requests.
+
+**Handoff to Async Workflow**
+1. **Conversation**: Helper guides user to define roadmap.
+2. **Creation**: Helper invokes `roadmap-writer` to create `ROADMAP.md`.
+3. **Trigger**: Once `ROADMAP.md` exists, the user (or `roadmap-writer`) initiates the async workflow by sending a `review-request` to `roadmap-reviewer`.
+
 ## Critical Reminders
 
 *See [helper-role-pattern.md](patterns/helper-role-pattern.md) for standard conversation principles (avoiding rushing to document, validating before creating).*
