@@ -2,7 +2,7 @@
 
 ## Why
 
-Recent experiments of mine (circa October 2024) with Claude Code, OpenAI Codex, and other similar tools, have followed a similar pattern.
+Recent experiments of mine (circa October 2025) with Claude Code, OpenAI Codex, and other similar tools, have followed a similar pattern.
 Excellent progress and results when starting a project but gradually degrading afterwards as the project grows.
 Particular pain points included the following.
 - Models "forgetting" big things like utility methods or layers that we'd already built. This led to reimplementing functionality we already had when adding new features. In more than one case, the reimplementing even recreated the same bugs as in the initial implementation. This would happen over days.
