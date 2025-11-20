@@ -1,0 +1,161 @@
+{
+  "roles": {
+    "vision-reviewer": {
+      "cli": "claude --role vision-reviewer",
+      "catchup_artifacts": [
+        "project-meta/planning/VISION.md"
+      ],
+      "catchup_days": 7,
+      "event_types": ["review-request"]
+    },
+    "scope-reviewer": {
+      "cli": "claude --role scope-reviewer",
+      "catchup_artifacts": [
+        "project-meta/planning/VISION.md",
+        "project-meta/planning/SCOPE.md"
+      ],
+      "catchup_days": 7,
+      "event_types": ["review-request"]
+    },
+    "roadmap-reviewer": {
+      "cli": "claude --role roadmap-reviewer",
+      "catchup_artifacts": [
+        "project-meta/planning/VISION.md",
+        "project-meta/planning/SCOPE.md",
+        "project-meta/planning/ROADMAP.md"
+      ],
+      "catchup_days": 7,
+      "event_types": ["review-request"]
+    },
+    "spec-reviewer": {
+      "cli": "claude --role spec-reviewer",
+      "catchup_artifacts": [
+        "project-meta/planning/ROADMAP.md",
+        "project-meta/specs/proposed/*.md",
+        "project-meta/specs/doing/*.md"
+      ],
+      "catchup_days": 7,
+      "event_types": ["review-request"]
+    },
+    "spec-writer": {
+      "cli": "claude --role spec-writer",
+      "catchup_artifacts": [
+        "project-meta/planning/ROADMAP.md",
+        "project-meta/specs/proposed/*.md"
+      ],
+      "catchup_days": 7,
+      "event_types": ["approval", "rejection", "clarification-request"]
+    },
+    "skeleton-reviewer": {
+      "cli": "claude --role skeleton-reviewer",
+      "catchup_artifacts": [
+        "project-meta/specs/todo/*.md",
+        "project-content/src/**/*"
+      ],
+      "catchup_days": 7,
+      "event_types": ["review-request"]
+    },
+    "skeleton-writer": {
+      "cli": "claude --role skeleton-writer",
+      "catchup_artifacts": [
+        "project-meta/specs/todo/*.md"
+      ],
+      "catchup_days": 7,
+      "event_types": ["approval", "clarification-request"]
+    },
+    "test-reviewer": {
+      "cli": "claude --role test-reviewer",
+      "catchup_artifacts": [
+        "project-meta/specs/todo/*.md",
+        "project-content/tests/**/*"
+      ],
+      "catchup_days": 7,
+      "event_types": ["review-request"]
+    },
+    "test-writer": {
+      "cli": "claude --role test-writer",
+      "catchup_artifacts": [
+        "project-meta/specs/todo/*.md",
+        "project-content/src/**/*"
+      ],
+      "catchup_days": 7,
+      "event_types": ["approval", "clarification-request"]
+    },
+    "implementation-reviewer": {
+      "cli": "claude --role implementation-reviewer",
+      "catchup_artifacts": [
+        "project-meta/specs/todo/*.md",
+        "project-content/src/**/*",
+        "project-content/tests/**/*"
+      ],
+      "catchup_days": 7,
+      "event_types": ["review-request"]
+    },
+    "implementer": {
+      "cli": "claude --role implementer",
+      "catchup_artifacts": [
+        "project-meta/specs/todo/*.md",
+        "project-content/tests/**/*"
+      ],
+      "catchup_days": 7,
+      "event_types": ["approval", "clarification-request", "question"]
+    }
+  },
+  "defaults": {
+    "timeout": 600,
+    "retry_delay": 60,
+    "max_retries": 3
+  },
+  "panels": {
+    "vision-reviewer-panel": {
+      "members": ["claude", "gpt-5", "gemini"],
+      "role_type": "vision-reviewer",
+      "decision_model": "consensus",
+      "internal_email": "vision-reviewer-panel-internal@workflow.local"
+    },
+    "scope-reviewer-panel": {
+      "members": ["claude", "gpt-5", "gemini"],
+      "role_type": "scope-reviewer",
+      "decision_model": "consensus",
+      "internal_email": "scope-reviewer-panel-internal@workflow.local"
+    },
+    "roadmap-reviewer-panel": {
+      "members": ["claude", "gpt-5", "gemini"],
+      "role_type": "roadmap-reviewer",
+      "decision_model": "consensus",
+      "internal_email": "roadmap-reviewer-panel-internal@workflow.local"
+    },
+    "spec-reviewer-panel": {
+      "members": ["claude", "gpt-5", "gemini"],
+      "role_type": "spec-reviewer",
+      "decision_model": "consensus",
+      "internal_email": "spec-reviewer-panel-internal@workflow.local"
+    },
+    "skeleton-reviewer-panel": {
+      "members": ["claude", "gpt-5", "gemini"],
+      "role_type": "skeleton-reviewer",
+      "decision_model": "consensus",
+      "internal_email": "skeleton-reviewer-panel-internal@workflow.local"
+    },
+    "test-reviewer-panel": {
+      "members": ["claude", "gpt-5", "gemini"],
+      "role_type": "test-reviewer",
+      "decision_model": "consensus",
+      "internal_email": "test-reviewer-panel-internal@workflow.local"
+    },
+    "implementation-reviewer-panel": {
+      "members": ["claude", "gpt-5", "gemini"],
+      "role_type": "implementation-reviewer",
+      "decision_model": "consensus",
+      "internal_email": "implementation-reviewer-panel-internal@workflow.local"
+    }
+  },
+  "comments": {
+    "_role_config": "Each role specifies: CLI command, artifacts to read on catchup, lookback window for emails, and event types to monitor",
+    "_catchup_artifacts": "Glob patterns for files the role should read to understand current state when spawning fresh context",
+    "_catchup_days": "How many days of email history to review for context",
+    "_event_types": "Which X-Event-Type values this role should process",
+    "_panels": "Multi-model panels for review roles (Phase 3 feature)",
+    "_decision_model": "How panel reaches consensus: 'consensus' (all agree), 'majority' (>50%), 'primary-decides' (one member is authoritative)"
+  }
+}
