@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-email-tools.py - Comprehensive email tooling for workflow roles
+email_tools.py - Comprehensive email tooling for workflow roles
 
 This tool provides reliable email operations optimized for AI model usage:
 - Send emails via maildir (avoiding escape sequence issues)
@@ -9,26 +9,26 @@ This tool provides reliable email operations optimized for AI model usage:
 - Query email metadata without reading full content
 
 Usage:
-  email-tools.py send <message-file> <maildir-path>
-  email-tools.py search <maildir-path> [options]
-  email-tools.py read <message-file>
-  email-tools.py list <maildir-path> [options]
+  email_tools.py send <message-file> <maildir-path>
+  email_tools.py search <maildir-path> [options]
+  email_tools.py read <message-file>
+  email_tools.py list <maildir-path> [options]
 
 Examples:
   # Send email from file
-  email-tools.py send /tmp/message.eml ~/Maildir/workflow/
+  email_tools.py send /tmp/message.eml ~/Maildir/workflow/
 
   # Search for review requests about specific artifact
-  email-tools.py search ~/Maildir/workflow/ --event-type review-request --artifact "auth.md"
+  email_tools.py search ~/Maildir/workflow/ --event-type review-request --artifact "auth.md"
 
   # Search recent messages in last 7 days
-  email-tools.py search ~/Maildir/workflow/ --since 7d
+  email_tools.py search ~/Maildir/workflow/ --since 7d
 
   # List messages with metadata only (no body)
-  email-tools.py list ~/Maildir/workflow/ --event-type approval --limit 10
+  email_tools.py list ~/Maildir/workflow/ --event-type approval --limit 10
 
   # Read specific message
-  email-tools.py read ~/Maildir/workflow/cur/1234567890.12345_1.host
+  email_tools.py read ~/Maildir/workflow/cur/1234567890.12345_1.host
 """
 
 import argparse

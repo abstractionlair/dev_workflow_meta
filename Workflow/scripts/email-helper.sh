@@ -4,7 +4,7 @@ set -euo pipefail
 # email-helper.sh - Model-friendly email interface
 #
 # This script provides convenient commands for AI models to interact with email.
-# Uses email-tools.py for efficient operations without reading entire maildir.
+# Uses email_tools.py for efficient operations without reading entire maildir.
 #
 # Usage: ./email-helper.sh <command> [args...]
 #
@@ -27,14 +27,14 @@ set -euo pipefail
 #   ./email-helper.sh thread "<20251120120000.spec-writer@workflow.local>"
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-EMAIL_TOOLS="$SCRIPT_DIR/email-tools.py"
+EMAIL_TOOLS="$SCRIPT_DIR/email_tools.py"
 
 # Get maildir path from environment or use default
 MAILDIR_PATH="${WORKFLOW_MAILDIR:-$HOME/Maildir/workflow}"
 
-# Check if email-tools.py exists
+# Check if email_tools.py exists
 if [ ! -f "$EMAIL_TOOLS" ]; then
-    echo "Error: email-tools.py not found at $EMAIL_TOOLS" >&2
+    echo "Error: email_tools.py not found at $EMAIL_TOOLS" >&2
     exit 1
 fi
 

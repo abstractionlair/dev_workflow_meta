@@ -200,7 +200,7 @@ The workflow distinguishes between two types of roles with different communicati
 
 #### Core Email Tools
 
-**email-tools.py** - Low-level Python API for email operations
+**email_tools.py** - Low-level Python API for email operations
 - Send emails to maildir (writes to temp file, avoiding escape sequence issues)
 - Search emails efficiently without reading entire maildir
 - Read emails with proper encoding handling
@@ -215,7 +215,7 @@ The workflow distinguishes between two types of roles with different communicati
 **workflow-notify.sh** - Generate and send structured workflow messages
 - Creates messages from templates with variable substitution
 - Supports threading (In-Reply-To, References)
-- Integrates with email-tools.py for reliable sending
+- Integrates with email_tools.py for reliable sending
 - Usage: `workflow-notify.sh --send <event-type> <artifact> <recipient>`
 
 **run-role.sh --with-email** - Launches roles with email checking enabled

@@ -7,7 +7,7 @@ This guide explains how AI models working in workflow roles can efficiently use 
 The workflow provides two main email tools optimized for AI model usage:
 
 1. **email-helper.sh** - High-level commands for common email operations
-2. **email-tools.py** - Low-level Python API for advanced operations
+2. **email_tools.py** - Low-level Python API for advanced operations
 
 **Key Benefits:**
 - **No escape sequence issues** - Messages written to temp files, not piped
@@ -108,7 +108,7 @@ When spawned with fresh context (no memory of previous work):
 # 4. Read recent threads to understand discussions
 ```
 
-## Advanced: Using email-tools.py Directly
+## Advanced: Using email_tools.py Directly
 
 For more control, use the Python tool directly:
 
@@ -116,19 +116,19 @@ For more control, use the Python tool directly:
 
 ```bash
 # Find review requests from last 3 days about specs in "doing" state
-./Workflow/scripts/email-tools.py search ~/Maildir/workflow \
+./Workflow/scripts/email_tools.py search ~/Maildir/workflow \
   --event-type review-request \
   --since 3d \
   --state doing \
   --limit 10
 
 # Search with specific sender
-./Workflow/scripts/email-tools.py search ~/Maildir/workflow \
+./Workflow/scripts/email_tools.py search ~/Maildir/workflow \
   --from spec-writer \
   --event-type approval
 
 # Get JSON output for programmatic processing
-./Workflow/scripts/email-tools.py search ~/Maildir/workflow \
+./Workflow/scripts/email_tools.py search ~/Maildir/workflow \
   --event-type review-request \
   --artifact auth.md \
   --format json
@@ -138,12 +138,12 @@ For more control, use the Python tool directly:
 
 ```bash
 # List metadata only (fast, doesn't read message bodies)
-./Workflow/scripts/email-tools.py list ~/Maildir/workflow \
+./Workflow/scripts/email_tools.py list ~/Maildir/workflow \
   --event-type review-request \
   --limit 20
 
 # JSON output for parsing
-./Workflow/scripts/email-tools.py list ~/Maildir/workflow \
+./Workflow/scripts/email_tools.py list ~/Maildir/workflow \
   --event-type approval \
   --format json
 ```
@@ -152,21 +152,21 @@ For more control, use the Python tool directly:
 
 ```bash
 # Read full message with headers and body
-./Workflow/scripts/email-tools.py read ~/Maildir/workflow/cur/<message-key>
+./Workflow/scripts/email_tools.py read ~/Maildir/workflow/cur/<message-key>
 
 # Get JSON for programmatic parsing
-./Workflow/scripts/email-tools.py read ~/Maildir/workflow/cur/<message-key> --format json
+./Workflow/scripts/email_tools.py read ~/Maildir/workflow/cur/<message-key> --format json
 ```
 
 ### Work with Threads
 
 ```bash
 # Get all messages in thread
-./Workflow/scripts/email-tools.py thread ~/Maildir/workflow \
+./Workflow/scripts/email_tools.py thread ~/Maildir/workflow \
   "<20251120120000.spec-writer@workflow.local>"
 
 # JSON output
-./Workflow/scripts/email-tools.py thread ~/Maildir/workflow \
+./Workflow/scripts/email_tools.py thread ~/Maildir/workflow \
   "<message-id>" \
   --format json
 ```
@@ -219,7 +219,7 @@ done
 
 ### Strategy for Models
 
-1. **Search metadata first** - Use `email-helper.sh` or `email-tools.py search/list` to find relevant messages without reading bodies
+1. **Search metadata first** - Use `email-helper.sh` or `email_tools.py search/list` to find relevant messages without reading bodies
 2. **Read selectively** - Only read full message content when you need the body
 3. **Use time windows** - Limit searches to recent messages (e.g., last 7 days)
 4. **Use artifact filters** - Search by artifact path to find relevant discussions
@@ -308,9 +308,9 @@ If email search returns no results:
 ### Can't read message body
 
 If message appears corrupted or unreadable:
-1. Use `email-tools.py read <path>` instead of `cat` - handles encoding properly
+1. Use `email_tools.py read <path>` instead of `cat` - handles encoding properly
 2. Check message format in maildir - should be RFC 5322 compliant
-3. Verify message was sent via `email-tools.py send` (not piped directly)
+3. Verify message was sent via `email_tools.py send` (not piped directly)
 
 ### Search not finding expected messages
 

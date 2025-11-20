@@ -303,26 +303,29 @@ Production-ready async multi-model workflow infrastructure completed.
   **Note**: Panel infrastructure will likely reveal new email system requirements. Expect to iterate on email tooling after this is working.
 
 **Implementation completed**:
-- Created `email-tools.py` - Python API for reliable email operations
+- Created `email_tools.py` - Python API for reliable email operations
   - Send emails via maildir (temp file approach avoids escape issues)
   - Efficient search without reading entire maildir
   - Thread-aware operations
+  - Fixed: Renamed from `email-tools.py` to `email_tools.py` for proper Python import
 - Created `email-helper.sh` - Model-friendly CLI for common email tasks
-- Updated `workflow-notify.sh` to send emails using email-tools.py
+- Updated `workflow-notify.sh` to send emails using email_tools.py
 - Created `agentd.py` - Autonomous agent daemon
   - Fresh context model (each spawn starts clean)
   - Queue draining behavior
   - Catch-up protocol with role-specific artifact reading
   - Interactive intervention (press 'i' to jump in)
   - Non-blocking keystroke monitoring
-- Created `config/supervisor-config.json` - Role and panel configuration
+  - Fixed: termios calls now use file descriptor instead of file object
+- Created `Workflow/config/supervisor-config.json` - Role and panel configuration
   - Role-to-CLI mapping
   - Catch-up artifacts per role
   - Panel definitions with members and decision models
-- Created `panel-coordinator.py` - Multi-model panel coordination
+- Created `panel-coordinator.py` - Multi-model panel coordination (scaffolding)
   - Email visibility boundaries (panel-internal vs cross-panel)
   - Fresh context independence enforcement
-  - Review and writing panel support
+  - Configuration support for review and writing panels
+  - **Note**: Consensus mechanisms and writing panel coordination not yet implemented (see backlog)
 - Created `Workflow/docs/EmailToolsForModels.md` - Complete guide for AI models
 - Updated `Workflow/EmailIntegration.md` with tool documentation
 
@@ -363,8 +366,13 @@ See [Release & Adoption](#release--adoption) section below.
 
 ### Backlog Items
 
-**Note:** None of these items need to be addressed before Phase 3.
+**Note:** These are post-Phase-3 enhancements and refinements.
 
+- **Complete panel infrastructure** - Finish panel-coordinator.py implementation
+  - Implement consensus checking mechanism for review panels (all agree vs. majority)
+  - Implement writing panel coordination with primary + helpers pattern
+  - Add member-specific CLI command support (currently all members use same CLI)
+  - Test multi-model panel workflows end-to-end
 - **TDD pattern for non-code artifacts** - Document and formalize the discovered TDD approach for prompts/templates (see pattern description below)
 - **State transition discipline** - Enforce proper state transitions throughout workflow. Includes: moving specs from `todo/` to `doing/` when work starts, proper feature branch creation timing, and correct merge timing. May involve checks in workflow-status.sh, pre-commit hooks, or role enforcement.
 - **Timestamp resolution in file names** - Need higher resolution timestamps (likely milliseconds). Issue: one CLI tool didn't allow the agent to get accurate times.

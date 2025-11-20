@@ -353,12 +353,15 @@ Begin by reading the artifacts listed above, then check for pending messages.
         if not sys.stdin.isatty():
             return None
 
+        # Get file descriptor for termios operations
+        fd = sys.stdin.fileno()
+
         # Save terminal settings
-        old_settings = termios.tcgetattr(sys.stdin)
+        old_settings = termios.tcgetattr(fd)
 
         try:
             # Set terminal to raw mode for immediate character reading
-            tty.setcbreak(sys.stdin.fileno())
+            tty.setcbreak(fd)
 
             # Check if input is available
             readable, _, _ = select.select([sys.stdin], [], [], timeout)
@@ -371,7 +374,7 @@ Begin by reading the artifacts listed above, then check for pending messages.
 
         finally:
             # Restore terminal settings
-            termios.tcsetattr(sys.stdin, termios.TCSADRAIN, old_settings)
+            termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
 
     def launch_interactive_session(self) -> int:
         """

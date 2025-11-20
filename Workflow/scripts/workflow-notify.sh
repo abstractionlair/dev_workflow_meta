@@ -248,15 +248,15 @@ in_headers && /^(In-Reply-To|References|X-Session-Id): $/ { next }
 
 # Output or send message
 if [ "$SEND_EMAIL" = true ]; then
-    # Send via email-tools.py (writes to temp file to avoid escape issues)
+    # Send via email_tools.py (writes to temp file to avoid escape issues)
     TEMP_MESSAGE=$(mktemp)
     echo "$MESSAGE" > "$TEMP_MESSAGE"
 
     # Determine maildir path (can be overridden by environment variable)
     MAILDIR_PATH="${WORKFLOW_MAILDIR:-$HOME/Maildir/workflow}"
 
-    # Send using email-tools.py
-    if "$SCRIPT_DIR/email-tools.py" send "$TEMP_MESSAGE" "$MAILDIR_PATH"; then
+    # Send using email_tools.py
+    if "$SCRIPT_DIR/email_tools.py" send "$TEMP_MESSAGE" "$MAILDIR_PATH"; then
         rm "$TEMP_MESSAGE"
         echo "Message sent to $TO_ROLE at $MAILDIR_PATH" >&2
     else
