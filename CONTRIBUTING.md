@@ -40,6 +40,13 @@ See [docs/PLAN.md](docs/PLAN.md) for:
 
 This is the single source of truth for tracking progress and choosing what to work on.
 
+## Using the Workflow in Your Own Projects
+
+If you're new to this workflow and want to use it in your own project, start with the interactive helper roles. See [docs/ConcreteProjectSetup.md](docs/ConcreteProjectSetup.md) for a complete guide on:
+- Setting up a new project with this workflow
+- Using `vision-writing-helper`, `scope-writing-helper`, and `roadmap-writing-helper` to create planning documents through guided dialogue
+- The helper → writer → reviewer progression for quality artifacts
+
 ## Time Estimates
 
 **Do not provide time estimates for tasks or projects.**

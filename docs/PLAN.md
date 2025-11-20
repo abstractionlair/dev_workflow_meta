@@ -154,7 +154,9 @@ Proof of concept for continuous async monitoring. Simple daemon that automatical
 
 **Priority**: These issues affect new users trying to adopt the workflow. Should be addressed before promoting wider adoption.
 
-#### 1. ConcreteProjectSetup.md Missing Helper Role Integration
+#### 1. ConcreteProjectSetup.md Missing Helper Role Integration ✅
+
+**Completed**: 2025-11-15 (commit c2ff59b)
 
 **Problem**: Documentation tells users to manually create VISION.md, SCOPE.md, ROADMAP.md
 - We have helper roles for this: `vision-writing-helper`, `scope-writing-helper`, `roadmap-writing-helper`
@@ -165,13 +167,17 @@ Proof of concept for continuous async monitoring. Simple daemon that automatical
 
 **Impact**: Users miss the guided workflow and create documents from scratch without assistance
 
-**Actions needed**:
-- [ ] Rewrite ConcreteProjectSetup.md "Next Steps" section to guide users through helper workflow
-- [ ] Add example: "Ask AI to act as vision-writing-helper" with expected flow
-- [ ] Link to relevant schemas and role documentation
-- [ ] Show the progression: helper → writer → reviewer → approved artifact
+**Actions completed**:
+- [x] Rewrite ConcreteProjectSetup.md "Next Steps" section to guide users through helper workflow
+- [x] Add example: "Ask AI to act as vision-writing-helper" with expected flow
+- [x] Link to relevant schemas and role documentation
+- [x] Show the progression: helper → writer → reviewer → approved artifact
 
-#### 2. Broken Documentation Links
+**Result**: ConcreteProjectSetup.md now provides comprehensive guidance (lines 276-431) with concrete examples, detailed flow descriptions, and proper schema links.
+
+#### 2. Broken Documentation Links ✅
+
+**Completed**: 2025-11-20
 
 **Problem**: Top-level docs may not properly link to helper workflow
 - Entry points (CLAUDE.md, AGENTS.md, etc.) might not mention helpers
@@ -180,11 +186,17 @@ Proof of concept for continuous async monitoring. Simple daemon that automatical
 
 **Impact**: Users don't know helpers exist or how to use them
 
-**Actions needed**:
-- [ ] Audit all entry point files for helper role mentions
-- [ ] Verify README.md explains helper workflow
-- [ ] Check CONTRIBUTING.md references helpers for new projects
-- [ ] Add "Getting Started" section that starts with vision-writing-helper
+**Actions completed**:
+- [x] Audit all entry point files for helper role mentions
+- [x] Verify README.md explains helper workflow
+- [x] Check CONTRIBUTING.md references helpers for new projects
+- [x] Add "Getting Started" section that starts with vision-writing-helper
+
+**Result**:
+- README.md now includes "Getting Started with Your First Project" section (lines 71-89) with concrete examples of using helpers
+- CONTRIBUTING.md now includes "Using the Workflow in Your Own Projects" section (lines 43-48) directing new users to helpers
+- Entry points (CLAUDE.md, etc.) correctly route to CONTRIBUTING.md which now references helper workflow
+- All documentation properly links to ConcreteProjectSetup.md for complete guidance
 
 #### 3. Helper Roles and Email Workflow Design
 
