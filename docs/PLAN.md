@@ -316,6 +316,12 @@ Production-ready async multi-model workflow with robust error handling and loop 
 
 ---
 
+## Release & Adoption
+
+- Document how to enable Phase 3 supervision in `docs/ConcreteProjectSetup.md` and tag a workflow `v1.0` suitable for other projects to adopt as a submodule.
+
+---
+
 ## Future Work
 
 ### Backlog Items
