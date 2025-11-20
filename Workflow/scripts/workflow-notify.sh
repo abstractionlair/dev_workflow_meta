@@ -248,15 +248,22 @@ in_headers && /^(In-Reply-To|References|X-Session-Id): $/ { next }
 
 # Output or send message
 if [ "$SEND_EMAIL" = true ]; then
-    # TODO: Integrate with email system (Milestone 1, part 2)
-    # For now, just output with a note
-    echo "Error: Email sending not yet implemented" >&2
-    echo "Email system integration planned for Milestone 1, part 2" >&2
-    echo "" >&2
-    echo "Message would be sent to: $TO_ROLE" >&2
-    echo "Generated message:" >&2
-    echo "$MESSAGE"
-    exit 1
+    # Send via email-tools.py (writes to temp file to avoid escape issues)
+    TEMP_MESSAGE=$(mktemp)
+    echo "$MESSAGE" > "$TEMP_MESSAGE"
+
+    # Determine maildir path (can be overridden by environment variable)
+    MAILDIR_PATH="${WORKFLOW_MAILDIR:-$HOME/Maildir/workflow}"
+
+    # Send using email-tools.py
+    if "$SCRIPT_DIR/email-tools.py" send "$TEMP_MESSAGE" "$MAILDIR_PATH"; then
+        rm "$TEMP_MESSAGE"
+        echo "Message sent to $TO_ROLE at $MAILDIR_PATH" >&2
+    else
+        rm "$TEMP_MESSAGE"
+        echo "Error: Failed to send email" >&2
+        exit 1
+    fi
 else
     # Output to stdout
     echo "$MESSAGE"

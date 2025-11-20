@@ -198,10 +198,47 @@ The workflow distinguishes between two types of roles with different communicati
 
 ### Components
 
-**workflow-notify.sh** - Generates structured workflow messages
+#### Core Email Tools
+
+**email-tools.py** - Low-level Python API for email operations
+- Send emails to maildir (writes to temp file, avoiding escape sequence issues)
+- Search emails efficiently without reading entire maildir
+- Read emails with proper encoding handling
+- Query email metadata without reading full content
+- Thread-aware operations
+
+**email-helper.sh** - High-level shell interface for AI models
+- Convenient commands for common email tasks
+- Token-efficient operations (search metadata first, read content selectively)
+- Simple interface: `check-new`, `find-reviews`, `find-approvals`, `recent`, etc.
+
+**workflow-notify.sh** - Generate and send structured workflow messages
+- Creates messages from templates with variable substitution
+- Supports threading (In-Reply-To, References)
+- Integrates with email-tools.py for reliable sending
+- Usage: `workflow-notify.sh --send <event-type> <artifact> <recipient>`
+
 **run-role.sh --with-email** - Launches roles with email checking enabled
+- Checks mailbox before/after work
+- Optional periodic polling during work
+- Integrates with role definitions
+
+#### Supporting Files
+
 **email-templates/** - Message templates for different event types
+- review-request, approval, rejection, clarification-request
+- blocker-report, status-update, question, answer
+
 **MessageFormat.md** - Specification for message structure and headers
+- Standard headers (From, To, Subject, Date)
+- Workflow headers (X-Event-Type, X-Artifacts, X-Workflow-State)
+- Threading headers (Message-ID, In-Reply-To, References)
+
+**docs/EmailToolsForModels.md** - Complete guide for AI models
+- Quick start examples for common tasks
+- Token-efficient workflow patterns
+- Role-specific examples
+- Troubleshooting guide
 
 ## Message Flow Patterns
 

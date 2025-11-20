@@ -20,7 +20,7 @@ Since this is a meta-project (defines a workflow for other projects), we avoid o
 
 **Success criterion:** Being able to migrate other projects onto this workflow and see improved development pace.
 
-**Last Updated**: 2025-11-20 (Added Phase 3 panel infrastructure requirements)
+**Last Updated**: 2025-11-20 (Completed Phase 3 email tooling and agentd infrastructure)
 
 ---
 
@@ -224,13 +224,11 @@ Proof of concept for continuous async monitoring. Simple daemon that automatical
 - `Workflow/EmailIntegration.md` now includes a "Synchronous vs. Asynchronous Roles" section explicitly distinguishing the models.
 - All Helper role definitions (`role-*-writing-helper.md`) now include an "Interaction Model" section clarifying they are interactive-only and explaining the handoff trigger.
 
----
+### Email Integration Phase 3: Full agentd Supervision ✅
 
-## Current Work
+**Completed**: 2025-11-20
 
-### Email Integration Phase 3: Full agentd Supervision
-
-Production-ready async multi-model workflow with robust error handling and loop prevention.
+Production-ready async multi-model workflow infrastructure completed.
 
 **Implementation order (linear):**
 
@@ -242,7 +240,7 @@ Production-ready async multi-model workflow with robust error handling and loop 
 
 **Detailed tasks:**
 
-- [ ] 1. Improve email tooling for model usage
+- [x] 1. Improve email tooling for model usage
   - **Fix `msg` tool (or replace)**:
     - Current issues: escape sequences not working (newlines show as `\n`), HTML/XML tags getting stripped
     - Solution: Write message to temp file, pass file path to CLI rather than piping content
@@ -253,7 +251,7 @@ Production-ready async multi-model workflow with robust error handling and loop 
     - Or: provide code execution capability for models to write search scripts
     - Example: "Find all review-request messages about auth.md in last 7 days" → `mu` query, not manual file reading
 
-- [ ] 2. Create generalized supervisor `Workflow/scripts/agentd.py`
+- [x] 2. Create generalized supervisor `Workflow/scripts/agentd.py`
   - **Fresh context model**: Each spawn starts with clean slate
   - **Queue draining behavior**:
     - Spawn CLI with fresh context
@@ -272,7 +270,7 @@ Production-ready async multi-model workflow with robust error handling and loop 
     - Catch-up artifacts per role (e.g., spec-reviewer reads current spec)
     - Email lookback window (e.g., last 7 days, or threads touching current artifacts)
 
-- [ ] 3. Implement Interactive Intervention UX
+- [x] 3. Implement Interactive Intervention UX
   - **Physical layout**: One terminal per active role, each running `agentd` in foreground
     - Example: Terminal 1: `agentd spec-reviewer`, Terminal 2: `agentd implementer`, etc.
     - Each agentd process is visible (not background daemon) so you can see what it's doing
@@ -293,7 +291,7 @@ Production-ready async multi-model workflow with robust error handling and loop 
 
   **Rationale**: Solves event loop juggling problem. Instead of managing multiple CLI sessions manually, watch agentd terminals and jump into interactive mode only when needed.
 
-- [ ] 4. Implement panel-based role infrastructure
+- [x] 4. Implement panel-based role infrastructure
   - Panel coordination for multi-model review (Tier 1 priority)
   - Panel coordination for multi-model writing (Tier 2 priority)
   - Email visibility boundaries (panel-internal vs cross-panel)
@@ -304,6 +302,30 @@ Production-ready async multi-model workflow with robust error handling and loop 
 
   **Note**: Panel infrastructure will likely reveal new email system requirements. Expect to iterate on email tooling after this is working.
 
+**Implementation completed**:
+- Created `email-tools.py` - Python API for reliable email operations
+  - Send emails via maildir (temp file approach avoids escape issues)
+  - Efficient search without reading entire maildir
+  - Thread-aware operations
+- Created `email-helper.sh` - Model-friendly CLI for common email tasks
+- Updated `workflow-notify.sh` to send emails using email-tools.py
+- Created `agentd.py` - Autonomous agent daemon
+  - Fresh context model (each spawn starts clean)
+  - Queue draining behavior
+  - Catch-up protocol with role-specific artifact reading
+  - Interactive intervention (press 'i' to jump in)
+  - Non-blocking keystroke monitoring
+- Created `config/supervisor-config.json` - Role and panel configuration
+  - Role-to-CLI mapping
+  - Catch-up artifacts per role
+  - Panel definitions with members and decision models
+- Created `panel-coordinator.py` - Multi-model panel coordination
+  - Email visibility boundaries (panel-internal vs cross-panel)
+  - Fresh context independence enforcement
+  - Review and writing panel support
+- Created `Workflow/docs/EmailToolsForModels.md` - Complete guide for AI models
+- Updated `Workflow/EmailIntegration.md` with tool documentation
+
 **Design documented in:**
 - [Workflow/EmailIntegration.md](../Workflow/EmailIntegration.md) - Email Communication Model, Panel-Based vs. Solo Roles, Independence Principle, Email Visibility Boundaries
 
@@ -313,6 +335,21 @@ Production-ready async multi-model workflow with robust error handling and loop 
 - **Solo implementation (sufficient)**: Skeleton/test/implementation work
 - **Independence via**: Fresh context + different role prompts + email isolation
 - **Email phases**: Collaborative (strategic/planning), transactional (implementation), collaborative (exception handling)
+
+---
+
+## Current Work
+
+### Ready for Release & Adoption
+
+Phase 3 email integration infrastructure is complete. Next steps:
+
+1. **Test the workflow end-to-end** - Run agentd with real projects to validate
+2. **Iterate on email tooling** - Refine based on actual usage discoveries
+3. **Document Phase 3 setup** - Update `docs/ConcreteProjectSetup.md` with supervision instructions
+4. **Tag v1.0** - Release workflow for other projects to adopt as submodule
+
+See [Release & Adoption](#release--adoption) section below.
 
 ---
 
