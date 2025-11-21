@@ -428,3 +428,307 @@ This results in a concrete, actionable vision instead of vague aspirations.
 # Step 4: Start implementing first feature (after ROADMAP.md exists)
 "Act as spec-writer for [first Phase 1 feature]"
 ```
+
+## Phase 3: Asynchronous Multi-Model Workflow (Optional)
+
+Phase 3 email integration enables asynchronous, multi-model collaboration through autonomous agents. This is optional but provides significant value for complex projects.
+
+### When to Use Phase 3
+
+**Use Phase 3 when:**
+- You want multiple AI models reviewing your work independently
+- You need asynchronous workflow (agents work while you're offline)
+- Your project has complex requirements that benefit from diverse perspectives
+- You want to catch "didn't think of that" failures through panel reviews
+
+**Skip Phase 3 when:**
+- Your project is simple and doesn't need multi-model review
+- You prefer synchronous, interactive sessions
+- You're just learning the workflow (start simpler first)
+
+### Phase 3 Components
+
+Phase 3 consists of three main components:
+
+1. **Email-based communication** - Roles coordinate via email (using Maildir format)
+2. **Autonomous agents (agentd)** - Daemons that automatically process role work
+3. **Multi-model panels** - Groups of AI models that collaborate or review independently
+
+### Setup Steps
+
+#### 1. Configure Maildir
+
+Set up a Maildir for workflow email:
+
+```bash
+# Create maildir structure
+mkdir -p ~/Maildir/workflow/{cur,new,tmp}
+
+# Set environment variable (add to your shell rc file)
+export WORKFLOW_MAILDIR=~/Maildir/workflow
+
+# Optional: Set up panel-specific maildirs
+mkdir -p ~/Maildir/panels/spec-reviewer-panel/{cur,new,tmp}
+mkdir -p ~/Maildir/panels/vision-reviewer-panel/{cur,new,tmp}
+```
+
+#### 2. Review Supervisor Configuration
+
+The supervisor configuration defines roles and panels:
+
+```bash
+# View the configuration
+cat project-meta/workflow/Workflow/config/supervisor-config.json
+
+# Key sections:
+# - roles: Solo role definitions with CLI commands and catch-up artifacts
+# - panels: Multi-model panel definitions with members and decision models
+# - defaults: Timeout and retry settings
+```
+
+**Important**: The default configuration assumes all models use the same CLI. If you have multiple model CLIs (claude, gpt-5, gemini), add a `member_cli` section:
+
+```json
+{
+  "member_cli": {
+    "claude": "claude --role {role}",
+    "gpt-5": "gpt --model gpt-5 --role {role}",
+    "gemini": "gemini --role {role}"
+  }
+}
+```
+
+#### 3. Test Email Tools
+
+Verify email tools work correctly:
+
+```bash
+# Run email tools tests
+cd project-meta/workflow
+./Workflow/scripts/test-agentd.sh
+
+# All 18 tests should pass
+```
+
+#### 4. Test Solo Role Automation
+
+Test agentd with a single role before using panels:
+
+```bash
+# Terminal 1: Run spec-reviewer in daemon mode
+./Workflow/scripts/agentd.py --daemon spec-reviewer
+
+# Terminal 2: Send a review request
+./Workflow/scripts/workflow-notify.sh review-request \
+  project-meta/specs/proposed/auth.md \
+  spec-reviewer
+
+# Watch Terminal 1 - agentd should process the message
+
+# Press 'i' in Terminal 1 to enter interactive mode
+# Exit interactive mode to return to daemon
+```
+
+#### 5. Set Up Multi-Model Panels (Optional)
+
+If you have multiple AI model CLIs available:
+
+```bash
+# Test panel coordinator
+./Workflow/scripts/test-panel-coordinator.sh
+
+# Run a review panel manually
+./Workflow/scripts/panel-coordinator.py review \
+  spec-reviewer-panel \
+  project-meta/specs/proposed/auth.md
+
+# Check consensus
+./Workflow/scripts/panel-coordinator.py check-consensus \
+  spec-reviewer-panel
+```
+
+### Common Workflows
+
+#### Synchronous Review (Helper Workflow)
+
+For planning documents, use synchronous helper workflow:
+
+```bash
+# Interactive session with helper
+"Act as vision-writing-helper"
+
+# Helper guides you through conversation
+# You collaboratively create VISION.md
+
+# Send for review
+./Workflow/scripts/workflow-notify.sh review-request \
+  project-meta/planning/VISION.md \
+  vision-reviewer-panel
+```
+
+#### Asynchronous Review (Solo Reviewer)
+
+For specification reviews with single model:
+
+```bash
+# Start reviewer daemon
+./Workflow/scripts/agentd.py --daemon spec-reviewer
+
+# In another session, complete your spec
+"Act as spec-writer"
+
+# Send review request
+./Workflow/scripts/workflow-notify.sh review-request \
+  project-meta/specs/proposed/auth.md \
+  spec-reviewer
+
+# Daemon processes automatically
+# Check for response later
+./Workflow/scripts/email-helper.sh find-approvals auth.md
+```
+
+#### Asynchronous Review (Panel)
+
+For critical reviews needing multiple perspectives:
+
+```bash
+# Start panel coordinator for vision review
+./Workflow/scripts/panel-coordinator.py review \
+  vision-reviewer-panel \
+  project-meta/planning/VISION.md
+
+# Panel members (claude, gpt-5, gemini) review independently
+# They discuss via panel-internal email
+# Panel reaches consensus
+# Unified decision sent to writer
+```
+
+### Email Message Types
+
+The workflow uses structured email with these event types:
+
+- **review-request** - Artifact ready for review
+- **approval** - Review approved, advance to next phase
+- **rejection** - Needs revision before proceeding
+- **clarification-request** - Reviewer needs clarification
+- **blocker-report** - Work blocked, need assistance
+- **status-update** - Progress update
+- **question** - Ask expert for help
+- **answer** - Response to question
+- **panel-decision** - Panel member's individual decision
+
+### Interactive Intervention
+
+When running agentd in daemon mode, press `i` to enter interactive mode:
+
+```bash
+# Daemon running in Terminal 1
+./Workflow/scripts/agentd.py --daemon spec-reviewer
+
+# Press 'i' at any time
+# Interactive CLI session starts
+# You can manually process messages, check status, etc.
+# Exit to return to automatic mode
+```
+
+### Monitoring and Debugging
+
+#### Check Email Activity
+
+```bash
+# Recent messages in last 7 days
+./Workflow/scripts/email-helper.sh recent 7
+
+# Find review requests
+./Workflow/scripts/email-helper.sh find-reviews
+
+# Find approvals
+./Workflow/scripts/email-helper.sh find-approvals
+
+# Find blockers
+./Workflow/scripts/email-helper.sh find-blockers
+```
+
+#### View Daemon Logs
+
+```bash
+# If using daemon-control.sh (Phase 2)
+./Workflow/scripts/daemon-control.sh logs spec-reviewer
+
+# If running agentd directly
+# Logs go to stderr, redirect to file:
+./Workflow/scripts/agentd.py --daemon spec-reviewer 2> agentd-spec-reviewer.log
+```
+
+### Panel Independence Principle
+
+**Critical**: Panel members must be independent even when using the same model:
+
+1. **Fresh context** - Each spawn starts with clean slate, no memory of prior sessions
+2. **Different prompts** - Reviewers use reviewer role, not writer role
+3. **Email isolation** - Panel members can't see other panels' internal emails
+
+This ensures that Claude on the review panel truly reviews independently, even if Claude was on the writing panel.
+
+### Troubleshooting
+
+#### No messages being processed
+
+```bash
+# Check maildir exists and has messages
+ls -la $WORKFLOW_MAILDIR/new/
+ls -la $WORKFLOW_MAILDIR/cur/
+
+# Check agentd configuration
+./Workflow/scripts/agentd.py spec-reviewer --log-level DEBUG
+
+# Verify role exists in config
+grep spec-reviewer project-meta/workflow/Workflow/config/supervisor-config.json
+```
+
+#### Panel consensus not reaching
+
+```bash
+# Check panel-internal email
+ls -la ~/Maildir/panels/spec-reviewer-panel/cur/
+
+# Read panel decisions
+./Workflow/scripts/email-helper.sh list panel-decision
+
+# Check decision model in config
+# consensus: all must agree
+# majority: >50% must agree
+# primary-decides: first member decides
+```
+
+#### Email search not finding messages
+
+```bash
+# Email tools require proper maildir structure
+# Ensure cur/, new/, tmp/ exist
+mkdir -p $WORKFLOW_MAILDIR/{cur,new,tmp}
+
+# Test email tools directly
+./Workflow/scripts/email_tools.py list $WORKFLOW_MAILDIR
+
+# Check message headers
+./Workflow/scripts/email_tools.py read $WORKFLOW_MAILDIR/cur/<message-file>
+```
+
+### Next Steps
+
+After setting up Phase 3:
+
+1. **Start small** - Test with solo reviewer roles first
+2. **Add panels gradually** - Begin with one review panel
+3. **Monitor closely** - Watch email flow and agent behavior
+4. **Iterate** - Adjust configuration based on observations
+5. **Scale up** - Add more panels and roles as confidence grows
+
+For detailed email protocol documentation, see [Workflow/EmailIntegration.md](../Workflow/EmailIntegration.md).
+
+For panel coordination details, see the panel-coordinator.py help:
+
+```bash
+./Workflow/scripts/panel-coordinator.py --help
+```

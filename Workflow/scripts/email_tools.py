@@ -70,8 +70,12 @@ class EmailTools:
         if not maildir:
             raise ValueError("No maildir path specified")
 
-        # Ensure parent directories exist
-        maildir.parent.mkdir(parents=True, exist_ok=True)
+        # Ensure maildir and its structure exist
+        # Maildir needs cur/, new/, tmp/ subdirectories
+        maildir.mkdir(parents=True, exist_ok=True)
+        (maildir / 'cur').mkdir(exist_ok=True)
+        (maildir / 'new').mkdir(exist_ok=True)
+        (maildir / 'tmp').mkdir(exist_ok=True)
 
         # Read message from file (avoids escape sequence issues)
         with open(message_file, 'r') as f:
@@ -80,7 +84,7 @@ class EmailTools:
         # Parse message
         msg = email.message_from_string(message_content)
 
-        # Add to maildir (create=True will create the maildir structure)
+        # Add to maildir (create=True will create the maildir structure if needed)
         mbox = mailbox.Maildir(str(maildir), create=True)
         key = mbox.add(msg)
         mbox.close()
@@ -114,6 +118,17 @@ class EmailTools:
         """
         if not self.maildir_path:
             raise ValueError("No maildir path specified")
+
+        # Check if maildir exists and is initialized
+        if not self.maildir_path.exists():
+            # Return empty results for non-existent maildir
+            return []
+
+        # Check if maildir structure exists (cur/, new/, tmp/)
+        cur_dir = self.maildir_path / 'cur'
+        if not cur_dir.exists():
+            # Maildir not properly initialized, return empty results
+            return []
 
         mbox = mailbox.Maildir(str(self.maildir_path), create=False)
         results = []
@@ -214,6 +229,14 @@ class EmailTools:
         """
         if not self.maildir_path:
             raise ValueError("No maildir path specified")
+
+        # Check if maildir exists and is initialized
+        if not self.maildir_path.exists():
+            return []
+
+        cur_dir = self.maildir_path / 'cur'
+        if not cur_dir.exists():
+            return []
 
         mbox = mailbox.Maildir(str(self.maildir_path), create=False)
         thread_messages = []
