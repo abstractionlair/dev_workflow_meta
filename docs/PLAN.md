@@ -343,40 +343,76 @@ Production-ready async multi-model workflow infrastructure completed.
 
 ## Current Work
 
-### Ready for Release & Adoption
+### Phase 3 Status: Solo Roles Ready, Panels Scaffolded
 
-Phase 3 email integration infrastructure is complete. Next steps:
+**What's working:**
+- ✅ `agentd.py` - Fresh context, queue draining, interactive intervention
+- ✅ `email_tools.py` - Reliable email operations (import bug fixed)
+- ✅ `email-helper.sh` - Token-efficient email commands
+- ✅ Solo role automation ready to test
 
-1. **Test the workflow end-to-end** - Run agentd with real projects to validate
-2. **Iterate on email tooling** - Refine based on actual usage discoveries
-3. **Document Phase 3 setup** - Update `docs/ConcreteProjectSetup.md` with supervision instructions
-4. **Tag v1.0** - Release workflow for other projects to adopt as submodule
+**What's scaffolded:**
+- ⚠️ `panel-coordinator.py` - Config and structure in place, but:
+  - Consensus mechanisms not implemented (TODO at line 280)
+  - Writing panel coordination not implemented (TODO at line 342)
+  - All panel members use same CLI command (TODO at line 118)
 
-See [Release & Adoption](#release--adoption) section below.
+### Next Steps (Linear Sequence to v1.0)
+
+1. **Test agentd with solo roles** - Validate core functionality
+   - Run agentd for individual reviewer roles (spec-reviewer, implementation-reviewer)
+   - Test fresh context model and queue draining behavior
+   - Test interactive intervention ('i' key)
+   - Verify catch-up protocol works (reads artifacts + recent emails)
+
+2. **Iterate on email tooling** - Refine based on discoveries from testing
+   - Address any issues found during agentd testing
+   - Improve token efficiency if needed
+   - Enhance error messages
+
+3. **Complete panel implementation** - Finish panel-coordinator.py
+   - Implement consensus mechanisms for review panels (all agree vs. majority)
+   - Implement writing panel coordination (primary + helpers pattern)
+   - Add member-specific CLI command support (currently all members use same CLI)
+
+4. **Test multi-model panel workflows**
+   - Run review panels with multiple models (claude, gpt-5, gemini)
+   - Test consensus decision making
+   - Test writing panels with primary + helpers pattern
+   - Verify email visibility boundaries work
+
+5. **Document Phase 3 setup** - Update `docs/ConcreteProjectSetup.md`
+   - How to configure `supervisor-config.json` for a project
+   - How to run agentd for a role (solo and panel modes)
+   - How to use interactive intervention
+   - Panel configuration and usage
+
+6. **Tag v1.0 release** - Complete workflow ready for adoption
+   - Full email integration working (solo roles + panels)
+   - Complete documentation
+   - Ready for other projects to adopt as submodule
 
 ---
 
-## Release & Adoption
+## Post-v1.0 Enhancements
 
-- Document how to enable Phase 3 supervision in `docs/ConcreteProjectSetup.md` and tag a workflow `v1.0` suitable for other projects to adopt as a submodule.
+Linear sequence of improvements after v1.0 release:
 
----
+7. **TDD pattern for non-code artifacts** - Document and formalize the discovered TDD approach for prompts/templates (see pattern description below)
 
-## Future Work
+8. **State transition discipline** - Enforce proper state transitions throughout workflow
+   - Detect when work starts without moving specs from `todo/` to `doing/`
+   - Proper feature branch creation timing
+   - Correct merge timing
+   - May involve checks in workflow-status.sh, pre-commit hooks, or role enforcement
 
-### Backlog Items
+9. **Timestamp resolution in file names** - Need higher resolution timestamps (likely milliseconds)
+   - Issue: one CLI tool didn't allow the agent to get accurate times
 
-**Note:** These are post-Phase-3 enhancements and refinements.
-
-- **Complete panel infrastructure** - Finish panel-coordinator.py implementation
-  - Implement consensus checking mechanism for review panels (all agree vs. majority)
-  - Implement writing panel coordination with primary + helpers pattern
-  - Add member-specific CLI command support (currently all members use same CLI)
-  - Test multi-model panel workflows end-to-end
-- **TDD pattern for non-code artifacts** - Document and formalize the discovered TDD approach for prompts/templates (see pattern description below)
-- **State transition discipline** - Enforce proper state transitions throughout workflow. Includes: moving specs from `todo/` to `doing/` when work starts, proper feature branch creation timing, and correct merge timing. May involve checks in workflow-status.sh, pre-commit hooks, or role enforcement.
-- **Timestamp resolution in file names** - Need higher resolution timestamps (likely milliseconds). Issue: one CLI tool didn't allow the agent to get accurate times.
-- **Loop detection and budgets** - ErrorSignature normalization, DeltaProof tracking, budget management per error type, BLOCKED escalation when exhausted, workspace fingerprinting. Originally needed for infinite event loops; may be less necessary after model upgrades. Implement if loops resurface.
+10. **Loop detection and budgets** - ErrorSignature normalization, DeltaProof tracking, budget management
+    - Originally needed for infinite event loops
+    - May be less necessary after model upgrades
+    - Implement if loops resurface in practice
 
 ### TDD Pattern for Non-Code Artifacts (Prompts/Templates)
 
