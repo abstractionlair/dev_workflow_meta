@@ -82,6 +82,41 @@ class PanelCoordinator:
             raise ValueError(f"Panel '{panel_name}' not found in configuration")
         return panels[panel_name]
 
+    def _get_member_cli_command(self, member_name: str, role_type: str) -> str:
+        """
+        Get CLI command for specific panel member
+
+        Args:
+            member_name: Model name (claude, gpt-5, gemini, etc.)
+            role_type: Role to execute
+
+        Returns:
+            CLI command string
+        """
+        # Map member names to their CLI commands
+        # This can be customized based on your setup
+        cli_mapping = {
+            'claude': f'claude --role {role_type}',
+            'gpt-5': f'gpt --model gpt-5 --role {role_type}',
+            'gemini': f'gemini --role {role_type}',
+            'codex': f'codex --role {role_type}',
+            'opencode': f'opencode --role {role_type}',
+        }
+
+        # Check if member has custom CLI in config
+        # This allows per-project customization
+        member_cli_config = self.config.get('member_cli', {})
+        if member_name in member_cli_config:
+            return member_cli_config[member_name].replace('{role}', role_type)
+
+        # Use default mapping
+        if member_name in cli_mapping:
+            return cli_mapping[member_name]
+
+        # Fallback: assume it's a CLI command name
+        self.logger.warning(f"Unknown member '{member_name}', using default CLI")
+        return f'{member_name} --role {role_type}'
+
     def spawn_panel_member(
         self,
         member_name: str,
@@ -111,12 +146,8 @@ class PanelCoordinator:
         role_config = roles[role_type]
 
         # Build CLI command for this member
-        # This would need to be customized based on how different CLIs are invoked
-        cli_template = role_config.get('cli', 'claude --role {role}')
-        cli_command = cli_template.replace('{role}', role_type)
-
-        # TODO: Adjust CLI command based on member_name
-        # For now, assume all use same CLI with different configs
+        # Customize based on member_name (claude, gpt-5, gemini, etc.)
+        cli_command = self._get_member_cli_command(member_name, role_type)
 
         # Create context prompt
         prompt = self.create_member_prompt(
@@ -266,6 +297,101 @@ Begin by reading: {artifact_path}
             self.logger.warning("Consensus not reached")
             return 1
 
+    def coordinate_write_panel(self, panel_name: str, artifact_type: str) -> int:
+        """
+        Coordinate writing panel to collaboratively create artifact
+
+        This implements the Primary + Helpers pattern:
+        1. Primary announces section
+        2. All members contribute ideas (collaborative exploration)
+        3. Panel discusses tradeoffs and challenges assumptions
+        4. Primary makes decision and integrates discussion
+        5. Repeat for each section
+        6. Primary sends completed artifact for review
+
+        Args:
+            panel_name: Name of panel (e.g., vision-writer-panel)
+            artifact_type: Type of artifact (vision, scope, roadmap, spec)
+
+        Returns:
+            Exit code (0 if artifact completed)
+        """
+        self.logger.info(f"Coordinating writing panel: {panel_name}")
+        self.logger.info(f"Artifact type: {artifact_type}")
+
+        panel_config = self.get_panel_config(panel_name)
+        members = panel_config.get('members', [])
+        role_type = panel_config.get('role_type')
+
+        if not members:
+            self.logger.error("Panel has no members")
+            return 1
+
+        # Primary is the first member
+        primary = members[0]
+        helpers = members[1:]
+
+        self.logger.info(f"Primary: {primary}")
+        self.logger.info(f"Helpers: {', '.join(helpers)}")
+
+        # Create panel-internal maildir
+        panel_internal_maildir = f"~/Maildir/panels/{panel_name}"
+
+        # Determine artifact path based on type
+        artifact_paths = {
+            'vision': 'project-meta/planning/VISION.md',
+            'scope': 'project-meta/planning/SCOPE.md',
+            'roadmap': 'project-meta/planning/ROADMAP.md',
+            'spec': 'project-meta/specs/proposed/SPEC.md',  # Would need specific name
+        }
+
+        artifact_path = artifact_paths.get(artifact_type, f'project-meta/{artifact_type}.md')
+
+        # Phase 1: Initial exploration
+        # All members (primary + helpers) review requirements and discuss approach
+        self.logger.info("Phase 1: Initial exploration")
+        for member in members:
+            self.logger.info(f"Spawning {member} for initial exploration...")
+            self.spawn_panel_member(
+                member_name=member,
+                role_type=role_type,
+                artifact_path=artifact_path,
+                panel_internal_maildir=panel_internal_maildir,
+            )
+
+        # Phase 2: Collaborative writing
+        # This would involve multiple rounds of:
+        # - Primary announces section
+        # - Helpers contribute ideas
+        # - Discussion via panel-internal email
+        # - Primary decides and writes
+        #
+        # For now, we implement a simplified version where primary
+        # coordinates the process and helpers provide input
+
+        self.logger.info("Phase 2: Collaborative writing")
+        self.logger.info(f"Primary {primary} coordinating writing process...")
+
+        # Spawn primary for writing coordination
+        # Primary will check panel-internal email for helper contributions
+        self.spawn_panel_member(
+            member_name=primary,
+            role_type=role_type,
+            artifact_path=artifact_path,
+            panel_internal_maildir=panel_internal_maildir,
+        )
+
+        # Phase 3: Final review and completion
+        self.logger.info("Phase 3: Final artifact completion")
+
+        # Check if artifact was created
+        if Path(artifact_path).exists():
+            self.logger.info(f"Artifact created: {artifact_path}")
+            return 0
+        else:
+            self.logger.warning(f"Artifact not found: {artifact_path}")
+            return 1
+
     def check_consensus(self, panel_name: str, decision_model: str) -> bool:
         """
         Check if panel has reached consensus
@@ -277,17 +403,93 @@ Begin by reading: {artifact_path}
         Returns:
             True if consensus reached
         """
-        # TODO: Implement consensus checking
-        # This would involve:
-        # 1. Reading panel-internal emails
-        # 2. Extracting decisions from each member
-        # 3. Applying decision model
-        # 4. Determining if consensus met
-
         self.logger.info(f"Checking consensus for {panel_name} using {decision_model} model")
 
-        # Placeholder implementation
-        return True
+        # Import email tools
+        script_dir = Path(__file__).parent
+        sys.path.insert(0, str(script_dir))
+        from email_tools import EmailTools
+
+        # Get panel-internal maildir
+        panel_internal_maildir = os.path.expanduser(f"~/Maildir/panels/{panel_name}")
+
+        # Read panel-internal emails
+        tools = EmailTools(panel_internal_maildir)
+
+        # Get recent decision messages from panel members
+        # Look for messages with X-Event-Type: panel-decision
+        decisions = tools.search(
+            event_type='panel-decision',
+            since='7d',
+        )
+
+        if not decisions:
+            self.logger.warning("No panel decisions found")
+            return False
+
+        # Extract decision from each message (approve/reject/request-revision)
+        member_decisions = {}
+        for decision in decisions:
+            from_role = decision.get('from', '')
+            # Extract member name from email address (e.g., "claude@panel.local" -> "claude")
+            member_name = from_role.split('@')[0] if '@' in from_role else from_role
+
+            # Extract decision from subject or would need to read body
+            # For now, we'll look for keywords in subject
+            subject = decision.get('subject', '').lower()
+            if 'approve' in subject:
+                member_decisions[member_name] = 'approve'
+            elif 'reject' in subject:
+                member_decisions[member_name] = 'reject'
+            elif 'revision' in subject or 'clarification' in subject:
+                member_decisions[member_name] = 'request-revision'
+
+        if not member_decisions:
+            self.logger.warning("Could not extract decisions from panel emails")
+            return False
+
+        self.logger.info(f"Panel decisions: {member_decisions}")
+
+        # Apply decision model
+        if decision_model == 'consensus':
+            # All members must agree
+            unique_decisions = set(member_decisions.values())
+            if len(unique_decisions) == 1:
+                self.logger.info(f"Consensus reached: {list(unique_decisions)[0]}")
+                return True
+            else:
+                self.logger.info(f"No consensus: {unique_decisions}")
+                return False
+
+        elif decision_model == 'majority':
+            # More than 50% must agree
+            from collections import Counter
+            decision_counts = Counter(member_decisions.values())
+            total = len(member_decisions)
+            most_common = decision_counts.most_common(1)[0]
+
+            if most_common[1] > total / 2:
+                self.logger.info(f"Majority consensus: {most_common[0]} ({most_common[1]}/{total})")
+                return True
+            else:
+                self.logger.info(f"No majority: {decision_counts}")
+                return False
+
+        elif decision_model == 'primary-decides':
+            # Primary member's decision is authoritative
+            # Primary is typically the first member
+            panel_config = self.get_panel_config(panel_name)
+            members = panel_config.get('members', [])
+            if members and members[0] in member_decisions:
+                primary_decision = member_decisions[members[0]]
+                self.logger.info(f"Primary decision: {primary_decision}")
+                return True
+            else:
+                self.logger.warning("Primary member decision not found")
+                return False
+
+        else:
+            raise ValueError(f"Unknown decision model: {decision_model}")
 
 
 def main():
@@ -339,9 +541,11 @@ def main():
             return exit_code
 
         elif args.command == 'write':
-            # TODO: Implement write panel coordination
-            print("Write panel coordination not yet implemented", file=sys.stderr)
-            return 1
+            exit_code = coordinator.coordinate_write_panel(
+                panel_name=args.panel_name,
+                artifact_type=args.artifact_type,
+            )
+            return exit_code
 
         elif args.command == 'check-consensus':
             panel_config = coordinator.get_panel_config(args.panel_name)
