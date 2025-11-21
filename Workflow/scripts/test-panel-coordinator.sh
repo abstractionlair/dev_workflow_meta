@@ -138,11 +138,39 @@ done
 test_section "Error Handling Tests"
 
 # Test with invalid panel name
-ERROR_OUTPUT=$("$PANEL_COORD" check-consensus invalid-panel 2>&1 || true)
-if echo "$ERROR_OUTPUT" | grep -q "not found"; then
-    test_pass "Handles invalid panel name gracefully"
+if ERROR_OUTPUT=$("$PANEL_COORD" check-consensus invalid-panel 2>&1); then
+    test_fail "Handles invalid panel name gracefully" "Command should have failed but succeeded"
 else
-    test_fail "Handles invalid panel name gracefully"
+    if echo "$ERROR_OUTPUT" | grep -q "not found"; then
+        test_pass "Handles invalid panel name gracefully"
+    else
+        test_fail "Handles invalid panel name gracefully" "Expected 'not found' error, got: $ERROR_OUTPUT"
+    fi
+fi
+
+# Test 10: Regression tests for bug fixes
+test_section "Regression Tests"
+
+# Test that write command accepts --artifact-path flag (fix for writing panel artifact targeting)
+if "$PANEL_COORD" write --help 2>&1 | grep -q "artifact-path"; then
+    test_pass "Write command supports --artifact-path flag"
+else
+    test_fail "Write command supports --artifact-path flag"
+fi
+
+# Test that imports are correct (regression for os import bug)
+# Verify that the script has the os module imported at the top level
+if grep -q "^import os$" "$PANEL_COORD"; then
+    test_pass "All required imports are present (including os)"
+else
+    test_fail "All required imports are present (including os)"
+fi
+
+# Test that role config structure supports CLI field
+if python3 -c "import json; config = json.load(open('$CONFIG_PATH')); assert all('cli' in role for role in config['roles'].values())" 2>/dev/null; then
+    test_pass "All roles have CLI configuration"
+else
+    test_fail "All roles have CLI configuration"
 fi
 
 # Summary

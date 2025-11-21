@@ -216,19 +216,25 @@ EOF
     fi
 
     # Search for the message
-    SEARCH_OUTPUT=$("$EMAIL_TOOLS" search "$TEST_MAILDIR" --event-type review-request 2>/dev/null || true)
-    if echo "$SEARCH_OUTPUT" | grep -q "review-request"; then
-        test_pass "email_tools.py search finds sent message"
+    if SEARCH_OUTPUT=$("$EMAIL_TOOLS" search "$TEST_MAILDIR" --event-type review-request 2>&1); then
+        if echo "$SEARCH_OUTPUT" | grep -q "review-request"; then
+            test_pass "email_tools.py search finds sent message"
+        else
+            test_fail "email_tools.py search finds sent message" "Message not found in search results"
+        fi
     else
-        test_fail "email_tools.py search finds sent message"
+        test_fail "email_tools.py search finds sent message" "Command failed: $SEARCH_OUTPUT"
     fi
 
     # List messages
-    LIST_OUTPUT=$("$EMAIL_TOOLS" list "$TEST_MAILDIR" --limit 10 2>/dev/null || true)
-    if echo "$LIST_OUTPUT" | grep -q "Test Review Request"; then
-        test_pass "email_tools.py list shows sent message"
+    if LIST_OUTPUT=$("$EMAIL_TOOLS" list "$TEST_MAILDIR" --limit 10 2>&1); then
+        if echo "$LIST_OUTPUT" | grep -q "Test Review Request"; then
+            test_pass "email_tools.py list shows sent message"
+        else
+            test_fail "email_tools.py list shows sent message" "Message not found in list results"
+        fi
     else
-        test_fail "email_tools.py list shows sent message"
+        test_fail "email_tools.py list shows sent message" "Command failed: $LIST_OUTPUT"
     fi
 }
 
@@ -273,14 +279,19 @@ test_agentd_run_once_empty() {
 EOF
 
     # Run agentd (should find no messages and exit)
-    if timeout 5 "$AGENTD" test-reviewer --config "$TEST_CONFIG" --maildir "$TEST_MAILDIR" >/dev/null 2>&1; then
+    # Capture output for debugging
+    AGENTD_OUTPUT=$(timeout 5 "$AGENTD" test-reviewer --config "$TEST_CONFIG" --maildir "$TEST_MAILDIR" 2>&1) || EXIT_CODE=$?
+
+    if [ "${EXIT_CODE:-0}" -eq 0 ]; then
         test_pass "agentd.py runs and exits with no messages"
+    elif [ "${EXIT_CODE:-0}" -eq 124 ]; then
+        test_fail "agentd.py runs and exits with no messages" "Command timed out after 5 seconds"
     else
-        EXIT_CODE=$?
-        if [ $EXIT_CODE -eq 124 ]; then
-            test_fail "agentd.py runs and exits with no messages" "Command timed out"
+        # Check if it's an error we expect (no messages is okay, but errors are not)
+        if echo "$AGENTD_OUTPUT" | grep -qE "(not found|error|Error|failed|Failed|exception|Exception)"; then
+            test_fail "agentd.py runs and exits with no messages" "Command failed with exit code $EXIT_CODE: $AGENTD_OUTPUT"
         else
-            # Exit code 0 or other reasonable exit is okay
+            # Non-zero exit without error message might be okay (e.g., no messages found)
             test_pass "agentd.py runs and exits with no messages (exit code: $EXIT_CODE)"
         fi
     fi
