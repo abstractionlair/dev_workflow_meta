@@ -341,8 +341,6 @@ Production-ready async multi-model workflow infrastructure completed.
 
 ---
 
-## Current Work
-
 ### v1.0 Release Complete! ✅
 
 **Completed 2025-11-21**: All Phase 3 infrastructure and documentation finished.
@@ -402,22 +400,32 @@ Production-ready async multi-model workflow infrastructure completed.
 
 ---
 
-## Post-v1.0 Enhancements
+## Current Work
 
-Linear sequence of improvements after v1.0 release:
+- **Fix panel-coordinator import bug** - `check-consensus` calls `os.path.expanduser` without importing `os`; add import and retest the consensus path.
 
-7. **TDD pattern for non-code artifacts** - Document and formalize the discovered TDD approach for prompts/templates (see pattern description below)
+- **Preserve decision semantics in consensus** - `check_consensus` currently returns success for unanimous rejections/majorities without exposing verdict; adjust return shape/exit codes so automation can distinguish approve vs. reject.
 
-8. **State transition discipline** - Enforce proper state transitions throughout workflow
+- **Honor role-specific CLI commands** - `spawn_panel_member` now ignores `roles[role].cli` and always uses member-name defaults; restore role CLI support with member-specific overrides layered on top.
+
+- **Fix writing panel artifact targeting** - `coordinate_write_panel` hardcodes specs to `project-meta/specs/proposed/SPEC.md`; accept explicit artifact paths/names so spec panels work on the right file.
+
+- **Harden tests and align docs** - `test-agentd.sh` relies on `timeout` and can pass on failures; ensure tests fail on missing tooling/command errors and update PLAN/setup claims once fixed.
+
+- **Expand regression coverage** - Add targeted tests (panel-coordinator, consensus semantics, role-CLI layering, writing panel artifact selection, maildir initialization) that would have caught the above issues and increase overall coverage.
+
+- **TDD pattern for non-code artifacts** - Document and formalize the discovered TDD approach for prompts/templates (see pattern description below)
+
+- **State transition discipline** - Enforce proper state transitions throughout workflow
    - Detect when work starts without moving specs from `todo/` to `doing/`
    - Proper feature branch creation timing
    - Correct merge timing
    - May involve checks in workflow-status.sh, pre-commit hooks, or role enforcement
 
-9. **Timestamp resolution in file names** - Need higher resolution timestamps (likely milliseconds)
+- **Timestamp resolution in file names** - Need higher resolution timestamps (likely milliseconds)
    - Issue: one CLI tool didn't allow the agent to get accurate times
 
-10. **Loop detection and budgets** - ErrorSignature normalization, DeltaProof tracking, budget management
+- **Loop detection and budgets** - ErrorSignature normalization, DeltaProof tracking, budget management
     - Originally needed for infinite event loops
     - May be less necessary after model upgrades
     - Implement if loops resurface in practice
